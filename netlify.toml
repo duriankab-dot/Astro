@@ -1,9 +1,0 @@
-# netlify.toml — บอก Netlify ว่าโฟลเดอร์ Functions อยู่ตรงไหน
-# ไม่มีไฟล์นี้ Netlify จะไม่รู้จัก netlify/functions/natal-chart.js เลย
-
-[build]
-  functions = "netlify/functions"
-  publish = "."
-
-[functions]
-  node_bundler = "esbuild"
