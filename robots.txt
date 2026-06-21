@@ -1,9 +1,0 @@
-# robots.txt for ASTROVERA
-# This is a single-page app — there are no separate crawlable routes
-# (no /quiz, /dashboard etc. as real URLs), so the rules below are simple.
-
-User-agent: *
-Allow: /
-
-# ⚠️ Replace with your real domain once deployed, then update the line below.
-Sitemap: https://YOUR-DOMAIN-HERE/sitemap.xml
