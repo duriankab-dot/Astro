@@ -355,9 +355,9 @@ textarea.if{resize:none}
 
 <!-- ─── QUIZ ─── -->
 <div class="sc" id="sc-quiz">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-land')">←</button><div class="tb-t">ข้อมูลเพิ่มเติม</div><div style="font-size:13px;color:var(--tx3)" id="qctr">1 / 3</div></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-land')">←</button><div class="tb-t">ข้อมูลเพิ่มเติม</div><div style="font-size:13px;color:var(--tx3)" id="qctr">1 / 5</div></div>
   <div class="sb" style="padding:22px 18px">
-    <div class="step-row"><div class="sdot on" id="q-s1"></div><div class="sdot" id="q-s2"></div><div class="sdot" id="q-s3"></div></div>
+    <div class="step-row"><div class="sdot on" id="q-s1"></div><div class="sdot" id="q-s2"></div><div class="sdot" id="q-s3"></div><div class="sdot" id="q-s4"></div><div class="sdot" id="q-s5"></div></div>
     <div id="q1">
       <div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">เมื่อต้องตัดสินใจเรื่องสำคัญ<br>คุณมักทำอย่างไร?</div>
       <div style="font-size:13px;color:var(--tx3);margin-bottom:18px">ตอบตามสิ่งที่ทำจริง ไม่มีถูกผิด</div>
@@ -367,20 +367,36 @@ textarea.if{resize:none}
       <div class="qopt" onclick="selQ(1,'d',this)"><div class="qdot"></div>ผสมผสาน ขึ้นอยู่กับสถานการณ์</div>
     </div>
     <div id="q2" style="display:none">
-      <div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">ในช่วงชีวิตตอนนี้<br>คุณรู้สึกอย่างไร?</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:18px">เลือกที่ใกล้เคียงที่สุด</div>
-      <div class="qopt" onclick="selQ(2,'a',this)"><div class="qdot"></div>กำลังสร้างและเริ่มต้นสิ่งใหม่</div>
-      <div class="qopt" onclick="selQ(2,'b',this)"><div class="qdot"></div>ขยายและพัฒนาสิ่งที่มีอยู่</div>
-      <div class="qopt" onclick="selQ(2,'c',this)"><div class="qdot"></div>ต้องการพักและปรับทิศทาง</div>
-      <div class="qopt" onclick="selQ(2,'d',this)"><div class="qdot"></div>อยู่ในช่วงเปลี่ยนแปลงครั้งใหญ่</div>
+      <div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">เมื่อแผนที่วางไว้ไม่เป็นไปตามคาด<br>คุณมักจะ?</div>
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:18px">มุมมองที่ 2 ของแกนเดียวกัน — ช่วยให้ผลแม่นยำขึ้น</div>
+      <div class="qopt" onclick="selQ(2,'a',this)"><div class="qdot"></div>กลับไปทบทวนข้อมูลทั้งหมดอีกครั้งอย่างละเอียด</div>
+      <div class="qopt" onclick="selQ(2,'b',this)"><div class="qdot"></div>ปรับเปลี่ยนตามความรู้สึกหน้างานทันที</div>
+      <div class="qopt" onclick="selQ(2,'c',this)"><div class="qdot"></div>โทรหาคนที่ไว้ใจเพื่อขอความเห็นก่อนตัดสินใจต่อ</div>
+      <div class="qopt" onclick="selQ(2,'d',this)"><div class="qdot"></div>ลองวิธีใหม่ไปเรื่อยๆ จนกว่าจะเจอทางที่ใช้ได้</div>
     </div>
     <div id="q3" style="display:none">
+      <div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">ในช่วงชีวิตตอนนี้<br>คุณรู้สึกอย่างไร?</div>
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:18px">เลือกที่ใกล้เคียงที่สุด</div>
+      <div class="qopt" onclick="selQ(3,'a',this)"><div class="qdot"></div>กำลังสร้างและเริ่มต้นสิ่งใหม่</div>
+      <div class="qopt" onclick="selQ(3,'b',this)"><div class="qdot"></div>ขยายและพัฒนาสิ่งที่มีอยู่</div>
+      <div class="qopt" onclick="selQ(3,'c',this)"><div class="qdot"></div>ต้องการพักและปรับทิศทาง</div>
+      <div class="qopt" onclick="selQ(3,'d',this)"><div class="qdot"></div>อยู่ในช่วงเปลี่ยนแปลงครั้งใหญ่</div>
+    </div>
+    <div id="q4" style="display:none">
+      <div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">ถ้าเปรียบพลังงานชีวิตตอนนี้เป็นฤดูกาล<br>จะใกล้เคียงกับ?</div>
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:18px">มุมมองที่ 2 ของแกนเดียวกัน — ช่วยให้ผลแม่นยำขึ้น</div>
+      <div class="qopt" onclick="selQ(4,'a',this)"><div class="qdot"></div>ฤดูใบไม้ผลิ — เพิ่งเริ่มงอกใหม่</div>
+      <div class="qopt" onclick="selQ(4,'b',this)"><div class="qdot"></div>ฤดูร้อน — เติบโตเต็มที่ กำลังขยาย</div>
+      <div class="qopt" onclick="selQ(4,'c',this)"><div class="qdot"></div>ฤดูใบไม้ร่วง — กำลังปล่อยวางบางอย่าง</div>
+      <div class="qopt" onclick="selQ(4,'d',this)"><div class="qdot"></div>ฤดูหนาว — อยู่ระหว่างเปลี่ยนผ่านครั้งใหญ่</div>
+    </div>
+    <div id="q5" style="display:none">
       <div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">สิ่งที่คุณต้องการจาก<br>ASTROVERA มากที่สุด?</div>
       <div style="font-size:13px;color:var(--tx3);margin-bottom:18px">ช่วยปรับผลลัพธ์ให้ตรงคุณที่สุด</div>
-      <div class="qopt" onclick="selQ(3,'a',this)"><div class="qdot"></div>เข้าใจตัวเองในระดับที่ลึกขึ้น</div>
-      <div class="qopt" onclick="selQ(3,'b',this)"><div class="qdot"></div>ตัดสินใจได้ดีขึ้นในชีวิต</div>
-      <div class="qopt" onclick="selQ(3,'c',this)"><div class="qdot"></div>รู้จังหวะว่าตอนนี้ควรทำอะไร</div>
-      <div class="qopt" onclick="selQ(3,'d',this)"><div class="qdot"></div>เรียนรู้จากประสบการณ์ที่ผ่านมา</div>
+      <div class="qopt" onclick="selQ(5,'a',this)"><div class="qdot"></div>เข้าใจตัวเองในระดับที่ลึกขึ้น</div>
+      <div class="qopt" onclick="selQ(5,'b',this)"><div class="qdot"></div>ตัดสินใจได้ดีขึ้นในชีวิต</div>
+      <div class="qopt" onclick="selQ(5,'c',this)"><div class="qdot"></div>รู้จังหวะว่าตอนนี้ควรทำอะไร</div>
+      <div class="qopt" onclick="selQ(5,'d',this)"><div class="qdot"></div>เรียนรู้จากประสบการณ์ที่ผ่านมา</div>
     </div>
     <button class="btn bgh" style="margin-top:16px" onclick="skipQuiz()">ข้ามไปก่อน</button>
   </div>
@@ -398,7 +414,7 @@ textarea.if{resize:none}
       <div style="font-size:12px;color:var(--tx3)" id="fi-dob">—</div>
     </div>
     <div class="card cg" style="margin-bottom:13px">
-      <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Theme Convergence Engine™</div>
+      <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Theme Convergence Engine™ · จุดที่ทุกชั้นชี้ตรงกัน</div>
       <div id="fi-themes"></div>
     </div>
     <!-- Reflection Engine Preview -->
@@ -582,7 +598,7 @@ textarea.if{resize:none}
       <div id="s-themes"></div>
     </div>
     <div class="card" style="margin-bottom:13px">
-      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:13px">🔢 ASTROVERA Convergence Engine™</div>
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:13px">🔢 ASTROVERA Convergence Engine™ — 6 ชั้นวิเคราะห์</div>
       <div id="s-sciences" class="protected"></div>
       <div class="dv" style="margin:11px 0"></div>
       <div style="font-size:11px;color:var(--tx3);line-height:1.6">แต่ละชั้นใช้เป็น Framework สะท้อนมุมมอง ไม่ใช่คำทำนายตายตัว — ยิ่งหลายชั้นชี้ไปทางเดียวกัน ยิ่งมีความหมายมากขึ้น</div>
@@ -1515,12 +1531,12 @@ function rSciences(id,dob){
   var lp=lifePathNumber(dob);
   var tz=thaiZodiacYear(dob);
   var items=[
-    {icon:'🪐',name:'Layer I — Celestial Pattern',detail:'ตำแหน่งดาวและจังหวะเวลาเกิดของคุณ'},
-    {icon:'☯️',name:'Layer II — Elemental Code',detail:'รหัสธาตุประจำตัวจากวัน-เวลาเกิด'},
-    {icon:'🔷',name:'Layer III — Energy Architecture',detail:'โครงสร้างพลังงานและรูปแบบการตัดสินใจ'},
-    {icon:'🧬',name:'Layer IV — Genius Sequence',detail:'ลำดับศักยภาพเฉพาะตัวของคุณ'},
-    {icon:'🇹🇭',name:'Layer V — Ancestral Cycle',detail: tz ? 'รอบปีที่ '+tz : 'วงรอบบรรพบุรุษตามปีเกิด'},
-    {icon:'🔢',name:'Layer VI — Vibration Code',detail: lp ? 'รหัสการสั่นสะเทือน: '+lp+' — '+(LIFE_PATH_MEANING[lp]||'') : 'รหัสการสั่นสะเทือนจากวันเกิด'},
+    {icon:'🪐',name:'Layer I — จังหวะดวงดาว (Celestial Pattern)',detail:'ตำแหน่งดาวและจังหวะเวลาเกิดของคุณ'},
+    {icon:'☯️',name:'Layer II — รหัสธาตุ (Elemental Code)',detail:'รหัสธาตุประจำตัวจากวัน-เวลาเกิด'},
+    {icon:'🔷',name:'Layer III — โครงสร้างพลังงาน (Energy Architecture)',detail:'โครงสร้างพลังงานและรูปแบบการตัดสินใจ'},
+    {icon:'🧬',name:'Layer IV — ลำดับศักยภาพ (Genius Sequence)',detail:'ลำดับศักยภาพเฉพาะตัวของคุณ'},
+    {icon:'🇹🇭',name:'Layer V — วงรอบบรรพบุรุษ (Ancestral Cycle)',detail: tz ? 'รอบปีที่ '+tz : 'วงรอบบรรพบุรุษตามปีเกิด'},
+    {icon:'🔢',name:'Layer VI — รหัสการสั่นสะเทือน (Vibration Code)',detail: lp ? 'รหัสการสั่นสะเทือน: '+lp+' — '+(LIFE_PATH_MEANING[lp]||'') : 'รหัสการสั่นสะเทือนจากวันเกิด'},
   ];
   el.innerHTML=items.map(function(it){
     return '<div style="display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--border)">'
@@ -1531,6 +1547,26 @@ function rSciences(id,dob){
 }
 
 
+// ═══ QUIZ SCORING — combines 2 questions per axis instead of 1, so different
+// combinations of answers genuinely land on different results. ═══
+var AXIS_POINTS={
+  a:{a:3,b:0,c:1,d:1},
+  b:{a:0,b:3,c:1,d:1},
+  c:{a:1,b:1,c:3,d:0},
+  d:{a:1,b:1,c:0,d:3}
+};
+function scoreAxis(answers,fallback){
+  var any=answers.some(function(a){return !!a;});
+  if(!any)return fallback||'d';
+  var totals={a:0,b:0,c:0,d:0};
+  answers.forEach(function(ans){
+    var pts=AXIS_POINTS[ans];if(!pts)return;
+    Object.keys(pts).forEach(function(k){totals[k]+=pts[k];});
+  });
+  var best=fallback||'d',bestScore=-1;
+  ['a','b','c','d'].forEach(function(k){if(totals[k]>bestScore){bestScore=totals[k];best=k;}});
+  return best;
+}
 function startAnalysis(){
   var dob=document.getElementById('inp-dob').value;
   if(!dob){toast('กรุณากรอกวันเกิดก่อน');return;}
@@ -1557,10 +1593,12 @@ function buildInsight(){
   var tmp=lsG('_av_tmp')||{};
   var dob=tmp.dob||'';
   var d=dob?new Date(dob):new Date();
-  // Real personalization: archetype from Quiz Q1 (decision style), life phase from Quiz Q2.
-  // Defaults used only if a question was skipped.
-  var archKey=_qa[1]||'d';
-  var phaseKey=_qa[2]||'a';
+  // Real personalization: archetype from Quiz Q1+Q2 (decision style, 2 angles),
+  // life phase from Quiz Q3+Q4 (life-stage, 2 angles). Using 2 questions per axis
+  // (instead of 1) gives genuinely different combinations of answers a real chance
+  // to land on different results, instead of one tap fully deciding everything.
+  var archKey=scoreAxis([_qa[1],_qa[2]],'d');
+  var phaseKey=scoreAxis([_qa[3],_qa[4]],'a');
   if(!ARCHETYPES[archKey])archKey='d';
   if(!LIFE_PHASES[phaseKey])phaseKey='a';
   tmp.archKey=archKey;tmp.phaseKey=phaseKey;lsS('_av_tmp',tmp);
@@ -1598,12 +1636,12 @@ function selQ(qn,ans,el){
   setTimeout(function(){nQ(qn);},380);
 }
 function nQ(qn){
-  if(qn<3){
+  if(qn<5){
     document.getElementById('q'+qn).style.display='none';
     document.getElementById('q'+(qn+1)).style.display='block';
     _qn=qn+1;
-    document.getElementById('qctr').textContent=_qn+' / 3';
-    ['q-s1','q-s2','q-s3'].forEach(function(id,i){
+    document.getElementById('qctr').textContent=_qn+' / 5';
+    ['q-s1','q-s2','q-s3','q-s4','q-s5'].forEach(function(id,i){
       var d=document.getElementById(id);d.className='sdot';
       if(i+1<_qn)d.classList.add('dn');
       else if(i+1===_qn)d.classList.add('on');
@@ -1631,7 +1669,7 @@ function selPl(p){
 }
 function payNow(){
   toast('ชำระเงินสำเร็จ ✓');
-  setTimeout(function(){rDash();go('sc-dash');},1200);
+  setTimeout(function(){goToDash();},1200);
 }
 
 // ═══ JOURNAL FORM HELPERS ═══
@@ -2020,10 +2058,10 @@ function rDash(){
 
 // ═══ DECISION DNA — computed from real journal/follow-up history ═══
 function decisionStyle(avgConf,total,typeVariety){
-  if(avgConf>=3.3&&typeVariety>=3)return{key:'strategic',name:'🧬 Strategic Builder',desc:'คุณตัดสินใจด้วยความมั่นใจและมองหลายมิติของชีวิตไปพร้อมกัน เป็นนักสร้างที่วางแผนระยะยาว'};
-  if(avgConf>=3.3)return{key:'decisive',name:'🧬 Decisive Mover',desc:'คุณมักตัดสินใจเร็วและมั่นใจ ลงมือทำทันทีเมื่อเห็นโอกาส'};
-  if(avgConf<=2.2)return{key:'analyzer',name:'🧬 Careful Analyzer',desc:'คุณมักใช้เวลาพิจารณาอย่างรอบคอบก่อนตัดสินใจ ระมัดระวังความเสี่ยง'};
-  return{key:'balanced',name:'🧬 Balanced Builder',desc:'คุณตัดสินใจอย่างสมดุล ผสมความรอบคอบกับความกล้าลงมือทำ'};
+  if(avgConf>=3.3&&typeVariety>=3)return{key:'strategic',name:'🧬 Strategic Builder — นักวางแผนเชิงกลยุทธ์',desc:'คุณตัดสินใจด้วยความมั่นใจและมองหลายมิติของชีวิตไปพร้อมกัน เป็นนักสร้างที่วางแผนระยะยาว'};
+  if(avgConf>=3.3)return{key:'decisive',name:'🧬 Decisive Mover — นักลงมือไว',desc:'คุณมักตัดสินใจเร็วและมั่นใจ ลงมือทำทันทีเมื่อเห็นโอกาส'};
+  if(avgConf<=2.2)return{key:'analyzer',name:'🧬 Careful Analyzer — นักวิเคราะห์รอบคอบ',desc:'คุณมักใช้เวลาพิจารณาอย่างรอบคอบก่อนตัดสินใจ ระมัดระวังความเสี่ยง'};
+  return{key:'balanced',name:'🧬 Balanced Builder — นักสร้างสมดุล',desc:'คุณตัดสินใจอย่างสมดุล ผสมความรอบคอบกับความกล้าลงมือทำ'};
 }
 // ═══ CONFLICT CHECK — compares self-reported Archetype (Quiz) vs actual
 // behavior pattern (Decision DNA from real Journal data). Inspired by the
