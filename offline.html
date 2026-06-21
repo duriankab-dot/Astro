@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ออฟไลน์ — ASTROVERA</title>
+<link rel="icon" type="image/png" href="./favicon-32x32.png">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Noto Sans Thai', 'Inter', system-ui, -apple-system, sans-serif;
+    background: radial-gradient(circle at 30% 20%, #163528, #082B24 65%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: #F4F1E8;
+  }
+  .container {
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 44px 28px;
+    border: 1px solid rgba(212,175,55,0.18);
+  }
+  .logo-i {
+    width: 64px; height: 64px; margin: 0 auto 20px;
+    border-radius: 16px; background: #0c2e23;
+    border: 1.5px solid rgba(212,175,55,.45);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-i svg { width: 44px; height: 44px; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 10px; color: #F4E9C8; }
+  p { color: #A9C2B6; line-height: 1.7; margin-bottom: 26px; font-size: 14px; }
+  .btn {
+    display: inline-block; background: linear-gradient(135deg,#D4AF37,#E8C968);
+    color: #1a1408; border: none; padding: 13px 30px; border-radius: 60px;
+    font-size: 15px; font-weight: 700; cursor: pointer; transition: .2s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .features {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-top: 24px; padding-top: 22px;
+    border-top: 1px solid rgba(212,175,55,0.12);
+  }
+  .features span { color: #7FA593; font-size: 13px; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-i">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="78" fill="none" stroke="#D4AF37" stroke-width="5"/>
+        <circle cx="100" cy="100" r="66" fill="none" stroke="#D4AF37" stroke-width="5"/>
+        <g stroke="#D4AF37" stroke-width="6">
+          <line x1="100" y1="38" x2="100" y2="162"/>
+          <line x1="38" y1="100" x2="162" y2="100"/>
+          <line x1="58" y1="58" x2="142" y2="142"/>
+          <line x1="142" y1="58" x2="58" y2="142"/>
+        </g>
+      </svg>
+    </div>
+    <h1>คุณออฟไลน์อยู่</h1>
+    <p>ไม่ต้องกังวล — ข้อมูลของคุณอยู่ในเครื่องอยู่แล้ว<br>เชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่ได้เลย</p>
+    <button class="btn" onclick="window.location.reload()">🔄 ลองเชื่อมต่อใหม่</button>
+    <div class="features">
+      <span>📝 บันทึก Journal ของคุณอยู่ในเครื่องนี้เสมอ</span>
+      <span>🔒 ไม่มีข้อมูลส่งออกไปไหนแม้ออฟไลน์</span>
+    </div>
+  </div>
+</body>
+</html>
