@@ -3,10 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>ASTROVERA — Personal Life Intelligence</title>
+<title>ASTROVERA — Personal Life Intelligence Platform | วิเคราะห์ชีวิต พัฒนาความคิด</title>
+
+<!-- ===== SEO ===== -->
+<meta name="description" content="ASTROVERA ช่วยให้คุณเข้าใจตัวเองลึกขึ้น ด้วย 6 ชั้นการวิเคราะห์เฉพาะทาง ไม่ใช่การดูดวง — ฟรี เริ่มต้นใน 2 นาที ไม่ต้องสมัคร">
+<meta name="keywords" content="วิเคราะห์ชีวิต, พัฒนาตนเอง, การตัดสินใจ, Personal Intelligence, Life OS, ASTROVERA">
+<meta name="robots" content="index, follow">
+
+<!-- ===== Open Graph (Facebook / LINE) ===== -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="ASTROVERA — Personal Life Intelligence Platform">
+<meta property="og:description" content="วิเคราะห์ชีวิต พัฒนาความคิด ช่วยตัดสินใจ — ไม่ใช่การดูดวง ฟรี เริ่มต้นใน 2 นาที">
+<meta property="og:site_name" content="ASTROVERA">
+<meta property="og:image" content="./og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="th_TH">
+
+<!-- ===== Twitter Card ===== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ASTROVERA — Personal Life Intelligence">
+<meta name="twitter:description" content="วิเคราะห์ชีวิต พัฒนาความคิด ช่วยตัดสินใจ — ฟรี เริ่มต้นใน 2 นาที">
+<meta name="twitter:image" content="./og-image.png">
+
+<!-- ===== PWA ===== -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#163528">
+<meta name="background-color" content="#082B24">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ASTROVERA">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+<!-- ===== Favicon ===== -->
+<link rel="icon" type="image/x-icon" href="./favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ===== Service Worker Registration =====
+     NOTE: only registers on http(s) origins — browsers block SW on file://,
+     so this silently no-ops while you're previewing the file locally and
+     activates once it's actually served (Netlify, your own domain, etc). -->
+<script>
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((reg) => console.log('✅ Service Worker registered:', reg.scope))
+        .catch((err) => console.error('❌ Service Worker registration failed:', err));
+    });
+  }
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
