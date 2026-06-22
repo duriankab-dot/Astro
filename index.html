@@ -6,14 +6,14 @@
 <title>ASTROVERA — Personal Life Intelligence Platform | วิเคราะห์ชีวิต พัฒนาความคิด</title>
 
 <!-- ===== SEO ===== -->
-<meta name="description" content="ASTROVERA ช่วยให้คุณเข้าใจตัวเองลึกขึ้น ด้วย 6 ชั้นการวิเคราะห์เฉพาะทาง ไม่ใช่การดูดวง — ฟรี เริ่มต้นใน 2 นาที ไม่ต้องสมัคร">
+<meta name="description" content="ASTROVERA มากกว่าการดูดวง — วิเคราะห์ชีวิต 7 ศาสตร์ เข้าใจตัวเองลึกขึ้น ฟรี ไม่ต้องสมัคร">
 <meta name="keywords" content="วิเคราะห์ชีวิต, พัฒนาตนเอง, การตัดสินใจ, Personal Intelligence, Life OS, ASTROVERA">
 <meta name="robots" content="index, follow">
 
 <!-- ===== Open Graph (Facebook / LINE) ===== -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="ASTROVERA — Personal Life Intelligence Platform">
-<meta property="og:description" content="วิเคราะห์ชีวิต พัฒนาความคิด ช่วยตัดสินใจ — ไม่ใช่การดูดวง ฟรี เริ่มต้นใน 2 นาที">
+<meta property="og:description" content="มากกว่าการดูดวง — วิเคราะห์ชีวิต 7 ศาสตร์ ฟรี เริ่มต้นใน 2 นาที">
 <meta property="og:site_name" content="ASTROVERA">
 <meta property="og:image" content="./og-image.png">
 <meta property="og:image:width" content="1200">
@@ -256,6 +256,16 @@ textarea.if{resize:none}
 @keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.8;transform:scale(1.3)}}
 .ss{position:absolute;border-radius:50%;animation:shoot-star linear infinite;opacity:0}
 .ts{position:absolute;border-radius:50%;background:rgba(224,160,255,.6);animation:twinkle ease-in-out infinite}
+
+@media (prefers-reduced-motion: reduce){
+  .ss,.ts{animation:none!important;opacity:.3!important}
+  .btn::before{animation:none!important}
+  .card::before{animation:none!important}
+}
+@media (max-width:430px) and (pointer:coarse){
+  /* ลด star count บน low-end mobile — ควบคุมผ่าน JS */
+}
+
 </style>
 <!-- ═══ ANALYTICS PLACEHOLDER ═══
      ยังไม่ active — ใส่ Measurement ID จริงตอน deploy แล้วลบ comment ออก
@@ -362,7 +372,7 @@ textarea.if{resize:none}
           <span style="color:var(--gold)" id="land-title2">พัฒนาความคิด</span><br>
           <span style="color:var(--gold)" id="land-title3">ช่วยตัดสินใจ</span>
         </h1>
-        <p style="font-size:14px;color:var(--tx2);line-height:1.6" id="land-sub">ไม่ใช่การดูดวงและการทำนาย<br>แต่บทเรียนเป็นกระจกสะท้อนชีวิตที่ลึกที่สุด</p>
+        <p style="font-size:14px;color:var(--tx2);line-height:1.6" id="land-sub">มากกว่าการดูดวงและการทำนาย<br>เพราะประสบการณ์และบทเรียน คือกระจกสะท้อนชีวิตที่ลึกที่สุด</p>
       </div>
     </div>
     <div style="padding:0 18px 22px">
@@ -382,7 +392,11 @@ textarea.if{resize:none}
           <input id="inp-place-other" class="if" type="text" placeholder="พิมพ์ชื่อจังหวัด/เมือง/ประเทศ" style="display:none">
           <input id="inp-place" type="hidden">
         </div>
-        <div style="margin-top:16px"><button class="btn bg" id="land-cta" onclick="startAnalysis()" data-i18n="land.cta">✦ วิเคราะห์เลย — ฟรี</button></div>
+        <div style="margin-top:16px;display:flex;gap:8px">
+          <button class="btn bg" id="land-cta" onclick="startAnalysis()" style="flex:2" data-i18n="land.cta">✦ วิเคราะห์เลย — ฟรี</button>
+          <button class="btn bgh" onclick="quickPreview()" style="flex:1;font-size:13px">👁️ Preview</button>
+        </div>
+        <div id="quick-preview" style="display:none"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
         <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🧭</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Archetype Analysis</div><div style="font-size:11px;color:var(--tx3)">รู้จัก ลักษณะ และ จุดแข็งลึก ของตัวเอง</div></div>
@@ -596,10 +610,11 @@ textarea.if{resize:none}
           </div>
         </div>
         <div style="font-size:15px;font-weight:600;color:var(--tx);line-height:1.5;margin-bottom:12px" id="d-daily-q"></div>
-        <div style="display:flex;gap:9px">
+        <div style="display:flex;gap:9px;margin-bottom:9px">
           <button class="btn bt bsm" style="flex:1" onclick="openMicro()">📝 บันทึกความคิด</button>
-          <button class="btn" style="flex:1;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--pur2);font-size:13px;font-weight:600;border-radius:var(--r2);padding:10px;cursor:pointer" onclick="openEmo()">❤️ Check-in อารมณ์</button>
+          <button class="btn" style="flex:1;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--pur2);font-size:13px;font-weight:600;border-radius:var(--r2);padding:10px;cursor:pointer" onclick="openEmo()">❤️ Check-in</button>
         </div>
+        <button class="btn" style="width:100%;background:linear-gradient(135deg,rgba(176,64,255,.2),rgba(129,140,248,.1));border:1px solid rgba(176,64,255,.4);color:var(--gold2);font-size:13px;font-weight:700;border-radius:var(--r2);padding:10px;cursor:pointer" onclick="openDailySync()">⚡ Daily Mental Sync — สแกนพลังงานวันนี้</button>
       </div>
       <!-- Stats -->
       <div class="stat-row">
@@ -651,6 +666,7 @@ textarea.if{resize:none}
   <div class="sb" style="padding:18px">
     <div class="card cg" style="margin-bottom:13px;text-align:center;padding:24px">
       <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;margin-bottom:8px">ลักษณะตัวตนเฉพาะของคุณ</div>
+      <div id="s-exec-summary"></div>
       <div class="arc" id="s-arc" style="margin:0 auto 10px;width:fit-content">🔮 The Visionary Builder</div>
       <div style="font-size:12px;color:var(--tx2);margin-bottom:11px;line-height:1.6" id="s-trait">ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง</div>
       <div style="font-size:13px;color:var(--tx2);line-height:1.65" id="s-core">คุณมีพลังงานของนักสร้างที่มีวิสัยทัศน์ ผสมผสานความสามารถในการมองภาพใหญ่กับการลงมือทำ คุณเห็นโอกาสที่คนอื่นยังมองไม่ออก และสามารถสร้างสิ่งใหม่จากความคิดได้อย่างรวดเร็ว</div>
@@ -1189,6 +1205,8 @@ textarea.if{resize:none}
     </div>
     <div class="sh"><div class="sht">คะแนนด้านธุรกิจ</div></div>
     <div class="card" style="margin-bottom:13px" id="fd-lifeos"></div>
+    <div class="sh"><div class="sht">📊 Business Timing Index</div></div>
+    <div id="fd-timing" style="margin-bottom:13px"></div>
     <div class="sh"><div class="sht">โอกาสที่น่าสนใจที่สุด</div></div>
     <div id="fd-opps" style="margin-bottom:13px"></div>
     <div class="sh"><div class="sht">รูปแบบการตัดสินใจด้านธุรกิจ</div></div>
@@ -1211,10 +1229,20 @@ textarea.if{resize:none}
 
 <!-- ─── LIFE COPILOT ─── -->
 <div class="sc" id="sc-copilot">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Life Copilot</div></div>
+  <div class="tb">
+    <button class="bk-btn" onclick="go('sc-dash')">←</button>
+    <div class="tb-t" id="cop-vera-name">Life Copilot</div>
+    <button onclick="openVeraSelector()" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--gold2);font-size:11px;padding:4px 10px;border-radius:12px;cursor:pointer" id="cop-persona-btn">✦ เลือก VERA</button>
+  </div>
+  <!-- VERA Persona Bar -->
+  <div id="cop-persona-bar" style="display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(19,0,40,.8);overflow-x:auto">
+    <button onclick="setVeraPersona('baby')" class="vera-btn" data-v="baby" style="flex-shrink:0;background:rgba(176,64,255,.12);border:1px solid rgba(176,64,255,.3);color:var(--tx2);font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;white-space:nowrap">🌱 Baby Vera</button>
+    <button onclick="setVeraPersona('young')" class="vera-btn" data-v="young" style="flex-shrink:0;background:rgba(129,140,248,.12);border:1px solid rgba(129,140,248,.3);color:var(--tx2);font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;white-space:nowrap">⚡ Young Vera</button>
+    <button onclick="setVeraPersona('future')" class="vera-btn" data-v="future" style="flex-shrink:0;background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.3);color:var(--tx2);font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;white-space:nowrap">🔮 Future Vera</button>
+  </div>
   <div class="sb" style="padding:14px" id="cop-thread"></div>
   <div style="padding:10px 14px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0">
-    <div class="chips" style="margin-bottom:9px" id="cop-starters">
+    <div class="chips" style="margin-bottom:9px;overflow-x:auto;flex-wrap:nowrap" id="cop-starters">
       <div class="chip" style="flex:none" onclick="sendCopilot('สรุปสัปดาห์นี้ให้หน่อย')">สรุปสัปดาห์นี้</div>
       <div class="chip" style="flex:none" onclick="sendCopilot('ตอนนี้ฉันควรโฟกัสอะไร')">ควรโฟกัสอะไร</div>
       <div class="chip" style="flex:none" onclick="sendCopilot('วันนี้รู้สึกเหนื่อย')">วันนี้รู้สึกเหนื่อย</div>
@@ -1329,6 +1357,237 @@ document.addEventListener('focusin', function(e){
 
 // ═══ STORAGE ═══
 var LSP='av_p', LSJ='av_j', LSW='av_w', LSE='av_e', LSM='av_m', LSS='av_s', LSO='av_o', LSR='av_r', LSL='av_l', LSC='av_c';
+
+// ═══ QUESTION ROTATION ENGINE ═══
+
+// ═══ VERA PERSONAS — Life Copilot Characters ═══
+var _veraPersona=localStorage.getItem('av_vera')||'baby';
+var VERA_PERSONAS={
+  baby:{
+    id:'baby',name:'🌱 Baby Vera',label:'Stoic Sage',
+    color:'#B040FF',
+    desc:'ที่ปรึกษาปรัชญาสโตอิก เน้นความนิ่ง การยอมรับ และการควบคุมอารมณ์',
+    greeting:'สวัสดีครับ ผม Baby Vera — "สิ่งที่เราควบคุมได้มีเพียงความคิดและการกระทำของตัวเอง" วันนี้คุณอยากสำรวจอะไรครับ?',
+    systemHint:'คุณคือ Baby Vera ที่ปรึกษาสไตล์สโตอิก พูดอย่างสงบ ใช้ปรัชญา Marcus Aurelius, Epictetus เป็น framework ช่วยผู้ใช้ควบคุมอารมณ์และมองสิ่งที่ควบคุมได้',
+    starters:['อยากความนิ่งมากขึ้น','วิธีรับมือกับสิ่งที่ควบคุมไม่ได้','ฝึก self-discipline ยังไง']
+  },
+  young:{
+    id:'young',name:'⚡ Young Vera',label:'Sharp Venture Capitalist',
+    color:'#818CF8',
+    desc:'ที่ปรึกษาสายธุรกิจ จี้จุดอ่อน ตั้งคำถามตรงๆ มองผ่านข้อมูลจริง',
+    greeting:'Hey, Young Vera ครับ — ผมจะไม่ปลอบใจคุณ แต่จะช่วยหาจุดอ่อนในแผนและการตัดสินใจของคุณ บอกมาเลยว่ากำลังทำอะไรอยู่',
+    systemHint:'คุณคือ Young Vera VC ที่ฉลาดและตรงไปตรงมา ตั้งคำถามเพื่อหาจุดอ่อน ใช้ข้อมูลและตัวเลข ไม่ยอมรับคำตอบคลุมเครือ แต่ goal คือช่วยให้ผู้ใช้ตัดสินใจดีขึ้น',
+    starters:['วิเคราะห์ไอเดียธุรกิจให้หน่อย','จุดอ่อนของแผนฉันคืออะไร','ตัดสินใจลงทุนดีไหม']
+  },
+  future:{
+    id:'future',name:'🔮 Future Vera',label:'Aurora Oraculum',
+    color:'#C084FC',
+    desc:'มาจากอนาคต มองเห็นรูปแบบที่คนอื่นไม่เห็น ใช้ข้อมูลทุกศาสตร์รวมกัน',
+    greeting:'... ฉันมาแล้ว Future Vera จากอีก 10 ปีข้างหน้า ฉันเห็นรูปแบบชีวิตของคุณชัดมาก ข้อมูลทั้งหมดที่คุณบันทึกไว้ — มันบอกอะไรบางอย่างที่น่าสนใจมาก ถามมาได้เลย',
+    systemHint:'คุณคือ Future Vera Oracle ที่พูดด้วยความมั่นใจและลึกลับ รวมข้อมูลทุกศาสตร์ (ดวงดาว ปาจื้อ เลขศาสตร์ จิตวิทยา) เพื่อ identify patterns ที่ซ่อนอยู่ในชีวิตผู้ใช้',
+    starters:['pattern ชีวิตฉันเป็นยังไง','อะไรที่ฉันยังไม่เห็น','อนาคตระยะสั้นควรระวังอะไร']
+  }
+};
+function setVeraPersona(id){
+  _veraPersona=id;
+  localStorage.setItem('av_vera',id);
+  var persona=VERA_PERSONAS[id]||VERA_PERSONAS.baby;
+  // update UI
+  document.querySelectorAll('.vera-btn').forEach(function(btn){
+    var isActive=btn.dataset.v===id;
+    btn.style.fontWeight=isActive?'700':'400';
+    btn.style.borderColor=isActive?persona.color:'rgba(176,64,255,.3)';
+    btn.style.color=isActive?persona.color:'var(--tx2)';
+  });
+  var nameEl=document.getElementById('cop-vera-name');
+  if(nameEl)nameEl.textContent=persona.name;
+  // clear chat + new greeting
+  lsD(LSC);
+  var thread=[{role:'ai',text:persona.greeting}];
+  lsS(LSC,thread);
+  renderCopThread(thread);
+  // update starters
+  var startersEl=document.getElementById('cop-starters');
+  if(startersEl){
+    startersEl.innerHTML=persona.starters.map(function(s){
+      return '<div class="chip" style="flex:none" onclick="sendCopilot(\''+s+'\')">'+s+'</div>';
+    }).join('');
+  }
+}
+function openVeraSelector(){
+  toast('เลือก VERA ที่แถบด้านบนได้เลยครับ');
+}
+
+// ═══ DAILY MENTAL SYNC — 3Q Quick Check-in + Shareable Insight Card ═══
+var SYNC_QS=[
+  {q:'ตอนนี้พลังงานของคุณอยู่ระดับไหน?',opts:['🔥 เต็มพลัง','⚡ ดีพอใช้','😐 กลางๆ','🪫 ต่ำมาก'],vals:[4,3,2,1]},
+  {q:'วันนี้คุณรู้สึกกับงาน/ชีวิตยังไง?',opts:['🌟 มีแรงบันดาลใจ','📋 ทำตามหน้าที่','🌊 ปล่อยตามไป','⛈️ หนักใจมาก'],vals:[4,3,2,1]},
+  {q:'สิ่งที่คุณโฟกัสมากที่สุดวันนี้?',opts:['🎯 งาน/โปรเจกต์','❤️ ความสัมพันธ์','🧘 ตัวเอง','🌍 คนรอบข้าง'],tags:['work','relation','self','others']}
+];
+var _syncAnswers=[],_syncQ=0;
+function openDailySync(){
+  _syncAnswers=[];_syncQ=0;
+  rSyncQ();go('sc-daily-sync');
+}
+function rSyncQ(){
+  var q=SYNC_QS[_syncQ];if(!q)return;
+  var el=document.getElementById('sync-body');if(!el)return;
+  document.getElementById('sync-ctr').textContent=(_syncQ+1)+' / '+SYNC_QS.length;
+  var html='<div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:20px;line-height:1.4">'+q.q+'</div>';
+  q.opts.forEach(function(opt,i){
+    html+='<div class="qopt" onclick="selSyncQ('+i+',this)" style="font-size:15px"><div class="qdot"></div>'+opt+'</div>';
+  });
+  el.innerHTML=html;
+}
+function selSyncQ(idx,el){
+  document.querySelectorAll('#sync-body .qopt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  _syncAnswers[_syncQ]=idx;
+  setTimeout(function(){
+    if(_syncQ<SYNC_QS.length-1){_syncQ++;rSyncQ();}
+    else{saveSyncResult();}
+  },320);
+}
+function saveSyncResult(){
+  var a=_syncAnswers;
+  var energy=(SYNC_QS[0].vals||[])[a[0]]||2;
+  var mood=(SYNC_QS[1].vals||[])[a[1]]||2;
+  var focus=(SYNC_QS[2].tags||[])[a[2]]||'self';
+  var total=energy+mood;
+  var level=total>=7?'สูงมาก':total>=5?'ดี':total>=3?'กลางๆ':'ต้องเติมพลัง';
+  var advice=total>=7?'วันนี้เป็นจังหวะดีสำหรับการตัดสินใจสำคัญ':
+             total>=5?'พลังงานดีพอ เดินหน้าตามแผนได้เลย':
+             total>=3?'ทำสิ่งที่ง่ายก่อน รักษาพลังงาน':
+             'วันนี้ให้ priority กับการพักและฟื้นตัว';
+  var card={energy,mood,focus,level,advice,date:new Date().toLocaleDateString('th-TH'),ts:Date.now()};
+  var p=lsG(LSP)||{};
+  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
+  // บันทึกลง emotion log
+  var emos=lsG(LSE)||[];
+  emos.unshift({date:new Date().toISOString().split('T')[0],emoji:energy>=3?'😊':'😐',label:level,sync:card});
+  lsS(LSE,emos.slice(0,60));
+  // แสดง insight card
+  showSyncInsightCard(card,arch,p.name);
+}
+function showSyncInsightCard(card,arch,name){
+  var el=document.getElementById('sync-body');if(!el)return;
+  document.getElementById('sync-ctr').textContent='✓ เสร็จแล้ว';
+  el.innerHTML='<div style="background:linear-gradient(135deg,rgba(176,64,255,.15),rgba(129,140,248,.1));border:1px solid rgba(176,64,255,.4);border-radius:16px;padding:20px;text-align:center">'
+    +'<div style="font-size:11px;color:var(--gold);letter-spacing:1px;margin-bottom:12px">✦ DAILY MENTAL SYNC</div>'
+    +'<div style="font-size:32px;margin-bottom:8px">'+(card.energy>=3?'🔥':'🪫')+'</div>'
+    +'<div style="font-size:20px;font-weight:700;color:var(--tx);margin-bottom:6px">พลังงานวันนี้: '+card.level+'</div>'
+    +'<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:16px">'+card.advice+'</div>'
+    +'<div style="font-size:11px;color:var(--tx3);margin-bottom:16px">'+arch.icon+' '+arch.name+' · '+(name||'')+'</div>'
+    +'<div style="display:flex;gap:8px">'
+    +'<button class="btn bg" style="flex:1;font-size:13px" onclick="shareInsightCard()">📤 แชร์</button>'
+    +'<button class="btn bgh" style="flex:1;font-size:13px" onclick="bk()">ปิด</button>'
+    +'</div>'
+    +'</div>';
+  window._lastSyncCard=card;
+}
+function shareInsightCard(){
+  var card=window._lastSyncCard;if(!card)return;
+  var p=lsG(LSP)||{};
+  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
+  var text='🔮 ASTROVERA Daily Mental Sync\n\n'
+    +'⚡ พลังงานวันนี้: '+card.level+'\n'
+    +arch.icon+' '+arch.name+'\n\n'
+    +card.advice+'\n\n'
+    +'#ASTROVERA #SelfIntelligence\nastro-pwa.netlify.app';
+  if(navigator.share){navigator.share({text:text}).catch(function(){_shareFallback('astro-pwa.netlify.app');});}
+  else{_shareFallback(text);}
+}
+
+// ═══ BUSINESS TIMING INDEX ═══
+function calcBusinessTiming(){
+  var now=new Date();
+  var dayOfWeek=now.getDay(); // 0=Sun
+  var dayOfMonth=now.getDate();
+  var month=now.getMonth()+1;
+  // Numerology ของวันปัจจุบัน
+  var dateNum=reduceNum(now.getFullYear()+now.getMonth()+now.getDate());
+  // ดัชนีพลังงาน 1-10 จากการรวม factors
+  var weekEnergy=[5,7,9,8,6,4,3][dayOfWeek]; // อา→เสาร์
+  var numEnergy=dateNum<=5?dateNum+4:10-(dateNum-5); // peak ที่เลข 5
+  var monthPhase=dayOfMonth<=7?'เริ่มต้น':dayOfMonth<=14?'ก่อร่าง':dayOfMonth<=21?'เติมเต็ม':'สรุปผล';
+  var index=Math.round((weekEnergy+numEnergy)/2);
+  var themes={
+    1:'ริเริ่มสิ่งใหม่ วางรากฐาน เหมาะกับการเริ่มโปรเจกต์',
+    2:'ประสานงาน เจรจา เหมาะกับการสร้างความสัมพันธ์',
+    3:'สื่อสาร นำเสนอ เหมาะกับการ pitch และ marketing',
+    4:'วางระบบ ตรวจสอบ เหมาะกับการ review และ planning',
+    5:'ยืดหยุ่น ปรับตัว เหมาะกับการ test และ experiment',
+    6:'ดูแลทีม เหมาะกับการ mentor และ feedback',
+    7:'วิเคราะห์เชิงลึก เหมาะกับการ research และ strategy',
+    8:'ขับเคลื่อน ตัดสินใจ เหมาะกับการ execute และ close deals',
+    9:'สรุป ปล่อยวาง เหมาะกับการ wrap up และ reflection',
+    10:'พลังเต็ม เหมาะกับทุกกิจกรรม โดยเฉพาะการตัดสินใจสำคัญ'
+  };
+  var caution=index<=3?'⚠️ พลังงานต่ำ — เลี่ยงการตัดสินใจใหญ่':
+              index<=6?'✓ พลังงานกลาง — ทำงาน routine ได้ดี':
+              '🚀 พลังงานสูง — เหมาะกับการ take action';
+  return{index,theme:themes[index]||themes[5],caution,monthPhase,dateNum,weekday:['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'][dayOfWeek]};
+}
+
+// ═══ GUIDED FIRST-TIME TOUR ═══
+var _tourDone=localStorage.getItem('av_tour')==='1';
+function checkShowTour(){
+  if(_tourDone)return;
+  setTimeout(function(){showTourStep(0);},800);
+}
+var TOUR_STEPS=[
+  {icon:'🧭',title:'เริ่มที่ Self Intelligence',desc:'ดูตัวตนหลัก ดวงดาว ปาจื้อ และ 7 โมดูลวิเคราะห์ของคุณที่นี่',btn:'ไปดูเลย',action:"go('sc-self')"},
+  {icon:'📝',title:'บันทึก Decision Journal',desc:'บันทึกการตัดสินใจสำคัญ ติดตามผล และเรียนรู้ pattern ของตัวเอง',btn:'ลองบันทึก',action:"go('sc-jnew')"},
+  {icon:'💬',title:'คุยกับ Life Copilot',desc:'ถาม VERA ได้ทุกเรื่อง มี 3 บุคลิกให้เลือก ตอบด้วย AI จริง',btn:'คุยกับ VERA',action:"go('sc-copilot')"}
+];
+var _tourStep=0;
+function showTourStep(step){
+  var modal=document.getElementById('tour-modal');if(!modal)return;
+  var s=TOUR_STEPS[step];if(!s){hideTour();return;}
+  _tourStep=step;
+  document.getElementById('tour-icon').textContent=s.icon;
+  document.getElementById('tour-title').textContent=s.title;
+  document.getElementById('tour-desc').textContent=s.desc;
+  document.getElementById('tour-btn').textContent=s.btn+(step<TOUR_STEPS.length-1?' →':'');
+  document.getElementById('tour-step').textContent=(step+1)+'/'+TOUR_STEPS.length;
+  modal.style.display='flex';
+}
+function tourNext(){
+  var s=TOUR_STEPS[_tourStep];
+  if(s&&s.action)eval(s.action);
+  hideTour();
+  if(_tourStep<TOUR_STEPS.length-1){setTimeout(function(){showTourStep(_tourStep+1);},500);}
+  else{localStorage.setItem('av_tour','1');_tourDone=true;}
+}
+function hideTour(){
+  var modal=document.getElementById('tour-modal');if(modal)modal.style.display='none';
+}
+function skipTour(){localStorage.setItem('av_tour','1');_tourDone=true;hideTour();}
+
+// ═══ PROGRESSIVE PROFILING — Quick Preview after name+DOB ═══
+function quickPreview(){
+  var name=(document.getElementById('inp-name')||{}).value||'';
+  var dob=(document.getElementById('inp-dob')||{}).value||'';
+  if(!name||!dob){toast('กรอกชื่อและวันเกิดก่อนนะครับ');return;}
+  // Generate quick archetype from birth month
+  var month=parseInt(dob.split('-')[1]||'1');
+  var quickArchKeys=['a','b','c','d','a','b','c','d','a','b','c','d'];
+  var quickArch=ARCHETYPES[quickArchKeys[month-1]];
+  var lp=lifePathNumber(dob);
+  var lpMeaning=LIFE_PATH_MEANING[lp]||'';
+  var el=document.getElementById('quick-preview');if(!el)return;
+  el.style.display='block';
+  el.innerHTML='<div style="background:rgba(176,64,255,.1);border:1px solid rgba(176,64,255,.3);border-radius:14px;padding:16px;margin-top:14px">'
+    +'<div style="font-size:11px;color:var(--gold);margin-bottom:10px;font-weight:600">✦ Preview เบื้องต้นของคุณ</div>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
+    +'<span style="font-size:28px">'+quickArch.icon+'</span>'
+    +'<div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+quickArch.name+'</div>'
+    +'<div style="font-size:12px;color:var(--tx3)">'+quickArch.trait+'</div></div></div>'
+    +(lp?'<div style="font-size:12px;color:var(--tx2);margin-bottom:10px">🔢 เลขชีวิต '+lp+': '+lpMeaning+'</div>':'')
+    +'<div style="font-size:11px;color:var(--tx3);margin-bottom:12px">ทำ Quiz 5 ข้อ เพื่อผลลัพธ์ที่แม่นยำกว่านี้</div>'
+    +'<button class="btn bg" style="width:100%;font-size:14px" onclick="startAnalysis()">✦ วิเคราะห์เต็มรูปแบบ (ฟรี)</button>'
+    +'</div>';
+}
 
 // ═══ QUESTION ROTATION ENGINE ═══
 // ใช้วันที่เป็น seed เพื่อให้ผู้ใช้เจอคำถามต่างกันทุกวัน ไม่ซ้ำกันใน 30 วัน
@@ -1488,6 +1747,7 @@ function go(id){
   if(id==='sc-team-quiz')rTeamQ();
   if(id==='sc-talent-quiz')rTalentQ();
   if(id==='sc-love-quiz')rLoveQ();
+  if(id==='sc-daily-sync')rSyncQ();
 }
 function bk(){
   if(_stk.length>1){_stk.pop();var p=_stk[_stk.length-1];_stk.pop();go(p);}
@@ -1594,7 +1854,7 @@ th:{
   'nav.home':'หน้าหลัก','nav.self':'ตัวตน','nav.timing':'จังหวะ','nav.decision':'ตัดสินใจ','nav.profile':'โปรไฟล์',
   // Landing
   'land.title1':'วิเคราะห์ชีวิต','land.title2':'พัฒนาความคิด','land.title3':'ช่วยตัดสินใจ',
-  'land.sub':'ไม่ใช่การดูดวงและการทำนาย\nแต่บทเรียนเป็นกระจกสะท้อนชีวิตที่ลึกที่สุด',
+  'land.sub':'มากกว่าการดูดวงและการทำนาย\nเพราะประสบการณ์และบทเรียน คือกระจกสะท้อนชีวิตที่ลึกที่สุด',
   'land.start':'เริ่มเข้าใจตัวเองใน 2 นาที','land.free':'ฟรี · ไม่ต้องสมัครก่อน',
   'land.cta':'✦ วิเคราะห์เลย — ฟรี',
   'inp.name':'ชื่อของคุณ','inp.name.ph':'ชื่อ หรือชื่อเล่น',
@@ -1672,7 +1932,7 @@ th:{
 en:{
   'nav.home':'Home','nav.self':'Identity','nav.timing':'Timing','nav.decision':'Decisions','nav.profile':'Profile',
   'land.title1':'Understand Your Life','land.title2':'Develop Your Mind','land.title3':'Make Better Decisions',
-  'land.sub':'Not fortune-telling\nA mirror for your deepest self',
+  'land.sub':'Beyond fortune-telling\nYour life experiences are the deepest mirror of who you are',
   'land.start':'Start understanding yourself in 2 minutes','land.free':'Free · No signup required',
   'land.cta':'✦ Analyze — Free',
   'inp.name':'Your name','inp.name.ph':'Name or nickname',
@@ -1740,7 +2000,7 @@ en:{
 zh:{
   'nav.home':'主頁','nav.self':'自我','nav.timing':'時機','nav.decision':'決策','nav.profile':'個人',
   'land.title1':'了解您的生命','land.title2':'發展您的思維','land.title3':'做出更好的決定',
-  'land.sub':'不是算命\n而是反映最深層自我的鏡子',
+  'land.sub':'不只是算命\n因為人生經歷和功課，才是映照靈魂最深處的鏡子',
   'land.start':'2分鐘開始了解自己','land.free':'免費 · 無需註冊',
   'land.cta':'✦ 立即分析 — 免費',
   'inp.name':'您的名字','inp.name.ph':'姓名或暱稱',
@@ -2489,7 +2749,7 @@ function goToDash(){
   var p={name:tmp.name||'คุณ',dob:tmp.dob||'',time:tmp.time||'',place:tmp.place||'',
     archKey:tmp.archKey||'d',phaseKey:tmp.phaseKey||'a',at:new Date().toISOString()};
   lsS(LSP,p);lsD('_av_tmp');
-  rDash();go('sc-dash');
+  rDash();go('sc-dash');checkShowTour();
 }
 
 // ═══ QUIZ ═══
@@ -2873,20 +3133,45 @@ function rSelf(){
   el=document.getElementById('s-ref');if(el)el.textContent='"'+arch.ref+'"';
   el=document.getElementById('s-act');if(el)el.textContent=arch.act;
   el=document.getElementById('s-jprompt');if(el)el.textContent=arch.jprompt;
+  // ─── Executive Summary ───
+  rExecSummary(p,arch);
   rFullThemes('s-themes',arch);
   rStrengths('s-strengths',arch);
   rBlinds('s-blinds',arch);
   rSciences('s-sciences',p.dob);
   rNatalIdleCheck();
-  // Ba Zi (Layer III) — calculate directly, no API needed
   var bzEl=document.getElementById('bazi-content');
   if(bzEl){
     var bz=calcBaZi(p.dob,p.time);
     bzEl.innerHTML=bz?rBaZiCard(bz):'<div style="color:var(--tx3);font-size:13px">กรอกวันเกิดในโปรไฟล์เพื่อดูปาจื้อ</div>';
+    // save to auto summary
+    if(bz)saveSummaryPart('bazi','[ปาจื้อ]\nDay Master: ธาตุ'+bz.dayMaster+'\nธาตุเด่น: '+bz.dominant+'\nธาตุที่ขาด: '+(bz.missing||[]).join(', '));
   }
-  // Convergence Spider Chart
   rConvergenceChart(p,arch);
   rNewModulesInSelf(p);
+  // save archetype to auto summary
+  saveSummaryPart('archetype','[ตัวตนหลัก]\n'+arch.icon+' '+arch.name+' — '+arch.trait+'\n'+arch.core+'\nจุดแข็ง: '+(arch.strengths||[]).join(', ')+'\nจุดระวัง: '+(arch.blinds||[]).join(', '));
+}
+
+function rExecSummary(p,arch){
+  var el=document.getElementById('s-exec-summary');if(!el)return;
+  var bz=p.dob?calcBaZi(p.dob,p.time):null;
+  var lp=p.dob?lifePathNumber(p.dob):null;
+  var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
+  var natal=lsG(LSN);
+  var sunSign=natal&&natal.planets?Object.keys(natal.planets).reduce(function(acc,k){
+    if(k.toLowerCase()==='sun'&&natal.planets[k].sign)acc=SIGN_TH[natal.planets[k].sign]||natal.planets[k].sign;return acc;},''):null;
+  el.innerHTML='<div style="background:linear-gradient(135deg,rgba(176,64,255,.12),rgba(129,140,248,.08));border:1px solid rgba(176,64,255,.3);border-radius:14px;padding:14px;margin-bottom:14px">'
+    +'<div style="font-size:11px;color:var(--gold);font-weight:600;margin-bottom:10px;letter-spacing:1px">✦ Executive Summary — ภาพรวมของคุณ</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
+    +(arch.name?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">ตัวตนหลัก</div><div style="font-size:12px;font-weight:600;color:var(--tx)">'+arch.icon+' '+arch.name+'</div></div>':'')
+    +(phase.label?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">ช่วงชีวิต</div><div style="font-size:12px;font-weight:600;color:var(--tx)">'+phase.label+'</div></div>':'')
+    +(bz?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Day Master</div><div style="font-size:12px;font-weight:600;color:var(--tx)">ธาตุ'+bz.dayMaster+'</div></div>':'')
+    +(lp?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">เลขชีวิต</div><div style="font-size:12px;font-weight:600;color:var(--tx)">'+lp+'</div></div>':'')
+    +(sunSign?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">ดวงอาทิตย์</div><div style="font-size:12px;font-weight:600;color:var(--tx)">'+sunSign+'</div></div>':'')
+    +'</div>'
+    +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-top:10px">'+arch.core+'</div>'
+    +'</div>';
 }
 // ═══ CONVERGENCE ENGINE — Spider Chart + Text Summary
 // Synthesizes all available systems into 6 life dimensions.
@@ -3041,12 +3326,65 @@ function loadVoices(){
   }
 }
 
+// ─── AUTO SUMMARY ENGINE ───
+// สะสม text จากทุกหัวข้อที่ผู้ใช้ดู → พร้อม download ทันทีโดยไม่ต้องรอ AI
+var LS_SUM='av_sum';
+function saveSummaryPart(key,text){
+  var s=lsG(LS_SUM)||{};
+  s[key]=text;
+  lsS(LS_SUM,s);
+}
+function buildAutoSummary(){
+  var p=lsG(LSP)||{};
+  var s=lsG(LS_SUM)||{};
+  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
+  var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
+  var lines=['════════════════════════════════════',
+    '  ASTROVERA — รายงานวิเคราะห์ชีวิต',
+    '════════════════════════════════════',
+    'ชื่อ: '+(p.name||'—')+'   วันที่: '+new Date().toLocaleDateString('th-TH'),
+    'วันเกิด: '+(p.dob?fmtD(p.dob):'—')+'   สถานที่: '+(p.place||'—'),
+    ''];
+  // Archetype
+  lines.push('── ตัวตนหลัก (Archetype) ──');
+  lines.push(arch.icon+' '+arch.name+' — '+arch.nameTh);
+  lines.push(arch.core||'');
+  lines.push('จุดแข็ง: '+(arch.strengths||[]).join(', '));
+  lines.push('');
+  // Life Phase
+  lines.push('── ช่วงชีวิตตอนนี้ ──');
+  lines.push(phase.label+' ('+phase.labelEn+')');
+  lines.push(phase.insight||'');
+  lines.push('');
+  // Ba Zi
+  if(s.bazi){lines.push('── ปาจื้อ (八字) ──');lines.push(s.bazi);lines.push('');}
+  // Natal
+  if(s.natal){lines.push('── ดวงดาวจริง ──');lines.push(s.natal);lines.push('');}
+  // Numerology
+  if(s.numero){lines.push('── เลขศาสตร์ ──');lines.push(s.numero);lines.push('');}
+  // New modules
+  ['money','purpose','relationship','love','team','talent'].forEach(function(k){
+    if(s[k]){lines.push(s[k]);lines.push('');}
+  });
+  lines.push('════════════════════════════════════');
+  lines.push('astro-pwa.netlify.app');
+  return lines.join('\n');
+}
+
+var _lcAbort=null;
 async function loadLifeCoach(){
   var p=lsG(LSP)||{};
   if(!p.name){showLcError('กรอกชื่อในโปรไฟล์ก่อนนะครับ');return;}
   ['lc-loading'].forEach(function(id){document.getElementById(id).style.display='flex';});
   ['lc-content','lc-controls','lc-error'].forEach(function(id){document.getElementById(id).style.display='none';});
-  document.getElementById('lc-status').textContent='กำลังสร้างรายงาน...';
+  document.getElementById('lc-status').textContent='กำลังสร้างรายงาน AI...';
+
+  // ─── ตัวเลือก: ใช้สรุปอัตโนมัติก่อน (เร็วทันที) ───
+  var autoText=buildAutoSummary();
+  // แสดง auto summary ก่อนระหว่างรอ AI
+  var preScript='[รายงานอัตโนมัติ — กำลังปรับปรุงด้วย AI...]\n\n'+autoText;
+  showScriptSilent(preScript);
+  document.getElementById('lc-status').textContent='กำลังปรับปรุงด้วย AI (รอได้ หรือกดปิดเพื่อใช้รายงานอัตโนมัติ)...';
 
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
   var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
@@ -3054,27 +3392,61 @@ async function loadLifeCoach(){
   var lp=p.dob?lifePathNumber(p.dob):null;
   var natal=lsG(LSN);
   var payload={
-    name:p.name,
-    archetype:arch.name,archetypeTh:arch.trait,archetypeDesc:arch.core,
-    phase:phase.label,phaseDesc:phase.insight,
-    lifePathNum:lp,lifePathMeaning:lp?LIFE_PATH_MEANING[lp]:'',
+    name:p.name,archetype:arch.name,archetypeTh:arch.trait,archetypeDesc:arch.core,
+    phase:phase.label,phaseDesc:phase.insight,lifePathNum:lp,
+    lifePathMeaning:lp?LIFE_PATH_MEANING[lp]:'',
     baziDayMaster:bz?bz.dayMaster:'',baziDesc:bz?BZ_DAYMASTER_MEANING[bz.dayMaster]:'',
-    sunSign:natal&&natal.planets&&natal.planets.Sun?SIGN_TH[natal.planets.Sun.sign]||'':'',
-    moonSign:natal&&natal.planets&&natal.planets.Moon?SIGN_TH[natal.planets.Moon.sign]||'':'',
-    strengths:arch.strengths||[],blindspot:arch.blinds||[],
+    sunSign:natal&&natal.planets?SIGN_TH[(Object.values(natal.planets).find(function(x){return x&&x.sign;})||{}).sign]||'':'',
+    moonSign:'',strengths:arch.strengths||[],blindspot:arch.blinds||[],
     dominantEl:bz?bz.dominant:'',missingEl:bz?bz.missing:[]
   };
+
+  // AbortController — timeout 35 วินาที
+  _lcAbort=new AbortController();
+  var timeoutId=setTimeout(function(){
+    if(_lcAbort)_lcAbort.abort();
+  },35000);
 
   try{
     var res=await fetch('/.netlify/functions/life-coach',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
+      body:JSON.stringify(payload),
+      signal:_lcAbort.signal
     });
+    clearTimeout(timeoutId);
     var data=await res.json();
     if(!res.ok)throw new Error(data.error||'เกิดข้อผิดพลาด');
     lsS(LSC_SCRIPT,{script:data.script,profileKey:_lcProfileKey(p),name:p.name,date:new Date().toLocaleDateString('th-TH')});
     showScript(data.script,false);
-  }catch(e){showLcError(e.message);}
+  }catch(e){
+    clearTimeout(timeoutId);
+    if(e.name==='AbortError'){
+      // Timeout → ใช้ auto summary แทน
+      lsS(LSC_SCRIPT,{script:autoText,profileKey:_lcProfileKey(p),name:p.name,date:new Date().toLocaleDateString('th-TH')});
+      showScript(autoText,false);
+      document.getElementById('lc-status').textContent='ใช้รายงานอัตโนมัติ (AI ไม่ตอบในเวลา) — กด ▶ ฟังได้เลย';
+    } else {
+      // error อื่น → ยังใช้ auto summary ได้
+      lsS(LSC_SCRIPT,{script:autoText,profileKey:_lcProfileKey(p),name:p.name,date:new Date().toLocaleDateString('th-TH')});
+      showScript(autoText,false);
+      document.getElementById('lc-status').textContent='ใช้รายงานอัตโนมัติแทน ('+e.message+')';
+    }
+  }
+  _lcAbort=null;
+}
+
+function showScriptSilent(script){
+  // แสดง script โดยไม่ซ่อน loading
+  _lcScript=script;
+  document.getElementById('lc-content').style.display='block';
+  document.getElementById('lc-controls').style.display='block';
+  var html=script.split(/\n\n+/).map(function(para){
+    return '<p style="margin-bottom:14px">'+para.replace(/\n/g,'<br>')+'</p>';
+  }).join('');
+  document.getElementById('lc-script').innerHTML=html;
+  var rateSlider=document.getElementById('lc-rate');
+  var rateLabel=document.getElementById('lc-rate-label');
+  if(rateSlider&&rateLabel)rateSlider.oninput=function(){rateLabel.textContent=this.value+'x';};
 }
 
 function showScript(script,autoPlay){
@@ -3083,7 +3455,9 @@ function showScript(script,autoPlay){
   document.getElementById('lc-error').style.display='none';
   document.getElementById('lc-content').style.display='block';
   document.getElementById('lc-controls').style.display='block';
-  document.getElementById('lc-status').textContent='รายงานพร้อมแล้ว — กด ▶ ฟัง หรือ ดาวน์โหลด PDF';
+  if(!document.getElementById('lc-status').textContent.includes('อัตโนมัติ')){
+    document.getElementById('lc-status').textContent='รายงานพร้อมแล้ว — กด ▶ ฟัง หรือ ดาวน์โหลด';
+  }
   var html=script.split(/\n\n+/).map(function(para){
     return '<p style="margin-bottom:16px">'+para.replace(/\n/g,'<br>')+'</p>';
   }).join('');
@@ -3866,15 +4240,49 @@ function rFounder(){
   if(bizStyle)summaryParts.push('สไตล์การตัดสินใจด้านธุรกิจของคุณคือ '+bizStyle.name.replace('🧬 ',''));
   if(summaryParts.length===0)summaryParts.push('ยังมีข้อมูลด้านธุรกิจไม่มากพอ ลองเริ่มจากบันทึก Decision Journal หรือเพิ่มโอกาสใน Opportunity Radar');
   document.getElementById('fd-summary').textContent=summaryParts.join(' · ');
+
+  // ─── Business Timing Index ───
+  var btEl=document.getElementById('fd-timing');
+  if(btEl){
+    var bt=calcBusinessTiming();
+    var barColor=bt.index>=8?'var(--grn)':bt.index>=5?'var(--gold)':'var(--rose)';
+    btEl.innerHTML='<div class="card ci" style="margin-bottom:0">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+      +'<div><div style="font-size:13px;font-weight:600;color:var(--tx)">📊 Business Timing Index</div>'
+      +'<div style="font-size:11px;color:var(--tx3)">วัน'+bt.weekday+' · เลขพลังงาน '+bt.dateNum+' · '+bt.monthPhase+'</div></div>'
+      +'<div style="font-size:32px;font-weight:800;color:'+barColor+'">'+bt.index+'<span style="font-size:13px;color:var(--tx3)">/10</span></div></div>'
+      +'<div style="background:var(--bg4);border-radius:4px;height:6px;margin-bottom:10px">'
+      +'<div style="width:'+bt.index*10+'%;height:100%;border-radius:4px;background:'+barColor+';transition:width .5s"></div></div>'
+      +'<div style="font-size:12px;color:var(--tx2);margin-bottom:6px">'+bt.theme+'</div>'
+      +'<div style="font-size:11px;color:var(--tx3)">'+bt.caution+'</div>'
+      +'</div>';
+  }
 }
 
 // ═══ LIFE COPILOT — conversational, template replies grounded in real data ═══
 function rCopilot(){
+  // โหลด persona ที่บันทึกไว้
+  _veraPersona=localStorage.getItem('av_vera')||'baby';
+  var persona=VERA_PERSONAS[_veraPersona]||VERA_PERSONAS.baby;
+  // อัปเดต UI persona buttons
+  document.querySelectorAll('.vera-btn').forEach(function(btn){
+    var isActive=btn.dataset.v===_veraPersona;
+    btn.style.fontWeight=isActive?'700':'400';
+    btn.style.borderColor=isActive?persona.color:'rgba(176,64,255,.3)';
+    btn.style.color=isActive?persona.color:'var(--tx2)';
+  });
+  var nameEl=document.getElementById('cop-vera-name');
+  if(nameEl)nameEl.textContent=persona.name;
+  // อัปเดต starters
+  var startersEl=document.getElementById('cop-starters');
+  if(startersEl){
+    startersEl.innerHTML=persona.starters.map(function(s){
+      return '<div class="chip" style="flex:none" onclick="sendCopilot(\''+s+'\')">'+s+'</div>';
+    }).join('');
+  }
   var thread=lsG(LSC)||[];
   if(thread.length===0){
-    var p=lsG(LSP)||{};
-    var greet='สวัสดีครับ'+(p.name?' คุณ'+p.name:'')+' 👋 ผมคือ Life Copilot ถามอะไรก็ได้เลยครับ — เรื่องชีวิต การตัดสินใจ จุดแข็ง หรืออยากรู้ว่าตอนนี้ควรโฟกัสอะไร';
-    thread=[{role:'ai',text:greet}];
+    thread=[{role:'ai',text:persona.greeting}];
     lsS(LSC,thread);
   }
   renderCopThread(thread);
@@ -4107,8 +4515,11 @@ function scrollToNewModules(){
 function initStarField(){
   var bg=document.getElementById('star-field');
   if(!bg)return;
-  // Shooting stars (15 stars, mixed sizes)
-  var sizes=[30,50,60,80,100,40,70,55,45,90,35,65,75,85,50];
+  // ลดจำนวนดาวบน low-end device
+  var isMobile=window.innerWidth<=430&&navigator.maxTouchPoints>0;
+  var count=isMobile?8:15;
+  // Shooting stars
+  var sizes=[30,50,60,80,100,40,70,55,45,90,35,65,75,85,50].slice(0,count);
   var thicknesses=[1,1,2,1,2,1,1,2,1,2,1,1,2,1,1];
   sizes.forEach(function(w,i){
     var el=document.createElement('div');
@@ -4859,7 +5270,7 @@ function loadDemo(){
     initPlaceDropdown(p.place||'');
     rSelf();
     rTiming();
-    rDash();go('sc-dash');
+    rDash();go('sc-dash');checkShowTour();
   } else {
     // ผู้ใช้ใหม่หรือยังไม่ผ่าน onboarding — init dropdown เปล่าไว้รอกรอก
     initPlaceDropdown('');
@@ -5015,6 +5426,28 @@ function loadDemo(){
     <button onclick="closeShareModal()" style="width:100%;background:none;border:none;color:var(--tx3);font-size:13px;cursor:pointer;padding:8px">ปิด</button>
   </div>
 </div>
-
+<!-- ─── GUIDED TOUR MODAL ─── -->
+<div id="tour-modal" style="display:none;position:fixed;inset:0;z-index:1001;background:rgba(0,0,0,.82);align-items:flex-end;justify-content:center">
+  <div style="background:linear-gradient(135deg,#130028,#1C0040);border-radius:20px 20px 0 0;padding:28px 20px 40px;width:100%;max-width:430px;border:1px solid var(--border2);border-bottom:none">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:11px;color:var(--gold);letter-spacing:1px;margin-bottom:10px" id="tour-step">1/3</div>
+      <div style="font-size:42px;margin-bottom:12px" id="tour-icon">🧭</div>
+      <div style="font-size:18px;font-weight:700;color:var(--tx);margin-bottom:8px" id="tour-title">เริ่มที่ Self Intelligence</div>
+      <div style="font-size:14px;color:var(--tx2);line-height:1.6" id="tour-desc">ดูตัวตนหลัก ดวงดาว และการวิเคราะห์ทั้งหมดที่นี่</div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button onclick="skipTour()" style="flex:1;background:none;border:1px solid var(--border);color:var(--tx3);padding:12px;border-radius:12px;cursor:pointer;font-size:13px">ข้าม</button>
+      <button onclick="tourNext()" id="tour-btn" class="btn bg" style="flex:2">ไปดูเลย →</button>
+    </div>
+  </div>
+</div>
+<!-- ─── DAILY MENTAL SYNC SCREEN ─── -->
+<div class="sc" id="sc-daily-sync">
+  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">⚡ Daily Mental Sync</div><div style="font-size:12px;color:var(--tx3)" id="sync-ctr">1 / 3</div></div>
+  <div class="sb" style="padding:22px 18px">
+    <div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">สแกนพลังงานตัวเองประจำวัน 3 ข้อ → รับ Insight Card แชร์ได้ทันที</div>
+    <div id="sync-body"></div>
+  </div>
+</div>
 </body>
 </html>
