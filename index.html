@@ -210,6 +210,7 @@ textarea.if{resize:none}
 .modal-sheet{background:var(--bg2);border-radius:var(--r3) var(--r3) 0 0;padding:24px 20px;width:100%;max-width:430px;margin:0 auto;transform:translateY(30px);transition:transform .25s}
 .modal-overlay.open .modal-sheet{transform:translateY(0)}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
 .skel{background:var(--bg4);border-radius:var(--r1);animation:pulse 1.5s infinite}
 .protected{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -602,6 +603,17 @@ textarea.if{resize:none}
       <div id="s-sciences" class="protected"></div>
       <div class="dv" style="margin:11px 0"></div>
       <div style="font-size:11px;color:var(--tx3);line-height:1.6">แต่ละชั้นใช้เป็น Framework สะท้อนมุมมอง ไม่ใช่คำทำนายตายตัว — ยิ่งหลายชั้นชี้ไปทางเดียวกัน ยิ่งมีความหมายมากขึ้น</div>
+    </div>
+    <!-- Life Coach Audio Card -->
+    <div class="card" style="margin-bottom:13px;background:linear-gradient(135deg,rgba(22,53,40,0.8),rgba(45,106,79,0.3));border:1px solid rgba(255,183,3,0.25)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span style="font-size:22px">🎙️</span>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--tx)">ไลฟ์โค้ชส่วนตัว</div>
+          <div style="font-size:11px;color:var(--tx3)">AI สรุปชีวิตคุณเป็นเสียงพูด ใช้ข้อมูลจริงทุกศาสตร์</div>
+        </div>
+      </div>
+      <button class="btn bg" style="width:100%;font-size:14px" onclick="openLifeCoach()">▶ ฟังสรุปชีวิตของคุณ</button>
     </div>
     <div class="card" id="natal-card" style="margin-bottom:13px">
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🪐 ดวงดาวจริงของคุณ</div>
@@ -2345,6 +2357,185 @@ function rConvergenceChart(p,arch){
   sumEl.innerHTML=sum;
 }
 
+// ═══ LIFE COACH — AI-generated personalized script + Web Speech API TTS ═══
+var LSC_SCRIPT='av_lc_script'; // cache key สำหรับ script ที่สร้างแล้ว
+var _lcUtterance=null,_lcPlaying=false,_lcScript='',_lcVoices=[];
+
+function openLifeCoach(){
+  var modal=document.getElementById('lc-modal');
+  modal.style.display='flex';
+  document.body.style.overflow='hidden';
+  loadVoices();
+  // ถ้ามี cache และข้อมูล profile ยังตรงกัน ใช้ cache
+  var p=lsG(LSP)||{};
+  var cache=lsG(LSC_SCRIPT);
+  if(cache&&cache.profileKey===_lcProfileKey(p)){
+    showScript(cache.script);
+  } else {
+    loadLifeCoach();
+  }
+}
+
+function closeLifeCoach(){
+  lcStop();
+  var modal=document.getElementById('lc-modal');
+  modal.style.display='none';
+  document.body.style.overflow='';
+}
+
+function _lcProfileKey(p){
+  return [p.name,p.dob,p.archKey,p.phaseKey].join('|');
+}
+
+function loadVoices(){
+  function populate(){
+    _lcVoices=window.speechSynthesis.getVoices();
+    var sel=document.getElementById('lc-voice-sel');
+    if(!sel)return;
+    sel.innerHTML='';
+    // เอาเสียงไทยขึ้นก่อน แล้วตามด้วยเสียงอื่น
+    var thVoices=_lcVoices.filter(function(v){return v.lang.startsWith('th');});
+    var otherVoices=_lcVoices.filter(function(v){return !v.lang.startsWith('th');});
+    var ordered=thVoices.concat(otherVoices);
+    ordered.forEach(function(v,i){
+      var opt=document.createElement('option');
+      opt.value=i;
+      opt.textContent=(v.lang.startsWith('th')?'🇹🇭 ':'')+v.name+' ('+v.lang+')';
+      if(v.lang.startsWith('th'))opt.style.fontWeight='600';
+      sel.appendChild(opt);
+    });
+    // map index กลับ original array
+    sel._voiceMap=ordered;
+    var note=document.getElementById('lc-tts-note');
+    if(note){
+      if(thVoices.length>0){
+        note.textContent='✓ พบเสียงภาษาไทย '+thVoices.length+' เสียงในอุปกรณ์นี้';
+      } else {
+        note.textContent='⚠️ ไม่พบเสียงภาษาไทยในอุปกรณ์นี้ — ลองเลือกเสียงอื่นหรือเปิดในโทรศัพท์';
+        note.style.color='#FB7185';
+      }
+    }
+  }
+  populate();
+  if(speechSynthesis.onvoiceschanged!==undefined){
+    speechSynthesis.onvoiceschanged=populate;
+  }
+}
+
+async function loadLifeCoach(){
+  var p=lsG(LSP)||{};
+  if(!p.name){
+    showLcError('กรอกชื่อในโปรไฟล์ก่อนนะครับ');return;
+  }
+  // แสดง loading
+  document.getElementById('lc-loading').style.display='flex';
+  document.getElementById('lc-content').style.display='none';
+  document.getElementById('lc-controls').style.display='none';
+  document.getElementById('lc-error').style.display='none';
+  document.getElementById('lc-status').textContent='กำลังสร้าง script...';
+
+  // รวบรวมข้อมูลทั้งหมดของผู้ใช้
+  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
+  var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
+  var bz=p.dob?calcBaZi(p.dob,p.time):null;
+  var lp=p.dob?lifePathNumber(p.dob):null;
+  var natal=lsG(LSN);
+  var payload={
+    name:p.name,
+    archetype:arch.name,
+    archetypeTh:arch.trait,
+    archetypeDesc:arch.core,
+    phase:phase.label,
+    phaseDesc:phase.insight,
+    lifePathNum:lp,
+    lifePathMeaning:lp?LIFE_PATH_MEANING[lp]:'',
+    baziDayMaster:bz?bz.dayMaster:'',
+    baziDesc:bz?BZ_DAYMASTER_MEANING[bz.dayMaster]:'',
+    sunSign:natal&&natal.planets&&natal.planets.Sun?SIGN_TH[natal.planets.Sun.sign]||'':'',
+    moonSign:natal&&natal.planets&&natal.planets.Moon?SIGN_TH[natal.planets.Moon.sign]||'':'',
+    strengths:arch.strengths||[],
+    blindspot:arch.blinds||[],
+    dominantEl:bz?bz.dominant:'',
+    missingEl:bz?bz.missing:[]
+  };
+
+  try{
+    var res=await fetch('/.netlify/functions/life-coach',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    var data=await res.json();
+    if(!res.ok)throw new Error(data.error||'เกิดข้อผิดพลาด');
+    // cache ไว้
+    lsS(LSC_SCRIPT,{script:data.script,profileKey:_lcProfileKey(p)});
+    showScript(data.script);
+  }catch(e){
+    showLcError(e.message);
+  }
+}
+
+function showScript(script){
+  _lcScript=script;
+  document.getElementById('lc-loading').style.display='none';
+  document.getElementById('lc-error').style.display='none';
+  document.getElementById('lc-content').style.display='block';
+  document.getElementById('lc-controls').style.display='block';
+  document.getElementById('lc-status').textContent='พร้อมเล่น — กด ▶ เพื่อฟัง';
+  // แสดงข้อความ — แบ่งเป็น paragraph
+  var html=script.split(/\n\n+/).map(function(para){
+    return '<p style="margin-bottom:16px">'+para.replace(/\n/g,'<br>')+'</p>';
+  }).join('');
+  document.getElementById('lc-script').innerHTML=html;
+  // speed slider
+  var rateSlider=document.getElementById('lc-rate');
+  var rateLabel=document.getElementById('lc-rate-label');
+  if(rateSlider&&rateLabel){
+    rateSlider.oninput=function(){rateLabel.textContent=this.value+'x';};
+  }
+}
+
+function showLcError(msg){
+  document.getElementById('lc-loading').style.display='none';
+  document.getElementById('lc-content').style.display='none';
+  document.getElementById('lc-controls').style.display='none';
+  document.getElementById('lc-error').style.display='flex';
+  document.getElementById('lc-error-msg').textContent=msg;
+  document.getElementById('lc-status').textContent='เกิดข้อผิดพลาด';
+}
+
+function lcPlay(){
+  if(!_lcScript)return;
+  if(window.speechSynthesis.paused){window.speechSynthesis.resume();return;}
+  window.speechSynthesis.cancel();
+  _lcUtterance=new SpeechSynthesisUtterance(_lcScript);
+  // ใช้เสียงที่เลือก
+  var sel=document.getElementById('lc-voice-sel');
+  if(sel&&sel._voiceMap&&sel._voiceMap[sel.value]){
+    _lcUtterance.voice=sel._voiceMap[parseInt(sel.value)];
+  }
+  // ความเร็ว
+  var rate=parseFloat((document.getElementById('lc-rate')||{value:'0.9'}).value)||0.9;
+  _lcUtterance.rate=rate;
+  _lcUtterance.pitch=1.0;
+  _lcUtterance.onstart=function(){
+    document.getElementById('lc-play-btn').textContent='🔊';
+    document.getElementById('lc-status').textContent='กำลังเล่น...';
+  };
+  _lcUtterance.onend=function(){
+    document.getElementById('lc-play-btn').textContent='▶';
+    document.getElementById('lc-status').textContent='เล่นจบแล้ว — กด ↺ เพื่อเล่นซ้ำ';
+  };
+  _lcUtterance.onerror=function(e){
+    document.getElementById('lc-play-btn').textContent='▶';
+    document.getElementById('lc-status').textContent='เล่นเสียงไม่ได้: '+e.error;
+  };
+  window.speechSynthesis.speak(_lcUtterance);
+}
+
+function lcPause(){window.speechSynthesis.pause();document.getElementById('lc-play-btn').textContent='▶';document.getElementById('lc-status').textContent='หยุดชั่วคราว';}
+function lcStop(){window.speechSynthesis.cancel();document.getElementById('lc-play-btn')&&(document.getElementById('lc-play-btn').textContent='▶');document.getElementById('lc-status')&&(document.getElementById('lc-status').textContent='หยุดแล้ว');}
+function lcRestart(){window.speechSynthesis.cancel();setTimeout(lcPlay,200);}
+
 // ═══ LIFE TIMING — render phase saved in profile (real, set by Quiz Q2) ═══
 function rTiming(){
   var p=lsG(LSP)||{};
@@ -3010,70 +3201,126 @@ function rCopilot(){
   var thread=lsG(LSC)||[];
   if(thread.length===0){
     var p=lsG(LSP)||{};
-    var greet='สวัสดีครับ'+(p.name?' คุณ'+p.name:'')+' 👋 ผมคือ Life Copilot จะช่วยสรุปและตอบคำถามจากข้อมูลจริงที่คุณบันทึกไว้ในแอป ลองถามอะไรก็ได้เลยครับ';
+    var greet='สวัสดีครับ'+(p.name?' คุณ'+p.name:'')+' 👋 ผมคือ Life Copilot ถามอะไรก็ได้เลยครับ — เรื่องชีวิต การตัดสินใจ จุดแข็ง หรืออยากรู้ว่าตอนนี้ควรโฟกัสอะไร';
     thread=[{role:'ai',text:greet}];
     lsS(LSC,thread);
   }
   renderCopThread(thread);
 }
+
 function renderCopThread(thread){
   var el=document.getElementById('cop-thread');
   if(!el)return;
   el.innerHTML=thread.map(function(m){
+    if(m.role==='typing'){
+      return '<div style="display:flex;justify-content:flex-start;margin-bottom:10px">'
+        +'<div style="padding:10px 16px;border-radius:14px 14px 14px 3px;background:var(--bg3);border:1px solid var(--border)">'
+        +'<span style="display:inline-flex;gap:4px">'
+        +'<span style="width:6px;height:6px;background:var(--tx3);border-radius:50%;animation:bounce 1s infinite 0s"></span>'
+        +'<span style="width:6px;height:6px;background:var(--tx3);border-radius:50%;animation:bounce 1s infinite .2s"></span>'
+        +'<span style="width:6px;height:6px;background:var(--tx3);border-radius:50%;animation:bounce 1s infinite .4s"></span>'
+        +'</span></div></div>';
+    }
     var isUser=m.role==='user';
+    var txt=m.text||'';
+    // แปลง newline เป็น <br> สำหรับข้อความ AI
+    if(!isUser) txt=txt.replace(/\n/g,'<br>');
     return '<div style="display:flex;justify-content:'+(isUser?'flex-end':'flex-start')+';margin-bottom:10px">'
-      +'<div style="max-width:78%;padding:10px 14px;border-radius:'+(isUser?'14px 14px 3px 14px':'14px 14px 14px 3px')+';background:'+(isUser?'var(--gold)':'var(--bg3)')+';color:'+(isUser?'#1a1408':'var(--tx)')+';font-size:14px;line-height:1.6;border:'+(isUser?'none':'1px solid var(--border)')+'">'+esc(m.text)+'</div></div>';
+      +'<div style="max-width:82%;padding:10px 14px;border-radius:'+(isUser?'14px 14px 3px 14px':'14px 14px 14px 3px')+';background:'+(isUser?'var(--gold)':'var(--bg3)')+';color:'+(isUser?'#1a1408':'var(--tx)')+';font-size:14px;line-height:1.6;border:'+(isUser?'none':'1px solid var(--border)')+'">'+txt+'</div></div>';
   }).join('');
   el.scrollTop=el.scrollHeight;
 }
+
 function sendCopilot(text){
   var thread=lsG(LSC)||[];
   thread.push({role:'user',text:text});
-  var reply=genCopilotReply(text);
-  thread.push({role:'ai',text:reply});
+  // แสดง typing indicator
+  var withTyping=thread.concat([{role:'typing'}]);
+  renderCopThread(withTyping);
   lsS(LSC,thread);
-  renderCopThread(thread);
+  // disable input ระหว่างรอ
+  var inp=document.getElementById('cop-input');
+  var btn=document.querySelector('#sc-copilot button[onclick*="sendCopilot"]');
+  if(inp)inp.disabled=true;
+  if(btn)btn.disabled=true;
+  genCopilotReply(text,thread).then(function(reply){
+    thread.push({role:'ai',text:reply});
+    lsS(LSC,thread);
+    renderCopThread(thread);
+    if(inp){inp.disabled=false;inp.focus();}
+    if(btn)btn.disabled=false;
+  }).catch(function(e){
+    thread.push({role:'ai',text:'ขอโทษครับ ตอบไม่ได้ตอนนี้ ('+e.message+') ลองใหม่อีกครั้งนะครับ'});
+    lsS(LSC,thread);
+    renderCopThread(thread);
+    if(inp){inp.disabled=false;}
+    if(btn)btn.disabled=false;
+  });
 }
+
 function sendCopilotInput(){
   var inp=document.getElementById('cop-input');
   var text=(inp.value||'').trim();
-  if(!text)return;
+  if(!text||inp.disabled)return;
   inp.value='';
   sendCopilot(text);
 }
-function genCopilotReply(msg){
+
+async function genCopilotReply(msg,thread){
+  var p=lsG(LSP)||{};
   var journals=lsG(LSJ)||[];
   var emos=lsG(LSE)||[];
   var weekly=lsG(LSW)||[];
-  var totalFU=0,doneFU=0;
-  journals.forEach(function(j){j.followups.forEach(function(f){totalFU++;if(f.done)doneFU++;});});
-  if(/สรุป|summary/.test(msg)){
-    var parts=[];
-    parts.push('ช่วงนี้คุณบันทึก Journal ไปแล้ว '+journals.length+' รายการ');
-    if(emos.length>0)parts.push('Check-in อารมณ์ '+emos.length+' ครั้ง');
-    if(weekly.length>0)parts.push('Weekly Reflection '+weekly.length+' ครั้ง');
-    if(totalFU>0)parts.push('ติดตามผลสำเร็จไปแล้ว '+doneFU+'/'+totalFU+' รายการ');
-    return parts.join(' · ')+' 🙂';
-  }
-  if(/โฟกัส|ทำอะไรดี|ควรทำ/.test(msg)){
-    var dueJournal=null;
-    journals.forEach(function(j){j.followups.forEach(function(f){if(!f.done&&isDue(f.date))dueJournal=dueJournal||j;});});
-    if(dueJournal)return 'มี Follow-up ของ "'+dueJournal.title+'" ที่ถึงกำหนดแล้ว ลองไปบันทึกผลก่อนเลยครับ จะช่วยให้ Decision DNA แม่นยำขึ้นด้วย';
-    var opps=lsG(LSO)||[];
-    if(opps.length>0){
-      var top=opps.slice().sort(function(a,b){return computeOppScore(b)-computeOppScore(a);})[0];
-      return 'จาก Opportunity Radar "'+top.name+'" มีคะแนนสูงสุดตอนนี้ ('+computeOppScore(top)+'/100) ลองพิจารณาดูก่อนได้ครับ';
+  var opps=lsG(LSO)||[];
+  var natal=lsG(LSN);
+  var bz=p.dob?calcBaZi(p.dob,p.time):null;
+  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
+  var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
+  var lp=p.dob?lifePathNumber(p.dob):null;
+
+  // สร้าง history สำหรับ API (เฉพาะ user/ai ไม่รวม typing)
+  var history=(thread||[]).filter(function(m){return m.role==='user'||m.role==='ai';})
+    .slice(-8)
+    .map(function(m){return{role:m.role==='user'?'user':'assistant',content:m.text};});
+  // เอา message ล่าสุดออกจาก history (จะส่งแยก)
+  if(history.length>0&&history[history.length-1].role==='user'){history.pop();}
+
+  var payload={
+    message:msg,
+    history:history,
+    isPremium:!!(p.archKey&&p.phaseKey), // ถ้ามี profile ครบ = paid
+    profile:{
+      name:p.name,
+      archetype:arch.name,
+      archetypeDesc:arch.core||arch.trait,
+      phase:phase.label,
+      phaseDesc:phase.insight,
+      baziDayMaster:bz?bz.dayMaster:'',
+      baziDesc:bz?BZ_DAYMASTER_MEANING[bz.dayMaster]:'',
+      lifePathNum:lp,
+      lifePathMeaning:lp?LIFE_PATH_MEANING[lp]:'',
+      sunSign:natal&&natal.planets&&natal.planets.Sun?SIGN_TH[natal.planets.Sun.sign]||'':'',
+      moonSign:natal&&natal.planets&&natal.planets.Moon?SIGN_TH[natal.planets.Moon.sign]||'':'',
+      strengths:arch.strengths||[],
+      blindspot:arch.blinds||[],
+      missingEl:bz?bz.missing:[],
+      // ข้อมูลจริงที่บันทึก
+      journals:journals.slice(0,5).map(function(j){return{title:j.title,type:j.type,date:j.date,confidence:j.confidence};}),
+      emotions:emos.slice(0,3).map(function(e){return{label:e.label,date:e.date};}),
+      weekly:weekly.slice(0,2).map(function(w){return{q1:w.q1,q2:w.q2};}),
+      opportunities:opps.slice(0,3).map(function(o){return{name:o.name,score:computeOppScore(o)};})
     }
-    return 'ตอนนี้ยังไม่มีอะไรค้างคาเป็นพิเศษ ลองใช้เวลานี้ทำ Weekly Reflection หรือ Check-in อารมณ์เพื่อเก็บข้อมูลเพิ่มก็ได้ครับ';
-  }
-  if(/เหนื่อย|กังวล|เครียด|ไม่ไหว/.test(msg)){
-    return 'ขอบคุณที่บอกนะครับ การรู้ตัวว่าเหนื่อยเป็นจุดเริ่มต้นที่ดี ลองพัก Check-in อารมณ์ไว้สักหน่อยไหมครับ จะได้เก็บเป็นข้อมูลให้ Pattern Mining ช่วยดูแนวโน้มในระยะยาวให้คุณ';
-  }
-  if(/สวัสดี|^hi$|hello/.test(msg)){
-    return 'สวัสดีครับ 👋 มีอะไรให้ช่วยดูจากข้อมูลที่คุณบันทึกไว้ไหมครับ';
-  }
-  return 'รับทราบครับ ตอนนี้ผมตอบจากข้อมูลจริงที่คุณบันทึกในแอปเป็นหลัก (Journal, Check-in, Opportunity Radar) ลองถามเรื่องที่เกี่ยวกับสิ่งที่คุณบันทึกไว้ดูได้ครับ เช่น "สรุปสัปดาห์นี้ให้หน่อย" หรือ "ตอนนี้ควรโฟกัสอะไร"';
+  };
+
+  var res=await fetch('/.netlify/functions/life-copilot',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  });
+  var data=await res.json();
+  if(!res.ok)throw new Error(data.error||'API error');
+  return data.reply;
 }
+
 
 // ═══ PROFILE REFRESH ═══
 function rProfile(){
@@ -3249,5 +3496,58 @@ function loadDemo(){
   rDash();
 })();
 </script>
+<!-- ─── LIFE COACH MODAL ─── -->
+<div id="lc-modal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(8,43,36,0.97);flex-direction:column;padding:24px 20px 32px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+    <div>
+      <div style="font-size:16px;font-weight:700;color:var(--tx)">🎙️ ไลฟ์โค้ชส่วนตัว</div>
+      <div style="font-size:11px;color:var(--tx3)" id="lc-status">กำลังสร้าง script...</div>
+    </div>
+    <button onclick="closeLifeCoach()" style="background:rgba(255,255,255,0.08);border:none;color:var(--tx);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer">✕</button>
+  </div>
+
+  <!-- Loading state -->
+  <div id="lc-loading" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+    <div style="width:48px;height:48px;border:3px solid rgba(255,183,3,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite"></div>
+    <div style="font-size:13px;color:var(--tx3);text-align:center">AI กำลังอ่านข้อมูลทั้งหมดของคุณ<br>และสร้าง script ไลฟ์โค้ชส่วนตัว...</div>
+  </div>
+
+  <!-- Script content -->
+  <div id="lc-content" style="display:none;flex:1;overflow-y:auto">
+    <div id="lc-script" style="font-size:15px;color:var(--tx2);line-height:1.9;padding-bottom:16px"></div>
+  </div>
+
+  <!-- Error state -->
+  <div id="lc-error" style="display:none;flex:1;align-items:center;justify-content:center;padding:20px;text-align:center">
+    <div>
+      <div style="font-size:32px;margin-bottom:10px">⚠️</div>
+      <div id="lc-error-msg" style="font-size:13px;color:#FB7185;line-height:1.6;margin-bottom:14px"></div>
+      <button class="btn bgh bsm" onclick="loadLifeCoach()">ลองใหม่</button>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div id="lc-controls" style="display:none;margin-top:20px">
+    <!-- Voice selector -->
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;color:var(--tx3);display:block;margin-bottom:5px">เสียงที่ใช้</label>
+      <select id="lc-voice-sel" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--tx);padding:8px 10px;border-radius:8px;font-size:13px"></select>
+    </div>
+    <!-- Speed -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <span style="font-size:11px;color:var(--tx3);white-space:nowrap">ความเร็ว</span>
+      <input id="lc-rate" type="range" min="0.7" max="1.5" step="0.1" value="0.9" style="flex:1;accent-color:var(--gold)">
+      <span id="lc-rate-label" style="font-size:11px;color:var(--tx3);width:28px">0.9x</span>
+    </div>
+    <!-- Play controls -->
+    <div style="display:flex;gap:10px">
+      <button id="lc-play-btn" onclick="lcPlay()" class="btn bg" style="flex:1;font-size:18px">▶</button>
+      <button onclick="lcPause()" class="btn bgh" style="flex:1;font-size:18px">⏸</button>
+      <button onclick="lcStop()" class="btn bgh" style="flex:1;font-size:18px">⏹</button>
+      <button onclick="lcRestart()" class="btn bgh" style="flex:1;font-size:16px">↺</button>
+    </div>
+    <div style="margin-top:10px;text-align:center;font-size:11px;color:var(--tx3)" id="lc-tts-note"></div>
+  </div>
+</div>
 </body>
 </html>
