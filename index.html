@@ -28,8 +28,8 @@
 
 <!-- ===== PWA ===== -->
 <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#163528">
-<meta name="background-color" content="#082B24">
+<meta name="theme-color" content="#130028">
+<meta name="background-color" content="#0A0118">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ASTROVERA">
@@ -58,14 +58,14 @@
   }
 </script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#082B24;--bg2:#0E3A30;--bg3:#0E3A30;--bg4:#154A3D;
-  --border:#1E5C4B;--border2:#2A7560;
-  --gold:#D4AF37;--gold2:#E8C968;--glow:rgba(212,175,55,.16);--gdim:#9C7F28;
-  --ind:#8B9FF5;--ind2:#A3B3F7;--iglow:rgba(139,159,245,.12);
-  --pur:#C9A8F5;--pur2:#D9C0F7;--teal:#4FD9C4;--rose:#F08099;--grn:#5FD9A8;
-  --tx:#F5EFE0;--tx2:#C9BBA0;--tx3:#9FAFA5;
+  /* ═══ ULTRAVIOLET DARK SPACE THEME ═══ */
+  --bg:#0A0118;--bg2:#130028;--bg3:#1C0040;--bg4:#27005A;
+  --border:rgba(176,64,255,.22);--border2:rgba(176,64,255,.42);
+  --gold:#B040FF;--gold2:#E0A0FF;--glow:rgba(176,64,255,.22);--gdim:#7B00D4;
+  --ind:#818CF8;--ind2:#A3B3F7;--iglow:rgba(129,140,248,.14);
+  --pur:#C084FC;--pur2:#DDD6FE;--teal:#A78BFA;--rose:#F472B6;--grn:#C084FC;
+  --tx:#F5F0FF;--tx2:#C9A8FF;--tx3:#8B6BAE;
   --fn:"Noto Sans Thai","Inter","SF Pro Text",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
   --fh:"Noto Sans Thai","Inter",-apple-system,sans-serif;
   --fl:"Georgia","Times New Roman",serif;
@@ -73,12 +73,12 @@
 }
 html,body{height:100%;margin:0}
 body{min-height:100vh;background:var(--bg);font-family:var(--fn);color:var(--tx);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-#app{width:100%;max-width:430px;min-height:100vh;height:100vh;margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 0 60px rgba(212,175,55,.10)}
+#app{width:100%;max-width:430px;min-height:100vh;height:100vh;margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 0 80px rgba(176,64,255,.15)}
 
-/* ═══ TABLET / iPad RESPONSIVE ═══ */
+/* ═══ TABLET RESPONSIVE ═══ */
 @media (min-width:600px){
   body{background:var(--bg2);display:flex;align-items:center;justify-content:center;padding:28px 0}
-  #app{max-width:460px;height:90vh;max-height:900px;min-height:600px;border-radius:28px;box-shadow:0 24px 60px rgba(0,0,0,.35),0 0 0 1px var(--border);overflow:hidden}
+  #app{max-width:460px;height:90vh;max-height:900px;min-height:600px;border-radius:28px;box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px var(--border),0 0 60px rgba(176,64,255,.12);overflow:hidden}
   .btn{padding:17px 22px;font-size:17px;min-height:54px}
   .bni{padding:11px 6px}
   .bni span:first-child{font-size:22px}
@@ -86,97 +86,116 @@ body{min-height:100vh;background:var(--bg);font-family:var(--fn);color:var(--tx)
   .if{padding:15px 16px;font-size:16px}
   .bk-btn{width:40px;height:40px}
 }
-@media (min-width:900px){
-  #app{max-width:500px}
-}
+@media (min-width:900px){#app{max-width:500px}}
 .sc{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);visibility:hidden;opacity:0;transition:opacity .2s;overflow:hidden;z-index:1}
 .sc.on{visibility:visible;opacity:1;z-index:2}
 .sb{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:90px}
 .sb::-webkit-scrollbar{display:none}
-.tb{display:flex;align-items:center;padding:14px 18px;background:var(--bg2);border-bottom:1px solid var(--border);gap:10px;min-height:56px;flex-shrink:0}
-.bk-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border2);background:transparent;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--tx2)}
+.tb{display:flex;align-items:center;padding:14px 18px;background:rgba(19,0,40,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);gap:10px;min-height:56px;flex-shrink:0}
+.bk-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:rgba(176,64,255,.08);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--tx2)}
 .tb-t{flex:1;font-weight:600;font-size:16px;color:var(--tx)}
-.tb-act{padding:8px 16px;border-radius:20px;border:none;background:var(--gold);color:var(--bg);font-size:13px;font-weight:700;cursor:pointer}
-.bnav{display:flex;background:var(--bg2);border-top:1px solid var(--border);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,4px)}
+.tb-act{padding:8px 16px;border-radius:20px;border:none;background:var(--gold);color:#fff;font-size:13px;font-weight:700;cursor:pointer}
+.bnav{display:flex;background:rgba(13,0,32,.92);backdrop-filter:blur(16px);border-top:1px solid var(--border);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,4px)}
 .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;cursor:pointer;border:none;background:none;gap:2px}
 .bni span:first-child{font-size:20px;line-height:1}
 .bni span:last-child{font-size:10px;font-weight:500;color:var(--tx3)}
 .bni.on span:last-child{color:var(--gold)}
-.card{background:var(--bg3);border-radius:var(--r3);padding:20px;border:1px solid var(--border)}
-.cg{border-color:var(--gdim)!important;box-shadow:0 0 24px var(--glow)}
-.ci{border-color:rgba(99,102,241,.35)!important;box-shadow:0 0 16px var(--iglow)}
-.cp{border-color:rgba(168,85,247,.35)!important}
-.ct{border-color:rgba(45,212,191,.3)!important;background:rgba(45,212,191,.03)}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px 20px;border-radius:var(--r3);border:none;cursor:pointer;font-weight:600;font-size:16px;width:100%;transition:opacity .12s}
-.btn:active{opacity:.8}
-.bg{background:linear-gradient(135deg,#D4AF37,#E8C968);color:#082B24}
+
+/* ═══ CARD — with star glow effect ═══ */
+.card{background:linear-gradient(135deg,rgba(28,0,64,.9),rgba(39,0,90,.7));border-radius:var(--r3);padding:20px;border:1px solid var(--border);position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(176,64,255,.06) 0%,transparent 50%,rgba(224,160,255,.04) 100%);pointer-events:none;border-radius:inherit}
+/* Shooting star trail on cards */
+.card::before{content:'';position:absolute;top:-40px;right:-40px;width:80px;height:1px;background:linear-gradient(90deg,transparent,rgba(176,64,255,.8),rgba(224,160,255,.4),transparent);transform:rotate(-45deg);animation:star-trail var(--star-dur,7s) linear infinite;animation-delay:var(--star-del,0s);opacity:0}
+@keyframes star-trail{0%{top:-40px;right:-40px;opacity:0}10%{opacity:.8}40%{opacity:.4}80%{top:120%;right:120%;opacity:0}100%{top:120%;right:120%;opacity:0}}
+
+.cg{border-color:rgba(176,64,255,.5)!important;box-shadow:0 0 30px rgba(176,64,255,.15),0 0 60px rgba(176,64,255,.06)}
+.ci{border-color:rgba(129,140,248,.4)!important;box-shadow:0 0 20px var(--iglow)}
+.cp{border-color:rgba(192,132,252,.4)!important}
+.ct{border-color:rgba(167,139,250,.3)!important;background:rgba(167,139,250,.04)}
+
+/* ═══ BUTTONS ═══ */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px 20px;border-radius:var(--r3);border:none;cursor:pointer;font-weight:600;font-size:16px;width:100%;transition:all .15s;position:relative;overflow:hidden}
+.btn:active{opacity:.85;transform:scale(.98)}
+/* Shimmer sweep on buttons */
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transform:skewX(-15deg);animation:btn-shine 4s ease-in-out infinite}
+@keyframes btn-shine{0%,70%,100%{left:-100%}40%{left:130%}}
+.bg{background:linear-gradient(135deg,#B040FF,#7B00D4);color:#fff;box-shadow:0 4px 24px rgba(176,64,255,.4)}
 .bo{background:transparent;border:1px solid var(--gold);color:var(--gold)}
-.bgh{background:var(--bg4);color:var(--tx2);font-size:14px}
+.bgh{background:rgba(176,64,255,.1);color:var(--tx2);font-size:14px;border:1px solid var(--border)}
 .bi{background:linear-gradient(135deg,#6366F1,#818CF8);color:#fff}
-.bt{background:linear-gradient(135deg,#0d9488,#2DD4BF);color:#fff}
-.bd{background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.3);color:var(--rose)}
+.bt{background:linear-gradient(135deg,#7B00D4,#A855F7);color:#fff}
+.bd{background:rgba(244,114,182,.1);border:1px solid rgba(244,114,182,.3);color:var(--rose)}
 .bsm{padding:10px 18px;font-size:14px;width:auto;border-radius:var(--r2)}
 .ig{margin-bottom:14px}
 .il{font-size:13px;font-weight:500;color:var(--tx2);margin-bottom:7px;display:block}
-.if{width:100%;padding:13px 15px;border:1px solid var(--border2);border-radius:var(--r2);font-size:16px;color:var(--tx);background:var(--bg3);outline:none;font-family:var(--fn);transition:border-color .15s}
-.if:focus{border-color:var(--gold)}
+.if{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:var(--r2);font-size:16px;color:var(--tx);background:rgba(28,0,64,.6);outline:none;font-family:var(--fn);transition:border-color .15s}
+.if:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(176,64,255,.1)}
 .if::placeholder{color:var(--tx3)}
 textarea.if{resize:none}
-#toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--bg4);border:1px solid var(--border2);color:var(--tx);padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;z-index:999;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+#toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1C0040,#27005A);border:1px solid var(--border2);color:var(--tx);padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;white-space:nowrap;z-index:999;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;box-shadow:0 4px 24px rgba(176,64,255,.3)}
 #toast.on{opacity:1}
 .dv{height:1px;background:var(--border);margin:14px 0}
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .sht{font-size:15px;font-weight:600;color:var(--tx)}
 .shl{font-size:13px;color:var(--gold);cursor:pointer;font-weight:500}
+
+/* ═══ LOGO ═══ */
 .logo-m{display:flex;align-items:center;gap:10px}
-.logo-i{width:34px;height:34px;border-radius:9px;background:#082B24;border:1px solid rgba(212,175,55,.4);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.logo-i{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#1C0040,#4B0082);border:1px solid rgba(176,64,255,.5);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 0 16px rgba(176,64,255,.3)}
 .logo-i svg{width:26px;height:26px}
-.logo-t{font-family:var(--fl);font-weight:700;font-size:19px;color:var(--gold);letter-spacing:1px}
+.logo-t{font-family:var(--fl);font-weight:700;font-size:19px;background:linear-gradient(135deg,#E0A0FF,#B040FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px}
 .logo-s{font-size:10px;color:var(--tx3);letter-spacing:1.5px;text-transform:uppercase;margin-top:-2px}
-.mtag{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);font-size:12px;color:var(--gold);font-weight:600}
-.arc{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:20px;background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(99,102,241,.1));border:1px solid rgba(168,85,247,.3);font-size:13px;color:var(--pur2);font-weight:700}
+.mtag{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;background:rgba(176,64,255,.12);border:1px solid rgba(176,64,255,.3);font-size:12px;color:var(--gold2);font-weight:600}
+.arc{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:20px;background:linear-gradient(135deg,rgba(176,64,255,.18),rgba(129,140,248,.1));border:1px solid rgba(176,64,255,.35);font-size:13px;color:var(--pur2);font-weight:700}
 .cbar{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-bottom:12px}
 .cfill{height:100%;border-radius:2px}
-.qopt{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:14px 15px;margin-bottom:9px;cursor:pointer;font-size:14px;color:var(--tx2);transition:all .15s;display:flex;align-items:center;gap:11px}
-.qopt.sel{border-color:var(--gold);background:rgba(201,169,110,.08);color:var(--tx)}
-.qdot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0}
-.qopt.sel .qdot{border-color:var(--gold);background:var(--gold)}
+
+/* ═══ QUIZ OPTIONS ═══ */
+.qopt{background:rgba(28,0,64,.7);border:1px solid var(--border);border-radius:var(--r2);padding:14px 15px;margin-bottom:9px;cursor:pointer;font-size:14px;color:var(--tx2);transition:all .15s;display:flex;align-items:center;gap:11px}
+.qopt:hover{border-color:rgba(176,64,255,.4);background:rgba(176,64,255,.06)}
+.qopt.sel{border-color:var(--gold);background:rgba(176,64,255,.12);color:var(--tx);box-shadow:0 0 16px rgba(176,64,255,.15)}
+.qdot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0}
+.qopt.sel .qdot{border-color:var(--gold);background:var(--gold);box-shadow:0 0 8px var(--gold)}
 .step-row{display:flex;gap:4px;margin-bottom:20px}
 .sdot{flex:1;height:3px;border-radius:2px;background:var(--bg4)}
-.sdot.on{background:var(--gold)}
+.sdot.on{background:linear-gradient(90deg,var(--gold),var(--gold2))}
 .sdot.dn{background:var(--gdim)}
-.plan{background:var(--bg3);border-radius:var(--r3);padding:20px;border:1px solid var(--border);cursor:pointer;transition:all .15s;position:relative}
-.plan.sel{border-color:var(--gold)!important;box-shadow:0 0 20px var(--glow)}
-.plan.hot::before{content:"ยอดนิยม";position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--bg);font-size:11px;font-weight:700;padding:3px 12px;border-radius:10px}
-.orb{position:absolute;border-radius:50%;pointer-events:none;opacity:.06}
-.jcard{background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer;margin-bottom:9px;transition:border-color .15s}
-.jdue{border-color:rgba(45,212,191,.4)!important;background:rgba(45,212,191,.03)}
+
+/* ═══ PLANS & JOURNAL ═══ */
+.plan{background:rgba(28,0,64,.8);border-radius:var(--r3);padding:20px;border:1px solid var(--border);cursor:pointer;transition:all .15s;position:relative}
+.plan.sel{border-color:var(--gold)!important;box-shadow:0 0 30px rgba(176,64,255,.2)}
+.plan.hot::before{content:"ยอดนิยม";position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:10px}
+.orb{position:absolute;border-radius:50%;pointer-events:none;opacity:.08}
+.jcard{background:rgba(28,0,64,.7);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer;margin-bottom:9px;transition:border-color .15s}
+.jcard:hover{border-color:rgba(176,64,255,.4)}
+.jdue{border-color:rgba(167,139,250,.45)!important;background:rgba(167,139,250,.04)}
 .empty{text-align:center;padding:40px 20px}
 .emj{font-size:46px;margin-bottom:13px;opacity:.4}
 .emt{font-size:15px;font-weight:600;color:var(--tx2);margin-bottom:7px}
 .emd{font-size:13px;color:var(--tx3);line-height:1.6}
 .chips{display:flex;gap:7px;flex-wrap:wrap}
 .sb::-webkit-scrollbar{width:6px}
-.sb::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
+.sb::-webkit-scrollbar-thumb{background:rgba(176,64,255,.3);border-radius:10px}
 .sb::-webkit-scrollbar-track{background:transparent}
-.chip{padding:9px 6px;border-radius:var(--r1);border:1px solid var(--border2);background:var(--bg4);cursor:pointer;text-align:center;font-size:12px;color:var(--tx3);transition:all .15s;line-height:1.4;flex:1}
-.chip.sel{border-color:var(--gold);background:rgba(201,169,110,.1);color:var(--gold)}
+.chip{padding:9px 6px;border-radius:var(--r1);border:1px solid var(--border);background:rgba(28,0,64,.5);cursor:pointer;text-align:center;font-size:12px;color:var(--tx3);transition:all .15s;line-height:1.4;flex:1}
+.chip.sel{border-color:var(--gold);background:rgba(176,64,255,.12);color:var(--gold)}
 .fpill{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
-.fdue{background:rgba(45,212,191,.15);color:var(--teal);border:1px solid rgba(45,212,191,.3)}
+.fdue{background:rgba(167,139,250,.15);color:var(--teal);border:1px solid rgba(167,139,250,.3)}
 .fpend{background:var(--bg4);color:var(--tx3);border:1px solid var(--border)}
-.fdone{background:rgba(52,211,153,.12);color:var(--grn);border:1px solid rgba(52,211,153,.25)}
+.fdone{background:rgba(192,132,252,.12);color:var(--grn);border:1px solid rgba(192,132,252,.25)}
 .tli{display:flex;gap:13px;align-items:flex-start;padding:11px 0}
-.tld{width:10px;height:10px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:4px;box-shadow:0 0 6px var(--gold)}
+.tld{width:10px;height:10px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:4px;box-shadow:0 0 8px var(--gold)}
 .tld.tp{background:var(--tx3);box-shadow:none}
 .tld.td{background:var(--grn)!important;box-shadow:0 0 6px var(--grn)!important}
-/* Reflection Engine Layers */
+
+/* ═══ REFLECTION LAYERS ═══ */
 .rl{border-radius:var(--r2);padding:14px 15px;margin-bottom:9px;border:1px solid;-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none}
-.rl-i{background:rgba(201,169,110,.05);border-color:rgba(201,169,110,.2)}
-.rl-m{background:rgba(99,102,241,.05);border-color:rgba(99,102,241,.2)}
-.rl-e{background:rgba(168,85,247,.05);border-color:rgba(168,85,247,.2)}
-.rl-q{background:rgba(45,212,191,.05);border-color:rgba(45,212,191,.2)}
-.rl-a{background:rgba(52,211,153,.05);border-color:rgba(52,211,153,.2)}
-.rl-j{background:rgba(251,113,133,.05);border-color:rgba(251,113,133,.2)}
+.rl-i{background:rgba(176,64,255,.06);border-color:rgba(176,64,255,.25)}
+.rl-m{background:rgba(129,140,248,.05);border-color:rgba(129,140,248,.2)}
+.rl-e{background:rgba(192,132,252,.05);border-color:rgba(192,132,252,.2)}
+.rl-q{background:rgba(167,139,250,.05);border-color:rgba(167,139,250,.2)}
+.rl-a{background:rgba(192,132,252,.05);border-color:rgba(192,132,252,.2)}
+.rl-j{background:rgba(244,114,182,.05);border-color:rgba(244,114,182,.2)}
 .rll{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
 .rlt{font-size:14px;color:var(--tx2);line-height:1.65}
 .rli .rll{color:var(--gold)}
@@ -185,36 +204,47 @@ textarea.if{resize:none}
 .rlq .rll{color:var(--teal)}
 .rla .rll{color:var(--grn)}
 .rlj .rll{color:var(--rose)}
-.refq{background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(99,102,241,.06));border:1px solid rgba(168,85,247,.2);border-radius:var(--r2);padding:15px;margin-bottom:9px;-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none}
+.refq{background:linear-gradient(135deg,rgba(176,64,255,.08),rgba(129,140,248,.06));border:1px solid rgba(176,64,255,.2);border-radius:var(--r2);padding:15px;margin-bottom:9px;-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none}
 .refql{font-size:10px;color:var(--pur2);font-weight:700;letter-spacing:1.5px;margin-bottom:7px}
 .refqt{font-size:14px;color:var(--tx);line-height:1.7;font-style:italic}
-.acti{display:flex;gap:9px;align-items:flex-start;padding:9px 12px;background:rgba(52,211,153,.05);border-radius:var(--r1);border-left:2px solid var(--grn);margin-bottom:7px}
-.wq{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:15px;margin-bottom:11px}
+.acti{display:flex;gap:9px;align-items:flex-start;padding:9px 12px;background:rgba(192,132,252,.06);border-radius:var(--r1);border-left:2px solid var(--grn);margin-bottom:7px}
+.wq{background:rgba(28,0,64,.7);border:1px solid var(--border);border-radius:var(--r2);padding:15px;margin-bottom:11px}
 .wql{font-size:12px;color:var(--gold);font-weight:600;margin-bottom:7px}
 .theme-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
 .theme-row:last-child{border-bottom:none}
 .tph{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--border)}
 .tph:last-child{border-bottom:none}
 .tphd{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.alert-b{border-radius:var(--r2);padding:13px 15px;display:flex;gap:11px;align-items:center;cursor:pointer;margin-bottom:13px;border:1px solid rgba(45,212,191,.3);background:rgba(45,212,191,.05)}
+.alert-b{border-radius:var(--r2);padding:13px 15px;display:flex;gap:11px;align-items:center;cursor:pointer;margin-bottom:13px;border:1px solid rgba(167,139,250,.3);background:rgba(167,139,250,.06)}
 .lock-ov{background:linear-gradient(180deg,transparent,var(--bg3) 55%);position:absolute;bottom:0;left:0;right:0;padding:22px 20px;display:flex;flex-direction:column;align-items:center;gap:11px}
 .emotion-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
-.emo-btn{background:var(--bg4);border:1px solid var(--border2);border-radius:var(--r2);padding:18px 10px;cursor:pointer;text-align:center;font-size:28px;transition:all .15s}
-.emo-btn:active,.emo-btn.sel{border-color:var(--gold);background:rgba(201,169,110,.1)}
+.emo-btn{background:rgba(28,0,64,.6);border:1px solid var(--border);border-radius:var(--r2);padding:18px 10px;cursor:pointer;text-align:center;font-size:28px;transition:all .15s}
+.emo-btn:active,.emo-btn.sel{border-color:var(--gold);background:rgba(176,64,255,.12);box-shadow:0 0 16px rgba(176,64,255,.2)}
 .stat-row{display:flex;justify-content:space-between;gap:10px;margin-bottom:14px}
-.stat-box{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:14px;text-align:center}
-.stat-num{font-size:24px;font-weight:700;color:var(--gold);margin-bottom:3px}
+.stat-box{flex:1;background:rgba(28,0,64,.7);border:1px solid var(--border);border-radius:var(--r2);padding:14px;text-align:center}
+.stat-num{font-size:24px;font-weight:700;color:var(--gold);margin-bottom:3px;text-shadow:0 0 12px rgba(176,64,255,.4)}
 .stat-lbl{font-size:11px;color:var(--tx3)}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;display:flex;align-items:flex-end;opacity:0;visibility:hidden;transition:all .25s}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:50;display:flex;align-items:flex-end;opacity:0;visibility:hidden;transition:all .25s}
 .modal-overlay.open{opacity:1;visibility:visible}
-.modal-sheet{background:var(--bg2);border-radius:var(--r3) var(--r3) 0 0;padding:24px 20px;width:100%;max-width:430px;margin:0 auto;transform:translateY(30px);transition:transform .25s}
+.modal-sheet{background:linear-gradient(135deg,#130028,#1C0040);border-radius:var(--r3) var(--r3) 0 0;padding:24px 20px;width:100%;max-width:430px;margin:0 auto;transform:translateY(30px);transition:transform .25s;border:1px solid var(--border);border-bottom:none}
 .modal-overlay.open .modal-sheet{transform:translateY(0)}
+
+/* ═══ STAR / METEOR ANIMATIONS ═══ */
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
-.skel{background:var(--bg4);border-radius:var(--r1);animation:pulse 1.5s infinite}
-.protected{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none}
-.protected::selection{background:transparent}
+@keyframes star-trail{0%{top:-40px;right:-40px;opacity:0}10%{opacity:.9}50%{opacity:.4}80%,100%{top:140%;right:140%;opacity:0}}
+@keyframes btn-shine{0%,70%,100%{left:-100%}40%{left:130%}}
+@keyframes float-star{0%,100%{transform:translateY(0) scale(1);opacity:.6}50%{transform:translateY(-6px) scale(1.1);opacity:1}}
+@keyframes glow-pulse{0%,100%{box-shadow:0 0 12px rgba(176,64,255,.2)}50%{box-shadow:0 0 28px rgba(176,64,255,.45),0 0 50px rgba(176,64,255,.1)}}
+@keyframes orbit{from{transform:rotate(0deg) translateX(12px) rotate(0deg)}to{transform:rotate(360deg) translateX(12px) rotate(-360deg)}}
+
+/* Random star delays for cards */
+.card:nth-child(odd){--star-dur:9s;--star-del:1s}
+.card:nth-child(even){--star-dur:11s;--star-del:4s}
+.card:nth-child(3n){--star-dur:7s;--star-del:2s}
+
+.skel{background:rgba(176,64,255,.12);border-radius:var(--r1);animation:pulse 1.5s infinite}
 </style>
 <!-- ═══ ANALYTICS PLACEHOLDER ═══
      ยังไม่ active — ใส่ Measurement ID จริงตอน deploy แล้วลบ comment ออก
@@ -300,12 +330,12 @@ textarea.if{resize:none}
 <div class="sc on" id="sc-land">
   <div class="sb" style="padding:0">
     <div style="position:relative;padding:56px 26px 38px;overflow:hidden;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end">
-      <div class="orb" style="width:200px;height:200px;background:var(--ind);top:-60px;right:-60px"></div>
-      <div class="orb" style="width:150px;height:150px;background:var(--pur);bottom:80px;left:-50px"></div>
+      <div class="orb" style="width:200px;height:200px;background:rgba(176,64,255,.15);top:-60px;right:-60px"></div>
+      <div class="orb" style="width:150px;height:150px;background:rgba(124,0,212,.12);bottom:80px;left:-50px"></div>
       <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(99,102,241,.12) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(168,85,247,.08) 0%,transparent 50%)"></div>
       <!-- Logo + Language Switcher -->
       <div style="position:absolute;top:22px;left:26px;right:26px;display:flex;align-items:center;justify-content:space-between">
-        <div class="logo-m"><div class="logo-i"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="78" fill="none" stroke="#D4AF37" stroke-width="5"/><circle cx="100" cy="100" r="66" fill="none" stroke="#D4AF37" stroke-width="5"/><g stroke="#D4AF37" stroke-width="6"><line x1="100" y1="38" x2="100" y2="162"/><line x1="38" y1="100" x2="162" y2="100"/><line x1="58" y1="58" x2="142" y2="142"/><line x1="142" y1="58" x2="58" y2="142"/></g></svg></div><div><div class="logo-t">ASTROVERA</div><div class="logo-s">DATA LIFE INTELLIGENCE</div></div></div>
+        <div class="logo-m"><div class="logo-i"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="78" fill="none" stroke="#B040FF" stroke-width="5"/><circle cx="100" cy="100" r="66" fill="none" stroke="#B040FF" stroke-width="5"/><g stroke="#B040FF" stroke-width="6"><line x1="100" y1="38" x2="100" y2="162"/><line x1="38" y1="100" x2="162" y2="100"/><line x1="58" y1="58" x2="142" y2="142"/><line x1="142" y1="58" x2="58" y2="142"/></g></svg></div><div><div class="logo-t">ASTROVERA</div><div class="logo-s">DATA LIFE INTELLIGENCE</div></div></div>
         <!-- Language Switcher -->
         <div style="display:flex;gap:6px;background:rgba(0,0,0,0.3);border-radius:20px;padding:4px 8px">
           <button class="lang-btn" data-lang="th" onclick="setLang('th')" style="background:none;border:none;cursor:pointer;font-size:12px;padding:2px 4px;border-radius:10px;color:var(--gold);font-weight:700">TH</button>
@@ -362,7 +392,7 @@ textarea.if{resize:none}
         <circle cx="50" cy="50" r="44" fill="none" stroke="url(#gg)" stroke-width="2" stroke-dasharray="276" stroke-dashoffset="200" stroke-linecap="round"/>
         <defs><linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#D4AF37"/><stop offset="100%" style="stop-color:#E8C968"/></linearGradient></defs>
       </svg>
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 200 200" style="width:38px;height:38px"><circle cx="100" cy="100" r="78" fill="none" stroke="#D4AF37" stroke-width="5"/><circle cx="100" cy="100" r="66" fill="none" stroke="#D4AF37" stroke-width="5"/><g stroke="#D4AF37" stroke-width="6"><line x1="100" y1="38" x2="100" y2="162"/><line x1="38" y1="100" x2="162" y2="100"/><line x1="58" y1="58" x2="142" y2="142"/><line x1="142" y1="58" x2="58" y2="142"/></g></svg></div>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 200 200" style="width:38px;height:38px"><circle cx="100" cy="100" r="78" fill="none" stroke="#B040FF" stroke-width="5"/><circle cx="100" cy="100" r="66" fill="none" stroke="#B040FF" stroke-width="5"/><g stroke="#B040FF" stroke-width="6"><line x1="100" y1="38" x2="100" y2="162"/><line x1="38" y1="100" x2="162" y2="100"/><line x1="58" y1="58" x2="142" y2="142"/><line x1="142" y1="58" x2="58" y2="142"/></g></svg></div>
     </div>
     <div style="font-family:var(--fh);font-size:22px;color:var(--tx);margin-bottom:10px">กำลังวิเคราะห์...</div>
     <div id="ld-step" style="font-size:14px;color:var(--tx3);margin-bottom:26px;min-height:20px">ค้นหา Archetype ของคุณ</div>
@@ -545,11 +575,18 @@ textarea.if{resize:none}
       <!-- Today's Reflection -->
       <div class="sh"><div class="sht">Today's Reflection</div></div>
       <div class="card cp" style="margin-bottom:13px">
-        <div style="font-size:11px;color:var(--pur2);letter-spacing:1px;margin-bottom:9px">คำถามประจำวัน</div>
-        <div style="font-size:15px;font-weight:600;color:var(--tx);line-height:1.5;margin-bottom:12px" id="d-daily-q">"ในช่วงที่ผ่านมา มีเรื่องไหนที่คุณตัดสินใจแล้วรู้สึกดีที่สุด และทำไม?"</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+          <div style="font-size:11px;color:var(--pur2);letter-spacing:1px" id="d-q-label">คำถามประจำวัน</div>
+          <div style="display:flex;gap:6px">
+            <button onclick="cycleDailyQ('daily')" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);font-size:10px;padding:2px 8px;border-radius:10px;cursor:pointer">วันนี้</button>
+            <button onclick="cycleDailyQ('weekly')" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);font-size:10px;padding:2px 8px;border-radius:10px;cursor:pointer">สัปดาห์</button>
+            <button onclick="cycleDailyQ('monthly')" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);font-size:10px;padding:2px 8px;border-radius:10px;cursor:pointer">เดือน</button>
+          </div>
+        </div>
+        <div style="font-size:15px;font-weight:600;color:var(--tx);line-height:1.5;margin-bottom:12px" id="d-daily-q"></div>
         <div style="display:flex;gap:9px">
           <button class="btn bt bsm" style="flex:1" onclick="openMicro()">📝 บันทึกความคิด</button>
-          <button class="btn" style="flex:1;background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.3);color:var(--pur2);font-size:13px;font-weight:600;border-radius:var(--r2);padding:10px;cursor:pointer" onclick="openEmo()">❤️ Check-in อารมณ์</button>
+          <button class="btn" style="flex:1;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--pur2);font-size:13px;font-weight:600;border-radius:var(--r2);padding:10px;cursor:pointer" onclick="openEmo()">❤️ Check-in อารมณ์</button>
         </div>
       </div>
       <!-- Stats -->
@@ -1280,6 +1317,121 @@ document.addEventListener('focusin', function(e){
 
 // ═══ STORAGE ═══
 var LSP='av_p', LSJ='av_j', LSW='av_w', LSE='av_e', LSM='av_m', LSS='av_s', LSO='av_o', LSR='av_r', LSL='av_l', LSC='av_c';
+
+// ═══ QUESTION ROTATION ENGINE ═══
+// ใช้วันที่เป็น seed เพื่อให้ผู้ใช้เจอคำถามต่างกันทุกวัน ไม่ซ้ำกันใน 30 วัน
+var DAILY_QS=[
+  'วันนี้ความท้าทายที่ใหญ่ที่สุดของคุณคืออะไร และคุณเลือกตอบสนองอย่างไร?',
+  'มีอะไรที่คุณยังค้างคาใจจากสัปดาห์ที่ผ่านมาไหม?',
+  'ถ้าให้ให้คะแนนพลังงานตัวเองวันนี้ 1-10 จะได้กี่แต้ม และทำไม?',
+  'วันนี้คุณทำอะไรดีๆ ให้ตัวเองบ้าง?',
+  'มีการตัดสินใจเล็กหรือใหญ่ที่รอการตัดสินใจของคุณอยู่ไหม?',
+  'คนไหนในชีวิตที่คุณอยากขอบคุณวันนี้ และทำไม?',
+  'ถ้ามองย้อนไป 5 ปี คุณอยากบอกอะไรกับตัวเองในตอนนั้น?',
+  'วันนี้คุณเรียนรู้อะไรใหม่ๆ แม้เล็กน้อยไหม?',
+  'ความกังวลที่ใหญ่ที่สุดของคุณตอนนี้คืออะไร และมันสมเหตุสมผลแค่ไหน?',
+  'มีนิสัยหรือพฤติกรรมอะไรที่คุณอยากเริ่มหรือหยุดในสัปดาห์นี้?',
+  'อะไรที่ทำให้คุณรู้สึกมีพลังที่สุดในช่วงนี้?',
+  'ถ้าวันนี้เป็นวันสุดท้าย คุณจะใช้มันต่างไปยังไง?',
+  'มีเรื่องอะไรที่คุณหลีกเลี่ยงการคิดถึงโดยไม่รู้ตัวไหม?',
+  'ตอนนี้คุณต้องการอะไรมากที่สุด — พลังงาน ความชัดเจน หรือแรงบันดาลใจ?',
+  'ความสำเร็จเล็กๆ ที่คุณภูมิใจในสัปดาห์นี้คืออะไร?',
+  'ถ้าให้เลือกทำแค่ 1 อย่างในวันนี้เพื่อผลระยะยาว คุณจะเลือกอะไร?',
+  'วันนี้ความสัมพันธ์ไหนในชีวิตที่คุณอยากให้เวลามากขึ้น?',
+  'มีบทเรียนอะไรที่คุณยังไม่ได้นำไปใช้จริงๆ?',
+  'อะไรที่คุณกำลังทน แต่ไม่ต้องทนจริงๆ?',
+  'ถ้าคุณมีเวลาว่าง 3 ชั่วโมงวันนี้ คุณจะทำอะไร และนั่นบอกอะไรเกี่ยวกับตัวคุณ?',
+  'ความฝันที่คุณวางไว้ชั่วคราว ที่ยังอยากกลับไปทำอยู่คืออะไร?',
+  'วันนี้คุณให้ความสำคัญกับอะไรมากที่สุด และมันสอดคล้องกับคุณค่าของคุณไหม?',
+  'อะไรที่คุณอยากพูดกับใครสักคน แต่ยังไม่ได้พูด?',
+  'ถ้าความกลัวไม่มีอยู่ คุณจะทำอะไรแตกต่างไปจากตอนนี้?',
+  'วันนี้คุณ "เป็นตัวเอง" มากแค่ไหน ใน scale 1-10?',
+  'มีอะไรที่คุณทำซ้ำๆ ทุกวันแต่ไม่ได้คุณค่าจากมันไหม?',
+  'ถ้าให้ describe ตัวเองในวันนี้ด้วย 3 คำ คุณจะเลือกคำไหน?',
+  'อะไรคือสิ่งที่ทำให้คุณรู้สึก "มีชีวิต" จริงๆ?',
+  'มีความคาดหวังจากคนอื่นที่คุณแบกรับอยู่แต่ไม่ได้เลือกเองไหม?',
+  'วันนี้คุณปฏิบัติต่อตัวเองแบบเดียวกับที่จะปฏิบัติต่อเพื่อนสนิทไหม?'
+];
+var WEEKLY_QS=[
+  'สัปดาห์นี้คุณเติบโตขึ้นอย่างไรที่อาจมองไม่เห็นชัดๆ?',
+  'ถ้ามองย้อนสัปดาห์นี้ มีอะไรที่คุณอยากทำต่างไปไหม?',
+  'ความสัมพันธ์ไหนในสัปดาห์นี้ที่ให้พลังงานคุณมากที่สุด?',
+  'บทเรียนที่ยิ่งใหญ่ที่สุดของสัปดาห์นี้คืออะไร?',
+  'อะไรที่คุณทำได้ดีกว่าสัปดาห์ที่แล้ว แม้เพียงเล็กน้อย?',
+  'สัปดาห์หน้าคุณอยากเป็นคนแบบไหนมากที่สุด?',
+  'มีนิสัยหรือ pattern อะไรที่เริ่มเห็นชัดขึ้นในตัวคุณสัปดาห์นี้?',
+  'ถ้าให้ rate สัปดาห์นี้ในด้านต่างๆ ด้านไหนที่คุณพอใจที่สุด?'
+];
+var MONTHLY_QS=[
+  'เดือนนี้คุณก้าวหน้าไปในทิศทางที่ใจจริงๆ ต้องการไหม?',
+  'ถ้ามองย้อนเดือนที่ผ่านมา ความภาคภูมิใจที่สุดของคุณคืออะไร?',
+  'อะไรที่คุณพร้อมจะปล่อยวางในเดือนหน้า?',
+  'เดือนหน้าคุณอยากให้มีอะไรเกิดขึ้นในชีวิตมากที่สุด?'
+];
+function getDayIndex(){ return Math.floor(Date.now()/86400000); }
+function getRotatedQ(bank){ return bank[getDayIndex()%bank.length]; }
+function getDailyQ(){ return getRotatedQ(DAILY_QS); }
+function getWeeklyQ(){ return getRotatedQ(WEEKLY_QS); }
+function getMonthlyQ(){ return MONTHLY_QS[Math.floor(getDayIndex()/30)%MONTHLY_QS.length]; }
+
+// ═══ MASCOT INFRASTRUCTURE ═══
+// เตรียมระบบสำหรับ 2D mascot VERA ในอนาคต
+// 3 tiers: free, standard, enterprise
+// แต่ละ tier ใช้รูป/เสียง/บุคลิกต่างกัน
+var MASCOT_TIERS={
+  free:{
+    id:'free',label:'VERA Basic',tier_th:'ระดับฟรี',
+    avatar_url:'',        // ← ใส่ URL รูป mascot ได้เลย
+    voice_name:'',        // ← ชื่อ voice ที่ต้องการใช้
+    voice_rate:0.9,
+    voice_pitch:1.0,
+    greeting:'สวัสดีครับ ผมคือ VERA ยินดีช่วยวิเคราะห์ชีวิตของคุณ',
+    color:'#B040FF',
+    speaking_anim:'pulse'
+  },
+  standard:{
+    id:'standard',label:'VERA Plus',tier_th:'ระดับมาตรฐาน',
+    avatar_url:'',
+    voice_name:'',
+    voice_rate:0.88,
+    voice_pitch:1.05,
+    greeting:'สวัสดีค่ะ ฉันคือ VERA+ ที่ปรึกษาส่วนตัวของคุณ',
+    color:'#E0A0FF',
+    speaking_anim:'bounce'
+  },
+  enterprise:{
+    id:'enterprise',label:'VERA Pro',tier_th:'ระดับผู้ประกอบการ',
+    avatar_url:'',
+    voice_name:'',
+    voice_rate:0.85,
+    voice_pitch:0.95,
+    greeting:'สวัสดีครับ VERA Pro พร้อมให้คำปรึกษาเชิงธุรกิจและชีวิต',
+    color:'#FFD700',
+    speaking_anim:'star'
+  }
+};
+function getMascotTier(p){
+  // Logic: กำหนดจาก profile subscription level
+  if(!p)return MASCOT_TIERS.free;
+  if(p.tier==='enterprise')return MASCOT_TIERS.enterprise;
+  if(p.tier==='standard'||p.archKey)return MASCOT_TIERS.standard;
+  return MASCOT_TIERS.free;
+}
+function renderMascotAvatar(tierId,size){
+  var tier=MASCOT_TIERS[tierId]||MASCOT_TIERS.free;
+  size=size||64;
+  if(tier.avatar_url){
+    return '<img src="'+tier.avatar_url+'" style="width:'+size+'px;height:'+size+'px;border-radius:50%;object-fit:cover;border:2px solid '+tier.color+';box-shadow:0 0 16px '+tier.color+'40" class="mascot-avatar">';
+  }
+  // Placeholder: animated circle ถ้ายังไม่มีรูป
+  return '<div class="mascot-placeholder" style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:linear-gradient(135deg,'+tier.color+',rgba(176,64,255,.3));border:2px solid '+tier.color+';display:flex;align-items:center;justify-content:center;font-size:'+(size*0.4)+'px;box-shadow:0 0 20px '+tier.color+'40;animation:glow-pulse 2s ease-in-out infinite">✦</div>';
+}
+// Mascot speaking state
+var _mascotSpeaking=false;
+function mascotStartSpeak(){ _mascotSpeaking=true; document.querySelectorAll('.mascot-placeholder,.mascot-avatar').forEach(function(el){el.style.animation='glow-pulse .5s ease-in-out infinite';});}
+function mascotStopSpeak(){ _mascotSpeaking=false; document.querySelectorAll('.mascot-placeholder,.mascot-avatar').forEach(function(el){el.style.animation='glow-pulse 2s ease-in-out infinite';});}
+
+
 function lsG(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
 function lsS(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function lsD(k){try{localStorage.removeItem(k);}catch(e){}}
@@ -1321,6 +1473,9 @@ function go(id){
   if(id==='sc-fin-quiz')rFinQ();
   if(id==='sc-purpose-quiz')rPurQ();
   if(id==='sc-rel-quiz')rRelQ();
+  if(id==='sc-team-quiz')rTeamQ();
+  if(id==='sc-talent-quiz')rTalentQ();
+  if(id==='sc-love-quiz')rLoveQ();
 }
 function bk(){
   if(_stk.length>1){_stk.pop();var p=_stk[_stk.length-1];_stk.pop();go(p);}
@@ -1787,8 +1942,34 @@ var LIFE_PATH_MEANING={
 // localStorage so we don't call the paid API again for the same birth data. ═══
 var LSN='av_natal';
 var SIGN_TH={Aries:'ราศีเมษ',Taurus:'ราศีพฤษภ',Gemini:'ราศีเมถุน',Cancer:'ราศีกรกฎ',Leo:'ราศีสิงห์',Virgo:'ราศีกันย์',Libra:'ราศีตุล',Scorpio:'ราศีพิจิก',Sagittarius:'ราศีธนู',Capricorn:'ราศีมังกร',Aquarius:'ราศีกุมภ์',Pisces:'ราศีมีน'};
-var SUN_MEANING={Aries:'ชอบลงมือทำก่อนคิดนาน มีพลังเริ่มต้นสิ่งใหม่สูง ไม่ชอบรอ',Taurus:'รักความมั่นคง ทำอะไรเรื่อยๆ สม่ำเสมอ ไม่ชอบเปลี่ยนแปลงกะทันหัน',Gemini:'อยากรู้อยากเห็น ชอบพูดคุยแลกเปลี่ยนความคิด ปรับตัวเร็ว',Cancer:'ใส่ใจความรู้สึกคนรอบข้าง ผูกพันกับครอบครัวและบ้านมาก',Leo:'มั่นใจในตัวเอง ชอบเป็นจุดสนใจ มีความเป็นผู้นำในตัว',Virgo:'ใส่ใจรายละเอียด ชอบจัดระเบียบ มองหาจุดที่ควรปรับปรุงเสมอ',Libra:'รักความสมดุล ใส่ใจความสัมพันธ์ ไม่ชอบความขัดแย้ง',Scorpio:'มีความลึกซึ้งทางอารมณ์ จริงจังกับสิ่งที่สนใจ ไม่ชอบอะไรผิวเผิน',Sagittarius:'รักอิสระ ชอบเรียนรู้สิ่งใหม่ มองโลกในแง่บวก',Capricorn:'มีวินัยสูง ทำงานหนักเพื่อเป้าหมายระยะยาว รับผิดชอบสูง',Aquarius:'คิดนอกกรอบ ให้คุณค่ากับความเป็นตัวเอง มองภาพรวมมากกว่ารายละเอียด',Pisces:'อ่อนไหวง่าย เห็นอกเห็นใจคนอื่น มีจินตนาการสูง'};
-var MOON_MEANING={Aries:'ต้องการความตื่นเต้นและอิสระทางใจ อยู่นิ่งนานไม่ค่อยได้',Taurus:'ต้องการความมั่นคงปลอดภัย ชอบความสบายกายสบายใจ',Gemini:'ต้องการพูดคุยสื่อสารบ่อยๆ อยู่กับความคิดวนซ้ำนานๆ ไม่ได้',Cancer:'ต้องการความอบอุ่นและพื้นที่ปลอดภัยทางใจ อ่อนไหวกับคนใกล้ตัว',Leo:'ต้องการการยอมรับและพื้นที่แสดงออก รู้สึกมีคุณค่าเมื่อถูกมองเห็น',Virgo:'ต้องการความเป็นระเบียบ รู้สึกสบายใจเมื่อทุกอย่างอยู่ในที่ทาง',Libra:'ต้องการความสัมพันธ์ที่ราบรื่น ไม่สบายใจเมื่อมีความขัดแย้ง',Scorpio:'ต้องการความผูกพันลึกซึ้ง ไม่ชอบความสัมพันธ์ผิวเผิน',Sagittarius:'ต้องการอิสระทางใจ รู้สึกอึดอัดเมื่อถูกจำกัด',Capricorn:'ต้องการความมั่นคงและรู้สึกว่าควบคุมสถานการณ์ได้',Aquarius:'ต้องการพื้นที่ส่วนตัวทางความคิด ไม่ชอบถูกคาดหวังให้เหมือนคนอื่น',Pisces:'ต้องการความสงบและการเข้าใจกัน โดยไม่ต้องอธิบายมาก'};
+var SUN_MEANING={
+  Aries:'♈ ราศีเมษ — คุณมีพลังของผู้บุกเบิก ชอบลงมือทำก่อนคิดนาน มีพลังเริ่มต้นสิ่งใหม่สูงมาก ไม่ชอบรอคอยหรือถูกจำกัดกรอบ\n\nจุดแข็ง: กล้าเสี่ยง ตัดสินใจเร็ว สร้างแรงบันดาลใจได้ทันที\nจุดระวัง: อาจเริ่มได้ดีแต่ความสนใจสั้น ควรฝึกอดทนกับระยะยาว\nด้านความสัมพันธ์: ต้องการคู่ที่ตามทันพลังงานและให้อิสระในการนำ',
+  Taurus:'♉ ราศีพฤษภ — คุณมีพลังของนักสร้างรากฐาน รักความมั่นคง ทำอะไรเรื่อยๆ สม่ำเสมอ สะสมทีละน้อยได้ผลระยะยาว\n\nจุดแข็ง: อดทน น่าเชื่อถือ มีระเบียบทางการเงิน สร้างสิ่งดีๆ ที่ยั่งยืน\nจุดระวัง: อาจยึดติดความเคยชิน ปรับตัวช้าเมื่อสถานการณ์เปลี่ยน\nด้านความสัมพันธ์: ให้ความมั่นคงและซื่อสัตย์ แต่ต้องการเวลาสร้างความไว้ใจ',
+  Gemini:'♊ ราศีเมถุน — คุณมีพลังของนักสื่อสาร อยากรู้อยากเห็น ชอบพูดคุยแลกเปลี่ยนความคิด ปรับตัวได้เร็วในสภาพแวดล้อมใหม่\n\nจุดแข็ง: สื่อสารเก่ง ปรับตัวเร็ว คิดสร้างสรรค์ เชื่อมคนได้ดี\nจุดระวัง: ความสนใจกระโดด อาจยากตัดสินใจขั้นสุดท้าย\nด้านความสัมพันธ์: ต้องการคู่ที่คุยได้ไม่รู้จบและเปิดรับความคิดใหม่เสมอ',
+  Cancer:'♋ ราศีกรกฎ — คุณมีพลังของผู้ดูแล ใส่ใจความรู้สึกคนรอบข้าง ผูกพันกับครอบครัวและบ้านมาก มีสัญชาตญาณทางอารมณ์สูง\n\nจุดแข็ง: เห็นอกเห็นใจ ดูแลคนรักได้ดี มีความจงรักภักดีสูง\nจุดระวัง: อ่อนไหวง่าย อาจเก็บอารมณ์ไว้ในแทนที่จะพูดออกมา\nด้านความสัมพันธ์: ต้องการความมั่นคงทางอารมณ์และพื้นที่ปลอดภัยในการเปิดใจ',
+  Leo:'♌ ราศีสิงห์ — คุณมีพลังของผู้นำที่เปล่งประกาย มั่นใจในตัวเอง ชอบเป็นจุดสนใจ สร้างแรงบันดาลใจให้คนรอบข้างได้ตามธรรมชาติ\n\nจุดแข็ง: มีเสน่ห์ ใจกว้าง ผู้นำโดยธรรมชาติ สร้าง vision ได้ชัดเจน\nจุดระวัง: ต้องการการยอมรับ อาจรู้สึกเจ็บปวดเมื่อไม่ถูกมองเห็น\nด้านความสัมพันธ์: ต้องการคู่ที่ชื่นชมและให้ความสำคัญแบบเท่าเทียม',
+  Virgo:'♍ ราศีกันย์ — คุณมีพลังของผู้วิเคราะห์ ใส่ใจรายละเอียด ชอบจัดระเบียบ มองหาจุดที่ควรปรับปรุงเสมอเพื่อผลลัพธ์ที่ดีที่สุด\n\nจุดแข็ง: คิดรอบคอบ แก้ปัญหาเก่ง ทำงานได้มาตรฐานสูง\nจุดระวัง: วิจารณ์ตัวเองมากเกินไป อาจหยุดทำเพราะไม่สมบูรณ์แบบ\nด้านความสัมพันธ์: แสดงความรักผ่านการช่วยเหลือจริงๆ มากกว่าคำพูด',
+  Libra:'♎ ราศีตุลย์ — คุณมีพลังของผู้สร้างความสมดุล รักความยุติธรรม ใส่ใจความสัมพันธ์ มองทุกมุมก่อนตัดสินใจ\n\nจุดแข็ง: ยุติธรรม ประสานงานเก่ง มีรสนิยมสูง สร้างสันติได้ดี\nจุดระวัง: อาจตัดสินใจช้าเพราะเห็นทุกมุมเท่าๆ กัน\nด้านความสัมพันธ์: ต้องการความสัมพันธ์ที่เท่าเทียมและสวยงาม',
+  Scorpio:'♏ ราศีพิจิก — คุณมีพลังของผู้เปลี่ยนแปลง มีความลึกซึ้งทางอารมณ์ จริงจังกับสิ่งที่สนใจ ชอบค้นหาความจริงที่ซ่อนอยู่\n\nจุดแข็ง: หยั่งรู้ลึก อดทน ทรงพลัง ฟื้นตัวได้จากทุกวิกฤต\nจุดระวัง: อาจเก็บความเจ็บปวดไว้นาน ไม่ชอบแสดงความอ่อนแอ\nด้านความสัมพันธ์: ต้องการความสัมพันธ์ที่ลึกและจริงใจ ไม่ยอมรับความผิวเผิน',
+  Sagittarius:'♐ ราศีธนู — คุณมีพลังของผู้แสวงหา รักอิสระ ชอบเรียนรู้สิ่งใหม่ มองโลกในแง่บวก ต้องการขยายขอบเขตความรู้และประสบการณ์อยู่เสมอ\n\nจุดแข็ง: มองโลกกว้าง ปรัชญาลึก กล้าผจญภัย สร้างแรงบันดาลใจ\nจุดระวัง: อาจไม่ทนกับข้อจำกัด หรือพูดตรงเกินจนเจ็บปวด\nด้านความสัมพันธ์: ต้องการคู่ที่เปิดกว้าง เติบโตไปด้วยกัน ไม่หยุดนิ่ง',
+  Capricorn:'♑ ราศีมกร — คุณมีพลังของนักสร้างอาณาจักร มีวินัยสูง ทำงานหนักเพื่อเป้าหมายระยะยาว รับผิดชอบและน่าเชื่อถือ\n\nจุดแข็ง: อดทน มีระเบียบ สร้างความสำเร็จระยะยาวได้ดีเยี่ยม\nจุดระวัง: อาจลืมพักผ่อนหรือแสดงความอ่อนแอให้คนรักเห็น\nด้านความสัมพันธ์: จงรักภักดีและมั่นคง แต่ต้องการเวลาเปิดใจ',
+  Aquarius:'♒ ราศีกุมภ์ — คุณมีพลังของนักปฏิวัติ คิดนอกกรอบ ให้คุณค่ากับความเป็นตัวเอง มองภาพรวมของส่วนรวมมากกว่ารายละเอียดส่วนตัว\n\nจุดแข็ง: วิสัยทัศน์กว้าง นวัตกรรม เป็นกลาง มองอนาคตได้ดี\nจุดระวัง: อาจดูเย็นชาหรือห่างเหิน ต้องการพื้นที่คิดคนเดียวมาก\nด้านความสัมพันธ์: ต้องการคู่ที่เคารพเอกลักษณ์และไม่พยายามเปลี่ยน',
+  Pisces:'♓ ราศีมีน — คุณมีพลังของศิลปิน อ่อนไหวง่าย เห็นอกเห็นใจคนอื่น มีจินตนาการสูง เชื่อมต่อกับพลังงานรอบข้างได้ดีผิดปกติ\n\nจุดแข็ง: เห็นอกเห็นใจ ครีเอทีฟ รักษาเยียวยาได้ สัญชาตญาณแม่นยำ\nจุดระวัง: อาจถูกคนอื่นใช้ประโยชน์ หรือหนีความเป็นจริงบางครั้ง\nด้านความสัมพันธ์: ต้องการความรักที่ลึก อ่อนโยน และมีพื้นที่สร้างสรรค์'
+};
+var MOON_MEANING={
+  Aries:'🌙♈ ดวงจันทร์เมษ — ความต้องการภายในของคุณคือความตื่นเต้นและอิสระทางใจ เมื่อเครียดคุณต้องการลงมือทำอะไรสักอย่าง ไม่ใช่นั่งคุย\n\nฟื้นพลังได้จาก: การออกกำลังกาย การเริ่มโปรเจกต์ใหม่ กิจกรรมที่ท้าทาย\nสัญญาณเตือน: หงุดหงิดง่าย ใจร้อน — นั่นคือสัญญาณว่าต้องการ outlet',
+  Taurus:'🌙♉ ดวงจันทร์พฤษภ — ความต้องการภายในของคุณคือความมั่นคงปลอดภัย ชอบความสบายกายสบายใจ สิ่งแวดล้อมที่สวยงามช่วยฟื้นพลังได้\n\nฟื้นพลังได้จาก: อาหารดีๆ ดนตรี ธรรมชาติ ความสม่ำเสมอในชีวิต\nสัญญาณเตือน: ดื้อรั้นหรือสะสมของ — นั่นคือสัญญาณขาดความมั่นคง',
+  Gemini:'🌙♊ ดวงจันทร์เมถุน — ความต้องการภายในคือการพูดคุยและสื่อสาร อยู่กับความคิดวนซ้ำนานๆ ไม่ได้ ต้องการพื้นที่ระบาย\n\nฟื้นพลังได้จาก: การเขียน คุยกับเพื่อน อ่านหนังสือ เรียนรู้สิ่งใหม่\nสัญญาณเตือน: นอนไม่หลับเพราะคิดมาก — ต้องการ outlet สำหรับความคิด',
+  Cancer:'🌙♋ ดวงจันทร์กรกฎ — ดวงจันทร์อยู่บ้าน มีพลังมาก คุณมีสัญชาตญาณทางอารมณ์สูงมาก ความรู้สึกคนอื่นส่งผลถึงคุณโดยตรง\n\nฟื้นพลังได้จาก: เวลาคุณภาพกับครอบครัว อาหารโฮมเมด พักผ่อนที่บ้าน\nสัญญาณเตือน: อ้อมค้อมแทนที่จะพูดตรงๆ — ต้องการพื้นที่ปลอดภัยในการเปิดใจ',
+  Leo:'🌙♌ ดวงจันทร์สิงห์ — ความต้องการภายในคือการยอมรับและการแสดงออก รู้สึกมีคุณค่าเมื่อถูกมองเห็นและชื่นชม\n\nฟื้นพลังได้จาก: กิจกรรมสร้างสรรค์ การแสดง เวลากับคนที่ชื่นชมคุณ\nสัญญาณเตือน: ต้องการ attention มากผิดปกติ — นั่นคือถังพลังงานกำลังต่ำ',
+  Virgo:'🌙♍ ดวงจันทร์กันย์ — ความต้องการภายในคือความเป็นระเบียบ รู้สึกสบายใจเมื่อทุกอย่างอยู่ในที่ทาง มีระบบชัดเจน\n\nฟื้นพลังได้จาก: การจัดระเบียบพื้นที่ routine ที่มีสุขภาพดี ช่วยเหลือคนอื่น\nสัญญาณเตือน: วิจารณ์ตัวเองมากผิดปกติ — นั่นคือสัญญาณเครียดสะสม',
+  Libra:'🌙♎ ดวงจันทร์ตุลย์ — ความต้องการภายในคือความสัมพันธ์ที่ราบรื่น ไม่สบายใจเมื่อมีความขัดแย้งรอบข้าง\n\nฟื้นพลังได้จาก: สิ่งสวยงาม ศิลปะ เวลากับคนที่รักสงบ\nสัญญาณเตือน: ตัดสินใจไม่ได้เลย — นั่นคือ emotional tank กำลังล้น',
+  Scorpio:'🌙♏ ดวงจันทร์พิจิก — ความต้องการภายในคือความผูกพันลึกซึ้ง ไม่ชอบความสัมพันธ์ผิวเผิน ต้องการพื้นที่ปลอดภัยอย่างแท้จริง\n\nฟื้นพลังได้จาก: เวลาคนเดียว ทำกิจกรรมลึกๆ เช่น สมาธิ เขียน วิเคราะห์\nสัญญาณเตือน: สงสัยทุกคนรอบข้าง — นั่นคือสัญญาณต้องการพื้นที่ปลอดภัย',
+  Sagittarius:'🌙♐ ดวงจันทร์ธนู — ความต้องการภายในคืออิสระทางใจ รู้สึกอึดอัดเมื่อถูกจำกัด ต้องการ space และการเติบโต\n\nฟื้นพลังได้จาก: ท่องเที่ยว เรียนรู้สิ่งใหม่ ปรัชญา หรือการอยู่กับธรรมชาติ\nสัญญาณเตือน: รู้สึกติดกับดัก — ต้องการเปลี่ยนสภาพแวดล้อมหรือมุมมอง',
+  Capricorn:'🌙♑ ดวงจันทร์มกร — ความต้องการภายในคือความมั่นคงและรู้สึกว่าควบคุมสถานการณ์ได้ อารมณ์จะดีขึ้นเมื่อทำสิ่งที่มีผลลัพธ์จริง\n\nฟื้นพลังได้จาก: ทำงาน บรรลุเป้าหมายย่อย จัดการสิ่งที่ค้างคา\nสัญญาณเตือน: เย็นชาและตัดสินตัวเองรุนแรง — ต้องการ compassion ต่อตัวเอง',
+  Aquarius:'🌙♒ ดวงจันทร์กุมภ์ — ความต้องการภายในคือพื้นที่ส่วนตัวทางความคิด ไม่ชอบถูกคาดหวังให้เหมือนคนอื่น\n\nฟื้นพลังได้จาก: เวลาคนเดียว กิจกรรม intellectual เชื่อมกับคน "เดียวกัน"\nสัญญาณเตือน: อยากอยู่คนเดียวมากผิดปกติ — ต้องการพื้นที่คิดโดยไม่ถูกจัดการ',
+  Pisces:'🌙♓ ดวงจันทร์มีน — ความต้องการภายในคือความสงบและการเข้าใจกันโดยไม่ต้องอธิบายมาก มีความอ่อนไหวต่อพลังงานรอบข้างสูงมาก\n\nฟื้นพลังได้จาก: ดนตรี ศิลปะ ธรรมชาติ การนอนหลับพักผ่อน\nสัญญาณเตือน: รับพลังลบคนอื่นมากผิดปกติ — ต้องการ energy boundary'
+};
 var VENUS_MEANING={Aries:'ชอบความรักที่ตื่นเต้น กล้าเริ่มก่อน ไม่ชอบรอ',Taurus:'รักด้วยการกระทำที่จับต้องได้ ชอบความมั่นคงในความสัมพันธ์',Gemini:'ชอบคู่ที่คุยกันสนุก สื่อสารกันได้ตลอดเวลา',Cancer:'รักแบบทุ่มเทดูแล ให้ความสำคัญกับความรู้สึกของอีกฝ่าย',Leo:'รักแบบเต็มที่ ชอบแสดงออกและอยากได้รับการชื่นชมตอบ',Virgo:'แสดงความรักผ่านการดูแลใส่ใจรายละเอียด ชอบช่วยแก้ปัญหาให้คนรัก',Libra:'รักความสมดุลในความสัมพันธ์ ไม่ชอบความขัดแย้ง ชอบความโรแมนติก',Scorpio:'รักแบบลึกซึ้งเข้มข้น ต้องการความไว้ใจแบบหมดใจ',Sagittarius:'ชอบความรักที่มีอิสระ ไม่ชอบถูกผูกมัดจนเกินไป',Capricorn:'จริงจังกับความสัมพันธ์ มองความรักระยะยาว ไม่ชอบความสัมพันธ์ฉาบฉวย',Aquarius:'ชอบความรักที่เป็นเพื่อนกันได้ ให้คุณค่ากับอิสระของทั้งคู่',Pisces:'รักแบบทุ่มเทและโรแมนติก ชอบเชื่อมโยงทางใจกับคนรัก'};
 var MERCURY_MEANING={Aries:'คิดเร็วพูดตรง ตัดสินใจไว ไม่ชอบอ้อมค้อม',Taurus:'คิดช้าแต่มั่นคง พูดน้อยแต่หนักแน่น ชอบความคิดที่จับต้องได้',Gemini:'คิดเร็วหลายเรื่องพร้อมกัน ชอบพูดคุยแลกเปลี่ยนความเห็น',Cancer:'คิดผ่านความรู้สึก จำเรื่องราวและรายละเอียดทางอารมณ์ได้ดี',Leo:'พูดด้วยความมั่นใจ ชอบเล่าเรื่องให้คนฟัง มีความเป็นผู้นำทางความคิด',Virgo:'คิดวิเคราะห์ละเอียด ชอบจับผิด-แก้ไขให้ถูกต้อง ใส่ใจข้อเท็จจริง',Libra:'คิดรอบด้านก่อนตัดสินใจ ชอบหาจุดสมดุลในการสื่อสาร',Scorpio:'คิดลึกและจริงจัง ไม่ชอบพูดเรื่องผิวเผิน ชอบสืบให้ถึงแก่น',Sagittarius:'คิดแบบมองภาพใหญ่ พูดตรงไปตรงมา ชอบแลกเปลี่ยนมุมมองใหม่ๆ',Capricorn:'คิดอย่างเป็นระบบ พูดน้อยแต่ได้ใจความ เน้นความเป็นจริง',Aquarius:'คิดนอกกรอบ ชอบไอเดียแปลกใหม่ สื่อสารแบบไม่ยึดติดธรรมเนียม',Pisces:'คิดผ่านจินตนาการ สื่อสารด้วยความรู้สึกมากกว่าตรรกะ'};
 var MARS_MEANING={Aries:'ลงมือทำทันทีที่คิดออก พลังเยอะ ชอบความท้าทาย',Taurus:'ลงมือช้าแต่มั่นคง ทำจนสำเร็จไม่ล้มเลิกง่าย',Gemini:'ลงมือหลายอย่างพร้อมกัน พลังกระจายไปหลายทาง',Cancer:'ลงมือเมื่อรู้สึกปลอดภัย ปกป้องคนที่รักอย่างสุดกำลัง',Leo:'ลงมือด้วยความมั่นใจเต็มที่ ชอบทำสิ่งที่โดดเด่นเป็นที่จดจำ',Virgo:'ลงมืออย่างพิถีพิถัน ใส่ใจรายละเอียดทุกขั้นตอน',Libra:'ลงมือเมื่อมั่นใจว่ายุติธรรมกับทุกฝ่าย บางทีตัดสินใจช้าเพราะชั่งใจนาน',Scorpio:'ลงมือด้วยความเข้มข้นและมุ่งมั่น ไม่ยอมแพ้ง่ายๆ',Sagittarius:'ลงมือตามแรงบันดาลใจ ชอบลุยสิ่งใหม่ที่ไม่เคยทำ',Capricorn:'ลงมืออย่างมีแผน ทำงานหนักเพื่อผลลัพธ์ระยะยาว',Aquarius:'ลงมือตามความเชื่อของตัวเอง ไม่สนกระแสหลัก',Pisces:'ลงมือตามแรงบันดาลใจและสัญชาตญาณ บางทีขาดทิศทางชัดเจน'};
@@ -2282,6 +2463,18 @@ function nQ(qn){
 }
 function skipQuiz(){buildInsight();go('sc-insight');}
 
+function cycleDailyQ(mode){
+  var qEl=document.getElementById('d-daily-q');
+  var lbEl=document.getElementById('d-q-label');
+  if(!qEl)return;
+  var q,lb;
+  if(mode==='weekly'){q=getWeeklyQ();lb='คำถามประจำสัปดาห์';}
+  else if(mode==='monthly'){q=getMonthlyQ();lb='คำถามประจำเดือน';}
+  else{q=getDailyQ();lb='คำถามประจำวัน';}
+  qEl.textContent='"'+q+'"';
+  if(lbEl)lbEl.textContent=lb;
+}
+
 // ═══ PAYMENT ═══
 function selPay(el,m){
   document.querySelectorAll('#sc-payment .qopt').forEach(function(o){o.classList.remove('sel');});
@@ -2705,10 +2898,10 @@ function rConvergenceChart(p,arch){
   });
   angles.forEach(function(a){g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+r*Math.cos(a))+'" y2="'+(cy+r*Math.sin(a))+'" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>';});
   var dp=angles.map(function(a,i){return(cx+r*(scores[i]/100)*Math.cos(a))+','+(cy+r*(scores[i]/100)*Math.sin(a));}).join(' ');
-  g+='<polygon points="'+dp+'" fill="rgba(255,183,3,0.15)" stroke="#FFB703" stroke-width="1.5"/>';
+  g+='<polygon points="'+dp+'" fill="rgba(255,183,3,0.15)" stroke="#B040FF" stroke-width="1.5"/>';
   angles.forEach(function(a,i){
     var x=cx+r*(scores[i]/100)*Math.cos(a),y=cy+r*(scores[i]/100)*Math.sin(a);
-    g+='<circle cx="'+x+'" cy="'+y+'" r="3" fill="#FFB703"/>';
+    g+='<circle cx="'+x+'" cy="'+y+'" r="3" fill="#B040FF"/>';
     var lx=cx+(r+18)*Math.cos(a),ly=cy+(r+18)*Math.sin(a);
     g+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.55)">'+CONV_DIMS[i]+'</text>';
   });
@@ -2736,16 +2929,20 @@ function openLifeCoach(mode){
   document.body.style.overflow='hidden';
   loadVoices();
   var p=lsG(LSP)||{};
+  // Render mascot
+  var ms=document.getElementById('lc-mascot-slot');
+  if(ms)ms.innerHTML=renderMascotAvatar(getMascotTier(p).id,52);
   var cache=lsG(LSC_SCRIPT);
   var hasCache=cache&&cache.profileKey===_lcProfileKey(p);
-
+  // Check auto-play setting
+  var autoPlayChk=document.getElementById('lc-autoplay');
+  var shouldAutoPlay=(mode==='audio')||( autoPlayChk&&autoPlayChk.checked);
   if(mode==='audio'&&!hasCache){
-    // ยังไม่มีรายงาน → บอกให้สร้างก่อน
     showLcError('สร้างรายงานก่อนนะครับ กดปุ่ม "📄 สร้างรายงาน" แล้วค่อยกลับมาฟังเสียง');
     return;
   }
   if(hasCache){
-    showScript(cache.script,mode==='audio');
+    showScript(cache.script,shouldAutoPlay);
   } else {
     loadLifeCoach();
   }
@@ -2939,6 +3136,8 @@ function rDash(){
   var pl=document.getElementById('d-phase-label');if(pl)pl.textContent='● '+phase.label+' · '+phase.labelEn;
   var ps=document.getElementById('d-phase-sub');if(ps)ps.textContent=PHASE_SUB[p.phaseKey]||PHASE_SUB.a;
   rLifeOS('d-lifeos');
+  // Daily question rotation
+  cycleDailyQ('daily');
 
   var journals=lsG(LSJ)||[];
   var weekly=lsG(LSW)||[];
@@ -3026,12 +3225,12 @@ function rConflictCheck(dnaKey,typeVariety,total){
   var isRigidD=(archKey==='d'&&typeVariety<=1&&total>=3);
   if(m.aligned.indexOf(dnaKey)!==-1 && !isRigidD){
     statusEl.innerHTML='✅ สอดคล้องกัน';
-    statusEl.style.color='var(--grn,#52B788)';
+    statusEl.style.color='var(--grn,#B040FF)';
     msgEl.textContent=m.alignMsg;
     painWrap.style.display='none';
   } else if(m.conflict.indexOf(dnaKey)!==-1 || isRigidD){
     statusEl.innerHTML='⚠️ มีจุดที่ขัดแย้งกัน';
-    statusEl.style.color='#FFB703';
+    statusEl.style.color='#B040FF';
     msgEl.textContent=m.conflMsg;
     painEl.textContent=m.pain;
     painWrap.style.display='block';
@@ -3694,52 +3893,64 @@ async function genCopilotReply(msg,thread){
 }
 
 
-// ═══ FINANCIAL ARCHETYPE QUIZ ═══
-var LS_FIN='av_fin'; // localStorage key
+// ═══ MONEY BLUEPRINT + LEAK DETECTOR (replaces Financial Archetype) ═══
+// 5 คำถาม → ผลลัพธ์ 2 มิติ: Money Type + Leak Pattern
+// ออกแบบให้ Q1-Q2 วัด type, Q3 วัด leak โดยตรง, Q4-Q5 ยืนยัน type
 var _finAnswers={},_finQ=1;
 var FIN_QS=[
-  {q:'เมื่อได้รับเงินก้อนใหญ่โดยไม่คาดคิด\nคุณมักจะทำอะไรเป็นอย่างแรก?',hint:'ปฏิกิริยาแรกต่อเงินคือหน้าต่างสู่ Financial Archetype ของคุณ',
-   opts:['🏦 เก็บไว้ทั้งหมด เผื่อฉุกเฉิน','⚖️ แบ่งเก็บส่วนหนึ่ง ใช้ส่วนหนึ่ง','📈 ลงทุนต่อยอดทันที','🎉 ใช้เพื่อประสบการณ์ที่อยากได้มานาน'],
-   keys:['protector','planner','opportunist','flow']},
-  {q:'ถ้าต้องเลือกระหว่าง...',hint:'ตัวเลือกนี้สะท้อนความสัมพันธ์ระหว่างคุณกับ "ความมั่นคง" และ "โอกาส"',
-   opts:['🔒 รายได้มั่นคงทุกเดือน ไม่เพิ่มมาก','🚀 รายได้ไม่แน่นอน แต่โอกาสโต 10 เท่า','🎨 รายได้ปานกลาง มีเวลาทำสิ่งที่รัก','💪 รายได้สูง แต่ทำงานหนักมาก'],
-   keys:['protector','opportunist','flow','builder']},
-  {q:'เวลาตัดสินใจเรื่องเงิน\nอะไรมักมีผลกับคุณมากที่สุด?',hint:'สไตล์การตัดสินใจทางการเงินคือกุญแจสู่ Financial Archetype',
-   opts:['📊 ตัวเลขและข้อมูลทางการเงิน','💭 ความรู้สึกในขณะนั้น','🤝 คำแนะนำจากคนที่ไว้ใจ','📚 ประสบการณ์ที่ผ่านมา'],
-   keys:['planner','flow','protector','builder']},
-  {q:'พูดถึง "ความรวย" คุณนึกถึงอะไรเป็นอย่างแรก?',hint:'นิยามความรวยของคุณคือเป้าหมายที่ระบบการเงินควรพาคุณไปถึง',
-   opts:['🕊️ อิสรภาพ — ไม่ต้องกังวลเรื่องเงิน','🏰 ความมั่นคง — มีพอใช้ไม่ขาด','⚡ ความสามารถ — ทำอะไรก็ได้ที่อยากทำ','🏆 ความสำเร็จ — เป็นที่ยอมรับ'],
-   keys:['flow','protector','opportunist','builder']},
-  {q:'เมื่อมองย้อนไป 1 ปีที่ผ่านมา\nคุณรู้สึกอย่างไรกับเงิน?',hint:'ความรู้สึกต่อสถานการณ์จริงคือจุดเริ่มต้นของการพัฒนา',
-   opts:['📋 ควบคุมได้ดี วางแผนไว้แล้ว','🌊 พอใช้ แต่ไม่เหลือเก็บ','😶 ไม่ค่อยได้คิดเรื่องนี้','💸 หาได้เยอะ แต่ก็ใช้เยอะ'],
-   keys:['planner','protector','flow','opportunist']}
+  {q:'เวลาได้เงินก้อนใหญ่มาโดยไม่คาดคิด\nความรู้สึกแรกที่เกิดขึ้นคืออะไร?',
+   hint:'ปฏิกิริยาแรกต่อเงินบอกความสัมพันธ์ที่แท้จริงกับเงินของคุณ',
+   opts:['📈 อยากลงทุนหรือเอาไปต่อยอดทันที','🏦 อยากเก็บไว้ให้มั่นคงก่อนจะทำอะไร','💚 อยากแบ่งปันหรือทำสิ่งที่มีความหมายกับมัน','😟 รู้สึกกังวลว่าจะจัดการมันยังไงให้ถูก'],
+   keys:['opportunist','protector','impact','avoider'],leakKeys:[null,null,null,null]},
+  {q:'เวลาเห็นคนอื่นรวยหรือประสบความสำเร็จทางการเงิน\nคุณมักรู้สึกอะไรเป็นอันดับแรก?',
+   hint:'มุมมองต่อความสำเร็จของคนอื่นสะท้อน money mindset ของคุณ',
+   opts:['🚀 แรงบันดาลใจ อยากทำให้ได้แบบนั้นบ้าง','📖 สงสัยว่าเขาทำยังไง อยากเรียนรู้','😌 รู้สึกเฉยๆ เงินไม่ใช่ทุกอย่างสำหรับฉัน','😶 รู้สึกไม่สบายใจบางอย่างที่อธิบายยาก'],
+   keys:['opportunist','builder','impact','avoider'],leakKeys:[null,null,null,null]},
+  {q:'เงินที่หายไปโดยไม่รู้ตัวของคุณ\nมักเกิดจากอะไร?',
+   hint:'นี่คือ "รอยรั่ว" ที่ทำให้เงินออกโดยไม่ตั้งใจ — ไม่มีถูกผิด',
+   opts:['😤 ซื้อของเพื่อให้รู้สึกดีขึ้นเวลาเครียด','⚡ ลงทุนสิ่งใหม่ก่อนที่จะพิสูจน์ว่าใช้ได้','💚 จ่ายแทนคนอื่นหรือช่วยเหลือจนลืมดูแลตัวเอง','📱 ค่า subscription หรือสมาชิกที่แทบไม่ได้ใช้'],
+   keys:[null,null,null,null],leakKeys:['emotional','impulsive','over_giving','subscription']},
+  {q:'ประโยคไหนที่คุณเคยได้ยินในวัยเด็ก\nและยังรู้สึกว่ามันจริงอยู่บ้าง?',
+   hint:'ความเชื่อจากวัยเด็กคือ "โปรแกรม" ที่ยังรันอยู่เบื้องหลัง',
+   opts:['💪 "คนรวยต้องทำงานหนักหรือโชคดีเท่านั้น"','⚠️ "เงินทำให้คนเปลี่ยนไปในทางที่แย่ลง"','🏦 "เก็บไว้ก่อน ใช้เมื่อจำเป็นจริงๆ"','🌊 "เงินมาและไป สำคัญแค่ตอนนี้มีพอ"'],
+   keys:['builder','avoider','protector','impact'],leakKeys:[null,null,null,null]},
+  {q:'ถ้าการเงินของคุณอยู่ในจุดที่ดีที่สุด\nชีวิตจะเปลี่ยนไปยังไง?',
+   hint:'เป้าหมายที่แท้จริงคือทิศทางที่ระบบการเงินของคุณควรมุ่งไป',
+   opts:['🕊️ มีอิสระทำสิ่งที่รักโดยไม่ต้องกังวล','🏰 รู้สึกมั่นคงและไม่ต้องกังวลเรื่องอนาคต','💚 ดูแลคนที่รักและให้โอกาสคนอื่นได้','🏗️ สร้างสิ่งที่ยิ่งใหญ่โดยไม่ติดข้อจำกัด'],
+   keys:['impact','protector','impact','opportunist'],leakKeys:[null,null,null,null]}
 ];
 var FIN_ARCHETYPES={
-  planner:{icon:'🧮',name:'The Planner',nameTh:'นักวางแผน',nameZh:'規劃型',
-    desc:'วางแผนการเงินเป็นระบบ มีวินัยสูง อาจระวังมากไปจนพลาดโอกาสบางอย่าง',
-    descEn:'Systematic financial planner, highly disciplined. May miss opportunities by being overly cautious.',
-    tip:'ลองตั้งงบ "โอกาส" สักเล็กน้อยเพื่อให้ตัวเองลองสิ่งใหม่โดยไม่รู้สึกผิด'},
-  flow:{icon:'🌊',name:'The Flow',nameTh:'สายน้ำไหล',nameZh:'流動型',
-    desc:'เชื่อในความอุดมสมบูรณ์ เงินมาเงินไป มีอิสระแต่อาจขาดการเก็บออม',
-    descEn:'Believes in abundance, money flows freely. Has freedom but may lack savings.',
-    tip:'ลองตั้ง auto-save เล็กน้อยทุกเดือน แม้แค่ 5-10% เพื่อสร้างรากฐาน'},
-  builder:{icon:'🎯',name:'The Builder',nameTh:'นักสร้าง',nameZh:'建設型',
-    desc:'สร้างความมั่งคั่งระยะยาว อดทนและสม่ำเสมอ มองผลระยะยาวเป็นหลัก',
-    descEn:'Builds long-term wealth, patient and consistent. Focuses on long-term results.',
-    tip:'ตรวจสอบว่าแผนระยะยาวยังสอดคล้องกับชีวิตปัจจุบันหรือเปล่า อย่าลืมใช้ชีวิตตอนนี้ด้วย'},
   opportunist:{icon:'⚡',name:'The Opportunist',nameTh:'นักจับโอกาส',nameZh:'機會型',
-    desc:'เห็นโอกาสและลงทุนเร็ว เสี่ยงสูงแต่ผลตอบแทนสูง ต้องการการบริหารความเสี่ยง',
-    descEn:'Sees and acts on opportunities fast. High risk, high reward. Needs risk management.',
-    tip:'ตั้งกฎ: ลงทุนใน "โอกาสเสี่ยง" ไม่เกิน 20% ของเงินออม ส่วนที่เหลือต้องมั่นคง'},
+    desc:'มองเห็นโอกาสและลงทุนเร็ว พลังงานสูง กล้าเสี่ยง — จุดระวัง: ตัดสินใจเร็วเกินก่อนพิสูจน์',
+    tip:'ตั้งกฎ "48 ชั่วโมง" — รอ 2 วันก่อนลงทุนอะไรใหม่ ถ้ายังอยากทำอยู่แสดงว่าดีจริง'},
   protector:{icon:'🛡️',name:'The Protector',nameTh:'นักปกป้อง',nameZh:'保護型',
-    desc:'ปลอดภัยไว้ก่อน เงินคือความมั่นคง บางครั้งกลัวความเสี่ยงจนพลาดการเติบโต',
-    descEn:'Safety first, money means security. Sometimes fear of risk blocks growth.',
-    tip:'ลองแบ่งเงินเป็น 3 ส่วน: ฉุกเฉิน (3 เดือน), มั่นคง, และโอกาสเล็กๆ สักส่วน'}
+    desc:'ให้คุณค่ากับความมั่นคง เก็บเป็น วางแผนรอบคอบ — จุดระวัง: กลัวความเสี่ยงจนพลาดการเติบโต',
+    tip:'แบ่งเงิน 90% มั่นคง + 10% ลองของใหม่ — เผื่อโอกาสโดยไม่รู้สึกผิด'},
+  builder:{icon:'🏗️',name:'The Builder',nameTh:'นักสร้าง',nameZh:'建設型',
+    desc:'มุ่งสร้างความมั่งคั่งระยะยาว อดทน สม่ำเสมอ — จุดระวัง: อาจลืมใช้ชีวิตในปัจจุบัน',
+    tip:'ตั้ง "fun budget" เดือนละครั้ง — ใช้เงินเพื่อประสบการณ์โดยไม่รู้สึกผิดเลย'},
+  impact:{icon:'💚',name:'The Impact Giver',nameTh:'ผู้ให้คุณค่า',nameZh:'影響型',
+    desc:'เงินคือเครื่องมือสร้างความหมาย ให้คนอื่นก่อนตัวเอง — จุดระวัง: ให้จนลืมดูแลตัวเอง',
+    tip:'ตั้งกฎ "ดูแลตัวเองก่อน 20%" — ออมให้ตัวเองก่อนแบ่งให้คนอื่น'},
+  avoider:{icon:'🌀',name:'The Avoider',nameTh:'ผู้หลีกเลี่ยง',nameZh:'迴避型',
+    desc:'รู้สึกท่วมท้นกับเรื่องเงิน มักผัดวันประกันพรุ่งการตัดสินใจทางการเงิน — จุดระวัง: ความไม่แน่นอนสะสม',
+    tip:'เริ่มแค่ 1 อย่าง: เช็คยอดเงินทุกวันจันทร์ 5 นาที ความคุ้นเคยจะลดความกลัวได้'}
 };
-function openFinQ(){
-  _finAnswers={};_finQ=1;
-  rFinQ();go('sc-fin-quiz');
-}
+var MONEY_LEAKS={
+  emotional:{icon:'😤',label:'Emotional Spending',th:'ใช้เงินแก้ความรู้สึก',
+    desc:'รอยรั่วหลักของคุณคือการซื้อของเพื่อปลอบตัวเองเวลาเครียดหรือเหนื่อย',
+    fix:'ลอง "pause 24 ชั่วโมง" ก่อนซื้อทุกอย่างที่ไม่ได้วางแผนไว้ล่วงหน้า'},
+  impulsive:{icon:'⚡',label:'Impulsive Investing',th:'ลงทุนก่อนพิสูจน์',
+    desc:'รอยรั่วหลักคือการกระโดดเข้าหาโอกาสใหม่ก่อนที่จะทดสอบว่าใช้ได้จริง',
+    fix:'ตั้งกฎ: ทดลองเล็กก่อนเสมอ ใช้เงินน้อยสุดที่จะพิสูจน์ได้ ก่อนลงใหญ่'},
+  over_giving:{icon:'💚',label:'Over-Giving',th:'ให้คนอื่นก่อนตัวเอง',
+    desc:'รอยรั่วหลักคือการจ่ายแทนหรือช่วยเหลือคนอื่นจนกระทบฐานะตัวเอง',
+    fix:'ตั้งงบ "ให้" ต่อเดือนไว้ก่อน — ให้ได้เต็มที่ในงบนั้น ที่เหลือคือของตัวเอง'},
+  subscription:{icon:'📱',label:'Subscription Drain',th:'ค่า subscription ที่แทบไม่ได้ใช้',
+    desc:'รอยรั่วหลักคือบริการหรือสมาชิกที่ตัดเงินอัตโนมัติโดยไม่ได้ใช้คุ้มค่า',
+    fix:'ใช้เวลา 30 นาทีทบทวน subscription ทั้งหมด ยกเลิกที่ไม่ได้ใช้ในเดือนที่ผ่านมา'}
+};
+function openFinQ(){_finAnswers={};_finQ=1;rFinQ();go('sc-fin-quiz');}
 function rFinQ(){
   var q=FIN_QS[_finQ-1];
   var dots='';
@@ -3749,6 +3960,7 @@ function rFinQ(){
   }
   document.getElementById('finq-dots').innerHTML=dots;
   document.getElementById('finq-ctr').textContent=_finQ+' / '+FIN_QS.length;
+  document.getElementById('finq-title').textContent='💰 Money Blueprint';
   var html='<div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">'+q.q.replace(/\n/g,'<br>')+'</div>';
   html+='<div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">💡 '+q.hint+'</div>';
   q.opts.forEach(function(opt,i){
@@ -3759,22 +3971,23 @@ function rFinQ(){
 function selFinQ(idx,el){
   document.querySelectorAll('#finq-body .qopt').forEach(function(o){o.classList.remove('sel');});
   el.classList.add('sel');
-  var key=FIN_QS[_finQ-1].keys[idx];
-  _finAnswers[_finQ]=key;
-  setTimeout(function(){
-    if(_finQ<FIN_QS.length){_finQ++;rFinQ();}
-    else{saveFinResult();}
-  },320);
+  var q=FIN_QS[_finQ-1];
+  if(q.keys[idx])_finAnswers['type_'+_finQ]=q.keys[idx];
+  if(q.leakKeys[idx])_finAnswers['leak_'+_finQ]=q.leakKeys[idx];
+  setTimeout(function(){if(_finQ<FIN_QS.length){_finQ++;rFinQ();}else{saveFinResult();}},320);
 }
 function saveFinResult(){
-  // Count votes for each archetype
-  var counts={};
-  Object.values(_finAnswers).forEach(function(k){counts[k]=(counts[k]||0)+1;});
-  var winner=Object.keys(counts).reduce(function(a,b){return(counts[a]||0)>=(counts[b]||0)?a:b;},'planner');
+  var typeCounts={},leakCounts={};
+  Object.keys(_finAnswers).forEach(function(k){
+    var v=_finAnswers[k];
+    if(k.startsWith('type_'))typeCounts[v]=(typeCounts[v]||0)+1;
+    if(k.startsWith('leak_'))leakCounts[v]=(leakCounts[v]||0)+1;
+  });
+  var typeWinner=Object.keys(typeCounts).length?Object.keys(typeCounts).reduce(function(a,b){return typeCounts[a]>=typeCounts[b]?a:b;}):'builder';
+  var leakWinner=Object.keys(leakCounts).length?Object.keys(leakCounts).reduce(function(a,b){return leakCounts[a]>=leakCounts[b]?a:b;}):'subscription';
   var p=lsG(LSP)||{};
-  p.finArchetype=winner;lsS(LSP,p);
-  toast('วิเคราะห์ต้นแบบการเงินแล้ว ✓');
-  bk();rSelf();
+  p.finArchetype=typeWinner;p.moneyLeak=leakWinner;lsS(LSP,p);
+  toast('วิเคราะห์ Money Blueprint แล้ว ✓');bk();rSelf();
 }
 function skipFinQ(){bk();}
 
@@ -3932,75 +4145,328 @@ function saveRelResult(){
 }
 function skipRelQ(){bk();}
 
+// ═══ TEAM ROLE ARCHETYPE QUIZ (5Q) ═══
+var _teamAnswers={},_teamQ=1;
+var TEAM_QS=[
+  {q:'เวลาเริ่มโปรเจกต์ใหม่กับทีม\nสิ่งแรกที่คุณมักทำคืออะไร?',
+   hint:'พฤติกรรมแรกในโปรเจกต์บอก role ตามธรรมชาติของคุณ',
+   opts:['🗺️ มองภาพรวมและวางทิศทางก่อนเริ่ม','🤝 ถามว่าใครทำอะไรได้บ้าง แล้วจัดสรรงาน','⚙️ เริ่มลงมือทำในส่วนที่ตัวเองถนัดทันที','💡 ตั้งคำถามว่าทำไมต้องทำแบบนี้ มีวิธีอื่นไหม'],
+   keys:['visionary','connector','executor','challenger']},
+  {q:'เวลาทีมติดขัดและไม่รู้จะไปต่อยังไง\nคุณมักจะ?',
+   hint:'มุมมองที่ 2 — วิธีแก้ปัญหาบอก role ของคุณในทีมชัดขึ้น',
+   opts:['🔭 เสนอภาพใหม่ว่าถ้ามองต่างมุมจะเป็นยังไง','📞 โทรหาคนที่รู้จักซึ่งน่าจะช่วยได้','🎯 หาว่าปัญหาจริงๆ คืออะไร แล้วแก้ตรงนั้น','🔥 บอกตรงๆ ว่าอะไรที่ไม่ work และควรเปลี่ยน'],
+   keys:['visionary','connector','executor','challenger']},
+  {q:'สิ่งที่ทำให้คุณรู้สึกมีพลังที่สุด\nในการทำงานกับคนอื่นคืออะไร?',
+   hint:'แรงจูงใจที่แท้จริงคือเบาะแสสำคัญของ role ที่เหมาะกับคุณ',
+   opts:['📊 เห็นว่าทีมเดินหน้าและผลลัพธ์ออกมาจริง','🌟 ได้แลกเปลี่ยนไอเดียและเรียนรู้จากกัน','💎 รู้สึกว่าตัวเองเป็นคนที่ทีมพึ่งพาได้','⚡ ได้ท้าทายวิธีคิดเดิมและสร้างสิ่งใหม่'],
+   keys:['executor','visionary','connector','challenger']},
+  {q:'เวลาที่คุณรู้สึกหมดแรงใน\nการทำงานทีมมากที่สุดคืออะไร?',
+   hint:'สิ่งที่ดูดพลังบอกสิ่งที่คุณให้คุณค่าในการทำงาน',
+   opts:['⏳ ต้องรอคนอื่นตัดสินใจทั้งที่เห็นทางอยู่แล้ว','🔁 ทีมไม่เปิดรับไอเดียใหม่ ทำแบบเดิมซ้ำๆ','📉 งานออกมาไม่ดีเท่าที่ควร ทั้งที่ตั้งใจทำ','🚫 ต้องทำอะไรที่ไม่เห็นด้วยโดยไม่มีเหตุผล'],
+   keys:['executor','challenger','executor','challenger']},
+  {q:'คนที่ทำงานกับคุณมักพูดถึงคุณ\nในแบบไหนมากที่สุด?',
+   hint:'ชื่อเสียงในทีมคือสิ่งที่คุณให้คุณค่าและทำได้ดีโดยธรรมชาติ',
+   opts:['💡 "คุยด้วยแล้วได้ไอเดียใหม่เสมอ"','⚙️ "พึ่งพาได้ ทำอะไรก็เสร็จ"','🌐 "เชื่อมคนเข้าหากันเก่ง รู้จักคนเยอะ"','🎤 "กล้าพูดในสิ่งที่คนอื่นไม่กล้าพูด"'],
+   keys:['visionary','executor','connector','challenger']}
+];
+var TEAM_ROLES={
+  visionary:{icon:'🔭',th:'นักวิสัยทัศน์',en:'The Visionary',zh:'遠見者',
+    desc:'มองภาพใหญ่ เสนอทิศทางใหม่ สร้างแรงบันดาลใจให้ทีม — จุดระวัง: อาจไม่อดทนกับรายละเอียด',
+    tip:'จับคู่กับ Executor จะทำให้ไอเดียกลายเป็นผลจริง'},
+  executor:{icon:'⚙️',th:'นักลงมือทำ',en:'The Executor',zh:'執行者',
+    desc:'วางระบบ ลงมือทำจริง ผลักดันให้ถึงเส้นชัย — จุดระวัง: อาจหนักใจกับ scope ที่เปลี่ยนบ่อย',
+    tip:'ขอ clarity เรื่อง priority ก่อน แล้ว execute ได้ full power'},
+  connector:{icon:'🌐',th:'นักเชื่อมโยง',en:'The Connector',zh:'連結者',
+    desc:'เชื่อมคน สร้าง trust ดูแลบรรยากาศทีม — จุดระวัง: อาจหลีกเลี่ยงความขัดแย้งที่จำเป็น',
+    tip:'ฝึก "productive conflict" — ความขัดแย้งที่ดีทำให้ทีมเติบโต'},
+  challenger:{icon:'🔥',th:'นักท้าทาย',en:'The Challenger',zh:'挑戰者',
+    desc:'ตั้งคำถาม บอกความจริง ป้องกันทีมจากความผิดพลาด — จุดระวัง: อาจดูเป็น negative ถ้าขาด context',
+    tip:'เพิ่ม "ทางแก้" หลังทุกครั้งที่ challenge เพื่อให้ feedback constructive'}
+};
+var _teamA={},_teamN=1;
+function openTeamQ(){_teamA={};_teamN=1;document.getElementById('teamq-ctr').textContent='1 / 5';rTeamQ();go('sc-team-quiz');}
+function rTeamQ(){
+  var q=TEAM_QS[_teamN-1];
+  var dots='';for(var i=0;i<5;i++){var c='sdot'+(i+1<_teamN?' dn':i+1===_teamN?' on':'');dots+='<div class="'+c+'"></div>';}
+  document.getElementById('teamq-dots').innerHTML=dots;
+  document.getElementById('teamq-ctr').textContent=_teamN+' / 5';
+  var html='<div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">'+q.q.replace(/\n/g,'<br>')+'</div>';
+  html+='<div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">💡 '+q.hint+'</div>';
+  q.opts.forEach(function(opt,i){html+='<div class="qopt" onclick="selTeamQ('+i+',this)"><div class="qdot"></div>'+opt+'</div>';});
+  document.getElementById('teamq-body').innerHTML=html;
+}
+function selTeamQ(idx,el){
+  document.querySelectorAll('#teamq-body .qopt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');_teamA[_teamN]=TEAM_QS[_teamN-1].keys[idx];
+  setTimeout(function(){if(_teamN<5){_teamN++;rTeamQ();}else{saveTeamResult();}},320);
+}
+function saveTeamResult(){
+  var c={};Object.values(_teamA).forEach(function(k){c[k]=(c[k]||0)+1;});
+  var w=Object.keys(c).reduce(function(a,b){return c[a]>=c[b]?a:b;},'executor');
+  var p=lsG(LSP)||{};p.teamRole=w;lsS(LSP,p);
+  toast('วิเคราะห์บทบาทในทีมแล้ว ✓');bk();rSelf();
+}
+function skipTeamQ(){bk();}
+
+// ═══ HIDDEN TALENT DETECTOR (5Q) ═══
+var _talA={},_talN=1;
+var TAL_QS=[
+  {q:'มีเรื่องอะไรที่คนอื่นขอความช่วยเหลือคุณบ่อย\nแต่คุณรู้สึกว่ามันไม่ใช่เรื่องใหญ่อะไรเลย?',
+   hint:'สิ่งที่ง่ายสำหรับคุณแต่คนอื่นทำยาก — นั่นแหละคือพรสวรรค์',
+   opts:['📖 อธิบายเรื่องซับซ้อนให้เข้าใจง่าย','🧠 รู้สึกได้ทันทีว่าบรรยากาศในห้องเป็นยังไง','💡 หาทางออกจากสถานการณ์ที่ดูตันแล้ว','📋 จัดระเบียบความคิดหรือข้อมูลที่ยุ่งเหยิง'],
+   keys:['teacher','empath','solver','organizer']},
+  {q:'เวลาคุณอยู่ในกลุ่มที่กำลังแก้ปัญหา\nสิ่งที่คุณเห็นก่อนคนอื่นมักเป็นอะไร?',
+   hint:'มุมมองที่ 2 — สิ่งที่ "เห็นก่อน" คือ talent ที่ฝึกมาโดยไม่รู้ตัว',
+   opts:['🎯 ว่าปัญหาจริงๆ ไม่ใช่สิ่งที่ทุกคนกำลังพูดถึง','💭 ว่ามีใครในกลุ่มที่รู้สึกไม่สบายใจแต่ยังไม่พูด','🗂️ ว่าควรทำขั้นตอนไหนก่อนเพื่อให้ทุกอย่างราบรื่น','✨ ว่ามีวิธีที่ง่ายกว่านี้ที่ยังไม่มีใครลอง'],
+   keys:['solver','empath','organizer','solver']},
+  {q:'คุณเคยลืมเวลาและจมอยู่กับอะไร\nโดยไม่รู้สึกเหนื่อยเลย?',
+   hint:'Flow State คือสัญญาณชัดที่สุดว่า talent ของคุณอยู่ที่ไหน',
+   opts:['🎨 สร้างหรือออกแบบบางอย่างตั้งแต่ต้น','🤲 คุยหรือฟังคนที่กำลังเผชิญปัญหาชีวิต','🔍 วิเคราะห์ข้อมูลหรือหาความเชื่อมโยงที่ซ่อนอยู่','📚 สอนหรืออธิบายให้คนอื่นเข้าใจในสิ่งที่ยาก'],
+   keys:['creator','empath','solver','teacher']},
+  {q:'มีคำชมแบบไหนที่คุณได้ยินซ้ำๆ\nแต่รู้สึกว่า "แค่นี้เองทุกคนก็ทำได้"?',
+   hint:'คำชมที่คุณ "ไม่เชื่อ" มักบอก talent ที่คุณมองข้ามตัวเอง',
+   opts:['💬 "คุณอธิบายได้ชัดมากเลย"','👁️ "คุณอ่านคนเก่งจริงๆ"','🔎 "คุณคิดละเอียดกว่าคนอื่นมาก"','⚡ "คุณทำให้ทุกอย่างดูง่ายขึ้นเสมอ"'],
+   keys:['teacher','empath','solver','organizer']},
+  {q:'กิจกรรมแบบไหนที่พอทำเสร็จแล้ว\nรู้สึกว่า "นี่แหละคือฉัน" มากที่สุด?',
+   hint:'ความรู้สึก "เป็นตัวเอง" หลังทำงานคือ signature ของ talent ที่แท้จริง',
+   opts:['🏗️ สร้างหรือผลิตบางอย่างออกมาเป็นชิ้นเป็นอัน','💛 พูดคุยและทำให้คนอื่นรู้สึกดีขึ้น','🧩 แก้โจทย์ที่ซับซ้อนจนได้คำตอบที่ elegant','🎯 นำหรือจัดการให้สิ่งต่างๆ เดินหน้าได้'],
+   keys:['creator','empath','solver','organizer']}
+];
+var TALENTS={
+  teacher:{icon:'📖',th:'ผู้ถ่ายทอด',en:'The Communicator',zh:'溝通者',
+    desc:'พรสวรรค์ซ่อนอยู่ใน "การอธิบายสิ่งยากให้ง่าย" คุณทำสิ่งที่คนอื่นใช้เวลานานเป็นเรื่องธรรมชาติ',
+    unlock:'ลองเขียน เล่า หรือสอนสิ่งที่คุณรู้ดีให้คนอื่น — คุณอาจแปลกใจว่าคนตอบรับแค่ไหน'},
+  empath:{icon:'🧠',th:'นักอ่านอารมณ์',en:'The Empath',zh:'共情者',
+    desc:'พรสวรรค์ซ่อนอยู่ใน "การรับรู้สิ่งที่ไม่ได้พูด" คุณเห็นความจริงที่ซ่อนอยู่ใต้คำพูด',
+    unlock:'พรสวรรค์นี้มีค่ามากในงาน coaching, HR, leadership, หรือทุกงานที่ต้องทำงานกับคน'},
+  solver:{icon:'🎯',th:'นักแก้ปัญหา',en:'The Problem Solver',zh:'解決者',
+    desc:'พรสวรรค์ซ่อนอยู่ใน "การมองเห็นทางออกที่คนอื่นมองไม่เห็น" คุณคิดเชิงระบบโดยธรรมชาติ',
+    unlock:'ลองนำทักษะนี้ไปใช้กับปัญหาที่ใหญ่ขึ้น — คุณอาจสร้างคุณค่าได้มากกว่าที่คิด'},
+  organizer:{icon:'📋',th:'นักจัดระบบ',en:'The Organizer',zh:'組織者',
+    desc:'พรสวรรค์ซ่อนอยู่ใน "การทำให้ความซับซ้อนเป็นระเบียบ" สิ่งที่คนอื่นงงคุณเห็นเป็น pattern',
+    unlock:'ทักษะนี้หายากมาก ลองสร้างระบบหรือ framework ให้คนอื่น — นั่นคือ leverage ของคุณ'},
+  creator:{icon:'🎨',th:'นักสร้าง',en:'The Creator',zh:'創造者',
+    desc:'พรสวรรค์ซ่อนอยู่ใน "การสร้างสิ่งใหม่จากศูนย์" คุณมีความคิดสร้างสรรค์ที่ฝังลึก',
+    unlock:'ลองสร้างโปรเจกต์ที่เป็นของตัวเองสักชิ้น ไม่ว่าจะเล็กแค่ไหน — นั่นคือที่ที่คุณ shine'}
+};
+function openTalentQ(){_talA={};_talN=1;rTalentQ();go('sc-talent-quiz');}
+function rTalentQ(){
+  var q=TAL_QS[_talN-1];
+  var dots='';for(var i=0;i<5;i++){var c='sdot'+(i+1<_talN?' dn':i+1===_talN?' on':'');dots+='<div class="'+c+'"></div>';}
+  document.getElementById('talq-dots').innerHTML=dots;
+  document.getElementById('talq-ctr').textContent=_talN+' / 5';
+  var html='<div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">'+q.q.replace(/\n/g,'<br>')+'</div>';
+  html+='<div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">💡 '+q.hint+'</div>';
+  q.opts.forEach(function(opt,i){html+='<div class="qopt" onclick="selTalentQ('+i+',this)"><div class="qdot"></div>'+opt+'</div>';});
+  document.getElementById('talq-body').innerHTML=html;
+}
+function selTalentQ(idx,el){
+  document.querySelectorAll('#talq-body .qopt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');_talA[_talN]=TAL_QS[_talN-1].keys[idx];
+  setTimeout(function(){if(_talN<5){_talN++;rTalentQ();}else{saveTalentResult();}},320);
+}
+function saveTalentResult(){
+  var c={};Object.values(_talA).forEach(function(k){c[k]=(c[k]||0)+1;});
+  var w=Object.keys(c).reduce(function(a,b){return c[a]>=c[b]?a:b;},'solver');
+  var p=lsG(LSP)||{};p.hiddenTalent=w;lsS(LSP,p);
+  toast('ค้นพบพรสวรรค์ที่ซ่อนอยู่แล้ว ✓');bk();rSelf();
+}
+function skipTalentQ(){bk();}
+
+// ═══ LOVE LANGUAGE + ATTACHMENT STYLE (5Q) ═══
+// Q1-Q2 → Love Language (วิธีรับ/ให้ความรัก) แยกกัน 2 มิติ
+// Q3-Q5 → Attachment Style (รูปแบบความผูกพัน) เป็นมิติที่ 3 แยกต่างหาก
+var _loveA={},_loveN=1;
+var LOVE_QS=[
+  {q:'คุณรู้สึกว่าคนที่รักคุณจริงๆ มากที่สุดเมื่อเขา?',
+   hint:'นี่คือ "ภาษารัก" ที่คุณ "รับ" — วิธีที่คุณรับรู้ว่าถูกรัก',
+   opts:['🕐 อยู่ด้วยและให้เวลากับคุณโดยไม่มีสิ่งรบกวน','💬 พูดบอกหรือแสดงออกตรงๆ ว่าคิดถึงหรือห่วงใย','🤲 ช่วยทำสิ่งต่างๆ ให้โดยไม่ต้องรอให้ขอ','🫂 สัมผัสเบาๆ เช่น กอด จับมือ หรืออยู่ใกล้ๆ'],
+   keys:['qt','words','acts','touch'],dim:'loveLangReceive'},
+  {q:'เวลาคุณอยากแสดงว่าห่วงใยคนที่รัก\nคุณมักทำอะไร?',
+   hint:'มุมมองที่ 2 — นี่คือ "ภาษารัก" ที่คุณ "ให้" ซึ่งอาจต่างจากที่รับ',
+   opts:['🕐 จัดเวลาให้เขาโดยเฉพาะ ไม่มีโทรศัพท์','💬 บอกตรงๆ ว่ารู้สึกยังไงและเขาสำคัญแค่ไหน','🤲 ทำสิ่งเล็กๆ เพื่อให้ชีวิตเขาง่ายขึ้น','🫂 อยู่ใกล้ๆ และให้ความอบอุ่นทางกาย'],
+   keys:['qt','words','acts','touch'],dim:'loveLangGive'},
+  {q:'เมื่อมีความขัดแย้งหรือความสัมพันธ์ดูห่างออกไป\nคุณมักรู้สึกและทำอะไร?',
+   hint:'ปฏิกิริยาต่อความตึงเครียดบอก Attachment Style ของคุณ',
+   opts:['😟 รู้สึกกังวลและพยายามติดต่อหรือแก้ไขทันที','🚶 ถอยออกมาก่อน ต้องการพื้นที่คิดคนเดียว','🕊️ พยายามทำให้ทุกอย่างกลับมาดีเหมือนเดิมโดยเร็ว','😕 รู้สึกสับสนว่าตัวเองต้องการอะไรกันแน่'],
+   keys:['anxious','avoidant','secure','fearful'],dim:'attachment1'},
+  {q:'สิ่งที่คุณกลัวที่สุดในความสัมพันธ์\nที่ใกล้ชิดคืออะไร?',
+   hint:'ความกลัวที่ลึกสุดบอก pattern ที่ซ่อนอยู่ในความสัมพันธ์ของคุณ',
+   opts:['💔 ถูกทอดทิ้งหรือรู้สึกว่าไม่มีคนอยู่ด้วยจริงๆ','🔓 สูญเสียความเป็นตัวเองหรือพื้นที่ส่วนตัว','📉 ความสัมพันธ์ค่อยๆ จืดจางไปโดยไม่รู้ตัว','❓ ไม่รู้ว่าอีกฝ่ายรู้สึกยังไงกับเราจริงๆ'],
+   keys:['anxious','avoidant','secure','fearful'],dim:'attachment2'},
+  {q:'ความสัมพันธ์ที่รู้สึกดีที่สุด\nสำหรับคุณคือแบบไหน?',
+   hint:'ภาพในอุดมคติบอกสิ่งที่คุณ "ต้องการ" อย่างแท้จริง',
+   opts:['🤫 อยู่ด้วยกันสบายๆ ไม่ต้องพูดมากก็เข้าใจกัน','💬 พูดคุยเปิดใจได้ทุกเรื่องโดยไม่ต้องกลัวถูกตัดสิน','🕊️ ต่างคนต่างมีชีวิตของตัวเองแต่ยังเลือกกลับมาหากัน','🏰 รู้สึกมั่นคงว่าไม่ว่าอะไรจะเกิดขึ้นก็ยังอยู่ด้วยกัน'],
+   keys:['secure','secure','avoidant','anxious'],dim:'attachment3'}
+];
+var LOVE_LANGS={
+  qt:{icon:'🕐',th:'เวลาคุณภาพ',en:'Quality Time',zh:'優質時光'},
+  words:{icon:'💬',th:'คำพูดแสดงรัก',en:'Words of Affirmation',zh:'肯定言辭'},
+  acts:{icon:'🤲',th:'การกระทำเพื่อรัก',en:'Acts of Service',zh:'服務行動'},
+  touch:{icon:'🫂',th:'สัมผัสทางกาย',en:'Physical Touch',zh:'肢體接觸'}
+};
+var ATTACH_STYLES={
+  secure:{icon:'🏰',th:'ปลอดภัย',en:'Secure',zh:'安全型',
+    desc:'รู้สึกมั่นคงในความสัมพันธ์ เชื่อมั่นทั้งตัวเองและคนรัก ไว้วางใจและให้อิสระได้',
+    note:'Secure attachment คือรูปแบบที่ดีที่สุด — ถ้าคุณได้ผลนี้ถือเป็นจุดแข็งที่หายาก'},
+  anxious:{icon:'💛',th:'กังวล',en:'Anxious',zh:'焦慮型',
+    desc:'ต้องการความมั่นใจบ่อยกว่าคนอื่น กลัวการถูกทอดทิ้ง อาจตีความสัญญาณเป็น negative',
+    note:'Anxious attachment มักเกิดจากความสัมพันธ์ที่ไม่สม่ำเสมอในอดีต — ฝึก self-soothing ช่วยได้'},
+  avoidant:{icon:'🕊️',th:'เป็นอิสระ',en:'Avoidant',zh:'迴避型',
+    desc:'ให้คุณค่ากับอิสระและพื้นที่ส่วนตัว อาจถอยห่างเมื่อความใกล้ชิดมากขึ้น',
+    note:'Avoidant attachment ไม่ใช่ "ไม่รัก" แต่คือวิธีที่สมองปกป้องตัวเองจากความเจ็บปวด'},
+  fearful:{icon:'🌀',th:'ขัดแย้งในใจ',en:'Fearful-Avoidant',zh:'恐懼迴避型',
+    desc:'อยากใกล้ชิดแต่กลัวการถูกทำร้าย สลับระหว่างเปิดใจและถอยออก',
+    note:'Fearful attachment มักต้องการเวลาและการบำบัด — เริ่มจากการเข้าใจ pattern ของตัวเองก่อน'}
+};
+function openLoveQ(){_loveA={};_loveN=1;rLoveQ();go('sc-love-quiz');}
+function rLoveQ(){
+  var q=LOVE_QS[_loveN-1];
+  var dots='';for(var i=0;i<5;i++){var c='sdot'+(i+1<_loveN?' dn':i+1===_loveN?' on':'');dots+='<div class="'+c+'"></div>';}
+  document.getElementById('loveq-dots').innerHTML=dots;
+  document.getElementById('loveq-ctr').textContent=_loveN+' / 5';
+  var html='<div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">'+q.q.replace(/\n/g,'<br>')+'</div>';
+  html+='<div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">💡 '+q.hint+'</div>';
+  q.opts.forEach(function(opt,i){html+='<div class="qopt" onclick="selLoveQ('+i+',this)"><div class="qdot"></div>'+opt+'</div>';});
+  document.getElementById('loveq-body').innerHTML=html;
+}
+function selLoveQ(idx,el){
+  document.querySelectorAll('#loveq-body .qopt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  var q=LOVE_QS[_loveN-1];
+  _loveA[q.dim]=q.keys[idx];
+  setTimeout(function(){if(_loveN<5){_loveN++;rLoveQ();}else{saveLoveResult();}},320);
+}
+function saveLoveResult(){
+  // Love language: separate receive vs give
+  var recv=_loveA.loveLangReceive||'qt';
+  var give=_loveA.loveLangGive||'acts';
+  // Attachment: vote from 3 answers
+  var aCounts={};
+  ['attachment1','attachment2','attachment3'].forEach(function(k){
+    var v=_loveA[k];if(v)aCounts[v]=(aCounts[v]||0)+1;
+  });
+  var attach=Object.keys(aCounts).length?Object.keys(aCounts).reduce(function(a,b){return aCounts[a]>=aCounts[b]?a:b;}):'secure';
+  var p=lsG(LSP)||{};
+  p.loveLangReceive=recv;p.loveLangGive=give;p.attachStyle=attach;lsS(LSP,p);
+  toast('วิเคราะห์ภาษารักแล้ว ✓');bk();rSelf();
+}
+function skipLoveQ(){bk();}
+
 // ═══ RENDER NEW MODULES IN SELF INTELLIGENCE ═══
 function rNewModulesInSelf(p){
-  var el=document.getElementById('s-new-modules');
-  if(!el)return;
-  var lang=_lang;
-  var html='';
+  var el=document.getElementById('s-new-modules');if(!el)return;
+  var L=_lang,html='';
 
-  // Financial Archetype
-  var finKey=p.finArchetype;
-  var fin=finKey?FIN_ARCHETYPES[finKey]:null;
-  html+='<div class="card" style="margin-bottom:11px">';
+  // helper: entry card (ยังไม่ได้ทำ quiz)
+  function entryCard(emoji,label,desc,fn){
+    return'<div class="card" style="margin-bottom:11px">'
+      +'<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:6px">'+emoji+' '+label+'</div>'
+      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">'+desc+'</div>'
+      +'<button class="btn bi bsm" style="width:100%" onclick="'+fn+'()">เริ่มวิเคราะห์ →</button>'
+      +'</div>';
+  }
+  // helper: result card (ทำ quiz แล้ว)
+  function resultCard(emoji,label,iconVal,nameVal,descVal,tipVal,fn){
+    return'<div class="card" style="margin-bottom:11px">'
+      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
+      +'<span style="font-size:24px">'+iconVal+'</span>'
+      +'<div><div style="font-size:12px;color:var(--tx3)">'+emoji+' '+label+'</div>'
+      +'<div style="font-size:13px;font-weight:600;color:var(--gold)">'+nameVal+'</div></div></div>'
+      +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px">'+descVal+'</div>'
+      +(tipVal?'<div style="font-size:11px;color:var(--gold);background:rgba(212,175,55,0.08);border-radius:8px;padding:8px;line-height:1.6">💡 '+tipVal+'</div>':'')
+      +'<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="'+fn+'()">↻ วิเคราะห์ใหม่</button>'
+      +'</div>';
+  }
+
+  // ─── 1. Money Blueprint + Leak ───
+  var finKey=p.finArchetype,fin=finKey?FIN_ARCHETYPES[finKey]:null;
+  var leakKey=p.moneyLeak,leak=leakKey?MONEY_LEAKS[leakKey]:null;
   if(fin){
-    var finName=lang==='zh'?fin.name:lang==='en'?fin.name:fin.nameTh;
-    var finDesc=lang==='en'?fin.descEn:fin.desc;
-    html+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
-      +'<span style="font-size:24px">'+fin.icon+'</span>'
-      +'<div><div style="font-size:13px;font-weight:600;color:var(--tx)">💰 ต้นแบบการเงิน</div>'
-      +'<div style="font-size:12px;color:var(--gold)">'+finName+'</div></div></div>'
-      +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px">'+finDesc+'</div>'
-      +'<div style="font-size:11px;color:var(--gold);background:rgba(212,175,55,0.08);border-radius:8px;padding:8px">💡 '+fin.tip+'</div>'
-      +'<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="openFinQ()">↻ วิเคราะห์ใหม่</button>';
+    var finName=L==='zh'?fin.nameZh:L==='en'?fin.name:fin.nameTh;
+    html+=resultCard('💰','Money Blueprint',fin.icon,finName,fin.desc,fin.tip,'openFinQ');
+    if(leak){
+      html+='<div class="card" style="margin-bottom:11px;border-color:rgba(251,113,133,0.2)">'
+        +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
+        +'<span style="font-size:20px">'+leak.icon+'</span>'
+        +'<div><div style="font-size:11px;color:var(--tx3)">🔍 รอยรั่วการเงินของคุณ</div>'
+        +'<div style="font-size:13px;font-weight:600;color:var(--rose)">'+leak[L==='th'?'th':'label']+'</div></div></div>'
+        +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:6px">'+leak.desc+'</div>'
+        +'<div style="font-size:11px;color:var(--tx3)">🛠️ '+leak.fix+'</div>'
+        +'</div>';
+    }
   } else {
-    html+='<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:8px">💰 ต้นแบบการเงินของคุณ</div>'
-      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">รู้จักสไตล์การเงินของคุณ ข้อดี ข้อระวัง และคำแนะนำที่ตรงจุด</div>'
-      +'<button class="btn bi bsm" style="width:100%" onclick="openFinQ()">🧮 วิเคราะห์ต้นแบบการเงิน</button>';
+    html+=entryCard('💰','Money Blueprint + Leak Detector','รู้จัก Money Type และรอยรั่วการเงินของคุณจากคำถาม 5 ข้อ','openFinQ');
   }
-  html+='</div>';
 
-  // Life Purpose
-  var purKey=p.lifeType;
-  var pur=purKey?PUR_TYPES[purKey]:null;
-  html+='<div class="card" style="margin-bottom:11px">';
+  // ─── 2. Life Purpose ───
+  var purKey=p.lifeType,pur=purKey?PUR_TYPES[purKey]:null;
   if(pur){
-    var purName=lang==='zh'?pur.zh:lang==='en'?pur.en:pur.th;
-    html+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
-      +'<span style="font-size:24px">'+pur.icon+'</span>'
-      +'<div><div style="font-size:13px;font-weight:600;color:var(--tx)">🎯 ภารกิจชีวิต</div>'
-      +'<div style="font-size:12px;color:var(--gold)">'+purName+'</div></div></div>'
-      +'<div style="font-size:12px;color:var(--tx2);line-height:1.7;margin-bottom:8px">'+pur.stmt.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>')+'</div>'
-      +'<div style="font-size:11px;color:var(--tx3)">→ '+pur.action+'</div>'
-      +'<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="openPurQ()">↻ วิเคราะห์ใหม่</button>';
+    var purName=L==='zh'?pur.zh:L==='en'?pur.en:pur.th;
+    html+=resultCard('🎯','ภารกิจชีวิต',pur.icon,purName,
+      pur.stmt.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>'),
+      pur.action,'openPurQ');
   } else {
-    html+='<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:8px">🎯 ภารกิจชีวิตของคุณ</div>'
-      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">ค้นพบว่าคุณเกิดมาเพื่ออะไร ผ่าน 4 คำถามง่ายๆ</div>'
-      +'<button class="btn bi bsm" style="width:100%" onclick="openPurQ()">🎯 ค้นหาภารกิจชีวิต</button>';
+    html+=entryCard('🎯','ค้นหาภารกิจชีวิต','คุณเกิดมาเพื่ออะไร? ค้นหาคำตอบผ่าน 4 คำถาม','openPurQ');
   }
-  html+='</div>';
 
-  // Relationship Archetype
-  var relKey=p.relType;
-  var rel=relKey?REL_ARCHETYPES[relKey]:null;
-  html+='<div class="card" style="margin-bottom:11px">';
+  // ─── 3. Relationship Archetype ───
+  var relKey=p.relType,rel=relKey?REL_ARCHETYPES[relKey]:null;
   if(rel){
-    var relName=lang==='zh'?rel.zh:lang==='en'?rel.en:rel.th;
-    var relDesc=lang==='en'?rel.descEn:rel.desc;
-    html+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
-      +'<span style="font-size:24px">'+rel.icon+'</span>'
-      +'<div><div style="font-size:13px;font-weight:600;color:var(--tx)">💞 รูปแบบความรัก</div>'
-      +'<div style="font-size:12px;color:var(--gold)">'+relName+'</div></div></div>'
-      +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px">'+relDesc+'</div>'
-      +'<div style="font-size:11px;color:var(--tx3);margin-bottom:3px">คนที่เหมาะกับคุณ:</div>'
-      +'<div style="font-size:12px;color:var(--tx2);line-height:1.5">'+rel.idealPartner+'</div>'
-      +'<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="openRelQ()">↻ วิเคราะห์ใหม่</button>';
+    var relName=L==='zh'?rel.zh:L==='en'?rel.en:rel.th;
+    html+=resultCard('💞','รูปแบบความสัมพันธ์',rel.icon,relName,
+      L==='en'?rel.descEn:rel.desc,
+      'คนที่เหมาะกับคุณ: '+rel.idealPartner,'openRelQ');
   } else {
-    html+='<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:8px">💞 รูปแบบความรักของคุณ</div>'
-      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">เข้าใจสไตล์ความรักของตัวเอง และคนแบบไหนที่เหมาะกับคุณ</div>'
-      +'<button class="btn bi bsm" style="width:100%" onclick="openRelQ()">💞 วิเคราะห์รูปแบบความรัก</button>';
+    html+=entryCard('💞','รูปแบบความสัมพันธ์','เข้าใจสไตล์ความรักของตัวเองและคนที่เหมาะกับคุณ','openRelQ');
   }
-  html+='</div>';
+
+  // ─── 4. Love Language + Attachment ───
+  var recv=p.loveLangReceive,give=p.loveLangGive,attach=p.attachStyle;
+  var ll_recv=recv?LOVE_LANGS[recv]:null,ll_give=give?LOVE_LANGS[give]:null,att=attach?ATTACH_STYLES[attach]:null;
+  if(ll_recv&&ll_give&&att){
+    html+='<div class="card" style="margin-bottom:11px">'
+      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">💗 ภาษารัก &amp; รูปแบบความผูกพัน</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+      +'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:9px;text-align:center">'
+      +'<div style="font-size:10px;color:var(--tx3);margin-bottom:4px">วิธีที่คุณรับความรัก</div>'
+      +'<div style="font-size:18px">'+ll_recv.icon+'</div>'
+      +'<div style="font-size:11px;color:var(--gold);font-weight:600">'+(L==='en'?ll_recv.en:L==='zh'?ll_recv.zh:ll_recv.th)+'</div></div>'
+      +'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:9px;text-align:center">'
+      +'<div style="font-size:10px;color:var(--tx3);margin-bottom:4px">วิธีที่คุณให้ความรัก</div>'
+      +'<div style="font-size:18px">'+ll_give.icon+'</div>'
+      +'<div style="font-size:11px;color:var(--gold);font-weight:600">'+(L==='en'?ll_give.en:L==='zh'?ll_give.zh:ll_give.th)+'</div></div></div>'
+      +(recv!==give?'<div style="font-size:11px;color:var(--rose);background:rgba(251,113,133,0.08);border-radius:8px;padding:8px;margin-bottom:10px">⚠️ วิธีที่คุณ "รับ" กับ "ให้" ต่างกัน — บอกคนที่รักว่าคุณรับรู้ความรักผ่านอะไรได้เลย</div>':'')
+      +'<div style="border-top:1px solid var(--border);padding-top:10px">'
+      +'<div style="font-size:11px;color:var(--tx3);margin-bottom:6px">รูปแบบความผูกพัน (Attachment Style)</div>'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'
+      +'<span style="font-size:20px">'+att.icon+'</span>'
+      +'<span style="font-size:13px;font-weight:600;color:var(--gold)">'+(L==='en'?att.en:L==='zh'?att.zh:att.th)+'</span></div>'
+      +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:6px">'+att.desc+'</div>'
+      +'<div style="font-size:11px;color:var(--tx3);line-height:1.6">'+att.note+'</div></div>'
+      +'<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="openLoveQ()">↻ วิเคราะห์ใหม่</button>'
+      +'</div>';
+  } else {
+    html+=entryCard('💗','ภาษารัก + รูปแบบความผูกพัน','รู้ว่าคุณรับและให้ความรักแบบไหน และ Attachment Style ของคุณคืออะไร','openLoveQ');
+  }
+
+  // ─── 5. Team Role ───
+  var teamKey=p.teamRole,team=teamKey?TEAM_ROLES[teamKey]:null;
+  if(team){
+    var teamName=L==='zh'?team.zh:L==='en'?team.en:team.th;
+    html+=resultCard('🏆','บทบาทในทีม',team.icon,teamName,team.desc,team.tip,'openTeamQ');
+  } else {
+    html+=entryCard('🏆','บทบาทในทีม','รู้จัก role ตามธรรมชาติของคุณในการทำงานร่วมกับคนอื่น','openTeamQ');
+  }
+
+  // ─── 6. Hidden Talent ───
+  var talKey=p.hiddenTalent,tal=talKey?TALENTS[talKey]:null;
+  if(tal){
+    var talName=L==='zh'?tal.zh:L==='en'?tal.en:tal.th;
+    html+=resultCard('🔮','พรสวรรค์ที่ซ่อนอยู่',tal.icon,talName,tal.desc,tal.unlock,'openTalentQ');
+  } else {
+    html+=entryCard('🔮','ค้นหาพรสวรรค์ที่ซ่อนอยู่','สิ่งที่คุณทำได้ดีโดยไม่รู้ตัว — ค้นพบผ่าน 5 คำถาม','openTalentQ');
+  }
 
   el.innerHTML=html;
 }
@@ -4229,19 +4695,21 @@ function loadDemo(){
 })();
 </script>
 <!-- ─── LIFE COACH MODAL ─── -->
-<div id="lc-modal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(8,43,36,0.97);flex-direction:column;padding:24px 20px 32px">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-    <div>
+<div id="lc-modal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(10,1,24,0.97);flex-direction:column;padding:24px 20px 32px">
+  <!-- Mascot + Header -->
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <div id="lc-mascot-slot"><!-- mascot สามารถวางรูปที่นี่ได้ --></div>
+    <div style="flex:1">
       <div style="font-size:16px;font-weight:700;color:var(--tx)">🎙️ ไลฟ์โค้ชส่วนตัว</div>
       <div style="font-size:11px;color:var(--tx3)" id="lc-status">กำลังสร้าง script...</div>
     </div>
-    <button onclick="closeLifeCoach()" style="background:rgba(255,255,255,0.08);border:none;color:var(--tx);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer">✕</button>
+    <button onclick="closeLifeCoach()" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer">✕</button>
   </div>
 
   <!-- Loading state -->
   <div id="lc-loading" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
-    <div style="width:48px;height:48px;border:3px solid rgba(255,183,3,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite"></div>
-    <div style="font-size:13px;color:var(--tx3);text-align:center">AI กำลังอ่านข้อมูลทั้งหมดของคุณ<br>และสร้าง script ไลฟ์โค้ชส่วนตัว...</div>
+    <div style="width:48px;height:48px;border:3px solid rgba(176,64,255,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite"></div>
+    <div style="font-size:13px;color:var(--tx3);text-align:center">AI กำลังอ่านข้อมูลทั้งหมดของคุณ<br>และสร้างรายงานไลฟ์โค้ชส่วนตัว...</div>
   </div>
 
   <!-- Script content -->
@@ -4260,10 +4728,15 @@ function loadDemo(){
 
   <!-- Controls -->
   <div id="lc-controls" style="display:none;margin-top:20px">
+    <!-- Auto-play toggle -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:8px 12px;background:rgba(176,64,255,.08);border-radius:10px;border:1px solid var(--border)">
+      <label style="font-size:12px;color:var(--tx2);cursor:pointer" for="lc-autoplay">▶ เล่นอัตโนมัติเมื่อสร้างเสร็จ</label>
+      <input type="checkbox" id="lc-autoplay" style="width:16px;height:16px;accent-color:var(--gold)">
+    </div>
     <!-- Voice selector -->
     <div style="margin-bottom:12px">
       <label style="font-size:11px;color:var(--tx3);display:block;margin-bottom:5px">เสียงที่ใช้</label>
-      <select id="lc-voice-sel" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--tx);padding:8px 10px;border-radius:8px;font-size:13px"></select>
+      <select id="lc-voice-sel" style="width:100%;background:rgba(28,0,64,.8);border:1px solid var(--border);color:var(--tx);padding:8px 10px;border-radius:8px;font-size:13px"></select>
     </div>
     <!-- Speed -->
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
@@ -4313,7 +4786,34 @@ function loadDemo(){
   </div>
 </div>
 
-<!-- ─── SHARE MODAL ─── -->
+<!-- ─── TEAM ROLE ARCHETYPE QUIZ ─── -->
+<div class="sc" id="sc-team-quiz">
+  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">🏆 บทบาทในทีม</div><div style="font-size:13px;color:var(--tx3)" id="teamq-ctr">1 / 5</div></div>
+  <div class="sb" style="padding:22px 18px">
+    <div class="step-row" id="teamq-dots"></div>
+    <div id="teamq-body"></div>
+    <button class="btn" style="margin-top:16px;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--tx3);font-size:13px" onclick="skipTeamQ()">ข้ามไปก่อน</button>
+  </div>
+</div>
+<!-- ─── HIDDEN TALENT DETECTOR QUIZ ─── -->
+<div class="sc" id="sc-talent-quiz">
+  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">🔮 พรสวรรค์ซ่อนเร้น</div><div style="font-size:13px;color:var(--tx3)" id="talq-ctr">1 / 5</div></div>
+  <div class="sb" style="padding:22px 18px">
+    <div class="step-row" id="talq-dots"></div>
+    <div id="talq-body"></div>
+    <button class="btn" style="margin-top:16px;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--tx3);font-size:13px" onclick="skipTalentQ()">ข้ามไปก่อน</button>
+  </div>
+</div>
+<!-- ─── LOVE LANGUAGE + ATTACHMENT STYLE QUIZ ─── -->
+<div class="sc" id="sc-love-quiz">
+  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">💗 ภาษารัก</div><div style="font-size:13px;color:var(--tx3)" id="loveq-ctr">1 / 5</div></div>
+  <div class="sb" style="padding:22px 18px">
+    <div class="step-row" id="loveq-dots"></div>
+    <div id="loveq-body"></div>
+    <button class="btn" style="margin-top:16px;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--tx3);font-size:13px" onclick="skipLoveQ()">ข้ามไปก่อน</button>
+  </div>
+</div>
+</body>
 <div id="share-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:flex-end;justify-content:center">
   <div style="background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:430px">
     <div style="text-align:center;margin-bottom:18px">
@@ -4321,7 +4821,7 @@ function loadDemo(){
       <div style="font-size:12px;color:var(--tx3)" data-i18n="share.sub">แชร์ให้เพื่อนวิเคราะห์ตัวเองด้วย</div>
     </div>
     <!-- Share Card Preview -->
-    <div id="share-card" style="background:linear-gradient(135deg,#082B24,#163528);border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:22px;margin-bottom:18px;text-align:center">
+    <div id="share-card" style="background:linear-gradient(135deg,#0A0118,#130028);border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:22px;margin-bottom:18px;text-align:center">
       <div style="font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:10px">ASTROVERA · PERSONAL LIFE INTELLIGENCE</div>
       <div style="font-size:36px;margin-bottom:8px" id="share-icon">🔮</div>
       <div style="font-size:18px;font-weight:700;color:var(--tx);margin-bottom:4px" id="share-arch-name"></div>
