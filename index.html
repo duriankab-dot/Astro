@@ -613,6 +613,15 @@ textarea.if{resize:none}
       <div id="natal-error" style="display:none;color:#FB7185;font-size:12px;line-height:1.6"></div>
       <div id="natal-content" style="display:none"></div>
     </div>
+    <div class="card" id="bazi-card" style="margin-bottom:13px">
+      <div id="bazi-content"></div>
+    </div>
+    <div class="card" id="convergence-visual-card" style="margin-bottom:13px">
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🔮 Convergence Engine — ภาพรวม 7 ศาสตร์</div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:13px">จุดที่ทุกศาสตร์ชี้ไปทางเดียวกัน มีความหมายมากที่สุด</div>
+      <svg id="convergence-chart" viewBox="0 0 240 240" style="width:100%;max-width:240px;display:block;margin:0 auto 12px"></svg>
+      <div id="convergence-summary" style="font-size:12px;color:var(--tx2);line-height:1.7"></div>
+    </div>
     <div class="card" style="margin-bottom:13px">
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:12px">⚡ จุดแข็ง</div>
       <div id="s-strengths"></div>
@@ -1151,12 +1160,14 @@ textarea.if{resize:none}
       <div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:var(--tx2)">Journal ทั้งหมด</span><span style="color:var(--gold)" id="pf-jct">0</span></div>
     </div>
     <div class="card" style="margin-bottom:11px">
-      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🔢 ข้อมูลเลขศาสตร์ <span style="color:var(--tx3);font-weight:400">(ไม่บังคับ)</span></div>
-      <div style="font-size:12px;color:var(--tx3);margin-bottom:13px;line-height:1.5">เพิ่มเพื่อวิเคราะห์ชื่อมงคลและเลขมงคลส่วนตัวให้ลึกขึ้น</div>
-      <div class="ig" style="margin-bottom:11px"><label class="il">นามสกุลเต็ม</label><input id="inp-lastname" class="if" type="text" placeholder="สำหรับวิเคราะห์เลขศาสตร์ชื่อ"></div>
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🔢 เลขศาสตร์ตะวันตก <span style="color:var(--tx3);font-weight:400">(ไม่บังคับ)</span></div>
+      <div style="font-size:12px;color:var(--tx3);margin-bottom:13px;line-height:1.5">วิเคราะห์จากตัวอักษรชื่อแบบ Pythagorean Numerology — ระบบนี้คำนวณจากตัวอักษร A-Z เท่านั้น (เป็นข้อจำกัดของศาสตร์นี้เอง) จึงขอให้กรอกชื่อสะกดเป็นภาษาอังกฤษโดยเฉพาะ</div>
+      <div class="ig" style="margin-bottom:11px"><label class="il">ชื่อ-นามสกุล (สะกดอังกฤษ)</label><input id="inp-engname" class="if" type="text" placeholder="เช่น Somchai Jaidee"></div>
       <div class="ig" style="margin-bottom:11px"><label class="il">เบอร์โทรศัพท์หลัก</label><input id="inp-phone" class="if" type="tel" placeholder="เบอร์ที่ใช้ประจำ" maxlength="10"></div>
       <div class="ig" style="margin-bottom:13px"><label class="il">เลขอื่นๆ ที่ต้องการวิเคราะห์</label><input id="inp-numother" class="if" type="text" placeholder="เช่น ทะเบียนรถ, บ้านเลขที่"></div>
-      <button class="btn bgh bsm" onclick="saveNumerology()">บันทึกข้อมูลเลขศาสตร์</button>
+      <button class="btn bgh bsm" style="width:100%" onclick="saveNumerology()">วิเคราะห์เลขศาสตร์</button>
+      <div id="numero-error" style="display:none;color:#FB7185;font-size:12px;margin-top:8px;line-height:1.6"></div>
+      <div id="numero-result" style="display:none;margin-top:14px"></div>
     </div>
     <div class="card" style="margin-bottom:11px">
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:11px">ข้อมูล</div>
@@ -1450,6 +1461,49 @@ var SIGN_TH={Aries:'ราศีเมษ',Taurus:'ราศีพฤษภ',Gem
 var SUN_MEANING={Aries:'ชอบลงมือทำก่อนคิดนาน มีพลังเริ่มต้นสิ่งใหม่สูง ไม่ชอบรอ',Taurus:'รักความมั่นคง ทำอะไรเรื่อยๆ สม่ำเสมอ ไม่ชอบเปลี่ยนแปลงกะทันหัน',Gemini:'อยากรู้อยากเห็น ชอบพูดคุยแลกเปลี่ยนความคิด ปรับตัวเร็ว',Cancer:'ใส่ใจความรู้สึกคนรอบข้าง ผูกพันกับครอบครัวและบ้านมาก',Leo:'มั่นใจในตัวเอง ชอบเป็นจุดสนใจ มีความเป็นผู้นำในตัว',Virgo:'ใส่ใจรายละเอียด ชอบจัดระเบียบ มองหาจุดที่ควรปรับปรุงเสมอ',Libra:'รักความสมดุล ใส่ใจความสัมพันธ์ ไม่ชอบความขัดแย้ง',Scorpio:'มีความลึกซึ้งทางอารมณ์ จริงจังกับสิ่งที่สนใจ ไม่ชอบอะไรผิวเผิน',Sagittarius:'รักอิสระ ชอบเรียนรู้สิ่งใหม่ มองโลกในแง่บวก',Capricorn:'มีวินัยสูง ทำงานหนักเพื่อเป้าหมายระยะยาว รับผิดชอบสูง',Aquarius:'คิดนอกกรอบ ให้คุณค่ากับความเป็นตัวเอง มองภาพรวมมากกว่ารายละเอียด',Pisces:'อ่อนไหวง่าย เห็นอกเห็นใจคนอื่น มีจินตนาการสูง'};
 var MOON_MEANING={Aries:'ต้องการความตื่นเต้นและอิสระทางใจ อยู่นิ่งนานไม่ค่อยได้',Taurus:'ต้องการความมั่นคงปลอดภัย ชอบความสบายกายสบายใจ',Gemini:'ต้องการพูดคุยสื่อสารบ่อยๆ อยู่กับความคิดวนซ้ำนานๆ ไม่ได้',Cancer:'ต้องการความอบอุ่นและพื้นที่ปลอดภัยทางใจ อ่อนไหวกับคนใกล้ตัว',Leo:'ต้องการการยอมรับและพื้นที่แสดงออก รู้สึกมีคุณค่าเมื่อถูกมองเห็น',Virgo:'ต้องการความเป็นระเบียบ รู้สึกสบายใจเมื่อทุกอย่างอยู่ในที่ทาง',Libra:'ต้องการความสัมพันธ์ที่ราบรื่น ไม่สบายใจเมื่อมีความขัดแย้ง',Scorpio:'ต้องการความผูกพันลึกซึ้ง ไม่ชอบความสัมพันธ์ผิวเผิน',Sagittarius:'ต้องการอิสระทางใจ รู้สึกอึดอัดเมื่อถูกจำกัด',Capricorn:'ต้องการความมั่นคงและรู้สึกว่าควบคุมสถานการณ์ได้',Aquarius:'ต้องการพื้นที่ส่วนตัวทางความคิด ไม่ชอบถูกคาดหวังให้เหมือนคนอื่น',Pisces:'ต้องการความสงบและการเข้าใจกัน โดยไม่ต้องอธิบายมาก'};
 var VENUS_MEANING={Aries:'ชอบความรักที่ตื่นเต้น กล้าเริ่มก่อน ไม่ชอบรอ',Taurus:'รักด้วยการกระทำที่จับต้องได้ ชอบความมั่นคงในความสัมพันธ์',Gemini:'ชอบคู่ที่คุยกันสนุก สื่อสารกันได้ตลอดเวลา',Cancer:'รักแบบทุ่มเทดูแล ให้ความสำคัญกับความรู้สึกของอีกฝ่าย',Leo:'รักแบบเต็มที่ ชอบแสดงออกและอยากได้รับการชื่นชมตอบ',Virgo:'แสดงความรักผ่านการดูแลใส่ใจรายละเอียด ชอบช่วยแก้ปัญหาให้คนรัก',Libra:'รักความสมดุลในความสัมพันธ์ ไม่ชอบความขัดแย้ง ชอบความโรแมนติก',Scorpio:'รักแบบลึกซึ้งเข้มข้น ต้องการความไว้ใจแบบหมดใจ',Sagittarius:'ชอบความรักที่มีอิสระ ไม่ชอบถูกผูกมัดจนเกินไป',Capricorn:'จริงจังกับความสัมพันธ์ มองความรักระยะยาว ไม่ชอบความสัมพันธ์ฉาบฉวย',Aquarius:'ชอบความรักที่เป็นเพื่อนกันได้ ให้คุณค่ากับอิสระของทั้งคู่',Pisces:'รักแบบทุ่มเทและโรแมนติก ชอบเชื่อมโยงทางใจกับคนรัก'};
+var MERCURY_MEANING={Aries:'คิดเร็วพูดตรง ตัดสินใจไว ไม่ชอบอ้อมค้อม',Taurus:'คิดช้าแต่มั่นคง พูดน้อยแต่หนักแน่น ชอบความคิดที่จับต้องได้',Gemini:'คิดเร็วหลายเรื่องพร้อมกัน ชอบพูดคุยแลกเปลี่ยนความเห็น',Cancer:'คิดผ่านความรู้สึก จำเรื่องราวและรายละเอียดทางอารมณ์ได้ดี',Leo:'พูดด้วยความมั่นใจ ชอบเล่าเรื่องให้คนฟัง มีความเป็นผู้นำทางความคิด',Virgo:'คิดวิเคราะห์ละเอียด ชอบจับผิด-แก้ไขให้ถูกต้อง ใส่ใจข้อเท็จจริง',Libra:'คิดรอบด้านก่อนตัดสินใจ ชอบหาจุดสมดุลในการสื่อสาร',Scorpio:'คิดลึกและจริงจัง ไม่ชอบพูดเรื่องผิวเผิน ชอบสืบให้ถึงแก่น',Sagittarius:'คิดแบบมองภาพใหญ่ พูดตรงไปตรงมา ชอบแลกเปลี่ยนมุมมองใหม่ๆ',Capricorn:'คิดอย่างเป็นระบบ พูดน้อยแต่ได้ใจความ เน้นความเป็นจริง',Aquarius:'คิดนอกกรอบ ชอบไอเดียแปลกใหม่ สื่อสารแบบไม่ยึดติดธรรมเนียม',Pisces:'คิดผ่านจินตนาการ สื่อสารด้วยความรู้สึกมากกว่าตรรกะ'};
+var MARS_MEANING={Aries:'ลงมือทำทันทีที่คิดออก พลังเยอะ ชอบความท้าทาย',Taurus:'ลงมือช้าแต่มั่นคง ทำจนสำเร็จไม่ล้มเลิกง่าย',Gemini:'ลงมือหลายอย่างพร้อมกัน พลังกระจายไปหลายทาง',Cancer:'ลงมือเมื่อรู้สึกปลอดภัย ปกป้องคนที่รักอย่างสุดกำลัง',Leo:'ลงมือด้วยความมั่นใจเต็มที่ ชอบทำสิ่งที่โดดเด่นเป็นที่จดจำ',Virgo:'ลงมืออย่างพิถีพิถัน ใส่ใจรายละเอียดทุกขั้นตอน',Libra:'ลงมือเมื่อมั่นใจว่ายุติธรรมกับทุกฝ่าย บางทีตัดสินใจช้าเพราะชั่งใจนาน',Scorpio:'ลงมือด้วยความเข้มข้นและมุ่งมั่น ไม่ยอมแพ้ง่ายๆ',Sagittarius:'ลงมือตามแรงบันดาลใจ ชอบลุยสิ่งใหม่ที่ไม่เคยทำ',Capricorn:'ลงมืออย่างมีแผน ทำงานหนักเพื่อผลลัพธ์ระยะยาว',Aquarius:'ลงมือตามความเชื่อของตัวเอง ไม่สนกระแสหลัก',Pisces:'ลงมือตามแรงบันดาลใจและสัญชาตญาณ บางทีขาดทิศทางชัดเจน'};
+var JUPITER_MEANING={Aries:'มองโลกในแง่ที่ต้องลงมือเองถึงจะโต ชอบโอกาสที่ท้าทาย',Taurus:'เติบโตผ่านความมั่นคงทางวัตถุ โชคมักมาจากความอดทนสะสม',Gemini:'เติบโตผ่านการเรียนรู้และพบปะผู้คนหลากหลาย',Cancer:'เติบโตผ่านครอบครัวและความสัมพันธ์ใกล้ชิด',Leo:'เติบโตผ่านการแสดงออกและได้รับการยอมรับ',Virgo:'เติบโตผ่านการพัฒนาทักษะอย่างมีระบบ โชคมาจากความใส่ใจรายละเอียด',Libra:'เติบโตผ่านความสัมพันธ์และการร่วมมือกับผู้อื่น',Scorpio:'เติบโตผ่านการเปลี่ยนแปลงครั้งใหญ่และความเข้าใจตัวเองลึกซึ้ง',Sagittarius:'เติบโตผ่านการเดินทางและมุมมองใหม่ๆ มองโลกในแง่ดี',Capricorn:'เติบโตผ่านความรับผิดชอบและความสำเร็จที่สร้างเอง',Aquarius:'เติบโตผ่านแนวคิดใหม่และการเป็นส่วนหนึ่งของชุมชน',Pisces:'เติบโตผ่านความเมตตาและการเชื่อมโยงทางจิตวิญญาณ'};
+var SATURN_MEANING={Aries:'บทเรียนคือเรียนรู้ความอดทน ไม่ใช่ทุกอย่างต้องเร็วเสมอไป',Taurus:'บทเรียนคือเรียนรู้ปล่อยวางเมื่อยึดติดความมั่นคงมากเกินไป',Gemini:'บทเรียนคือโฟกัสให้ลึกขึ้น แทนที่จะกระจายความสนใจ',Cancer:'บทเรียนคือสร้างความมั่นคงทางใจด้วยตัวเอง ไม่พึ่งคนอื่นทั้งหมด',Leo:'บทเรียนคือยอมรับตัวเองได้โดยไม่ต้องรอการยอมรับจากคนอื่น',Virgo:'บทเรียนคือรู้จักพอ ไม่ตั้งมาตรฐานสมบูรณ์แบบกับตัวเองมากไป',Libra:'บทเรียนคือตัดสินใจได้ด้วยตัวเองโดยไม่ต้องรอความเห็นทุกคน',Scorpio:'บทเรียนคือเรียนรู้ไว้ใจคนอื่นทีละน้อย ไม่ปิดตัวเองตลอดเวลา',Sagittarius:'บทเรียนคือมีวินัยกับเป้าหมายระยะยาว ไม่ใช่แค่ไล่ตามอิสระ',Capricorn:'บทเรียนแกร่งที่สุดในจุดนี้ มักประสบความสำเร็จหลังผ่านความยากลำบาก',Aquarius:'บทเรียนคือสมดุลระหว่างความเป็นตัวเองกับการอยู่ร่วมกับกฎเกณฑ์',Pisces:'บทเรียนคือสร้างขอบเขตให้ตัวเอง ไม่ปล่อยให้ถูกครอบงำง่ายเกินไป'};
+var URANUS_MEANING={Aries:'คนรุ่นนี้กล้าเปลี่ยนแปลงแบบรวดเร็วฉับพลัน ไม่กลัวเริ่มใหม่',Taurus:'คนรุ่นนี้นิยามความมั่นคงใหม่ ผ่านมุมมองที่ไม่เหมือนรุ่นก่อน',Gemini:'คนรุ่นนี้เปลี่ยนวิธีสื่อสารและรับข้อมูลข่าวสารแบบก้าวกระโดด',Cancer:'คนรุ่นนี้นิยามความหมายของครอบครัวและบ้านใหม่',Leo:'คนรุ่นนี้แสดงความเป็นตัวเองอย่างกล้าหาญไม่เหมือนใคร',Virgo:'คนรุ่นนี้ปฏิวัติวิธีทำงานและระบบในชีวิตประจำวัน',Libra:'คนรุ่นนี้นิยามความสัมพันธ์และความยุติธรรมใหม่',Scorpio:'คนรุ่นนี้เปลี่ยนแปลงเรื่องอำนาจและความลับแบบถอนรากถอนโคน',Sagittarius:'คนรุ่นนี้เปิดมุมมองความเชื่อและการเรียนรู้แบบไร้พรมแดน',Capricorn:'คนรุ่นนี้ปฏิวัติระบบโครงสร้างอำนาจเดิมในสังคม',Aquarius:'ดาวนี้ทรงพลังที่สุดในราศีนี้ คนรุ่นนี้ขับเคลื่อนนวัตกรรมและความเปลี่ยนแปลงทางสังคม',Pisces:'คนรุ่นนี้เปลี่ยนมุมมองเรื่องจิตวิญญาณและความเมตตาต่อกัน'};
+var NEPTUNE_MEANING={Aries:'คนรุ่นนี้มีอุดมคติแบบกล้าบุกเบิกสิ่งใหม่',Taurus:'คนรุ่นนี้ฝันถึงความมั่นคงที่จับต้องได้มากขึ้น',Gemini:'คนรุ่นนี้รับข้อมูล/ความเชื่อผ่านสื่อที่หลากหลาย',Cancer:'คนรุ่นนี้ผูกพันกับความฝันเรื่องบ้านและครอบครัวในอุดมคติ',Leo:'คนรุ่นนี้แสดงออกความฝันผ่านความคิดสร้างสรรค์',Virgo:'คนรุ่นนี้ฝันถึงการรับใช้สังคมอย่างเป็นระบบ',Libra:'คนรุ่นนี้ฝันถึงความสัมพันธ์และความยุติธรรมในอุดมคติ',Scorpio:'คนรุ่นนี้สนใจเรื่องลึกลับและการเปลี่ยนแปลงทางจิตวิญญาณ',Sagittarius:'คนรุ่นนี้แสวงหาความหมายชีวิตผ่านความเชื่อและการเดินทาง',Capricorn:'คนรุ่นนี้ฝันถึงโครงสร้างสังคมที่ยั่งยืนกว่าเดิม',Aquarius:'คนรุ่นนี้ฝันถึงเทคโนโลยีและความเท่าเทียมในอนาคต',Pisces:'ดาวนี้ทรงพลังที่สุดในราศีนี้ คนรุ่นนี้อ่อนไหวและเชื่อมโยงทางจิตวิญญาณสูง'};
+var PLUTO_MEANING={Aries:'คนรุ่นนี้มีพลังขับเคลื่อนการเปลี่ยนแปลงผ่านความกล้าลงมือทำ',Taurus:'คนรุ่นนี้เปลี่ยนแปลงระบบเศรษฐกิจและคุณค่าทางวัตถุของสังคม',Gemini:'คนรุ่นนี้เปลี่ยนแปลงวิธีคิดและการสื่อสารระดับรากฐาน',Cancer:'คนรุ่นนี้เปลี่ยนแปลงความหมายของครอบครัวและความมั่นคงทางใจ',Leo:'คนรุ่นนี้มีพลังแฝงด้านความคิดสร้างสรรค์และการแสดงออกอย่างเข้มข้น',Virgo:'คนรุ่นนี้เปลี่ยนแปลงระบบการทำงานและสุขภาพของสังคม',Libra:'คนรุ่นนี้เปลี่ยนแปลงโครงสร้างความสัมพันธ์และความยุติธรรม',Scorpio:'ดาวนี้ทรงพลังที่สุดในราศีนี้ คนรุ่นนี้มีพลังเปลี่ยนแปลงลึกซึ้งและเข้มข้นมาก',Sagittarius:'คนรุ่นนี้เปลี่ยนแปลงความเชื่อและอุดมการณ์ระดับสังคม',Capricorn:'คนรุ่นนี้เปลี่ยนแปลงโครงสร้างอำนาจและสถาบันเดิมอย่างถึงราก',Aquarius:'คนรุ่นนี้ขับเคลื่อนการเปลี่ยนแปลงทางสังคมและเทคโนโลยีอย่างรุนแรง',Pisces:'คนรุ่นนี้เปลี่ยนแปลงมุมมองเรื่องจิตวิญญาณและความเชื่อมโยงของมนุษยชาติ'};
+var ASCENDANT_MEANING={Aries:'คนอื่นมองว่าคุณตรงไปตรงมา มีพลัง กล้าเป็นผู้นำ',Taurus:'คนอื่นมองว่าคุณสงบนิ่ง น่าเชื่อถือ ดูมั่นคง',Gemini:'คนอื่นมองว่าคุณคล่องแคล่ว ช่างพูด ปรับตัวเก่ง',Cancer:'คนอื่นมองว่าคุณอบอุ่น ใส่ใจ ดูแลคนรอบข้างดี',Leo:'คนอื่นมองว่าคุณมั่นใจ มีเสน่ห์ ดึงดูดความสนใจได้ง่าย',Virgo:'คนอื่นมองว่าคุณเรียบร้อย ละเอียดรอบคอบ น่าไว้วางใจ',Libra:'คนอื่นมองว่าคุณมีเสน่ห์ พูดจาดี เข้ากับคนง่าย',Scorpio:'คนอื่นมองว่าคุณลึกลับ มีพลังดึงดูด ดูจริงจัง',Sagittarius:'คนอื่นมองว่าคุณร่าเริง เปิดเผย ชอบการผจญภัย',Capricorn:'คนอื่นมองว่าคุณเป็นผู้ใหญ่ น่าเชื่อถือ ดูมีความรับผิดชอบ',Aquarius:'คนอื่นมองว่าคุณแตกต่าง มีเอกลักษณ์เฉพาะตัว',Pisces:'คนอื่นมองว่าคุณอ่อนโยน เข้าถึงง่าย ดูมีจินตนาการ'};
+
+// ═══ HOUSES (Whole Sign system) — เรือนชีวิต 12 ด้าน คำนวณจากลัคนา (Ascendant)
+// ไม่ต้องเรียก API เพิ่ม เพราะ Whole Sign ใช้แค่ "ราศีของลัคนา" + "ราศีของดาว" ที่มีอยู่แล้ว
+// (House 1 = ราศีเดียวกับลัคนา, House 2 = ราศีถัดไป, ไล่ไปเรื่อยๆ) ═══
+var ZODIAC_ORDER=['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
+var HOUSE_MEANING={
+  1:'ตัวตน ภาพลักษณ์ การเริ่มต้น',2:'เงินทอง ทรัพย์สิน คุณค่าในตัวเอง',3:'การสื่อสาร พี่น้อง การเรียนรู้ประจำวัน',
+  4:'บ้าน ครอบครัว รากฐานทางใจ',5:'ความรัก ความคิดสร้างสรรค์ การแสดงออก',6:'งาน สุขภาพ กิจวัตรประจำวัน',
+  7:'คู่ครอง หุ้นส่วน ความสัมพันธ์ใกล้ชิด',8:'การเปลี่ยนแปลง ทรัพย์สินร่วม ความลึกซึ้งทางใจ',9:'การเดินทาง ปรัชญา การเรียนรู้ขั้นสูง',
+  10:'อาชีพ เป้าหมาย ภาพลักษณ์ต่อสังคม',11:'เพื่อน เครือข่าย ความฝันระยะยาว',12:'จิตใต้สำนึก การพักผ่อน สิ่งที่ซ่อนอยู่'
+};
+function wholeSignHouse(ascSign,planetSign){
+  var ai=ZODIAC_ORDER.indexOf(ascSign),pi=ZODIAC_ORDER.indexOf(planetSign);
+  if(ai<0||pi<0)return null;
+  return ((pi-ai+12)%12)+1;
+}
+
+// ═══ ELEMENT SYSTEM — for Natal Conflict Check (real astrological technique:
+// comparing the classical element of two placements to see if their underlying
+// needs naturally support or pull against each other). ═══
+var SIGN_ELEMENT={Aries:'fire',Leo:'fire',Sagittarius:'fire',Taurus:'earth',Virgo:'earth',Capricorn:'earth',Gemini:'air',Libra:'air',Aquarius:'air',Cancer:'water',Scorpio:'water',Pisces:'water'};
+var ELEMENT_TH={fire:'ไฟ',earth:'ดิน',air:'ลม',water:'น้ำ'};
+function elementCompat(signA,signB){
+  var a=SIGN_ELEMENT[signA],b=SIGN_ELEMENT[signB];
+  if(!a||!b)return null;
+  if(a===b)return{status:'aligned',note:'ธาตุ'+ELEMENT_TH[a]+'เหมือนกัน เข้ากันเป็นธรรมชาติ ไปด้วยกันได้ลื่นไหล'};
+  var sameGroup=(g)=>g.indexOf(a)!==-1&&g.indexOf(b)!==-1;
+  if(sameGroup(['fire','air']))return{status:'aligned',note:'ธาตุ'+ELEMENT_TH[a]+'-'+ELEMENT_TH[b]+' หนุนกันดี ทั้งคู่กระตือรือร้นและชอบเคลื่อนไหว'};
+  if(sameGroup(['earth','water']))return{status:'aligned',note:'ธาตุ'+ELEMENT_TH[a]+'-'+ELEMENT_TH[b]+' หนุนกันดี ทั้งคู่ต้องการความมั่นคงและความลึกซึ้ง'};
+  if(sameGroup(['fire','earth']))return{status:'tension',note:'ธาตุไฟ-ดิน ไปคนละจังหวะ ฝั่งหนึ่งอยากเร็ว อีกฝั่งอยากมั่นคง อาจรู้สึกขัดกันบ้าง'};
+  if(sameGroup(['fire','water']))return{status:'tension',note:'ธาตุไฟ-น้ำ ฝั่งที่แรงอาจทำให้อีกฝั่งรู้สึกท่วมท้น ฝั่งที่อ่อนไหวอาจทำให้อีกฝั่งอึดอัด'};
+  if(sameGroup(['air','earth']))return{status:'tension',note:'ธาตุลม-ดิน ฝั่งหนึ่งชอบความคิด อีกฝั่งชอบของจริงจับต้องได้ บางทีคุยกันคนละภาษา'};
+  if(sameGroup(['air','water']))return{status:'tension',note:'ธาตุลม-น้ำ ฝั่งหนึ่งใช้เหตุผล อีกฝั่งใช้ความรู้สึก อาจเข้าใจกันยากบางจังหวะ'};
+  return null;
+}
 
 async function fetchNatalChart(force){
   var p=lsG(LSP)||{};
@@ -1483,22 +1537,70 @@ function rNatal(data){
       errEl=document.getElementById('natal-error'),content=document.getElementById('natal-content');
   loading.style.display='none';errEl.style.display='none';
   var planets=data.planets||{};
-  var rows=[
-    {key:'Sun',label:'☀️ ดวงอาทิตย์ — ตัวตนหลัก',meaning:SUN_MEANING},
-    {key:'Moon',label:'🌙 ดวงจันทร์ — ความรู้สึกลึกๆ',meaning:MOON_MEANING},
-    {key:'Venus',label:'💖 ดาวศุกร์ — ความรักและความสุข',meaning:VENUS_MEANING}
-  ];
-  var html=rows.map(function(r){
-    var pl=planets[r.key];
+  var ascSign=planets.Ascendant&&planets.Ascendant.sign;
+  function row(key,label,meaning){
+    var pl=planets[key];
     if(!pl||!pl.sign)return '';
     var signTh=SIGN_TH[pl.sign]||pl.sign;
-    var mean=r.meaning[pl.sign]||'';
-    return '<div style="margin-bottom:13px"><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px">'+r.label+'</div>'
-      +'<div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:3px">'+signTh+'</div>'
+    var mean=meaning[pl.sign]||'';
+    var retro=pl.retrograde?' <span style="color:var(--tx3);font-size:11px">(ย้อนเวลา)</span>':'';
+    var houseLine='';
+    if(ascSign&&key!=='Ascendant'){
+      var hn=wholeSignHouse(ascSign,pl.sign);
+      if(hn)houseLine='<div style="font-size:11px;color:var(--tx3);margin-bottom:3px">เรือนที่ '+hn+' — '+HOUSE_MEANING[hn]+'</div>';
+    }
+    return '<div style="margin-bottom:12px"><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px">'+label+'</div>'
+      +'<div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:3px">'+signTh+retro+'</div>'
+      +houseLine
       +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+mean+'</div></div>';
-  }).join('');
+  }
+  var html='';
+  // ลัคนา — ภาพลักษณ์ภายนอก (ขึ้นก่อนเพราะเป็นจุดเริ่มของชาร์ท)
+  var asc=row('Ascendant','🌅 ลัคนา — ภาพลักษณ์ภายนอก',ASCENDANT_MEANING);
+  if(asc){
+    html+=asc;
+    if(ascSign)html+='<div style="font-size:10px;color:var(--tx3);margin-top:-6px;margin-bottom:8px">เรือนคำนวณด้วยระบบ Whole Sign (นับราศีเป็นเรือนตรงๆ จากลัคนา) — เป็นระบบดั้งเดิมที่ใช้กันมานาน เรียบง่ายและเข้าใจง่ายกว่าระบบสมัยใหม่</div>';
+    html+='<div class="dv" style="margin:11px 0"></div>';
+  }
+  // ดาวส่วนตัว — มีผลต่อบุคลิกเฉพาะตัวมากที่สุด
+  html+='<div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">ดาวส่วนตัว</div>';
+  html+=row('Sun','☀️ ดวงอาทิตย์ — ตัวตนหลัก',SUN_MEANING);
+  html+=row('Moon','🌙 ดวงจันทร์ — ความรู้สึกลึกๆ',MOON_MEANING);
+  html+=row('Mercury','☿️ ดาวพุธ — ความคิดและการสื่อสาร',MERCURY_MEANING);
+  html+=row('Venus','💖 ดาวศุกร์ — ความรักและความสุข',VENUS_MEANING);
+  html+=row('Mars','🔥 ดาวอังคาร — แรงขับและพลังลงมือทำ',MARS_MEANING);
+  // ดาวสังคม — เติบโตและบทเรียนชีวิต
+  html+='<div class="dv" style="margin:11px 0"></div><div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">ดาวสังคม</div>';
+  html+=row('Jupiter','🌟 ดาวพฤหัสบดี — การเติบโตและโอกาส',JUPITER_MEANING);
+  html+=row('Saturn','🪐 ดาวเสาร์ — วินัยและบทเรียนชีวิต',SATURN_MEANING);
+  // ดาวรุ่น — เคลื่อนช้ามาก ผลคล้ายกันทั้งคนรุ่นเดียวกัน
+  var genHtml=row('Uranus','⚡ ดาวยูเรนัส — ความเป็นตัวเอง',URANUS_MEANING)
+    +row('Neptune','🌊 ดาวเนปจูน — จินตนาการและจิตวิญญาณ',NEPTUNE_MEANING)
+    +row('Pluto','🔮 ดาวพลูโต — การเปลี่ยนแปลงลึกซึ้ง',PLUTO_MEANING);
+  if(genHtml){
+    html+='<div class="dv" style="margin:11px 0"></div><div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">ดาวรุ่น (เคลื่อนช้ามาก)</div>'
+      +'<div style="font-size:11px;color:var(--tx3);line-height:1.6;margin-bottom:10px">ดาว 3 ดวงนี้เคลื่อนที่ช้ามาก (ปีถึงหลายสิบปีต่อราศี) จึงสะท้อน "ธีมร่วมของคนรุ่นเดียวกัน" มากกว่าจะเฉพาะตัวคุณคนเดียว</div>'
+      +genHtml;
+  }
+  // Conflict Check จากดวงจริง — เทียบธาตุระหว่างคู่ดาวสำคัญ
+  var sunMoon=planets.Sun&&planets.Moon?elementCompat(planets.Sun.sign,planets.Moon.sign):null;
+  var venusMars=planets.Venus&&planets.Mars?elementCompat(planets.Venus.sign,planets.Mars.sign):null;
+  if(sunMoon||venusMars){
+    html+='<div class="dv" style="margin:11px 0"></div><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:4px">⚖️ Conflict Check จากดวงจริง</div>'
+      +'<div style="font-size:11px;color:var(--tx3);margin-bottom:10px">เทียบธาตุระหว่างดาว 2 ดวง ดูว่าความต้องการภายในไปด้วยกันหรือดึงกันคนละทาง</div>';
+    if(sunMoon){
+      var icon1=sunMoon.status==='aligned'?'✅':'⚡';
+      html+='<div style="margin-bottom:10px"><div style="font-size:12px;font-weight:600;color:var(--tx)">'+icon1+' ตัวตน (อาทิตย์) vs ความรู้สึก (จันทร์)</div>'
+        +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+sunMoon.note+'</div></div>';
+    }
+    if(venusMars){
+      var icon2=venusMars.status==='aligned'?'✅':'⚡';
+      html+='<div style="margin-bottom:10px"><div style="font-size:12px;font-weight:600;color:var(--tx)">'+icon2+' วิธีรัก (ศุกร์) vs แรงดึงดูด (อังคาร)</div>'
+        +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+venusMars.note+'</div></div>';
+    }
+  }
   if(!data.timeKnown){
-    html+='<div style="font-size:11px;color:var(--tx3);line-height:1.6;margin-top:4px">⚠️ ไม่ทราบเวลาเกิดแน่นอน ใช้เที่ยงวันคำนวณแทน — ตำแหน่งดาวเคราะห์ (ราศี) ยังแม่นยำ แต่ลัคนา/เรือนอาจคลาดเคลื่อน</div>';
+    html+='<div style="font-size:11px;color:var(--tx3);line-height:1.6;margin-top:4px">⚠️ ไม่ทราบเวลาเกิดแน่นอน ใช้เที่ยงวันคำนวณแทน — ตำแหน่งดาวเคราะห์ (ราศี) ยังแม่นยำ แต่ลัคนาและเรือนอาจคลาดเคลื่อน เพราะลัคนาเปลี่ยนราศีทุก ~2 ชั่วโมง</div>';
   }
   html+='<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="fetchNatalChart(true)">↻ คำนวณใหม่</button>';
   content.innerHTML=html;
@@ -1515,6 +1617,154 @@ function rNatalIdleCheck(){
         loading=document.getElementById('natal-loading'),errEl=document.getElementById('natal-error');
     if(idle){idle.style.display='block';content.style.display='none';loading.style.display='none';errEl.style.display='none';}
   }
+}
+
+// ═══ WESTERN NUMEROLOGY (Pythagorean) — real calculation from English-spelled name
+// and phone number. Requires Latin alphabet (A-Z); Thai script has no standard
+// numerological letter-value table, so this specifically requires English spelling. ═══
+var PYTHAGOREAN_TABLE={A:1,B:2,C:3,D:4,E:5,F:6,G:7,H:8,I:9,J:1,K:2,L:3,M:4,N:5,O:6,P:7,Q:8,R:9,S:1,T:2,U:3,V:4,W:5,X:6,Y:7,Z:8};
+var VOWEL_SET={A:1,E:1,I:1,O:1,U:1};
+function hasThaiChars(str){return /[\u0E00-\u0E7F]/.test(str||'');}
+function nameToNumber(name,filter){
+  var letters=(name||'').toUpperCase().replace(/[^A-Z]/g,'').split('');
+  if(!letters.length)return null;
+  var sum=0,used=0;
+  letters.forEach(function(ch){
+    var isVowel=!!VOWEL_SET[ch];
+    if(filter==='vowels'&&!isVowel)return;
+    if(filter==='consonants'&&isVowel)return;
+    sum+=PYTHAGOREAN_TABLE[ch]||0;used++;
+  });
+  if(!used)return null;
+  return reduceNum(sum);
+}
+function phoneToNumber(str){
+  var digits=(str||'').replace(/[^0-9]/g,'');
+  if(!digits)return null;
+  var sum=digits.split('').reduce(function(a,d){return a+parseInt(d,10);},0);
+  return reduceNum(sum);
+}
+var EXPRESSION_MEANING={1:'ผู้นำโดยธรรมชาติ มีพรสวรรค์ด้านการริเริ่มและบุกเบิกสิ่งใหม่',2:'มีพรสวรรค์ด้านการประสานงานและสร้างความร่วมมือ ไวต่อความรู้สึกผู้อื่น',3:'มีพรสวรรค์ด้านการสื่อสารและความคิดสร้างสรรค์ แสดงออกได้อย่างมีเสน่ห์',4:'มีพรสวรรค์ด้านการสร้างระบบและรากฐานที่มั่นคง ทำงานละเอียดรอบคอบ',5:'มีพรสวรรค์ด้านการปรับตัวและสื่อสารกับคนหลากหลาย ชอบความเปลี่ยนแปลง',6:'มีพรสวรรค์ด้านการดูแลและรับผิดชอบผู้อื่น เป็นที่พึ่งพิงได้',7:'มีพรสวรรค์ด้านการวิเคราะห์และเข้าใจสิ่งลึกซึ้ง ชอบค้นคว้าหาความจริง',8:'มีพรสวรรค์ด้านการบริหารจัดการและสร้างความสำเร็จทางวัตถุ',9:'มีพรสวรรค์ด้านการเป็นผู้ให้และมองภาพรวมของส่วนรวม',11:'เลขมาสเตอร์ — มีพรสวรรค์ด้านแรงบันดาลใจและสัญชาตญาณที่ลึกซึ้งเป็นพิเศษ',22:'เลขมาสเตอร์ — มีพรสวรรค์ด้านการสร้างสิ่งใหญ่ที่ส่งผลกระทบในวงกว้าง',33:'เลขมาสเตอร์ — มีพรสวรรค์ด้านการเป็นผู้ให้ที่เสียสละเพื่อผู้อื่นอย่างลึกซึ้ง'};
+var SOULURGE_MEANING={1:'ลึกๆ แล้วต้องการความเป็นอิสระและโดดเด่นด้วยตัวเอง',2:'ลึกๆ แล้วต้องการความสัมพันธ์ที่ใกล้ชิดและความปรองดอง',3:'ลึกๆ แล้วต้องการพื้นที่แสดงออกทางความคิดสร้างสรรค์',4:'ลึกๆ แล้วต้องการความมั่นคงและความเป็นระเบียบในชีวิต',5:'ลึกๆ แล้วต้องการอิสระและประสบการณ์ใหม่ๆ ตลอดเวลา',6:'ลึกๆ แล้วต้องการดูแลและถูกต้องการจากคนที่รัก',7:'ลึกๆ แล้วต้องการความเข้าใจที่แท้จริงและเวลาอยู่กับตัวเอง',8:'ลึกๆ แล้วต้องการความสำเร็จและการยอมรับเรื่องความสามารถ',9:'ลึกๆ แล้วต้องการรู้สึกว่าชีวิตมีความหมายต่อผู้อื่น',11:'เลขมาสเตอร์ — ลึกๆ แล้วต้องการเชื่อมโยงกับสิ่งที่ยิ่งใหญ่กว่าตัวเอง',22:'เลขมาสเตอร์ — ลึกๆ แล้วต้องการสร้างสิ่งที่คงอยู่และมีคุณค่าระยะยาว',33:'เลขมาสเตอร์ — ลึกๆ แล้วต้องการเยียวยาและยกระดับชีวิตผู้อื่น'};
+var PERSONALITY_MEANING={1:'คนอื่นมองว่าคุณมั่นใจ เป็นผู้นำ ดูเป็นตัวของตัวเอง',2:'คนอื่นมองว่าคุณอ่อนโยน เข้าถึงง่าย ฟังคนอื่นเก่ง',3:'คนอื่นมองว่าคุณร่าเริง มีเสน่ห์ พูดจาน่าฟัง',4:'คนอื่นมองว่าคุณน่าเชื่อถือ มีระเบียบ ดูจริงจัง',5:'คนอื่นมองว่าคุณกระตือรือร้น มีชีวิตชีวา ชอบลองสิ่งใหม่',6:'คนอื่นมองว่าคุณอบอุ่น น่าไว้วางใจ ดูแลคนรอบข้างดี',7:'คนอื่นมองว่าคุณลึกลับ มีความคิดเป็นของตัวเอง ดูสุขุม',8:'คนอื่นมองว่าคุณดูมีอำนาจ มั่นคง ประสบความสำเร็จ',9:'คนอื่นมองว่าคุณใจกว้าง เป็นมิตร ดูมีเมตตา',11:'เลขมาสเตอร์ — คนอื่นมองว่าคุณมีพลังดึงดูดและสัญชาตญาณที่พิเศษ',22:'เลขมาสเตอร์ — คนอื่นมองว่าคุณดูน่าเชื่อถือและมีศักยภาพสร้างสิ่งใหญ่',33:'เลขมาสเตอร์ — คนอื่นมองว่าคุณดูอบอุ่นและเปี่ยมด้วยความเมตตาเป็นพิเศษ'};
+var PHONE_MEANING={1:'พลังของการเริ่มต้นและความเป็นผู้นำ เหมาะกับการเริ่มสิ่งใหม่',2:'พลังของความสมดุลและความร่วมมือ เหมาะกับงานที่ต้องประสานกับผู้อื่น',3:'พลังของการสื่อสารและความคิดสร้างสรรค์ เหมาะกับงานที่ต้องพูด/นำเสนอ',4:'พลังของความมั่นคงและรากฐาน เหมาะกับการสร้างสิ่งที่ยั่งยืน',5:'พลังของความเปลี่ยนแปลงและอิสระ เหมาะกับงานที่หลากหลายไม่ซ้ำเดิม',6:'พลังของความรับผิดชอบและการดูแล เหมาะกับงานบริการ/ครอบครัว',7:'พลังของการวิเคราะห์และความรู้ เหมาะกับงานที่ต้องคิดลึก',8:'พลังของความสำเร็จและทรัพย์สิน เหมาะกับธุรกิจและการเงิน',9:'พลังของการให้และภาพรวม เหมาะกับงานเพื่อสังคม',11:'พลังของแรงบันดาลใจและสัญชาตญาณพิเศษ',22:'พลังของการสร้างสิ่งใหญ่ที่ยั่งยืน',33:'พลังของการให้และเยียวยาผู้อื่น'};
+
+// ═══ BA ZI (八字 / ปาจื้อ) — Chinese Four Pillars of Destiny
+// Full calculation from birth date+time. No external API needed.
+// Uses the Jiazi (甲子) 60-cycle: 10 Heavenly Stems × 12 Earthly Branches. ═══
+var BZ_STEMS=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+var BZ_BRANCHES=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+var BZ_STEM_TH=['จ่า (甲)','อี๋ (乙)','ปิ่ง (丙)','ติง (丁)','หวู่ (戊)','จี่ (己)','เกิง (庚)','ซิน (辛)','เหริน (壬)','กุ้ย (癸)'];
+var BZ_BRANCH_TH=['ชวด-น้ำ (子)','ฉลู-ดิน (丑)','ขาล-ไม้ (寅)','เถาะ-ไม้ (卯)','มะโรง-ดิน (辰)','มะเส็ง-ไฟ (巳)','มะเมีย-ไฟ (午)','มะแม-ดิน (未)','วอก-ทอง (申)','ระกา-ทอง (酉)','จอ-ดิน (戌)','กุน-น้ำ (亥)'];
+var BZ_STEM_EL=['ไม้','ไม้','ไฟ','ไฟ','ดิน','ดิน','ทอง','ทอง','น้ำ','น้ำ'];
+var BZ_STEM_POL=['หยาง','หยิน','หยาง','หยิน','หยาง','หยิน','หยาง','หยิน','หยาง','หยิน'];
+var BZ_BRANCH_EL=['น้ำ','ดิน','ไม้','ไม้','ดิน','ไฟ','ไฟ','ดิน','ทอง','ทอง','ดิน','น้ำ'];
+var EL_ICON={ไม้:'🌳',ไฟ:'🔥',ดิน:'🌍',ทอง:'⚙️',น้ำ:'💧'};
+var BZ_DAYMASTER_MEANING={
+  ไม้:'คุณมีพลังงานของ "ไม้" — ผู้เติบโต ยืดหยุ่นปรับตัวได้ดี มีความเมตตาและต้องการพื้นที่ในการแสดงออก ทำงานได้ดีสุดเมื่อมีอิสระในการพัฒนา',
+  ไฟ:'คุณมีพลังงานของ "ไฟ" — ผู้สร้างแรงบันดาลใจ มีพลังงานและความกระตือรือร้นสูง สร้างความอบอุ่นให้คนรอบข้าง ตัดสินใจจากสัญชาตญาณ',
+  ดิน:'คุณมีพลังงานของ "ดิน" — ผู้สร้างรากฐาน น่าเชื่อถือและมั่นคง เป็นที่พักพิงของคนอื่น ชอบสร้างสิ่งที่ยั่งยืน',
+  ทอง:'คุณมีพลังงานของ "ทอง" — ผู้มีหลักการ แน่วแน่และมีมาตรฐานสูง ตัดสินใจด้วยเหตุผลและความยุติธรรม',
+  น้ำ:'คุณมีพลังงานของ "น้ำ" — ผู้ปรับตัว ฉลาดและสังเกตการณ์ได้ดี ไหลเข้าหาโอกาสได้เสมอ มีสัญชาตญาณลึกซึ้ง'
+};
+var BZ_MISSING_ADVICE={
+  ไม้:'เสริมธาตุไม้ด้วยการใกล้ชิดธรรมชาติ สีเขียว การทำสวน ฝึกความยืดหยุ่น',
+  ไฟ:'เสริมธาตุไฟด้วยแรงบันดาลใจ สีแดง/ส้ม สังคม และกิจกรรมที่จุดพลังงานใน',
+  ดิน:'เสริมธาตุดินด้วยความสม่ำเสมอ สีเหลือง/น้ำตาล ฝึกรูทีน สมาธิ',
+  ทอง:'เสริมธาตุทองด้วยระเบียบวินัย สีขาว/เทา ตั้งกฎเกณฑ์ชีวิต ความแน่วแน่',
+  น้ำ:'เสริมธาตุน้ำด้วยความยืดหยุ่น สีน้ำเงิน/ดำ นั่งสมาธิ ฟังเสียงน้ำหรือฝน'
+};
+// Day pillar reference: 2000-01-01 = 庚辰 (stem=6, branch=4)
+var BZ_REF_STEM=6,BZ_REF_BRANCH=4;
+function bzYrStem(y){return((y-4)%10+10)%10;}
+function bzYrBranch(y){return((y-4)%12+12)%12;}
+function bzMoBranch(mo){return[1,2,3,4,5,6,7,8,9,10,11,0][mo-1];}
+function bzMoStem(yrStem,moBranch){
+  var bases=[2,4,6,8,0];
+  return(bases[yrStem%5]+(moBranch-2+12)%12)%10;
+}
+function bzDayStemBranch(dob){
+  var p=dob.split('-'),d=Date.UTC(+p[0],+p[1]-1,+p[2]),ref=Date.UTC(2000,0,1);
+  var diff=Math.round((d-ref)/86400000);
+  return{stem:((BZ_REF_STEM+diff)%10+10)%10,branch:((BZ_REF_BRANCH+diff)%12+12)%12};
+}
+function bzHrBranch(hr){return Math.floor((hr+1)/2)%12;}
+function bzHrStem(dayStem,hrBranch){return([0,2,4,6,8][dayStem%5]+hrBranch)%10;}
+function calcBaZi(dob,time){
+  if(!dob)return null;
+  var p=dob.split('-'),yr=+p[0],mo=+p[1],dy=+p[2];
+  var effYr=(mo<2||(mo===2&&dy<4))?yr-1:yr;
+  var yS=bzYrStem(effYr),yB=bzYrBranch(effYr);
+  var mB=bzMoBranch(mo),mS=bzMoStem(bzYrStem(effYr),mB);
+  var db=bzDayStemBranch(dob),dS=db.stem,dB=db.branch;
+  var hr=12,hKnown=false;
+  if(time&&/^\d{2}:\d{2}$/.test(time)){hr=+time.split(':')[0];hKnown=true;}
+  var hB=bzHrBranch(hr),hS=bzHrStem(dS,hB);
+  var els={ไม้:0,ไฟ:0,ดิน:0,ทอง:0,น้ำ:0};
+  [[yS,yB],[mS,mB],[dS,dB],[hS,hB]].forEach(function(pl){
+    els[BZ_STEM_EL[pl[0]]]++;els[BZ_BRANCH_EL[pl[1]]]++;
+  });
+  var dayEl=BZ_STEM_EL[dS];
+  var missing=Object.keys(els).filter(function(e){return els[e]===0;});
+  var dominant=Object.keys(els).reduce(function(a,b){return els[a]>=els[b]?a:b;});
+  return{
+    pillars:[
+      {label:'ปีเกิด',stem:yS,branch:yB},
+      {label:'เดือนเกิด',stem:mS,branch:mB},
+      {label:'วันเกิด (Day Master)',stem:dS,branch:dB,isDayMaster:true},
+      {label:'ชั่วโมงเกิด'+(hKnown?'':' (ประมาณ)'),stem:hS,branch:hB}
+    ],
+    dayMaster:dayEl,dayStemIndex:dS,elements:els,missing:missing,dominant:dominant,timeKnown:hKnown
+  };
+}
+function rBaZiCard(bz){
+  if(!bz)return'';
+  var html='<div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:11px">🀄 ปาจื้อ (八字) — สี่เสาหลักชีวิต</div>';
+  // 4 Pillars table
+  html+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:13px">';
+  bz.pillars.forEach(function(pl){
+    var border=pl.isDayMaster?'2px solid var(--gold)':'1px solid rgba(255,255,255,0.08)';
+    html+='<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px 4px;text-align:center;border:'+border+'">'
+      +'<div style="font-size:9px;color:var(--tx3);margin-bottom:4px">'+pl.label+'</div>'
+      +'<div style="font-size:20px;color:var(--gold);font-weight:700;line-height:1">'+BZ_STEMS[pl.stem]+'</div>'
+      +'<div style="font-size:10px;color:var(--tx3)">'+BZ_STEM_EL[pl.stem]+' '+BZ_STEM_POL[pl.stem]+'</div>'
+      +'<div style="font-size:20px;color:var(--tx);font-weight:700;line-height:1.2">'+BZ_BRANCHES[pl.branch]+'</div>'
+      +'<div style="font-size:10px;color:var(--tx3)">'+BZ_BRANCH_EL[pl.branch]+'</div>'
+      +'</div>';
+  });
+  html+='</div>';
+  // Day Master
+  html+='<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;margin-bottom:11px">'
+    +'<div style="font-size:12px;color:var(--gold);font-weight:600;margin-bottom:4px">'+EL_ICON[bz.dayMaster]+' Day Master — ธาตุประจำตัว: '+bz.dayMaster+'</div>'
+    +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+BZ_DAYMASTER_MEANING[bz.dayMaster]+'</div>'
+    +'</div>';
+  // 5 Elements balance
+  var total=Object.values(bz.elements).reduce(function(a,b){return a+b;},0);
+  html+='<div style="font-size:12px;color:var(--tx3);margin-bottom:6px">การกระจายธาตุทั้ง 5</div>';
+  ['ไม้','ไฟ','ดิน','ทอง','น้ำ'].forEach(function(el){
+    var cnt=bz.elements[el],pct=Math.round(cnt/total*100);
+    html+='<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">'
+      +'<span style="font-size:12px;width:22px">'+EL_ICON[el]+'</span>'
+      +'<span style="font-size:12px;color:var(--tx2);width:32px">'+el+'</span>'
+      +'<div style="flex:1;background:rgba(255,255,255,0.06);border-radius:3px;height:6px">'
+      +'<div style="width:'+pct+'%;background:var(--gold);border-radius:3px;height:6px"></div>'
+      +'</div>'
+      +'<span style="font-size:11px;color:var(--tx3);width:18px">'+cnt+'</span>'
+      +'</div>';
+  });
+  // Missing element advice
+  if(bz.missing.length>0){
+    html+='<div style="margin-top:11px;padding:9px;background:rgba(255,183,3,0.06);border-radius:8px">'
+      +'<div style="font-size:12px;color:var(--gold);margin-bottom:5px">⚠️ ธาตุที่ขาดหาย</div>';
+    bz.missing.forEach(function(el){
+      html+='<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:3px">'+EL_ICON[el]+' '+BZ_MISSING_ADVICE[el]+'</div>';
+    });
+    html+='</div>';
+  }
+  if(!bz.timeKnown){
+    html+='<div style="font-size:11px;color:var(--tx3);margin-top:8px;line-height:1.6">⚠️ ไม่ทราบเวลาเกิด ใช้เที่ยงวันคำนวณเสาชั่วโมง — เสาปี/เดือน/วันแม่นยำครับ</div>';
+  }
+  return html;
 }
 
 // ═══ THAI ZODIAC (12 นักษัตร) — real calculation from birth year ═══
@@ -1980,7 +2230,98 @@ function rSelf(){
   rBlinds('s-blinds',arch);
   rSciences('s-sciences',p.dob);
   rNatalIdleCheck();
+  // Ba Zi (Layer III) — calculate directly, no API needed
+  var bzEl=document.getElementById('bazi-content');
+  if(bzEl){
+    var bz=calcBaZi(p.dob,p.time);
+    bzEl.innerHTML=bz?rBaZiCard(bz):'<div style="color:var(--tx3);font-size:13px">กรอกวันเกิดในโปรไฟล์เพื่อดูปาจื้อ</div>';
+  }
+  // Convergence Spider Chart
+  rConvergenceChart(p,arch);
 }
+// ═══ CONVERGENCE ENGINE — Spider Chart + Text Summary
+// Synthesizes all available systems into 6 life dimensions.
+// Each system votes on each dimension; consensus = stronger signal. ═══
+var CONV_DIMS=['พลังงาน','การเติบโต','ความสัมพันธ์','การงาน','ความคิดสร้างสรรค์','การตัดสินใจ'];
+function rConvergenceChart(p,arch){
+  var svg=document.getElementById('convergence-chart');
+  var sumEl=document.getElementById('convergence-summary');
+  if(!svg||!sumEl)return;
+  var scores=[50,50,50,50,50,50];
+  var signals=[];
+  // System 1: Western Astrology
+  var natal=lsG(LSN);
+  if(natal&&natal.planets&&natal.planets.Sun){
+    var sunSign=natal.planets.Sun.sign;
+    var sunEl=SIGN_ELEMENT?SIGN_ELEMENT[sunSign]:null;
+    if(sunEl==='Fire'){scores[0]=Math.min(100,scores[0]+20);scores[4]=Math.min(100,scores[4]+15);signals.push('☀️ ดวงอาทิตย์ราศีไฟ — พลังงานและความคิดสร้างสรรค์สูง');}
+    if(sunEl==='Earth'){scores[3]=Math.min(100,scores[3]+20);scores[2]=Math.min(100,scores[2]+10);signals.push('☀️ ดวงอาทิตย์ราศีดิน — มั่นคงในการงาน');}
+    if(sunEl==='Air'){scores[5]=Math.min(100,scores[5]+20);scores[4]=Math.min(100,scores[4]+15);signals.push('☀️ ดวงอาทิตย์ราศีลม — การคิดและตัดสินใจเฉียบแหลม');}
+    if(sunEl==='Water'){scores[2]=Math.min(100,scores[2]+20);scores[1]=Math.min(100,scores[1]+10);signals.push('☀️ ดวงอาทิตย์ราศีน้ำ — ความสัมพันธ์และการเติบโตภายใน');}
+  }
+  // System 2: Ba Zi
+  var bz=p.dob?calcBaZi(p.dob,p.time):null;
+  if(bz){
+    var dm=bz.dayMaster;
+    if(dm==='ไฟ'){scores[0]=Math.min(100,scores[0]+20);scores[4]=Math.min(100,scores[4]+15);signals.push(EL_ICON['ไฟ']+' Day Master ธาตุไฟ — พลังงานสูง');}
+    if(dm==='ไม้'){scores[1]=Math.min(100,scores[1]+20);scores[3]=Math.min(100,scores[3]+10);signals.push(EL_ICON['ไม้']+' Day Master ธาตุไม้ — ศักยภาพการเติบโตสูง');}
+    if(dm==='ดิน'){scores[3]=Math.min(100,scores[3]+20);scores[2]=Math.min(100,scores[2]+10);signals.push(EL_ICON['ดิน']+' Day Master ธาตุดิน — มั่นคงในการงาน');}
+    if(dm==='ทอง'){scores[5]=Math.min(100,scores[5]+20);signals.push(EL_ICON['ทอง']+' Day Master ธาตุทอง — ตัดสินใจแม่นยำ');}
+    if(dm==='น้ำ'){scores[5]=Math.min(100,scores[5]+15);scores[4]=Math.min(100,scores[4]+10);signals.push(EL_ICON['น้ำ']+' Day Master ธาตุน้ำ — สัญชาตญาณสูง');}
+    bz.missing.forEach(function(el){
+      if(el==='ไฟ'){scores[0]=Math.max(20,scores[0]-15);signals.push('⚠️ ขาดธาตุไฟ — เสริมแรงบันดาลใจ');}
+      if(el==='ไม้'){scores[1]=Math.max(20,scores[1]-15);signals.push('⚠️ ขาดธาตุไม้ — เสริมการเติบโต');}
+      if(el==='ดิน'){scores[3]=Math.max(20,scores[3]-10);signals.push('⚠️ ขาดธาตุดิน — เสริมความมั่นคง');}
+    });
+  }
+  // System 3: Numerology
+  var lp=p.dob?lifePathNumber(p.dob):null;
+  if(lp){
+    if(lp===1||lp===8){scores[3]=Math.min(100,scores[3]+15);scores[0]=Math.min(100,scores[0]+10);signals.push('🔢 เลขชีวิต '+lp+' — ผู้นำ ชี้ด้านการงาน');}
+    if(lp===2||lp===6){scores[2]=Math.min(100,scores[2]+15);signals.push('🔢 เลขชีวิต '+lp+' — ผู้ประสาน ชี้ด้านความสัมพันธ์');}
+    if(lp===3||lp===5){scores[4]=Math.min(100,scores[4]+15);signals.push('🔢 เลขชีวิต '+lp+' — ผู้สร้างสรรค์');}
+    if(lp===7||lp===9){scores[1]=Math.min(100,scores[1]+15);signals.push('🔢 เลขชีวิต '+lp+' — ผู้แสวงหา ชี้การเติบโต');}
+    if(lp===11||lp===22||lp===33){scores[0]=Math.min(100,scores[0]+15);scores[4]=Math.min(100,scores[4]+15);signals.push('🔢 เลขมาสเตอร์ '+lp+' — พลังงานพิเศษ');}
+  }
+  // System 4: Archetype
+  if(arch){
+    var ak=arch.key||'d';
+    if(ak==='a'){scores[5]=Math.min(100,scores[5]+15);scores[3]=Math.min(100,scores[3]+10);}
+    if(ak==='b'){scores[4]=Math.min(100,scores[4]+15);scores[0]=Math.min(100,scores[0]+10);}
+    if(ak==='c'){scores[2]=Math.min(100,scores[2]+15);}
+    if(ak==='d'){scores[1]=Math.min(100,scores[1]+10);scores[5]=Math.min(100,scores[5]+10);}
+  }
+  // Draw spider chart (SVG)
+  var cx=120,cy=120,r=80,sides=6;
+  var angles=CONV_DIMS.map(function(d,i){return(Math.PI*2/sides)*i-Math.PI/2;});
+  var g='';
+  [0.25,0.5,0.75,1].forEach(function(frac){
+    var gp=angles.map(function(a){return(cx+r*frac*Math.cos(a))+','+(cy+r*frac*Math.sin(a));}).join(' ');
+    g+='<polygon points="'+gp+'" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>';
+  });
+  angles.forEach(function(a){g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+r*Math.cos(a))+'" y2="'+(cy+r*Math.sin(a))+'" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>';});
+  var dp=angles.map(function(a,i){return(cx+r*(scores[i]/100)*Math.cos(a))+','+(cy+r*(scores[i]/100)*Math.sin(a));}).join(' ');
+  g+='<polygon points="'+dp+'" fill="rgba(255,183,3,0.15)" stroke="#FFB703" stroke-width="1.5"/>';
+  angles.forEach(function(a,i){
+    var x=cx+r*(scores[i]/100)*Math.cos(a),y=cy+r*(scores[i]/100)*Math.sin(a);
+    g+='<circle cx="'+x+'" cy="'+y+'" r="3" fill="#FFB703"/>';
+    var lx=cx+(r+18)*Math.cos(a),ly=cy+(r+18)*Math.sin(a);
+    g+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.55)">'+CONV_DIMS[i]+'</text>';
+  });
+  svg.innerHTML=g;
+  // Text summary
+  var topIdx=scores.indexOf(Math.max.apply(null,scores));
+  var botIdx=scores.indexOf(Math.min.apply(null,scores));
+  var sum='<div style="margin-bottom:8px"><strong style="color:var(--gold)">✦ สัญญาณแข็งที่สุด: '+CONV_DIMS[topIdx]+'</strong> — หลายศาสตร์ชี้ตรงกันในมิตินี้ ควรให้ความสำคัญ</div>';
+  if(botIdx!==topIdx)sum+='<div style="margin-bottom:8px;color:var(--tx3)">⚠️ มิติที่ยังต้องเสริม: '+CONV_DIMS[botIdx]+' — สัญญาณยังอ่อน</div>';
+  if(signals.length>0){
+    sum+='<div style="font-size:11px;color:var(--tx3);margin-top:6px;line-height:1.8">';
+    signals.slice(0,5).forEach(function(s){sum+='• '+s+'<br>';});
+    sum+='</div>';
+  }
+  sumEl.innerHTML=sum;
+}
+
 // ═══ LIFE TIMING — render phase saved in profile (real, set by Quiz Q2) ═══
 function rTiming(){
   var p=lsG(LSP)||{};
@@ -2721,19 +3062,70 @@ function rProfile(){
   var e4=document.getElementById('pf-time');if(e4)e4.textContent=p.time||'ไม่ทราบ';
   var e6=document.getElementById('pf-place');if(e6)e6.textContent=p.place||'ไม่ระบุ';
   var e7=document.getElementById('pf-arc');if(e7)e7.innerHTML=arch.icon+' '+arch.name;
-  var nl=document.getElementById('inp-lastname');if(nl)nl.value=p.lastname||'';
+  var nl=document.getElementById('inp-engname');if(nl)nl.value=p.engname||'';
   var np=document.getElementById('inp-phone');if(np)np.value=p.phone||'';
   var nu=document.getElementById('inp-numother');if(nu)nu.value=p.numOther||'';
+  rNumeroResult(p);
   var jl=lsG(LSJ)||[];
   var e5=document.getElementById('pf-jct');if(e5)e5.textContent=jl.length;
 }
 function saveNumerology(){
   var p=lsG(LSP)||{};
-  p.lastname=(document.getElementById('inp-lastname')||{}).value||'';
+  var engname=(document.getElementById('inp-engname')||{}).value||'';
+  p.engname=engname;
   p.phone=(document.getElementById('inp-phone')||{}).value||'';
   p.numOther=(document.getElementById('inp-numother')||{}).value||'';
   lsS(LSP,p);
-  toast('บันทึกข้อมูลเลขศาสตร์ ✓');
+  rNumeroResult(p);
+}
+function rNumeroResult(p){
+  var errEl=document.getElementById('numero-error'),resEl=document.getElementById('numero-result');
+  errEl.style.display='none';resEl.style.display='none';
+  var name=(p.engname||'').trim();
+  if(!name&&!p.phone){return;} // nothing entered yet, stay quiet
+  if(name&&hasThaiChars(name)){
+    errEl.textContent='⚠️ ตรวจพบตัวอักษรไทยในช่องชื่อ — เลขศาสตร์ตะวันตกคำนวณได้จากตัวอักษร A-Z เท่านั้น กรุณาสะกดชื่อเป็นภาษาอังกฤษ (เช่น "Somchai Jaidee")';
+    errEl.style.display='block';
+    return;
+  }
+  var html='';
+  if(name){
+    var expr=nameToNumber(name,'all'),soul=nameToNumber(name,'vowels'),pers=nameToNumber(name,'consonants');
+    if(expr){
+      html+='<div style="margin-bottom:12px"><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px">✨ Expression Number — พรสวรรค์ธรรมชาติ</div>'
+        +'<div style="font-size:18px;color:var(--gold);font-weight:700;margin-bottom:3px">'+expr+'</div>'
+        +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+(EXPRESSION_MEANING[expr]||'')+'</div></div>';
+    }
+    if(soul){
+      html+='<div style="margin-bottom:12px"><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px">💗 Soul Urge Number — แรงปรารถนาในใจ</div>'
+        +'<div style="font-size:18px;color:var(--gold);font-weight:700;margin-bottom:3px">'+soul+'</div>'
+        +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+(SOULURGE_MEANING[soul]||'')+'</div></div>';
+    }
+    if(pers){
+      html+='<div style="margin-bottom:12px"><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px">🎭 Personality Number — ภาพลักษณ์ภายนอก</div>'
+        +'<div style="font-size:18px;color:var(--gold);font-weight:700;margin-bottom:3px">'+pers+'</div>'
+        +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+(PERSONALITY_MEANING[pers]||'')+'</div></div>';
+    }
+  }
+  var phoneNum=phoneToNumber(p.phone);
+  if(phoneNum){
+    if(html)html+='<div class="dv" style="margin:11px 0"></div>';
+    html+='<div style="margin-bottom:4px"><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px">📱 เลขเบอร์โทร</div>'
+      +'<div style="font-size:18px;color:var(--gold);font-weight:700;margin-bottom:3px">'+phoneNum+'</div>'
+      +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+(PHONE_MEANING[phoneNum]||'')+'</div></div>';
+  }
+  var otherNum=phoneToNumber(p.numOther);
+  if(otherNum){
+    if(html)html+='<div class="dv" style="margin:11px 0"></div>';
+    html+='<div><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px">🔢 เลขอื่นๆ ที่ระบุ</div>'
+      +'<div style="font-size:18px;color:var(--gold);font-weight:700;margin-bottom:3px">'+otherNum+'</div>'
+      +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+(PHONE_MEANING[otherNum]||'')+'</div></div>';
+  }
+  if(html){
+    resEl.innerHTML=html;
+    resEl.style.display='block';
+    toast('วิเคราะห์เลขศาสตร์แล้ว ✓');
+  }
 }
 
 // ═══ EXPORT / CLEAR ═══
