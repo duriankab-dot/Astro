@@ -245,6 +245,17 @@ textarea.if{resize:none}
 .card:nth-child(3n){--star-dur:7s;--star-del:2s}
 
 .skel{background:rgba(176,64,255,.12);border-radius:var(--r1);animation:pulse 1.5s infinite}
+/* ═══ SHOOTING STARS BACKGROUND ═══ */
+#star-field{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+@keyframes shoot-star{
+  0%{transform:translate(0,0) rotate(-35deg);opacity:0}
+  8%{opacity:1}
+  60%{opacity:.5}
+  100%{transform:translate(280px,280px) rotate(-35deg);opacity:0}
+}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:.8;transform:scale(1.3)}}
+.ss{position:absolute;border-radius:50%;animation:shoot-star linear infinite;opacity:0}
+.ts{position:absolute;border-radius:50%;background:rgba(224,160,255,.6);animation:twinkle ease-in-out infinite}
 </style>
 <!-- ═══ ANALYTICS PLACEHOLDER ═══
      ยังไม่ active — ใส่ Measurement ID จริงตอน deploy แล้วลบ comment ออก
@@ -258,6 +269,7 @@ textarea.if{resize:none}
 -->
 </head>
 <body>
+<div id="star-field" aria-hidden="true"></div>
 <div id="app">
 <div id="toast"></div>
 
@@ -2065,6 +2077,22 @@ function rNatal(data){
       +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+mean+'</div></div>';
   }
   var html='';
+  // ─── QUICK SUMMARY BOX ───
+  var sunSign=planets.Sun&&planets.Sun.sign?SIGN_TH[planets.Sun.sign]||planets.Sun.sign:'?';
+  var moonSign=planets.Moon&&planets.Moon.sign?SIGN_TH[planets.Moon.sign]||planets.Moon.sign:'?';
+  var ascSignTh=ascSign?SIGN_TH[ascSign]||ascSign:'?';
+  html+='<div style="background:rgba(176,64,255,.1);border:1px solid rgba(176,64,255,.3);border-radius:12px;padding:12px;margin-bottom:14px">'
+    +'<div style="font-size:11px;color:var(--gold);margin-bottom:8px;font-weight:600">✦ สรุปสั้นๆ ของคุณ</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">'
+    +'<div><div style="font-size:18px">☀️</div><div style="font-size:11px;color:var(--tx3)">ตัวตน</div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+sunSign+'</div></div>'
+    +'<div><div style="font-size:18px">🌙</div><div style="font-size:11px;color:var(--tx3)">ความรู้สึก</div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+moonSign+'</div></div>'
+    +'<div><div style="font-size:18px">🌅</div><div style="font-size:11px;color:var(--tx3)">ภาพลักษณ์</div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+ascSignTh+'</div></div>'
+    +'</div><div style="font-size:11px;color:var(--tx3);margin-top:10px;line-height:1.6">'
+    +'🌟 = ราศีอาทิตย์ คือ "ตัวตนที่แท้จริง" ของคุณ<br>'
+    +'🌙 = ราศีจันทร์ คือ "ความรู้สึกข้างใน" ที่คนอื่นอาจไม่เห็น<br>'
+    +'🌅 = ลัคนา คือ "ภาพที่คนอื่นมองเห็นคุณ" เมื่อแรกพบ</div>'
+    +'</div>';
+  html+='<div class="dv" style="margin:11px 0"></div>';
   // ลัคนา — ภาพลักษณ์ภายนอก (ขึ้นก่อนเพราะเป็นจุดเริ่มของชาร์ท)
   var asc=row('Ascendant','🌅 ลัคนา — ภาพลักษณ์ภายนอก',ASCENDANT_MEANING);
   if(asc){
@@ -3044,24 +3072,38 @@ function showScript(script,autoPlay){
 
 function lcDownloadPDF(){
   var cache=lsG(LSC_SCRIPT);
-  if(!cache||!cache.script){toast('ยังไม่มีรายงาน กดสร้างก่อนครับ');return;}
+  if(!cache||!cache.script){
+    toast('กดสร้างรายงานก่อนครับ');
+    return;
+  }
+  // สร้าง text file ทันที (ไม่ต้อง API)
   var p=lsG(LSP)||{};
-  var content='ASTROVERA — รายงานไลฟ์โค้ชส่วนตัว\n'
-    +'ชื่อ: '+(cache.name||p.name||'')+'  |  วันที่: '+(cache.date||new Date().toLocaleDateString('th-TH'))+'\n'
-    +'─'.repeat(50)+'\n\n'
-    +cache.script+'\n\n'
-    +'─'.repeat(50)+'\n'
-    +'สร้างโดย ASTROVERA Personal Life Intelligence Platform\n'
-    +'astro-pwa.netlify.app';
-  var blob=new Blob([content],{type:'text/plain;charset=utf-8'});
-  var url=URL.createObjectURL(blob);
+  var name=cache.name||p.name||'User';
+  var date=cache.date||new Date().toLocaleDateString('th-TH');
+  var lines=[
+    '════════════════════════════════════',
+    '  ASTROVERA — รายงานไลฟ์โค้ชส่วนตัว',
+    '════════════════════════════════════',
+    'ชื่อ: '+name,
+    'วันที่: '+date,
+    '────────────────────────────────────',
+    '',
+    cache.script,
+    '',
+    '────────────────────────────────────',
+    'astro-pwa.netlify.app',
+    '════════════════════════════════════'
+  ];
+  var blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
   var a=document.createElement('a');
-  a.href=url;a.download='ASTROVERA-Report-'+(cache.name||'').replace(/\s/g,'_')+'.txt';
-  document.body.appendChild(a);a.click();
-  document.body.removeChild(a);URL.revokeObjectURL(url);
-  toast('ดาวน์โหลดรายงานแล้ว ✓');
+  a.href=URL.createObjectURL(blob);
+  a.download='ASTROVERA-'+name.replace(/\s+/g,'_')+'-'+Date.now()+'.txt';
+  a.style.display='none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(a.href);},1000);
+  toast('ดาวน์โหลดสำเร็จ ✓');
 }
-
 
 function showLcError(msg){
   document.getElementById('lc-loading').style.display='none';
@@ -3073,37 +3115,72 @@ function showLcError(msg){
 }
 
 function lcPlay(){
-  if(!_lcScript)return;
-  if(window.speechSynthesis.paused){window.speechSynthesis.resume();return;}
+  if(!_lcScript){toast('ไม่มี script — กดสร้างรายงานก่อน');return;}
+  // ถ้า paused อยู่ ให้ resume แทน
+  if(window.speechSynthesis.paused){
+    window.speechSynthesis.resume();
+    document.getElementById('lc-play-btn').textContent='🔊';
+    document.getElementById('lc-status').textContent='กำลังเล่น...';
+    mascotStartSpeak();
+    return;
+  }
   window.speechSynthesis.cancel();
   _lcUtterance=new SpeechSynthesisUtterance(_lcScript);
-  // ใช้เสียงที่เลือก
+  _lcUtterance.lang='th-TH';
+  // หาเสียงที่เลือก
   var sel=document.getElementById('lc-voice-sel');
-  if(sel&&sel._voiceMap&&sel._voiceMap[sel.value]){
-    _lcUtterance.voice=sel._voiceMap[parseInt(sel.value)];
+  var chosenVoice=null;
+  if(sel&&sel._voiceMap&&sel.value!==''){
+    chosenVoice=sel._voiceMap[parseInt(sel.value)];
   }
-  // ความเร็ว
-  var rate=parseFloat((document.getElementById('lc-rate')||{value:'0.9'}).value)||0.9;
+  // ถ้าไม่มีเสียงที่เลือก หา Thai voice อัตโนมัติ
+  if(!chosenVoice){
+    var voices=window.speechSynthesis.getVoices();
+    chosenVoice=voices.find(function(v){return v.lang.startsWith('th');})
+      ||voices.find(function(v){return v.lang.startsWith('en');})
+      ||voices[0];
+  }
+  if(chosenVoice)_lcUtterance.voice=chosenVoice;
+  var rate=parseFloat((document.getElementById('lc-rate')||{}).value||0.9)||0.9;
   _lcUtterance.rate=rate;
   _lcUtterance.pitch=1.0;
   _lcUtterance.onstart=function(){
-    document.getElementById('lc-play-btn').textContent='🔊';
-    document.getElementById('lc-status').textContent='กำลังเล่น...';
+    var btn=document.getElementById('lc-play-btn');
+    if(btn)btn.textContent='🔊';
+    var st=document.getElementById('lc-status');
+    if(st)st.textContent='กำลังเล่น...';
+    mascotStartSpeak();
   };
   _lcUtterance.onend=function(){
-    document.getElementById('lc-play-btn').textContent='▶';
-    document.getElementById('lc-status').textContent='เล่นจบแล้ว — กด ↺ เพื่อเล่นซ้ำ';
+    var btn=document.getElementById('lc-play-btn');
+    if(btn)btn.textContent='▶';
+    var st=document.getElementById('lc-status');
+    if(st)st.textContent='เล่นจบแล้ว — กด ↺ เพื่อเล่นซ้ำ';
+    mascotStopSpeak();
   };
   _lcUtterance.onerror=function(e){
-    document.getElementById('lc-play-btn').textContent='▶';
-    document.getElementById('lc-status').textContent='เล่นเสียงไม่ได้: '+e.error;
+    var btn=document.getElementById('lc-play-btn');
+    if(btn)btn.textContent='▶';
+    var st=document.getElementById('lc-status');
+    if(st)st.textContent='เล่นเสียงไม่ได้: '+e.error+' (ลองเปลี่ยนเสียง)';
+    mascotStopSpeak();
   };
   window.speechSynthesis.speak(_lcUtterance);
 }
 
-function lcPause(){window.speechSynthesis.pause();document.getElementById('lc-play-btn').textContent='▶';document.getElementById('lc-status').textContent='หยุดชั่วคราว';}
-function lcStop(){window.speechSynthesis.cancel();document.getElementById('lc-play-btn')&&(document.getElementById('lc-play-btn').textContent='▶');document.getElementById('lc-status')&&(document.getElementById('lc-status').textContent='หยุดแล้ว');}
-function lcRestart(){window.speechSynthesis.cancel();setTimeout(lcPlay,200);}
+function lcPause(){
+  window.speechSynthesis.pause();
+  var btn=document.getElementById('lc-play-btn');if(btn)btn.textContent='▶';
+  var st=document.getElementById('lc-status');if(st)st.textContent='หยุดชั่วคราว';
+  mascotStopSpeak();
+}
+function lcStop(){
+  window.speechSynthesis.cancel();
+  var btn=document.getElementById('lc-play-btn');if(btn)btn.textContent='▶';
+  var st=document.getElementById('lc-status');if(st)st.textContent='หยุดแล้ว';
+  mascotStopSpeak();
+}
+function lcRestart(){window.speechSynthesis.cancel();setTimeout(lcPlay,300);}
 
 // ═══ LIFE TIMING — render phase saved in profile (real, set by Quiz Q2) ═══
 function rTiming(){
@@ -3987,9 +4064,57 @@ function saveFinResult(){
   var leakWinner=Object.keys(leakCounts).length?Object.keys(leakCounts).reduce(function(a,b){return leakCounts[a]>=leakCounts[b]?a:b;}):'subscription';
   var p=lsG(LSP)||{};
   p.finArchetype=typeWinner;p.moneyLeak=leakWinner;lsS(LSP,p);
-  toast('วิเคราะห์ Money Blueprint แล้ว ✓');bk();rSelf();
+  toast('วิเคราะห์ Money Blueprint แล้ว ✓');bk();rSelf();scrollToNewModules();
 }
 function skipFinQ(){bk();}
+
+// ─── Scroll กลับมาที่ module section หลัง quiz เสร็จ ───
+function scrollToNewModules(){
+  setTimeout(function(){
+    var sb=document.querySelector('#sc-self .sb');
+    var el=document.getElementById('s-new-modules');
+    if(!sb||!el)return;
+    var top=el.offsetTop;
+    sb.scrollTo({top:Math.max(0,top-16),behavior:'smooth'});
+  },200);
+}
+
+// ─── Shooting Star Field ───
+function initStarField(){
+  var bg=document.getElementById('star-field');
+  if(!bg)return;
+  // Shooting stars (15 stars, mixed sizes)
+  var sizes=[30,50,60,80,100,40,70,55,45,90,35,65,75,85,50];
+  var thicknesses=[1,1,2,1,2,1,1,2,1,2,1,1,2,1,1];
+  sizes.forEach(function(w,i){
+    var el=document.createElement('div');
+    el.className='ss';
+    var startX=Math.random()*95;
+    var startY=Math.random()*60;
+    var dur=(Math.random()*4+3).toFixed(1);
+    var del=(Math.random()*14).toFixed(1);
+    var h=thicknesses[i];
+    var alpha=(Math.random()*0.4+0.4).toFixed(2);
+    el.style.cssText='left:'+startX+'%;top:'+startY+'%;width:'+w+'px;height:'+h+'px;'
+      +'background:linear-gradient(90deg,rgba(176,64,255,'+alpha+'),rgba(224,160,255,.5),transparent);'
+      +'animation:shoot-star '+dur+'s '+del+'s linear infinite;border-radius:2px';
+    bg.appendChild(el);
+  });
+  // Static twinkling dots (25 dots)
+  for(var i=0;i<25;i++){
+    var dot=document.createElement('div');
+    dot.className='ts';
+    var sz=Math.random()<0.7?1:2;
+    var tx=Math.random()*98;
+    var ty=Math.random()*98;
+    var td=(Math.random()*2+1.5).toFixed(1);
+    var tdel=(Math.random()*6).toFixed(1);
+    dot.style.cssText='left:'+tx+'%;top:'+ty+'%;width:'+sz+'px;height:'+sz+'px;'
+      +'animation:twinkle '+td+'s '+tdel+'s ease-in-out infinite';
+    bg.appendChild(dot);
+  }
+}
+
 
 // ═══ LIFE PURPOSE QUIZ ═══
 var LS_PUR='av_pur';
@@ -4060,7 +4185,7 @@ function savePurResult(){
   Object.values(_purAnswers).forEach(function(k){counts[k]=(counts[k]||0)+1;});
   var winner=Object.keys(counts).reduce(function(a,b){return(counts[a]||0)>=(counts[b]||0)?a:b;},'creator');
   var p=lsG(LSP)||{};p.lifeType=winner;lsS(LSP,p);
-  toast('ค้นพบภารกิจชีวิตแล้ว ✓');bk();rSelf();
+  toast('ค้นพบภารกิจชีวิตแล้ว ✓');bk();rSelf();scrollToNewModules();
 }
 function skipPurQ(){bk();}
 
@@ -4204,7 +4329,7 @@ function saveTeamResult(){
   var c={};Object.values(_teamA).forEach(function(k){c[k]=(c[k]||0)+1;});
   var w=Object.keys(c).reduce(function(a,b){return c[a]>=c[b]?a:b;},'executor');
   var p=lsG(LSP)||{};p.teamRole=w;lsS(LSP,p);
-  toast('วิเคราะห์บทบาทในทีมแล้ว ✓');bk();rSelf();
+  toast('วิเคราะห์บทบาทในทีมแล้ว ✓');bk();rSelf();scrollToNewModules();
 }
 function skipTeamQ(){bk();}
 
@@ -4269,7 +4394,7 @@ function saveTalentResult(){
   var c={};Object.values(_talA).forEach(function(k){c[k]=(c[k]||0)+1;});
   var w=Object.keys(c).reduce(function(a,b){return c[a]>=c[b]?a:b;},'solver');
   var p=lsG(LSP)||{};p.hiddenTalent=w;lsS(LSP,p);
-  toast('ค้นพบพรสวรรค์ที่ซ่อนอยู่แล้ว ✓');bk();rSelf();
+  toast('ค้นพบพรสวรรค์ที่ซ่อนอยู่แล้ว ✓');bk();rSelf();scrollToNewModules();
 }
 function skipTalentQ(){bk();}
 
@@ -4349,7 +4474,7 @@ function saveLoveResult(){
   var attach=Object.keys(aCounts).length?Object.keys(aCounts).reduce(function(a,b){return aCounts[a]>=aCounts[b]?a:b;}):'secure';
   var p=lsG(LSP)||{};
   p.loveLangReceive=recv;p.loveLangGive=give;p.attachStyle=attach;lsS(LSP,p);
-  toast('วิเคราะห์ภาษารักแล้ว ✓');bk();rSelf();
+  toast('วิเคราะห์ภาษารักแล้ว ✓');bk();rSelf();scrollToNewModules();
 }
 function skipLoveQ(){bk();}
 
@@ -4502,17 +4627,42 @@ function shareNative(){
             _lang==='zh'?'我剛在ASTROVERA發現了我的身份模式！':
             'ฉันเพิ่งค้นพบตัวตนของตัวเองที่ ASTROVERA!')
     +'\n\n'+arch.icon+' '+arch.name+'\n'+arch.trait+'\n\n'+t('share.discover')+': '+url;
-  if(navigator.share){
-    navigator.share({title:'ASTROVERA — Personal Life Intelligence',text:text,url:url})
-      .catch(function(){shareCopyLink();});
+  if(navigator.share&&/Android|iPhone|iPad/i.test(navigator.userAgent)){
+    navigator.share({title:'ASTROVERA',text:text,url:url}).catch(function(){shareCopyLink();});
   } else {shareCopyLink();}
 }
 function shareCopyLink(){
   var url='https://astro-pwa.netlify.app';
-  navigator.clipboard?navigator.clipboard.writeText(url).then(function(){
-    var btn=document.getElementById('share-copy-btn');
-    if(btn){btn.textContent=t('share.copied');setTimeout(function(){btn.textContent=t('share.copy');},2000);}
-  }):toast('URL: '+url);
+  // Fallback 1: Clipboard API (modern)
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(url).then(function(){
+      _shareCopied();
+    }).catch(function(){_shareFallback(url);});
+  } else {
+    _shareFallback(url);
+  }
+}
+function _shareFallback(text){
+  // Fallback 2: execCommand (older browsers + file://)
+  var el=document.createElement('textarea');
+  el.value=text;
+  el.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0';
+  document.body.appendChild(el);
+  el.focus();el.select();
+  try{
+    document.execCommand('copy');
+    _shareCopied();
+  } catch(e){
+    // Fallback 3: show URL
+    alert('URL: '+text+'\n(กด OK แล้ว copy จาก address bar ได้เลย)');
+  }
+  document.body.removeChild(el);
+}
+function _shareCopied(){
+  toast('✓ คัดลอก URL แล้ว');
+  var btn=document.getElementById('share-copy-btn');
+  if(btn){btn.textContent=t('share.copied');setTimeout(function(){btn.textContent=t('share.copy');},2000);}
+  closeShareModal();
 }
 
 // ═══ PROFILE REFRESH ═══
@@ -4690,6 +4840,7 @@ function loadDemo(){
     // ผู้ใช้ใหม่หรือยังไม่ผ่าน onboarding — init dropdown เปล่าไว้รอกรอก
     initPlaceDropdown('');
     applyLang(); // apply saved language on startup
+    initStarField(); // shooting stars background
     rDash();
   }
 })();
