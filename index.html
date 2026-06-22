@@ -303,25 +303,44 @@ textarea.if{resize:none}
       <div class="orb" style="width:200px;height:200px;background:var(--ind);top:-60px;right:-60px"></div>
       <div class="orb" style="width:150px;height:150px;background:var(--pur);bottom:80px;left:-50px"></div>
       <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(99,102,241,.12) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(168,85,247,.08) 0%,transparent 50%)"></div>
-      <div style="position:absolute;top:22px;left:26px"><div class="logo-m"><div class="logo-i"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="78" fill="none" stroke="#D4AF37" stroke-width="5"/><circle cx="100" cy="100" r="66" fill="none" stroke="#D4AF37" stroke-width="5"/><g stroke="#D4AF37" stroke-width="6"><line x1="100" y1="38" x2="100" y2="162"/><line x1="38" y1="100" x2="162" y2="100"/><line x1="58" y1="58" x2="142" y2="142"/><line x1="142" y1="58" x2="58" y2="142"/></g></svg></div><div><div class="logo-t">ASTROVERA</div><div class="logo-s">DATA LIFE INTELLIGENCE</div></div></div></div>
+      <!-- Logo + Language Switcher -->
+      <div style="position:absolute;top:22px;left:26px;right:26px;display:flex;align-items:center;justify-content:space-between">
+        <div class="logo-m"><div class="logo-i"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="78" fill="none" stroke="#D4AF37" stroke-width="5"/><circle cx="100" cy="100" r="66" fill="none" stroke="#D4AF37" stroke-width="5"/><g stroke="#D4AF37" stroke-width="6"><line x1="100" y1="38" x2="100" y2="162"/><line x1="38" y1="100" x2="162" y2="100"/><line x1="58" y1="58" x2="142" y2="142"/><line x1="142" y1="58" x2="58" y2="142"/></g></svg></div><div><div class="logo-t">ASTROVERA</div><div class="logo-s">DATA LIFE INTELLIGENCE</div></div></div>
+        <!-- Language Switcher -->
+        <div style="display:flex;gap:6px;background:rgba(0,0,0,0.3);border-radius:20px;padding:4px 8px">
+          <button class="lang-btn" data-lang="th" onclick="setLang('th')" style="background:none;border:none;cursor:pointer;font-size:12px;padding:2px 4px;border-radius:10px;color:var(--gold);font-weight:700">TH</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')" style="background:none;border:none;cursor:pointer;font-size:12px;padding:2px 4px;border-radius:10px;color:var(--tx3)">EN</button>
+          <button class="lang-btn" data-lang="zh" onclick="setLang('zh')" style="background:none;border:none;cursor:pointer;font-size:12px;padding:2px 4px;border-radius:10px;color:var(--tx3)">中文</button>
+        </div>
+      </div>
       <div style="position:relative;z-index:1">
         <div style="font-size:11px;color:var(--gold);font-weight:600;letter-spacing:2px;margin-bottom:18px;text-transform:uppercase">Personal Life Intelligence Platform</div>
         <h1 style="font-family:var(--fh);font-size:32px;font-weight:700;line-height:1.45;margin-bottom:14px;letter-spacing:.2px">
-          <span style="color:var(--tx)">วิเคราะห์</span><span style="color:var(--gold)">ชีวิต</span><br>
-          <span style="color:var(--tx)">พัฒนา</span><span style="color:var(--gold)">ความคิด</span><br>
-          <span style="color:var(--tx)">ช่วย</span><span style="color:var(--gold)">ตัดสินใจ</span>
+          <span style="color:var(--gold)" id="land-title1">วิเคราะห์ชีวิต</span><br>
+          <span style="color:var(--gold)" id="land-title2">พัฒนาความคิด</span><br>
+          <span style="color:var(--gold)" id="land-title3">ช่วยตัดสินใจ</span>
         </h1>
-        <p style="font-size:14px;color:var(--tx2);line-height:1.6">ไม่ใช่การดูดวงและการทำนาย<br>แต่บทเรียนเป็นกระจกสะท้อนชีวิตที่ลึกที่สุด</p>
+        <p style="font-size:14px;color:var(--tx2);line-height:1.6" id="land-sub">ไม่ใช่การดูดวงและการทำนาย<br>แต่บทเรียนเป็นกระจกสะท้อนชีวิตที่ลึกที่สุด</p>
       </div>
     </div>
     <div style="padding:0 18px 22px">
       <div class="card cg" style="padding:22px;margin-bottom:14px">
-        <div style="font-size:14px;color:var(--tx2);margin-bottom:15px;text-align:center;line-height:1.5">เริ่มเข้าใจตัวเองใน 2 นาที<br><span style="font-size:12px;color:var(--tx3)">ฟรี · ไม่ต้องสมัครก่อน</span></div>
-        <div class="ig" style="margin-bottom:11px"><label class="il">ชื่อของคุณ</label><input id="inp-name" class="if" type="text" placeholder="ชื่อ หรือชื่อเล่น"></div>
-        <div class="ig" style="margin-bottom:11px"><label class="il">วันเกิด <span style="color:var(--rose)">*</span></label><input id="inp-dob" class="if" type="date" max="2010-01-01" min="1940-01-01" style="font-size:16px"><div style="font-size:11px;color:var(--tx3);margin-top:4px">ใส่ตามรูปแบบ ปี/เดือน/วัน (ค.ศ.) เช่น 1990/06/15</div></div>
-        <div class="ig" style="margin-bottom:11px"><label class="il">เวลาเกิด <span style="color:var(--tx3);font-weight:400">(ถ้าทราบ)</span></label><input id="inp-time" class="if" type="time"></div>
-        <div class="ig" style="margin-bottom:0"><label class="il">สถานที่เกิด <span style="color:var(--tx3);font-weight:400">(จังหวัด/ประเทศ)</span></label><input id="inp-place" class="if" type="text" placeholder="เช่น กรุงเทพมหานคร, ประเทศไทย"></div>
-        <div style="margin-top:16px"><button class="btn bg" onclick="startAnalysis()">✦ วิเคราะห์เลย — ฟรี</button></div>
+        <div style="font-size:14px;color:var(--tx2);margin-bottom:15px;text-align:center;line-height:1.5" data-i18n="land.start">เริ่มเข้าใจตัวเองใน 2 นาที<br><span style="font-size:12px;color:var(--tx3)" data-i18n="land.free">ฟรี · ไม่ต้องสมัครก่อน</span></div>
+        <div class="ig" style="margin-bottom:11px"><label class="il" data-i18n="inp.name">ชื่อของคุณ</label><input id="inp-name" class="if" type="text" placeholder="ชื่อ หรือชื่อเล่น" data-i18n="inp.name.ph"></div>
+        <div class="ig" style="margin-bottom:11px"><label class="il" data-i18n="inp.dob">วันเกิด <span style="color:var(--rose)">*</span></label><input id="inp-dob" class="if" type="date" max="2010-01-01" min="1940-01-01" style="font-size:16px"><div style="font-size:11px;color:var(--tx3);margin-top:4px" data-i18n="inp.dob.hint">ใส่ตามรูปแบบ ปี/เดือน/วัน (ค.ศ.) เช่น 1990/06/15</div></div>
+        <div class="ig" style="margin-bottom:11px"><label class="il" data-i18n="inp.time">เวลาเกิด (ถ้าทราบ)</label><input id="inp-time" class="if" type="time"></div>
+        <div class="ig" style="margin-bottom:0">
+          <label class="il" data-i18n="inp.place">สถานที่เกิด</label>
+          <select id="inp-country" class="if" style="margin-bottom:7px" onchange="onCountryChange()">
+            <option value="">— เลือกประเทศ —</option>
+            <option value="TH" selected>🇹🇭 ไทย</option>
+            <option value="OTHER">🌏 ประเทศอื่น</option>
+          </select>
+          <select id="inp-province" class="if" style="margin-bottom:7px"></select>
+          <input id="inp-place-other" class="if" type="text" placeholder="พิมพ์ชื่อจังหวัด/เมือง/ประเทศ" style="display:none">
+          <input id="inp-place" type="hidden">
+        </div>
+        <div style="margin-top:16px"><button class="btn bg" id="land-cta" onclick="startAnalysis()" data-i18n="land.cta">✦ วิเคราะห์เลย — ฟรี</button></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
         <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🧭</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Archetype Analysis</div><div style="font-size:11px;color:var(--tx3)">รู้จัก ลักษณะ และ จุดแข็งลึก ของตัวเอง</div></div>
@@ -430,7 +449,8 @@ textarea.if{resize:none}
       </div>
       <div class="lock-ov"><div style="font-size:22px">🔒</div><div style="font-size:14px;font-weight:600;color:var(--tx)">Decision Intelligence</div><div style="font-size:12px;color:var(--tx3);text-align:center">ปลดล็อคด้วย Premium Report</div><button class="btn bg bsm" onclick="go('sc-upgrade')">ดูแพ็คเกจ</button></div>
     </div>
-    <button class="btn bg" onclick="goToDash()" style="margin-bottom:9px">เข้าสู่ Dashboard ของฉัน →</button>
+    <button class="btn bg" onclick="goToDash()" style="margin-bottom:9px" data-i18n="insight.dash">เข้าสู่ Dashboard ของฉัน →</button>
+    <button class="btn bgh" style="margin-bottom:9px;width:100%" onclick="openShareModal()" data-i18n="btn.share">📤 แชร์ผลลัพธ์</button>
     <button class="btn bgh" onclick="go('sc-upgrade')">ดู Premium Report</button>
   </div>
 </div>
@@ -568,11 +588,11 @@ textarea.if{resize:none}
     </div>
   </div>
   <nav class="bnav">
-    <button class="bni on" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni on" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -606,14 +626,18 @@ textarea.if{resize:none}
     </div>
     <!-- Life Coach Audio Card -->
     <div class="card" style="margin-bottom:13px;background:linear-gradient(135deg,rgba(22,53,40,0.8),rgba(45,106,79,0.3));border:1px solid rgba(255,183,3,0.25)">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span style="font-size:22px">🎙️</span>
         <div>
           <div style="font-size:14px;font-weight:600;color:var(--tx)">ไลฟ์โค้ชส่วนตัว</div>
-          <div style="font-size:11px;color:var(--tx3)">AI สรุปชีวิตคุณเป็นเสียงพูด ใช้ข้อมูลจริงทุกศาสตร์</div>
+          <div style="font-size:11px;color:var(--tx3)">AI สรุปชีวิตเป็นเอกสาร + อ่านออกเสียงให้ฟัง</div>
         </div>
       </div>
-      <button class="btn bg" style="width:100%;font-size:14px" onclick="openLifeCoach()">▶ ฟังสรุปชีวิตของคุณ</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn bg" style="flex:1;font-size:13px" onclick="openLifeCoach('report')">📄 สร้างรายงาน</button>
+        <button class="btn bgh" style="flex:1;font-size:13px" onclick="openLifeCoach('audio')">▶ ฟังเสียง</button>
+      </div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:8px;text-align:center">สร้างรายงานครั้งแรก → ฟังเสียงได้ทันที + ดาวน์โหลด PDF</div>
     </div>
     <div class="card" id="natal-card" style="margin-bottom:13px">
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🪐 ดวงดาวจริงของคุณ</div>
@@ -634,21 +658,27 @@ textarea.if{resize:none}
       <svg id="convergence-chart" viewBox="0 0 240 240" style="width:100%;max-width:240px;display:block;margin:0 auto 12px"></svg>
       <div id="convergence-summary" style="font-size:12px;color:var(--tx2);line-height:1.7"></div>
     </div>
+    <!-- 3 New Quiz Modules: Financial, Life Purpose, Relationship -->
+    <div id="s-new-modules" style="margin-bottom:4px"></div>
     <div class="card" style="margin-bottom:13px">
-      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:12px">⚡ จุดแข็ง</div>
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:12px" data-i18n="self.strength">⚡ จุดแข็ง</div>
       <div id="s-strengths"></div>
     </div>
     <div class="card" style="margin-bottom:13px;border-color:rgba(251,113,133,.2)">
-      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:11px">⚠️ จุดที่ควรระวัง</div>
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:11px" data-i18n="self.blinds">⚠️ จุดที่ควรระวัง</div>
       <div id="s-blinds"></div>
     </div>
+    <!-- Share button -->
+    <button class="btn bgh" style="width:100%;margin-bottom:13px" onclick="openShareModal()">
+      <span data-i18n="btn.share">📤 แชร์ผลลัพธ์</span>
+    </button>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni on" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni on" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -678,11 +708,11 @@ textarea.if{resize:none}
     </div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni on" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni on" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -716,11 +746,11 @@ textarea.if{resize:none}
     <div id="d-jlist"></div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni on" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni on" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -864,11 +894,11 @@ textarea.if{resize:none}
     </div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -894,11 +924,11 @@ textarea.if{resize:none}
     </div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -913,11 +943,11 @@ textarea.if{resize:none}
     <div id="scn-list"></div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -958,11 +988,11 @@ textarea.if{resize:none}
     <div style="font-size:11px;color:var(--tx3);line-height:1.6;text-align:center;margin-top:6px">นี่คือกรอบความคิดเพื่อช่วยจัดลำดับความสำคัญ ไม่ใช่คำทำนายหรือคำตอบสำเร็จรูป</div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -1015,11 +1045,11 @@ textarea.if{resize:none}
     </div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -1038,11 +1068,11 @@ textarea.if{resize:none}
     </div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -1075,11 +1105,11 @@ textarea.if{resize:none}
     </div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -1093,11 +1123,11 @@ textarea.if{resize:none}
     <div id="mem-list"></div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -1122,11 +1152,11 @@ textarea.if{resize:none}
     </div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -1146,11 +1176,11 @@ textarea.if{resize:none}
     </div>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -1205,11 +1235,11 @@ textarea.if{resize:none}
     <button class="btn bd" onclick="go('sc-land')">ออกจากระบบ</button>
   </div>
   <nav class="bnav">
-    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span>หน้าหลัก</span></button>
-    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span>ตัวตน</span></button>
-    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span>จังหวะ</span></button>
-    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span>ตัดสินใจ</span></button>
-    <button class="bni on" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
+    <button class="bni" onclick="go('sc-dash')"><span>✦</span><span data-i18n="nav.home">หน้าหลัก</span></button>
+    <button class="bni" onclick="go('sc-self')"><span>🧭</span><span data-i18n="nav.self">ตัวตน</span></button>
+    <button class="bni" onclick="go('sc-timing')"><span>⏳</span><span data-i18n="nav.timing">จังหวะ</span></button>
+    <button class="bni" onclick="go('sc-decision')"><span>🎯</span><span data-i18n="nav.decision">ตัดสินใจ</span></button>
+    <button class="bni on" onclick="go('sc-profile')"><span>👤</span><span data-i18n="nav.profile">โปรไฟล์</span></button>
   </nav>
 </div>
 
@@ -1288,6 +1318,9 @@ function go(id){
   if(id==='sc-founder')rFounder();
   if(id==='sc-copilot')rCopilot();
   if(id==='sc-advisor'){document.getElementById('adv-result').style.display='none';}
+  if(id==='sc-fin-quiz')rFinQ();
+  if(id==='sc-purpose-quiz')rPurQ();
+  if(id==='sc-rel-quiz')rRelQ();
 }
 function bk(){
   if(_stk.length>1){_stk.pop();var p=_stk[_stk.length-1];_stk.pop();go(p);}
@@ -1384,6 +1417,290 @@ var LIFE_PHASES={
 var PHASE_ORDER=['a','b','c','d'];
 var CLBL=['ไม่มั่นใจ','กลางๆ','ค่อนข้างมั่นใจ','มั่นใจมาก'];
 var CEMO=['😰','😐','🙂','😊'];
+
+// ═══ i18n — Internationalization System ═══
+// Supports TH (Thai), EN (English), ZH (Traditional Chinese)
+var _lang=localStorage.getItem('av_lang')||'th';
+var I18N={
+th:{
+  // Navigation
+  'nav.home':'หน้าหลัก','nav.self':'ตัวตน','nav.timing':'จังหวะ','nav.decision':'ตัดสินใจ','nav.profile':'โปรไฟล์',
+  // Landing
+  'land.title1':'วิเคราะห์ชีวิต','land.title2':'พัฒนาความคิด','land.title3':'ช่วยตัดสินใจ',
+  'land.sub':'ไม่ใช่การดูดวงและการทำนาย\nแต่บทเรียนเป็นกระจกสะท้อนชีวิตที่ลึกที่สุด',
+  'land.start':'เริ่มเข้าใจตัวเองใน 2 นาที','land.free':'ฟรี · ไม่ต้องสมัครก่อน',
+  'land.cta':'✦ วิเคราะห์เลย — ฟรี',
+  'inp.name':'ชื่อของคุณ','inp.name.ph':'ชื่อ หรือชื่อเล่น',
+  'inp.dob':'วันเกิด','inp.time':'เวลาเกิด (ถ้าทราบ)','inp.place':'สถานที่เกิด',
+  'inp.dob.hint':'ใส่ตามรูปแบบ ปี/เดือน/วัน (ค.ศ.) เช่น 1990/06/15',
+  // Quiz
+  'quiz.title':'ข้อมูลเพิ่มเติม','quiz.skip':'ข้ามไปก่อน (ตอบทีหลังก็ได้)',
+  'q1.title':'เมื่อต้องตัดสินใจเรื่องสำคัญ\nคุณมักทำอย่างไร?','q1.sub':'ตอบตามสิ่งที่ทำจริง ไม่มีถูกผิด',
+  'q1.a':'วิเคราะห์ข้อมูลก่อนตัดสินใจเสมอ','q1.b':'เชื่อความรู้สึกและสัญชาตญาณ',
+  'q1.c':'ปรึกษาคนที่ไว้วางใจก่อน','q1.d':'ผสมผสาน ขึ้นอยู่กับสถานการณ์',
+  'q2.title':'เมื่อแผนที่วางไว้ไม่เป็นไปตามคาด\nคุณมักจะ?','q2.sub':'มุมมองที่ 2 ของแกนเดียวกัน — ช่วยให้ผลแม่นยำขึ้น',
+  'q2.a':'กลับไปทบทวนข้อมูลทั้งหมดอีกครั้งอย่างละเอียด',
+  'q2.b':'ปรับเปลี่ยนตามความรู้สึกหน้างานทันที',
+  'q2.c':'โทรหาคนที่ไว้ใจเพื่อขอความเห็นก่อนตัดสินใจต่อ',
+  'q2.d':'ลองวิธีใหม่ไปเรื่อยๆ จนกว่าจะเจอทางที่ใช้ได้',
+  'q3.title':'ในช่วงชีวิตตอนนี้\nคุณรู้สึกอย่างไร?','q3.sub':'เลือกที่ใกล้เคียงที่สุด',
+  'q3.a':'กำลังสร้างและเริ่มต้นสิ่งใหม่','q3.b':'ขยายและพัฒนาสิ่งที่มีอยู่',
+  'q3.c':'ต้องการพักและปรับทิศทาง','q3.d':'อยู่ในช่วงเปลี่ยนแปลงครั้งใหญ่',
+  'q4.title':'ถ้าเปรียบพลังงานชีวิตตอนนี้เป็นฤดูกาล\nจะใกล้เคียงกับ?','q4.sub':'มุมมองที่ 2 ของแกนเดียวกัน — ช่วยให้ผลแม่นยำขึ้น',
+  'q4.a':'ฤดูใบไม้ผลิ — เพิ่งเริ่มงอกใหม่','q4.b':'ฤดูร้อน — เติบโตเต็มที่ กำลังขยาย',
+  'q4.c':'ฤดูใบไม้ร่วง — กำลังปล่อยวางบางอย่าง','q4.d':'ฤดูหนาว — อยู่ระหว่างเปลี่ยนผ่านครั้งใหญ่',
+  'q5.title':'สิ่งที่คุณต้องการจาก\nASTROVERA มากที่สุด?','q5.sub':'ช่วยปรับผลลัพธ์ให้ตรงคุณที่สุด',
+  'q5.a':'เข้าใจตัวเองในระดับที่ลึกขึ้น','q5.b':'ตัดสินใจได้ดีขึ้นในชีวิต',
+  'q5.c':'รู้จังหวะว่าตอนนี้ควรทำอะไร','q5.d':'เรียนรู้จากประสบการณ์ที่ผ่านมา',
+  // Insight
+  'insight.title':'สิ่งที่ Astrovera เห็น','insight.free':'✦ ฟรี',
+  'insight.archetype':'ลักษณะตัวตนเฉพาะของคุณ',
+  'insight.sees':'✦ มุมมองของ ASTROVERA ต่อคุณ','insight.meaning':'◈ ความหมาย',
+  'insight.emotion':'◉ ความรู้สึกที่อาจซ่อนอยู่','insight.question':'💬 คำถามชวนคิด',
+  'insight.action':'→ สิ่งที่ลองทำได้ตอนนี้','insight.journal':'📝 Journal Prompt',
+  'insight.theme':'✦ Theme Convergence',
+  'insight.unlock.title':'🎯 Decision Intelligence','insight.unlock.sub':'รูปแบบการตัดสินใจของคุณ จุดแข็ง จุดที่ควรระวัง\nและสิ่งที่ลองทำได้เฉพาะตัว...',
+  'insight.unlock.btn':'ดูแพ็คเกจ','insight.dash':'เข้าสู่ Dashboard ของฉัน →','insight.premium':'ดู Premium Report',
+  // Dashboard
+  'dash.greeting':'สวัสดี','dash.premium':'+ Premium',
+  'dash.lifeos':'🗺️ Life OS Dashboard','dash.today':'Today\'s Reflection',
+  'dash.today.q':'คำถามประจำวัน','dash.journal':'📝 บันทึกความคิด','dash.checkin':'❤️ Check-in อารมณ์',
+  'dash.intelligence':'Intelligence Modules','dash.strategic':'🚀 Strategic Modules','dash.beyond':'🔮 Beyond',
+  // Self Intelligence
+  'self.title':'Self Intelligence','self.archetype':'ลักษณะตัวตนเฉพาะของคุณ',
+  'self.strength':'⚡ จุดแข็ง','self.blinds':'⚠️ จุดที่ควรระวัง',
+  'self.natal':'🪐 ดวงดาวจริงของคุณ','self.natal.sub':'คำนวณจากตำแหน่งดาวจริงตามวัน-เวลา-สถานที่เกิด (Western Astrology)',
+  'self.natal.btn':'✦ คำนวณดวงจริง','self.natal.loading':'🪐 กำลังคำนวณตำแหน่งดาว...',
+  'self.coach.title':'ไลฟ์โค้ชส่วนตัว','self.coach.sub':'AI สรุปชีวิตเป็นเอกสาร + อ่านออกเสียงให้ฟัง',
+  'self.coach.report':'📄 สร้างรายงาน','self.coach.audio':'▶ ฟังเสียง',
+  // Profile
+  'profile.title':'โปรไฟล์','profile.dob.section':'ข้อมูลวันเกิด',
+  'profile.dob.label':'วันเกิด','profile.time.label':'เวลาเกิด','profile.place.label':'สถานที่เกิด',
+  'profile.journal.label':'Journal ทั้งหมด',
+  'profile.num.title':'🔢 เลขศาสตร์ตะวันตก','profile.num.sub':'วิเคราะห์จากตัวอักษรชื่อแบบ Pythagorean Numerology',
+  'profile.num.name':'ชื่อ-นามสกุล (สะกดอังกฤษ)','profile.num.phone':'เบอร์โทรศัพท์หลัก',
+  'profile.num.other':'เลขอื่นๆ ที่ต้องการวิเคราะห์','profile.num.btn':'วิเคราะห์เลขศาสตร์',
+  'profile.export':'Export ข้อมูลทั้งหมด (.json)→','profile.clear':'ล้างข้อมูลทั้งหมด→',
+  'profile.logout':'ออกจากระบบ',
+  // Buttons
+  'btn.save':'บันทึก','btn.cancel':'ยกเลิก','btn.back':'←','btn.next':'ถัดไป',
+  'btn.share':'📤 แชร์ผลลัพธ์','btn.download':'📥 ดาวน์โหลด',
+  // Timing
+  'timing.title':'Life Timing Intelligence','timing.now':'ตอนนี้คุณอยู่ใน','timing.path':'เส้นทางข้างหน้า',
+  'timing.sees':'สิ่งที่ Astrovera เห็นในตัวคุณ','timing.feel':'ความรู้สึกที่อาจซ่อนอยู่',
+  'timing.question':'💬 คำถามชวนคิด','timing.growth':'🎯 Growth Opportunities','timing.challenge':'⚠️ Challenge Areas',
+  // Journal
+  'journal.title':'Decision Journal','journal.new':'+ บันทึก','journal.empty.title':'ยังไม่มี Journal',
+  'journal.type':'ประเภท','journal.options':'ทางเลือกที่มี','journal.goal':'เป้าหมายที่ต้องการ',
+  'journal.worry':'ความกังวลหลัก','journal.conf':'ความมั่นใจตอนนี้',
+  'journal.followup.title':'📅 Follow-up System',
+  // Common
+  'common.loading':'กำลังวิเคราะห์...','common.error':'เกิดข้อผิดพลาด',
+  'common.nodata':'ยังไม่มีข้อมูล','common.new':'ใหม่','common.done':'ครบ','common.available':'ใช้งานได้',
+  // Share
+  'share.title':'แชร์ผลลัพธ์ของคุณ','share.sub':'แชร์ให้เพื่อนวิเคราะห์ตัวเองด้วย',
+  'share.copy':'คัดลอกลิงก์','share.copied':'คัดลอกแล้ว ✓',
+  'share.discover':'ค้นพบตัวเองที่ ASTROVERA'
+},
+en:{
+  'nav.home':'Home','nav.self':'Identity','nav.timing':'Timing','nav.decision':'Decisions','nav.profile':'Profile',
+  'land.title1':'Understand Your Life','land.title2':'Develop Your Mind','land.title3':'Make Better Decisions',
+  'land.sub':'Not fortune-telling\nA mirror for your deepest self',
+  'land.start':'Start understanding yourself in 2 minutes','land.free':'Free · No signup required',
+  'land.cta':'✦ Analyze — Free',
+  'inp.name':'Your name','inp.name.ph':'Name or nickname',
+  'inp.dob':'Date of birth','inp.time':'Birth time (if known)','inp.place':'Place of birth',
+  'inp.dob.hint':'Format: Year/Month/Day (A.D.) e.g. 1990/06/15',
+  'quiz.title':'Additional Info','quiz.skip':'Skip for now (answer later)',
+  'q1.title':'When making an important decision,\nwhat do you usually do?','q1.sub':'Answer based on what you actually do',
+  'q1.a':'Analyze data before deciding','q1.b':'Trust my gut feeling',
+  'q1.c':'Consult someone I trust','q1.d':'Mix approaches depending on the situation',
+  'q2.title':'When your plan doesn\'t go as expected,\nyou usually...','q2.sub':'Second angle — improves accuracy',
+  'q2.a':'Go back and review all information thoroughly',
+  'q2.b':'Adjust on the fly based on instinct',
+  'q2.c':'Call someone trusted for advice before continuing',
+  'q2.d':'Try new approaches until one works',
+  'q3.title':'How do you feel about\nyour life right now?','q3.sub':'Choose the closest answer',
+  'q3.a':'Building and starting new things','q3.b':'Expanding and developing what exists',
+  'q3.c':'Resting and re-evaluating direction','q3.d':'Going through major transformation',
+  'q4.title':'If your current life energy were\na season, it would be...','q4.sub':'Second angle — improves accuracy',
+  'q4.a':'Spring — just beginning to bloom','q4.b':'Summer — growing, expanding',
+  'q4.c':'Autumn — letting some things go','q4.d':'Winter — in the midst of major transition',
+  'q5.title':'What do you want most\nfrom ASTROVERA?','q5.sub':'Helps personalize your results',
+  'q5.a':'Understand myself more deeply','q5.b':'Make better decisions in life',
+  'q5.c':'Know when to do what','q5.d':'Learn from past experiences',
+  'insight.title':'What Astrovera Sees','insight.free':'✦ Free',
+  'insight.archetype':'Your Unique Identity Pattern',
+  'insight.sees':'✦ ASTROVERA\'s Perspective on You','insight.meaning':'◈ Meaning',
+  'insight.emotion':'◉ Hidden Feelings','insight.question':'💬 Reflective Question',
+  'insight.action':'→ Try This Now','insight.journal':'📝 Journal Prompt',
+  'insight.theme':'✦ Theme Convergence',
+  'insight.unlock.title':'🎯 Decision Intelligence','insight.unlock.sub':'Your decision-making style, strengths, watch-outs\nand personalized actions...',
+  'insight.unlock.btn':'View Packages','insight.dash':'Enter My Dashboard →','insight.premium':'View Premium Report',
+  'dash.greeting':'Hello','dash.premium':'+ Premium',
+  'dash.lifeos':'🗺️ Life OS Dashboard','dash.today':'Today\'s Reflection',
+  'dash.today.q':'Daily Question','dash.journal':'📝 Add Note','dash.checkin':'❤️ Emotion Check-in',
+  'dash.intelligence':'Intelligence Modules','dash.strategic':'🚀 Strategic Modules','dash.beyond':'🔮 Beyond',
+  'self.title':'Self Intelligence','self.archetype':'Your Unique Identity Pattern',
+  'self.strength':'⚡ Strengths','self.blinds':'⚠️ Watch Out For',
+  'self.natal':'🪐 Your Real Star Chart','self.natal.sub':'Calculated from actual planetary positions at your birth',
+  'self.natal.btn':'✦ Calculate Real Chart','self.natal.loading':'🪐 Calculating planetary positions...',
+  'self.coach.title':'Personal Life Coach','self.coach.sub':'AI summarizes your life as a document + reads it aloud',
+  'self.coach.report':'📄 Generate Report','self.coach.audio':'▶ Listen',
+  'profile.title':'Profile','profile.dob.section':'Birth Information',
+  'profile.dob.label':'Date of Birth','profile.time.label':'Birth Time','profile.place.label':'Place of Birth',
+  'profile.journal.label':'Total Journals',
+  'profile.num.title':'🔢 Western Numerology','profile.num.sub':'Analysis based on Pythagorean Numerology',
+  'profile.num.name':'Full name (English spelling)','profile.num.phone':'Primary phone number',
+  'profile.num.other':'Other numbers to analyze','profile.num.btn':'Analyze Numerology',
+  'profile.export':'Export all data (.json)→','profile.clear':'Clear all data→',
+  'profile.logout':'Sign out',
+  'btn.save':'Save','btn.cancel':'Cancel','btn.back':'←','btn.next':'Next',
+  'btn.share':'📤 Share Results','btn.download':'📥 Download',
+  'timing.title':'Life Timing Intelligence','timing.now':'You are currently in','timing.path':'Path Ahead',
+  'timing.sees':'What ASTROVERA Sees in You','timing.feel':'Hidden Feelings',
+  'timing.question':'💬 Reflective Question','timing.growth':'🎯 Growth Opportunities','timing.challenge':'⚠️ Challenge Areas',
+  'journal.title':'Decision Journal','journal.new':'+ Record','journal.empty.title':'No journals yet',
+  'journal.type':'Type','journal.options':'Options Available','journal.goal':'Desired Outcome',
+  'journal.worry':'Main Concern','journal.conf':'Current Confidence',
+  'journal.followup.title':'📅 Follow-up System',
+  'common.loading':'Analyzing...','common.error':'Error occurred',
+  'common.nodata':'No data yet','common.new':'New','common.done':'Complete','common.available':'Available',
+  'share.title':'Share Your Results','share.sub':'Share with friends to discover themselves',
+  'share.copy':'Copy Link','share.copied':'Copied ✓',
+  'share.discover':'Discover yourself at ASTROVERA'
+},
+zh:{
+  'nav.home':'主頁','nav.self':'自我','nav.timing':'時機','nav.decision':'決策','nav.profile':'個人',
+  'land.title1':'了解您的生命','land.title2':'發展您的思維','land.title3':'做出更好的決定',
+  'land.sub':'不是算命\n而是反映最深層自我的鏡子',
+  'land.start':'2分鐘開始了解自己','land.free':'免費 · 無需註冊',
+  'land.cta':'✦ 立即分析 — 免費',
+  'inp.name':'您的名字','inp.name.ph':'姓名或暱稱',
+  'inp.dob':'出生日期','inp.time':'出生時間（如知道）','inp.place':'出生地點',
+  'inp.dob.hint':'格式：年/月/日（西元）例如 1990/06/15',
+  'quiz.title':'補充資訊','quiz.skip':'稍後再答',
+  'q1.title':'面對重要決定時，\n您通常怎麼做？','q1.sub':'根據您實際的做法作答',
+  'q1.a':'先分析數據再決定','q1.b':'相信直覺和感受',
+  'q1.c':'先諮詢信任的人','q1.d':'視情況靈活應對',
+  'q2.title':'當計劃出乎意料時，\n您通常會...','q2.sub':'第二個角度 — 提高準確性',
+  'q2.a':'重新仔細審查所有信息',
+  'q2.b':'立即根據現場感覺調整',
+  'q2.c':'先聯繫信任的人徵詢意見',
+  'q2.d':'不斷嘗試新方法直到找到出路',
+  'q3.title':'您現在的生命狀態\n感覺如何？','q3.sub':'選擇最接近的答案',
+  'q3.a':'正在建立和開創新事物','q3.b':'正在拓展和發展既有成果',
+  'q3.c':'需要休息和重新定向','q3.d':'正處於重大轉變期',
+  'q4.title':'如果把現在的生命能量\n比作季節，會是...','q4.sub':'第二個角度 — 提高準確性',
+  'q4.a':'春天 — 剛剛開始萌芽','q4.b':'夏天 — 成長旺盛，正在擴展',
+  'q4.c':'秋天 — 正在放下一些事物','q4.d':'冬天 — 正處於重大過渡期',
+  'q5.title':'您最希望從\nASTROVERA得到什麼？','q5.sub':'幫助個性化您的結果',
+  'q5.a':'更深入地了解自己','q5.b':'在生活中做出更好的決策',
+  'q5.c':'了解現在應該做什麼','q5.d':'從過去的經驗中學習',
+  'insight.title':'ASTROVERA所見','insight.free':'✦ 免費',
+  'insight.archetype':'您獨特的身份模式',
+  'insight.sees':'✦ ASTROVERA對您的看法','insight.meaning':'◈ 意義',
+  'insight.emotion':'◉ 隱藏的感受','insight.question':'💬 反思問題',
+  'insight.action':'→ 現在可以嘗試','insight.journal':'📝 日記提示',
+  'insight.theme':'✦ 主題匯聚',
+  'insight.unlock.title':'🎯 決策智能','insight.unlock.sub':'您的決策風格、優勢、注意點\n和個性化行動...',
+  'insight.unlock.btn':'查看套餐','insight.dash':'進入我的儀表板 →','insight.premium':'查看高級報告',
+  'dash.greeting':'您好','dash.premium':'+ 高級版',
+  'dash.lifeos':'🗺️ 生命作業系統','dash.today':'今日反思',
+  'dash.today.q':'每日問題','dash.journal':'📝 記錄想法','dash.checkin':'❤️ 情緒記錄',
+  'dash.intelligence':'智能模塊','dash.strategic':'🚀 策略模塊','dash.beyond':'🔮 進階',
+  'self.title':'自我智能','self.archetype':'您獨特的身份模式',
+  'self.strength':'⚡ 優勢','self.blinds':'⚠️ 注意事項',
+  'self.natal':'🪐 您的真實星盤','self.natal.sub':'根據出生時的真實天體位置計算',
+  'self.natal.btn':'✦ 計算真實星盤','self.natal.loading':'🪐 正在計算天體位置...',
+  'self.coach.title':'個人生命導師','self.coach.sub':'AI將您的生命總結成文件 + 朗讀',
+  'self.coach.report':'📄 生成報告','self.coach.audio':'▶ 聆聽',
+  'profile.title':'個人資料','profile.dob.section':'出生信息',
+  'profile.dob.label':'出生日期','profile.time.label':'出生時間','profile.place.label':'出生地點',
+  'profile.journal.label':'日記總數',
+  'profile.num.title':'🔢 西方數字學','profile.num.sub':'基於畢達哥拉斯數字學分析',
+  'profile.num.name':'全名（英文拼寫）','profile.num.phone':'主要電話號碼',
+  'profile.num.other':'其他要分析的數字','profile.num.btn':'分析數字學',
+  'profile.export':'匯出所有數據 (.json)→','profile.clear':'清除所有數據→',
+  'profile.logout':'登出',
+  'btn.save':'儲存','btn.cancel':'取消','btn.back':'←','btn.next':'下一步',
+  'btn.share':'📤 分享結果','btn.download':'📥 下載',
+  'timing.title':'生命時機智能','timing.now':'您目前正處於','timing.path':'前方道路',
+  'timing.sees':'ASTROVERA在您身上看到的','timing.feel':'可能隱藏的感受',
+  'timing.question':'💬 反思問題','timing.growth':'🎯 成長機遇','timing.challenge':'⚠️ 挑戰領域',
+  'journal.title':'決策日記','journal.new':'+ 記錄','journal.empty.title':'尚無日記',
+  'journal.type':'類型','journal.options':'可用選項','journal.goal':'期望結果',
+  'journal.worry':'主要顧慮','journal.conf':'當前信心',
+  'journal.followup.title':'📅 跟進系統',
+  'common.loading':'正在分析...','common.error':'發生錯誤',
+  'common.nodata':'暫無數據','common.new':'新','common.done':'完成','common.available':'可用',
+  'share.title':'分享您的結果','share.sub':'分享給朋友一起了解自己',
+  'share.copy':'複製連結','share.copied':'已複製 ✓',
+  'share.discover':'在ASTROVERA了解您自己'
+}};
+
+// Archetype names in ZH
+var ARCHETYPE_ZH={
+  a:{name:'分析型策略家',trait:'做決定前全面分析 · 相信數據勝過感覺 · 謹慎規劃'},
+  b:{name:'直覺型遠見者',trait:'變革的領導者 · 喜歡開創 · 看大局但能付諸實踐'},
+  c:{name:'協作型連結者',trait:'廣泛聽取意見後決定 · 重視人際關係 · 建立互信團隊'},
+  d:{name:'適應型建設者',trait:'根據情況調整決策方式 · 不拘一格 · 平衡理性與感性'}
+};
+
+// Life Phase names in ZH
+var PHASE_ZH={
+  a:{label:'建設期',desc:'此時您的能量有利於開始和奠定基礎，現在投入的事物將長期結果'},
+  b:{label:'擴展期',desc:'您所建立的事物已有足夠基礎可以擴展，適合繼續深化而非重頭開始'},
+  c:{label:'反思期',desc:'現在的能量適合退後一步看全局，暫停反思並非倒退'},
+  d:{label:'轉型期',desc:'生命中許多事物正在同時改變，轉變期的不確定感是正常的'}
+};
+
+function t(key){return(I18N[_lang]&&I18N[_lang][key])||I18N.th[key]||key;}
+function setLang(lang){
+  _lang=lang;
+  localStorage.setItem('av_lang',lang);
+  applyLang();
+  // re-render current screen
+  var cur=document.querySelector('.sc.on');
+  if(cur){
+    var id=cur.id;
+    if(id==='sc-self')rSelf();
+    else if(id==='sc-dash')rDash();
+    else if(id==='sc-timing')rTiming();
+    else if(id==='sc-profile')rProfile();
+    else if(id==='sc-decision')rList();
+    else if(id==='sc-land')applyLandLang();
+  }
+}
+function applyLang(){
+  // Apply data-i18n attributes
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n');
+    var val=t(key);
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA'){el.placeholder=val;}
+    else if(el.tagName==='OPTION'){el.textContent=val;}
+    else{el.textContent=val;}
+  });
+  // Apply data-i18n-html for elements needing innerHTML
+  document.querySelectorAll('[data-i18n-html]').forEach(function(el){
+    el.innerHTML=t(el.getAttribute('data-i18n-html')).replace(/\n/g,'<br>');
+  });
+  // Update language switcher active state
+  document.querySelectorAll('.lang-btn').forEach(function(btn){
+    btn.style.fontWeight=btn.dataset.lang===_lang?'700':'400';
+    btn.style.color=btn.dataset.lang===_lang?'var(--gold)':'var(--tx3)';
+  });
+}
+function applyLandLang(){
+  var el1=document.getElementById('land-title1');if(el1)el1.textContent=t('land.title1');
+  var el2=document.getElementById('land-title2');if(el2)el2.textContent=t('land.title2');
+  var el3=document.getElementById('land-title3');if(el3)el3.textContent=t('land.title3');
+  var el4=document.getElementById('land-sub');if(el4)el4.innerHTML=t('land.sub').replace(/\n/g,'<br>');
+  var el5=document.getElementById('land-cta');if(el5)el5.textContent=t('land.cta');
+  applyLang();
+}
+
+
 var DAILY_QS=[
   'ในช่วงที่ผ่านมา มีเรื่องไหนที่คุณตัดสินใจแล้วรู้สึกดีที่สุด และทำไม?',
   'วันนี้มีความท้าทายอะไรที่คุณผ่านมาได้ และคุณทำอย่างไร?',
@@ -1574,24 +1891,24 @@ function rNatal(data){
     if(ascSign)html+='<div style="font-size:10px;color:var(--tx3);margin-top:-6px;margin-bottom:8px">เรือนคำนวณด้วยระบบ Whole Sign (นับราศีเป็นเรือนตรงๆ จากลัคนา) — เป็นระบบดั้งเดิมที่ใช้กันมานาน เรียบง่ายและเข้าใจง่ายกว่าระบบสมัยใหม่</div>';
     html+='<div class="dv" style="margin:11px 0"></div>';
   }
-  // ดาวส่วนตัว — มีผลต่อบุคลิกเฉพาะตัวมากที่สุด
-  html+='<div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">ดาวส่วนตัว</div>';
+  // กลุ่ม 1: ดาวที่บอกเรื่องตัวคุณโดยตรง
+  html+='<div style="font-size:11px;color:var(--tx3);margin-bottom:10px">✦ กลุ่มที่ 1 — บอกเรื่องตัวคุณโดยตรง (แตกต่างกันแต่ละคน)</div>';
   html+=row('Sun','☀️ ดวงอาทิตย์ — ตัวตนหลัก',SUN_MEANING);
   html+=row('Moon','🌙 ดวงจันทร์ — ความรู้สึกลึกๆ',MOON_MEANING);
   html+=row('Mercury','☿️ ดาวพุธ — ความคิดและการสื่อสาร',MERCURY_MEANING);
   html+=row('Venus','💖 ดาวศุกร์ — ความรักและความสุข',VENUS_MEANING);
   html+=row('Mars','🔥 ดาวอังคาร — แรงขับและพลังลงมือทำ',MARS_MEANING);
-  // ดาวสังคม — เติบโตและบทเรียนชีวิต
-  html+='<div class="dv" style="margin:11px 0"></div><div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">ดาวสังคม</div>';
+  // กลุ่ม 2: ดาวที่บอกเรื่องโอกาสและบทเรียนชีวิต
+  html+='<div class="dv" style="margin:11px 0"></div><div style="font-size:11px;color:var(--tx3);margin-bottom:10px">✦ กลุ่มที่ 2 — โอกาสและบทเรียนสำคัญในชีวิต</div>';
   html+=row('Jupiter','🌟 ดาวพฤหัสบดี — การเติบโตและโอกาส',JUPITER_MEANING);
   html+=row('Saturn','🪐 ดาวเสาร์ — วินัยและบทเรียนชีวิต',SATURN_MEANING);
-  // ดาวรุ่น — เคลื่อนช้ามาก ผลคล้ายกันทั้งคนรุ่นเดียวกัน
+  // กลุ่ม 3: ดาวที่บอกธีมร่วมของคนรุ่นเดียวกัน
   var genHtml=row('Uranus','⚡ ดาวยูเรนัส — ความเป็นตัวเอง',URANUS_MEANING)
     +row('Neptune','🌊 ดาวเนปจูน — จินตนาการและจิตวิญญาณ',NEPTUNE_MEANING)
     +row('Pluto','🔮 ดาวพลูโต — การเปลี่ยนแปลงลึกซึ้ง',PLUTO_MEANING);
   if(genHtml){
-    html+='<div class="dv" style="margin:11px 0"></div><div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">ดาวรุ่น (เคลื่อนช้ามาก)</div>'
-      +'<div style="font-size:11px;color:var(--tx3);line-height:1.6;margin-bottom:10px">ดาว 3 ดวงนี้เคลื่อนที่ช้ามาก (ปีถึงหลายสิบปีต่อราศี) จึงสะท้อน "ธีมร่วมของคนรุ่นเดียวกัน" มากกว่าจะเฉพาะตัวคุณคนเดียว</div>'
+    html+='<div class="dv" style="margin:11px 0"></div><div style="font-size:11px;color:var(--tx3);margin-bottom:6px">✦ กลุ่มที่ 3 — ธีมร่วมของคนรุ่นเดียวกัน</div>'
+      +'<div style="font-size:11px;color:var(--tx3);line-height:1.6;margin-bottom:10px">3 ดวงนี้เคลื่อนช้ามาก (ใช้เวลาหลายปีถึงหลายสิบปีต่อราศี) จึงสะท้อนธีมร่วมกันของคนที่เกิดช่วงเดียวกัน ไม่ใช่เฉพาะตัวคุณคนเดียว — อ่านเพื่อเข้าใจบริบทยุคสมัยของคุณ</div>'
       +genHtml;
   }
   // Conflict Check จากดวงจริง — เทียบธาตุระหว่างคู่ดาวสำคัญ
@@ -1614,10 +1931,14 @@ function rNatal(data){
   if(!data.timeKnown){
     html+='<div style="font-size:11px;color:var(--tx3);line-height:1.6;margin-top:4px">⚠️ ไม่ทราบเวลาเกิดแน่นอน ใช้เที่ยงวันคำนวณแทน — ตำแหน่งดาวเคราะห์ (ราศี) ยังแม่นยำ แต่ลัคนาและเรือนอาจคลาดเคลื่อน เพราะลัคนาเปลี่ยนราศีทุก ~2 ชั่วโมง</div>';
   }
-  html+='<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="fetchNatalChart(true)">↻ คำนวณใหม่</button>';
+  html+='<button class="btn bgh bsm lc-recalc-btn" style="width:100%;margin-top:10px">↻ คำนวณใหม่</button>';
   content.innerHTML=html;
   content.style.display='block';
   idle.style.display='none';
+  // ปุ่มคำนวณใหม่ — ต้องใช้ addEventListener แทน onclick ใน innerHTML
+  // เพราะ innerHTML rendering บางครั้งทำให้ onclick ใน dynamic content ไม่ทำงาน
+  var reCalcBtn=content.querySelector('.lc-recalc-btn');
+  if(reCalcBtn){reCalcBtn.onclick=function(){lsD(LSN);fetchNatalChart(false);};}
 }
 function rNatalIdleCheck(){
   var p=lsG(LSP)||{};
@@ -1831,6 +2152,53 @@ function scoreAxis(answers,fallback){
   ['a','b','c','d'].forEach(function(k){if(totals[k]>bestScore){bestScore=totals[k];best=k;}});
   return best;
 }
+// ═══ PLACE OF BIRTH — dropdown ประเทศ → จังหวัด ═══
+var TH_PROVINCES=['กรุงเทพมหานคร','กระบี่','กาญจนบุรี','กาฬสินธุ์','กำแพงเพชร','ขอนแก่น','จันทบุรี','ฉะเชิงเทรา','ชลบุรี','ชัยนาท','ชัยภูมิ','ชุมพร','เชียงราย','เชียงใหม่','ตรัง','ตราด','ตาก','นครนายก','นครปฐม','นครพนม','นครราชสีมา','นครศรีธรรมราช','นครสวรรค์','นนทบุรี','นราธิวาส','น่าน','บึงกาฬ','บุรีรัมย์','ปทุมธานี','ประจวบคีรีขันธ์','ปราจีนบุรี','ปัตตานี','พระนครศรีอยุธยา','พะเยา','พระนครศรีอยุธยา','พัทลุง','พิจิตร','พิษณุโลก','เพชรบุรี','เพชรบูรณ์','แพร่','ภูเก็ต','มหาสารคาม','มุกดาหาร','แม่ฮ่องสอน','ยโสธร','ยะลา','ร้อยเอ็ด','ระนอง','ระยอง','ราชบุรี','ลพบุรี','ลำปาง','ลำพูน','เลย','ศรีสะเกษ','สกลนคร','สงขลา','สตูล','สมุทรปราการ','สมุทรสงคราม','สมุทรสาคร','สระแก้ว','สระบุรี','สิงห์บุรี','สุโขทัย','สุพรรณบุรี','สุราษฎร์ธานี','สุรินทร์','หนองคาย','หนองบัวลำภู','อ่างทอง','อำนาจเจริญ','อุดรธานี','อุตรดิตถ์','อุทัยธานี','อุบลราชธานี'];
+function onCountryChange(){
+  var country=document.getElementById('inp-country').value;
+  var provSel=document.getElementById('inp-province');
+  var placeOther=document.getElementById('inp-place-other');
+  var placeHidden=document.getElementById('inp-place');
+  if(country==='TH'){
+    provSel.style.display='block';
+    placeOther.style.display='none';
+    if(provSel.options.length<=1){
+      provSel.innerHTML='<option value="">— เลือกจังหวัด —</option>';
+      TH_PROVINCES.forEach(function(p){
+        var opt=document.createElement('option');
+        opt.value=p;opt.textContent=p;provSel.appendChild(opt);
+      });
+    }
+    provSel.onchange=function(){if(placeHidden)placeHidden.value=this.value+', ประเทศไทย';};
+  } else {
+    provSel.style.display='none';
+    placeOther.style.display='block';
+    placeOther.oninput=function(){if(placeHidden)placeHidden.value=this.value;};
+  }
+}
+function initPlaceDropdown(savedPlace){
+  // โหลดค่าเก่าจาก profile กลับเข้า dropdown
+  onCountryChange();
+  if(!savedPlace)return;
+  var provSel=document.getElementById('inp-province');
+  var placeOther=document.getElementById('inp-place-other');
+  var placeHidden=document.getElementById('inp-place');
+  // ตรวจว่าเป็นจังหวัดไทยหรือเปล่า
+  var isTH=TH_PROVINCES.some(function(p){return savedPlace.indexOf(p)>=0;});
+  if(isTH){
+    document.getElementById('inp-country').value='TH';
+    onCountryChange();
+    var matched=TH_PROVINCES.find(function(p){return savedPlace.indexOf(p)>=0;});
+    if(matched&&provSel){provSel.value=matched;}
+    if(placeHidden)placeHidden.value=savedPlace;
+  } else {
+    document.getElementById('inp-country').value='OTHER';
+    onCountryChange();
+    if(placeOther)placeOther.value=savedPlace;
+    if(placeHidden)placeHidden.value=savedPlace;
+  }
+}
+
 function startAnalysis(){
   var dob=document.getElementById('inp-dob').value;
   if(!dob){toast('กรุณากรอกวันเกิดก่อน');return;}
@@ -2273,6 +2641,7 @@ function rSelf(){
   }
   // Convergence Spider Chart
   rConvergenceChart(p,arch);
+  rNewModulesInSelf(p);
 }
 // ═══ CONVERGENCE ENGINE — Spider Chart + Text Summary
 // Synthesizes all available systems into 6 life dimensions.
@@ -2357,20 +2726,26 @@ function rConvergenceChart(p,arch){
   sumEl.innerHTML=sum;
 }
 
-// ═══ LIFE COACH — AI-generated personalized script + Web Speech API TTS ═══
-var LSC_SCRIPT='av_lc_script'; // cache key สำหรับ script ที่สร้างแล้ว
-var _lcUtterance=null,_lcPlaying=false,_lcScript='',_lcVoices=[];
+// ═══ LIFE COACH — AI-generated personalized report + Web Speech API TTS ═══
+var LSC_SCRIPT='av_lc_script';
+var _lcUtterance=null,_lcScript='',_lcVoices=[];
 
-function openLifeCoach(){
+function openLifeCoach(mode){
   var modal=document.getElementById('lc-modal');
   modal.style.display='flex';
   document.body.style.overflow='hidden';
   loadVoices();
-  // ถ้ามี cache และข้อมูล profile ยังตรงกัน ใช้ cache
   var p=lsG(LSP)||{};
   var cache=lsG(LSC_SCRIPT);
-  if(cache&&cache.profileKey===_lcProfileKey(p)){
-    showScript(cache.script);
+  var hasCache=cache&&cache.profileKey===_lcProfileKey(p);
+
+  if(mode==='audio'&&!hasCache){
+    // ยังไม่มีรายงาน → บอกให้สร้างก่อน
+    showLcError('สร้างรายงานก่อนนะครับ กดปุ่ม "📄 สร้างรายงาน" แล้วค่อยกลับมาฟังเสียง');
+    return;
+  }
+  if(hasCache){
+    showScript(cache.script,mode==='audio');
   } else {
     loadLifeCoach();
   }
@@ -2378,8 +2753,7 @@ function openLifeCoach(){
 
 function closeLifeCoach(){
   lcStop();
-  var modal=document.getElementById('lc-modal');
-  modal.style.display='none';
+  document.getElementById('lc-modal').style.display='none';
   document.body.style.overflow='';
 }
 
@@ -2393,7 +2767,6 @@ function loadVoices(){
     var sel=document.getElementById('lc-voice-sel');
     if(!sel)return;
     sel.innerHTML='';
-    // เอาเสียงไทยขึ้นก่อน แล้วตามด้วยเสียงอื่น
     var thVoices=_lcVoices.filter(function(v){return v.lang.startsWith('th');});
     var otherVoices=_lcVoices.filter(function(v){return !v.lang.startsWith('th');});
     var ordered=thVoices.concat(otherVoices);
@@ -2404,37 +2777,28 @@ function loadVoices(){
       if(v.lang.startsWith('th'))opt.style.fontWeight='600';
       sel.appendChild(opt);
     });
-    // map index กลับ original array
     sel._voiceMap=ordered;
     var note=document.getElementById('lc-tts-note');
     if(note){
-      if(thVoices.length>0){
-        note.textContent='✓ พบเสียงภาษาไทย '+thVoices.length+' เสียงในอุปกรณ์นี้';
-      } else {
-        note.textContent='⚠️ ไม่พบเสียงภาษาไทยในอุปกรณ์นี้ — ลองเลือกเสียงอื่นหรือเปิดในโทรศัพท์';
-        note.style.color='#FB7185';
-      }
+      note.textContent=thVoices.length>0
+        ?'✓ พบเสียงภาษาไทย '+thVoices.length+' เสียงในอุปกรณ์นี้'
+        :'⚠️ ไม่พบเสียงภาษาไทย — ลองเปิดในโทรศัพท์จะได้ผลดีกว่า';
+      if(thVoices.length===0)note.style.color='#FB7185';
     }
   }
   populate();
-  if(speechSynthesis.onvoiceschanged!==undefined){
-    speechSynthesis.onvoiceschanged=populate;
+  if(window.speechSynthesis.onvoiceschanged!==undefined){
+    window.speechSynthesis.onvoiceschanged=populate;
   }
 }
 
 async function loadLifeCoach(){
   var p=lsG(LSP)||{};
-  if(!p.name){
-    showLcError('กรอกชื่อในโปรไฟล์ก่อนนะครับ');return;
-  }
-  // แสดง loading
-  document.getElementById('lc-loading').style.display='flex';
-  document.getElementById('lc-content').style.display='none';
-  document.getElementById('lc-controls').style.display='none';
-  document.getElementById('lc-error').style.display='none';
-  document.getElementById('lc-status').textContent='กำลังสร้าง script...';
+  if(!p.name){showLcError('กรอกชื่อในโปรไฟล์ก่อนนะครับ');return;}
+  ['lc-loading'].forEach(function(id){document.getElementById(id).style.display='flex';});
+  ['lc-content','lc-controls','lc-error'].forEach(function(id){document.getElementById(id).style.display='none';});
+  document.getElementById('lc-status').textContent='กำลังสร้างรายงาน...';
 
-  // รวบรวมข้อมูลทั้งหมดของผู้ใช้
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
   var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
   var bz=p.dob?calcBaZi(p.dob,p.time):null;
@@ -2442,21 +2806,14 @@ async function loadLifeCoach(){
   var natal=lsG(LSN);
   var payload={
     name:p.name,
-    archetype:arch.name,
-    archetypeTh:arch.trait,
-    archetypeDesc:arch.core,
-    phase:phase.label,
-    phaseDesc:phase.insight,
-    lifePathNum:lp,
-    lifePathMeaning:lp?LIFE_PATH_MEANING[lp]:'',
-    baziDayMaster:bz?bz.dayMaster:'',
-    baziDesc:bz?BZ_DAYMASTER_MEANING[bz.dayMaster]:'',
+    archetype:arch.name,archetypeTh:arch.trait,archetypeDesc:arch.core,
+    phase:phase.label,phaseDesc:phase.insight,
+    lifePathNum:lp,lifePathMeaning:lp?LIFE_PATH_MEANING[lp]:'',
+    baziDayMaster:bz?bz.dayMaster:'',baziDesc:bz?BZ_DAYMASTER_MEANING[bz.dayMaster]:'',
     sunSign:natal&&natal.planets&&natal.planets.Sun?SIGN_TH[natal.planets.Sun.sign]||'':'',
     moonSign:natal&&natal.planets&&natal.planets.Moon?SIGN_TH[natal.planets.Moon.sign]||'':'',
-    strengths:arch.strengths||[],
-    blindspot:arch.blinds||[],
-    dominantEl:bz?bz.dominant:'',
-    missingEl:bz?bz.missing:[]
+    strengths:arch.strengths||[],blindspot:arch.blinds||[],
+    dominantEl:bz?bz.dominant:'',missingEl:bz?bz.missing:[]
   };
 
   try{
@@ -2466,33 +2823,48 @@ async function loadLifeCoach(){
     });
     var data=await res.json();
     if(!res.ok)throw new Error(data.error||'เกิดข้อผิดพลาด');
-    // cache ไว้
-    lsS(LSC_SCRIPT,{script:data.script,profileKey:_lcProfileKey(p)});
-    showScript(data.script);
-  }catch(e){
-    showLcError(e.message);
-  }
+    lsS(LSC_SCRIPT,{script:data.script,profileKey:_lcProfileKey(p),name:p.name,date:new Date().toLocaleDateString('th-TH')});
+    showScript(data.script,false);
+  }catch(e){showLcError(e.message);}
 }
 
-function showScript(script){
+function showScript(script,autoPlay){
   _lcScript=script;
   document.getElementById('lc-loading').style.display='none';
   document.getElementById('lc-error').style.display='none';
   document.getElementById('lc-content').style.display='block';
   document.getElementById('lc-controls').style.display='block';
-  document.getElementById('lc-status').textContent='พร้อมเล่น — กด ▶ เพื่อฟัง';
-  // แสดงข้อความ — แบ่งเป็น paragraph
+  document.getElementById('lc-status').textContent='รายงานพร้อมแล้ว — กด ▶ ฟัง หรือ ดาวน์โหลด PDF';
   var html=script.split(/\n\n+/).map(function(para){
     return '<p style="margin-bottom:16px">'+para.replace(/\n/g,'<br>')+'</p>';
   }).join('');
   document.getElementById('lc-script').innerHTML=html;
-  // speed slider
   var rateSlider=document.getElementById('lc-rate');
   var rateLabel=document.getElementById('lc-rate-label');
-  if(rateSlider&&rateLabel){
-    rateSlider.oninput=function(){rateLabel.textContent=this.value+'x';};
-  }
+  if(rateSlider&&rateLabel)rateSlider.oninput=function(){rateLabel.textContent=this.value+'x';};
+  if(autoPlay)setTimeout(lcPlay,300);
 }
+
+function lcDownloadPDF(){
+  var cache=lsG(LSC_SCRIPT);
+  if(!cache||!cache.script){toast('ยังไม่มีรายงาน กดสร้างก่อนครับ');return;}
+  var p=lsG(LSP)||{};
+  var content='ASTROVERA — รายงานไลฟ์โค้ชส่วนตัว\n'
+    +'ชื่อ: '+(cache.name||p.name||'')+'  |  วันที่: '+(cache.date||new Date().toLocaleDateString('th-TH'))+'\n'
+    +'─'.repeat(50)+'\n\n'
+    +cache.script+'\n\n'
+    +'─'.repeat(50)+'\n'
+    +'สร้างโดย ASTROVERA Personal Life Intelligence Platform\n'
+    +'astro-pwa.netlify.app';
+  var blob=new Blob([content],{type:'text/plain;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='ASTROVERA-Report-'+(cache.name||'').replace(/\s/g,'_')+'.txt';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  toast('ดาวน์โหลดรายงานแล้ว ✓');
+}
+
 
 function showLcError(msg){
   document.getElementById('lc-loading').style.display='none';
@@ -3322,6 +3694,361 @@ async function genCopilotReply(msg,thread){
 }
 
 
+// ═══ FINANCIAL ARCHETYPE QUIZ ═══
+var LS_FIN='av_fin'; // localStorage key
+var _finAnswers={},_finQ=1;
+var FIN_QS=[
+  {q:'เมื่อได้รับเงินก้อนใหญ่โดยไม่คาดคิด\nคุณมักจะทำอะไรเป็นอย่างแรก?',hint:'ปฏิกิริยาแรกต่อเงินคือหน้าต่างสู่ Financial Archetype ของคุณ',
+   opts:['🏦 เก็บไว้ทั้งหมด เผื่อฉุกเฉิน','⚖️ แบ่งเก็บส่วนหนึ่ง ใช้ส่วนหนึ่ง','📈 ลงทุนต่อยอดทันที','🎉 ใช้เพื่อประสบการณ์ที่อยากได้มานาน'],
+   keys:['protector','planner','opportunist','flow']},
+  {q:'ถ้าต้องเลือกระหว่าง...',hint:'ตัวเลือกนี้สะท้อนความสัมพันธ์ระหว่างคุณกับ "ความมั่นคง" และ "โอกาส"',
+   opts:['🔒 รายได้มั่นคงทุกเดือน ไม่เพิ่มมาก','🚀 รายได้ไม่แน่นอน แต่โอกาสโต 10 เท่า','🎨 รายได้ปานกลาง มีเวลาทำสิ่งที่รัก','💪 รายได้สูง แต่ทำงานหนักมาก'],
+   keys:['protector','opportunist','flow','builder']},
+  {q:'เวลาตัดสินใจเรื่องเงิน\nอะไรมักมีผลกับคุณมากที่สุด?',hint:'สไตล์การตัดสินใจทางการเงินคือกุญแจสู่ Financial Archetype',
+   opts:['📊 ตัวเลขและข้อมูลทางการเงิน','💭 ความรู้สึกในขณะนั้น','🤝 คำแนะนำจากคนที่ไว้ใจ','📚 ประสบการณ์ที่ผ่านมา'],
+   keys:['planner','flow','protector','builder']},
+  {q:'พูดถึง "ความรวย" คุณนึกถึงอะไรเป็นอย่างแรก?',hint:'นิยามความรวยของคุณคือเป้าหมายที่ระบบการเงินควรพาคุณไปถึง',
+   opts:['🕊️ อิสรภาพ — ไม่ต้องกังวลเรื่องเงิน','🏰 ความมั่นคง — มีพอใช้ไม่ขาด','⚡ ความสามารถ — ทำอะไรก็ได้ที่อยากทำ','🏆 ความสำเร็จ — เป็นที่ยอมรับ'],
+   keys:['flow','protector','opportunist','builder']},
+  {q:'เมื่อมองย้อนไป 1 ปีที่ผ่านมา\nคุณรู้สึกอย่างไรกับเงิน?',hint:'ความรู้สึกต่อสถานการณ์จริงคือจุดเริ่มต้นของการพัฒนา',
+   opts:['📋 ควบคุมได้ดี วางแผนไว้แล้ว','🌊 พอใช้ แต่ไม่เหลือเก็บ','😶 ไม่ค่อยได้คิดเรื่องนี้','💸 หาได้เยอะ แต่ก็ใช้เยอะ'],
+   keys:['planner','protector','flow','opportunist']}
+];
+var FIN_ARCHETYPES={
+  planner:{icon:'🧮',name:'The Planner',nameTh:'นักวางแผน',nameZh:'規劃型',
+    desc:'วางแผนการเงินเป็นระบบ มีวินัยสูง อาจระวังมากไปจนพลาดโอกาสบางอย่าง',
+    descEn:'Systematic financial planner, highly disciplined. May miss opportunities by being overly cautious.',
+    tip:'ลองตั้งงบ "โอกาส" สักเล็กน้อยเพื่อให้ตัวเองลองสิ่งใหม่โดยไม่รู้สึกผิด'},
+  flow:{icon:'🌊',name:'The Flow',nameTh:'สายน้ำไหล',nameZh:'流動型',
+    desc:'เชื่อในความอุดมสมบูรณ์ เงินมาเงินไป มีอิสระแต่อาจขาดการเก็บออม',
+    descEn:'Believes in abundance, money flows freely. Has freedom but may lack savings.',
+    tip:'ลองตั้ง auto-save เล็กน้อยทุกเดือน แม้แค่ 5-10% เพื่อสร้างรากฐาน'},
+  builder:{icon:'🎯',name:'The Builder',nameTh:'นักสร้าง',nameZh:'建設型',
+    desc:'สร้างความมั่งคั่งระยะยาว อดทนและสม่ำเสมอ มองผลระยะยาวเป็นหลัก',
+    descEn:'Builds long-term wealth, patient and consistent. Focuses on long-term results.',
+    tip:'ตรวจสอบว่าแผนระยะยาวยังสอดคล้องกับชีวิตปัจจุบันหรือเปล่า อย่าลืมใช้ชีวิตตอนนี้ด้วย'},
+  opportunist:{icon:'⚡',name:'The Opportunist',nameTh:'นักจับโอกาส',nameZh:'機會型',
+    desc:'เห็นโอกาสและลงทุนเร็ว เสี่ยงสูงแต่ผลตอบแทนสูง ต้องการการบริหารความเสี่ยง',
+    descEn:'Sees and acts on opportunities fast. High risk, high reward. Needs risk management.',
+    tip:'ตั้งกฎ: ลงทุนใน "โอกาสเสี่ยง" ไม่เกิน 20% ของเงินออม ส่วนที่เหลือต้องมั่นคง'},
+  protector:{icon:'🛡️',name:'The Protector',nameTh:'นักปกป้อง',nameZh:'保護型',
+    desc:'ปลอดภัยไว้ก่อน เงินคือความมั่นคง บางครั้งกลัวความเสี่ยงจนพลาดการเติบโต',
+    descEn:'Safety first, money means security. Sometimes fear of risk blocks growth.',
+    tip:'ลองแบ่งเงินเป็น 3 ส่วน: ฉุกเฉิน (3 เดือน), มั่นคง, และโอกาสเล็กๆ สักส่วน'}
+};
+function openFinQ(){
+  _finAnswers={};_finQ=1;
+  rFinQ();go('sc-fin-quiz');
+}
+function rFinQ(){
+  var q=FIN_QS[_finQ-1];
+  var dots='';
+  for(var i=0;i<FIN_QS.length;i++){
+    var cls='sdot'+(i+1<_finQ?' dn':i+1===_finQ?' on':'');
+    dots+='<div class="'+cls+'"></div>';
+  }
+  document.getElementById('finq-dots').innerHTML=dots;
+  document.getElementById('finq-ctr').textContent=_finQ+' / '+FIN_QS.length;
+  var html='<div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">'+q.q.replace(/\n/g,'<br>')+'</div>';
+  html+='<div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">💡 '+q.hint+'</div>';
+  q.opts.forEach(function(opt,i){
+    html+='<div class="qopt" onclick="selFinQ('+i+',this)"><div class="qdot"></div>'+opt+'</div>';
+  });
+  document.getElementById('finq-body').innerHTML=html;
+}
+function selFinQ(idx,el){
+  document.querySelectorAll('#finq-body .qopt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  var key=FIN_QS[_finQ-1].keys[idx];
+  _finAnswers[_finQ]=key;
+  setTimeout(function(){
+    if(_finQ<FIN_QS.length){_finQ++;rFinQ();}
+    else{saveFinResult();}
+  },320);
+}
+function saveFinResult(){
+  // Count votes for each archetype
+  var counts={};
+  Object.values(_finAnswers).forEach(function(k){counts[k]=(counts[k]||0)+1;});
+  var winner=Object.keys(counts).reduce(function(a,b){return(counts[a]||0)>=(counts[b]||0)?a:b;},'planner');
+  var p=lsG(LSP)||{};
+  p.finArchetype=winner;lsS(LSP,p);
+  toast('วิเคราะห์ต้นแบบการเงินแล้ว ✓');
+  bk();rSelf();
+}
+function skipFinQ(){bk();}
+
+// ═══ LIFE PURPOSE QUIZ ═══
+var LS_PUR='av_pur';
+var _purAnswers={},_purQ=1;
+var PUR_QS=[
+  {q:'ถ้าไม่ต้องกังวลเรื่องเงินและเวลา\nคุณจะใช้ชีวิตทำอะไร?',hint:'นี่คือเข็มทิศที่ชี้ไปยัง Life Purpose โดยไม่มีข้อจำกัด',
+   opts:['🏗️ สร้างบางสิ่งที่จะอยู่ต่อไปหลังจากคุณ','📚 สอนและแบ่งปันความรู้ให้คนอื่น','🌏 ออกสำรวจโลกและเรียนรู้สิ่งใหม่','💚 ดูแลและช่วยเหลือคนรอบข้าง','⚡ สร้างการเปลี่ยนแปลงในระบบใหญ่'],
+   keys:['creator','teacher','explorer','nurturer','changemaker']},
+  {q:'ปัญหาแบบไหนในโลกที่คุณรู้สึกว่า\n"เรื่องนี้ฉันต้องทำอะไรสักอย่าง"?',hint:'สิ่งที่กระตุ้นให้คุณลุกขึ้นมาทำ คือสัญญาณของ Life Purpose',
+   opts:['🎓 คนขาดโอกาสในการเรียนรู้','⚖️ ระบบที่ไม่เป็นธรรมกับคนตัวเล็ก','🌿 โลกกำลังถูกทำลายโดยไม่จำเป็น','💔 คนรอบข้างไม่เข้าใจกันและกัน','💎 คนเก่งยังไม่ถูกค้นพบ'],
+   keys:['teacher','changemaker','explorer','nurturer','creator']},
+  {q:'ตอนอายุ 80 ปี มองย้อนกลับมา\nอะไรที่จะทำให้คุณพูดว่า "ชีวิตฉันมีความหมาย"?',hint:'ภาพในบั้นปลายชีวิตคือกระจกสะท้อนคุณค่าที่แท้จริง',
+   opts:['🏆 ฉันได้สร้างบางสิ่งที่มีค่า','🤲 ฉันทำให้ชีวิตคนอื่นดีขึ้น','🌅 ฉันได้ใช้ชีวิตอย่างเต็มที่','📖 ฉันได้เรียนรู้และเข้าใจโลกนี้','❤️ ฉันได้รักและถูกรักอย่างแท้จริง'],
+   keys:['creator','nurturer','explorer','teacher','nurturer']},
+  {q:'ตอนนี้ คุณใช้เวลาในแต่ละวัน\nไปกับอะไรมากที่สุด?',hint:'สิ่งที่คุณใช้เวลาจริง คือหลักฐานของ Life Purpose ปัจจุบัน',
+   opts:['⚙️ ทำงาน — สร้างและลงมือทำ','📚 เรียนรู้ — อ่าน คิด ศึกษา','🤝 เชื่อมต่อ — คุย แชร์ อยู่กับคน','💚 ดูแล — ช่วยเหลือ รับผิดชอบ','🌀 สร้างสมดุล — จัดสรรทุกอย่าง'],
+   keys:['creator','teacher','changemaker','nurturer','explorer']}
+];
+var PUR_TYPES={
+  creator:{icon:'🏗️',th:'ผู้สร้าง',en:'The Creator',zh:'創造者',
+    stmt:'คุณเกิดมาเพื่อ **สร้างสิ่งที่มีคุณค่าและคงทน** ผ่านการลงมือทำและความคิดสร้างสรรค์ เพื่อให้โลกมีสิ่งที่ดีกว่าเดิมอยู่ต่อไปแม้คุณจะไม่อยู่',
+    action:'เริ่มสร้างโปรเจกต์ที่คุณภูมิใจจะบอกคนอื่นได้'},
+  teacher:{icon:'📚',th:'ผู้ถ่ายทอด',en:'The Teacher',zh:'傳授者',
+    stmt:'คุณเกิดมาเพื่อ **แบ่งปันความรู้และยกระดับผู้อื่น** ผ่านการสอน เขียน หรือการเป็นแบบอย่าง เพื่อให้คนที่คุณส่งต่อสามารถส่งต่อให้คนอื่นได้อีก',
+    action:'หาวิธีแบ่งปันสิ่งที่คุณรู้ดีที่สุดให้คนอื่น ไม่ว่าจะเล็กหรือใหญ่'},
+  explorer:{icon:'🌏',th:'ผู้สำรวจ',en:'The Explorer',zh:'探索者',
+    stmt:'คุณเกิดมาเพื่อ **สำรวจและค้นพบสิ่งใหม่** ผ่านการเรียนรู้และประสบการณ์ เพื่อเป็นสะพานที่นำโลกไปสู่ความเข้าใจที่ลึกขึ้น',
+    action:'กำหนดสิ่งที่คุณอยากรู้มากที่สุดในปีนี้ แล้วออกไปหาคำตอบจริงๆ'},
+  nurturer:{icon:'💚',th:'ผู้ดูแล',en:'The Nurturer',zh:'養育者',
+    stmt:'คุณเกิดมาเพื่อ **ดูแลและสร้างความเป็นอยู่ที่ดีให้ผู้อื่น** ผ่านความเอาใจใส่และการให้ เพื่อสร้างโลกที่คนรู้สึกว่ามีคนอยู่เคียงข้าง',
+    action:'บอกคนที่คุณดูแลอยู่ว่าเขามีความหมายกับคุณแค่ไหน'},
+  changemaker:{icon:'⚡',th:'นักเปลี่ยนแปลง',en:'The Changemaker',zh:'改變者',
+    stmt:'คุณเกิดมาเพื่อ **ท้าทายระบบและสร้างการเปลี่ยนแปลงที่ยั่งยืน** ผ่านพลังงานและวิสัยทัศน์ เพื่อโลกที่ดีกว่าและเป็นธรรมกว่า',
+    action:'เลือก 1 ปัญหาที่คุณอยากเห็นการเปลี่ยนแปลง แล้วลงมือทำสิ่งเล็กๆ ได้เลยตอนนี้'}
+};
+function openPurQ(){
+  _purAnswers={};_purQ=1;
+  rPurQ();go('sc-purpose-quiz');
+}
+function rPurQ(){
+  var q=PUR_QS[_purQ-1];
+  var dots='';
+  for(var i=0;i<PUR_QS.length;i++){
+    var cls='sdot'+(i+1<_purQ?' dn':i+1===_purQ?' on':'');
+    dots+='<div class="'+cls+'"></div>';
+  }
+  document.getElementById('purq-dots').innerHTML=dots;
+  document.getElementById('purq-ctr').textContent=_purQ+' / '+PUR_QS.length;
+  var html='<div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">'+q.q.replace(/\n/g,'<br>')+'</div>';
+  html+='<div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">💡 '+q.hint+'</div>';
+  q.opts.forEach(function(opt,i){
+    html+='<div class="qopt" onclick="selPurQ('+i+',this)"><div class="qdot"></div>'+opt+'</div>';
+  });
+  document.getElementById('purq-body').innerHTML=html;
+}
+function selPurQ(idx,el){
+  document.querySelectorAll('#purq-body .qopt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  var key=PUR_QS[_purQ-1].keys[idx];
+  _purAnswers[_purQ]=key;
+  setTimeout(function(){
+    if(_purQ<PUR_QS.length){_purQ++;rPurQ();}
+    else{savePurResult();}
+  },320);
+}
+function savePurResult(){
+  var counts={};
+  Object.values(_purAnswers).forEach(function(k){counts[k]=(counts[k]||0)+1;});
+  var winner=Object.keys(counts).reduce(function(a,b){return(counts[a]||0)>=(counts[b]||0)?a:b;},'creator');
+  var p=lsG(LSP)||{};p.lifeType=winner;lsS(LSP,p);
+  toast('ค้นพบภารกิจชีวิตแล้ว ✓');bk();rSelf();
+}
+function skipPurQ(){bk();}
+
+// ═══ RELATIONSHIP ARCHETYPE QUIZ ═══
+var LS_REL='av_rel';
+var _relAnswers={},_relQ=1;
+var REL_QS=[
+  {q:'เวลามีปัญหากับคนใกล้ตัว\nคุณมักจะ...',hint:'สไตล์การจัดการความขัดแย้งคือ DNA ของความสัมพันธ์คุณ',
+   opts:['💬 พูดตรงๆ ทันที เคลียร์ให้จบ','🤔 คิดก่อนพูด ใช้เวลาเรียบเรียง','🚶 ถอยออกมาก่อน ขอพื้นที่คิด','👂 เข้าใจอีกฝ่ายก่อน ถามว่ารู้สึกยังไง','🙈 ทำเป็นไม่มีอะไร เดี๋ยวก็หายเอง'],
+   keys:['adventurer','mirror','freeSpirit','nurturer','builder']},
+  {q:'สิ่งที่คุณต้องการมากที่สุด\nในความสัมพันธ์คือ...',hint:'ความต้องการหลักคือสิ่งที่คุณมองหาในทุกความสัมพันธ์',
+   opts:['🕊️ พื้นที่ส่วนตัว อิสระในการเป็นตัวเอง','💎 ความเข้าใจ มีคนเข้าใจโดยไม่ต้องอธิบาย','🏰 ความมั่นคง รู้ว่าคนนี้จะไม่ไปไหน','🔥 การผจญภัย เติบโตและเรียนรู้ไปด้วยกัน','🌿 การสนับสนุน มีคนเชื่อในตัวคุณเสมอ'],
+   keys:['freeSpirit','mirror','builder','adventurer','nurturer']},
+  {q:'เมื่อคนใกล้ตัวมีเรื่องไม่สบายใจ\nคุณมักจะ...',hint:'วิธีปลอบใจคนอื่นคือกระจกสะท้อนว่าคุณอยากถูกปลอบแบบไหน',
+   opts:['🤫 รับฟังเงียบๆ ให้พื้นที่ระบาย','🔧 ช่วยหาทางแก้ เสนอวิธีแก้ปัญหา','☀️ ให้กำลังใจ บอกว่าทุกอย่างจะดีขึ้น','🪑 อยู่ข้างๆ ไม่ต้องพูดอะไร','❓ ถามก่อน "อยากให้ช่วย หรืออยากให้ฟัง?"'],
+   keys:['mirror','adventurer','nurturer','builder','freeSpirit']},
+  {q:'ความรักครั้งไหนที่คุณจำได้มากที่สุด?',hint:'ความรักที่อยู่ในความทรงจำคือพิมพ์เขียวของความรักที่คุณต้องการ',
+   opts:['🌱 ครั้งที่เติบโตไปด้วยกัน','💫 ครั้งที่เจ็บปวดและเรียนรู้','🛡️ ครั้งที่รู้สึกปลอดภัยที่สุด','⚡ ครั้งที่ตื่นเต้นและท้าทาย','🌟 ครั้งที่รู้สึกว่า "ฉันเป็นตัวเองได้เต็มที่"'],
+   keys:['nurturer','mirror','builder','adventurer','freeSpirit']},
+  {q:'ถ้าความสัมพันธ์เป็นเหมือน "บ้าน"\nบ้านของคุณคือแบบไหน?',hint:'ภาพบ้านในใจคือ metaphor ของพื้นที่ปลอดภัยในความสัมพันธ์',
+   opts:['🌳 บ้านต้นไม้ อิสระ ไม่อยู่ในกรอบ','🧱 บ้านอิฐ มั่นคง แข็งแรง ทนทาน','🌊 บ้านริมทะเล เปิดกว้าง รับลมและแสง','🌿 บ้านในสวน อบอุ่น ธรรมชาติ โอบล้อม','🎨 สตูดิโอ สร้างสรรค์ เปลี่ยนแปลงได้'],
+   keys:['freeSpirit','builder','adventurer','nurturer','mirror']}
+];
+var REL_ARCHETYPES={
+  builder:{icon:'🏰',th:'นักสร้างความมั่นคง',en:'The Builder',zh:'建立者',
+    desc:'สร้างความมั่นคงในความรัก มองการณ์ไกล ให้คุณค่ากับความไว้ใจและความสม่ำเสมอ',
+    descEn:'Builds security in love, looks ahead, values trust and consistency.',
+    idealPartner:'คนที่ให้ความมั่นคงทางอารมณ์และพร้อมสร้างอนาคตร่วมกัน'},
+  freeSpirit:{icon:'🕊️',th:'นักอิสระ',en:'The Free Spirit',zh:'自由靈魂',
+    desc:'รักอิสระ ต้องการพื้นที่หายใจ ไม่ชอบถูกผูกมัด แต่ยังต้องการความเชื่อมโยงที่แท้จริง',
+    descEn:'Loves freedom, needs breathing room. Dislikes being tied down but still wants real connection.',
+    idealPartner:'คนที่เข้าใจและไม่พยายามเปลี่ยนให้คุณเป็นอย่างอื่น'},
+  nurturer:{icon:'🌿',th:'นักดูแล',en:'The Nurturer',zh:'養護者',
+    desc:'ดูแลและโอบอุ้ม ใส่ใจความรู้สึกของคนรัก บางครั้งลืมดูแลตัวเองด้วย',
+    descEn:'Caring and nurturing, attentive to loved ones. Sometimes forgets self-care.',
+    idealPartner:'คนที่รับรู้และขอบคุณการดูแลของคุณ และตอบแทนกลับด้วยความรักเช่นกัน'},
+  adventurer:{icon:'🔥',th:'นักผจญภัย',en:'The Adventurer',zh:'冒險者',
+    desc:'รักที่เติบโตและท้าทายไปด้วยกัน ชอบการเปลี่ยนแปลงและประสบการณ์ใหม่ร่วมกัน',
+    descEn:'Loves growth and challenge together, enjoys change and new shared experiences.',
+    idealPartner:'คนที่พร้อมเติบโตไปด้วยกัน ไม่หยุดนิ่งและยินดีลองสิ่งใหม่เสมอ'},
+  mirror:{icon:'💎',th:'นักสะท้อน',en:'The Mirror',zh:'鏡子型',
+    desc:'สะท้อนและเข้าใจ เชื่อมต่อระดับลึก มองเห็นสิ่งที่คนอื่นไม่พูดออกมา',
+    descEn:'Reflects and understands, connects deeply. Sees what others leave unsaid.',
+    idealPartner:'คนที่มีความลึกทางอารมณ์และพร้อมเปิดใจอย่างแท้จริง'}
+};
+function openRelQ(){
+  _relAnswers={};_relQ=1;
+  rRelQ();go('sc-rel-quiz');
+}
+function rRelQ(){
+  var q=REL_QS[_relQ-1];
+  var dots='';
+  for(var i=0;i<REL_QS.length;i++){
+    var cls='sdot'+(i+1<_relQ?' dn':i+1===_relQ?' on':'');
+    dots+='<div class="'+cls+'"></div>';
+  }
+  document.getElementById('relq-dots').innerHTML=dots;
+  document.getElementById('relq-ctr').textContent=_relQ+' / '+REL_QS.length;
+  var html='<div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:7px;line-height:1.4">'+q.q.replace(/\n/g,'<br>')+'</div>';
+  html+='<div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">💡 '+q.hint+'</div>';
+  q.opts.forEach(function(opt,i){
+    html+='<div class="qopt" onclick="selRelQ('+i+',this)"><div class="qdot"></div>'+opt+'</div>';
+  });
+  document.getElementById('relq-body').innerHTML=html;
+}
+function selRelQ(idx,el){
+  document.querySelectorAll('#relq-body .qopt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  var key=REL_QS[_relQ-1].keys[idx];
+  _relAnswers[_relQ]=key;
+  setTimeout(function(){
+    if(_relQ<REL_QS.length){_relQ++;rRelQ();}
+    else{saveRelResult();}
+  },320);
+}
+function saveRelResult(){
+  var counts={};
+  Object.values(_relAnswers).forEach(function(k){counts[k]=(counts[k]||0)+1;});
+  var winner=Object.keys(counts).reduce(function(a,b){return(counts[a]||0)>=(counts[b]||0)?a:b;},'builder');
+  var p=lsG(LSP)||{};p.relType=winner;lsS(LSP,p);
+  toast('วิเคราะห์รูปแบบความรักแล้ว ✓');bk();rSelf();
+}
+function skipRelQ(){bk();}
+
+// ═══ RENDER NEW MODULES IN SELF INTELLIGENCE ═══
+function rNewModulesInSelf(p){
+  var el=document.getElementById('s-new-modules');
+  if(!el)return;
+  var lang=_lang;
+  var html='';
+
+  // Financial Archetype
+  var finKey=p.finArchetype;
+  var fin=finKey?FIN_ARCHETYPES[finKey]:null;
+  html+='<div class="card" style="margin-bottom:11px">';
+  if(fin){
+    var finName=lang==='zh'?fin.name:lang==='en'?fin.name:fin.nameTh;
+    var finDesc=lang==='en'?fin.descEn:fin.desc;
+    html+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
+      +'<span style="font-size:24px">'+fin.icon+'</span>'
+      +'<div><div style="font-size:13px;font-weight:600;color:var(--tx)">💰 ต้นแบบการเงิน</div>'
+      +'<div style="font-size:12px;color:var(--gold)">'+finName+'</div></div></div>'
+      +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px">'+finDesc+'</div>'
+      +'<div style="font-size:11px;color:var(--gold);background:rgba(212,175,55,0.08);border-radius:8px;padding:8px">💡 '+fin.tip+'</div>'
+      +'<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="openFinQ()">↻ วิเคราะห์ใหม่</button>';
+  } else {
+    html+='<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:8px">💰 ต้นแบบการเงินของคุณ</div>'
+      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">รู้จักสไตล์การเงินของคุณ ข้อดี ข้อระวัง และคำแนะนำที่ตรงจุด</div>'
+      +'<button class="btn bi bsm" style="width:100%" onclick="openFinQ()">🧮 วิเคราะห์ต้นแบบการเงิน</button>';
+  }
+  html+='</div>';
+
+  // Life Purpose
+  var purKey=p.lifeType;
+  var pur=purKey?PUR_TYPES[purKey]:null;
+  html+='<div class="card" style="margin-bottom:11px">';
+  if(pur){
+    var purName=lang==='zh'?pur.zh:lang==='en'?pur.en:pur.th;
+    html+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
+      +'<span style="font-size:24px">'+pur.icon+'</span>'
+      +'<div><div style="font-size:13px;font-weight:600;color:var(--tx)">🎯 ภารกิจชีวิต</div>'
+      +'<div style="font-size:12px;color:var(--gold)">'+purName+'</div></div></div>'
+      +'<div style="font-size:12px;color:var(--tx2);line-height:1.7;margin-bottom:8px">'+pur.stmt.replace(/\*\*(.*?)\*\*/g,'<strong style="color:var(--gold)">$1</strong>')+'</div>'
+      +'<div style="font-size:11px;color:var(--tx3)">→ '+pur.action+'</div>'
+      +'<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="openPurQ()">↻ วิเคราะห์ใหม่</button>';
+  } else {
+    html+='<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:8px">🎯 ภารกิจชีวิตของคุณ</div>'
+      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">ค้นพบว่าคุณเกิดมาเพื่ออะไร ผ่าน 4 คำถามง่ายๆ</div>'
+      +'<button class="btn bi bsm" style="width:100%" onclick="openPurQ()">🎯 ค้นหาภารกิจชีวิต</button>';
+  }
+  html+='</div>';
+
+  // Relationship Archetype
+  var relKey=p.relType;
+  var rel=relKey?REL_ARCHETYPES[relKey]:null;
+  html+='<div class="card" style="margin-bottom:11px">';
+  if(rel){
+    var relName=lang==='zh'?rel.zh:lang==='en'?rel.en:rel.th;
+    var relDesc=lang==='en'?rel.descEn:rel.desc;
+    html+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
+      +'<span style="font-size:24px">'+rel.icon+'</span>'
+      +'<div><div style="font-size:13px;font-weight:600;color:var(--tx)">💞 รูปแบบความรัก</div>'
+      +'<div style="font-size:12px;color:var(--gold)">'+relName+'</div></div></div>'
+      +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px">'+relDesc+'</div>'
+      +'<div style="font-size:11px;color:var(--tx3);margin-bottom:3px">คนที่เหมาะกับคุณ:</div>'
+      +'<div style="font-size:12px;color:var(--tx2);line-height:1.5">'+rel.idealPartner+'</div>'
+      +'<button class="btn bgh bsm" style="width:100%;margin-top:10px" onclick="openRelQ()">↻ วิเคราะห์ใหม่</button>';
+  } else {
+    html+='<div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:8px">💞 รูปแบบความรักของคุณ</div>'
+      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">เข้าใจสไตล์ความรักของตัวเอง และคนแบบไหนที่เหมาะกับคุณ</div>'
+      +'<button class="btn bi bsm" style="width:100%" onclick="openRelQ()">💞 วิเคราะห์รูปแบบความรัก</button>';
+  }
+  html+='</div>';
+
+  el.innerHTML=html;
+}
+
+// ═══ SHARE FEATURE ═══
+function openShareModal(){
+  var p=lsG(LSP)||{};
+  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
+  var lang=_lang;
+  // Set share card content
+  document.getElementById('share-icon').textContent=arch.icon;
+  var archName=lang==='zh'?(ARCHETYPE_ZH[p.archKey]||{}).name||arch.name:lang==='en'?arch.name:arch.nameTh;
+  document.getElementById('share-arch-name').textContent=archName;
+  var archTrait=lang==='zh'?(ARCHETYPE_ZH[p.archKey]||{}).trait||arch.trait:arch.trait;
+  document.getElementById('share-arch-trait').textContent=archTrait;
+  // Extra info (life path)
+  var lp=p.dob?lifePathNumber(p.dob):null;
+  if(lp){
+    document.getElementById('share-extra-label').textContent=lang==='zh'?'生命數字':lang==='en'?'Life Path Number':'เลขชีวิต';
+    document.getElementById('share-extra-val').textContent=lp+' — '+(LIFE_PATH_MEANING[lp]||'');
+  }
+  document.getElementById('share-modal').style.display='flex';
+  // Update share buttons for current lang
+  var nativeBtn=document.getElementById('share-native-btn');
+  if(nativeBtn)nativeBtn.textContent=t('btn.share');
+}
+function closeShareModal(){document.getElementById('share-modal').style.display='none';}
+function shareNative(){
+  var p=lsG(LSP)||{};
+  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
+  var url='https://astro-pwa.netlify.app';
+  var text=(_lang==='en'?'I just discovered my identity pattern on ASTROVERA!':
+            _lang==='zh'?'我剛在ASTROVERA發現了我的身份模式！':
+            'ฉันเพิ่งค้นพบตัวตนของตัวเองที่ ASTROVERA!')
+    +'\n\n'+arch.icon+' '+arch.name+'\n'+arch.trait+'\n\n'+t('share.discover')+': '+url;
+  if(navigator.share){
+    navigator.share({title:'ASTROVERA — Personal Life Intelligence',text:text,url:url})
+      .catch(function(){shareCopyLink();});
+  } else {shareCopyLink();}
+}
+function shareCopyLink(){
+  var url='https://astro-pwa.netlify.app';
+  navigator.clipboard?navigator.clipboard.writeText(url).then(function(){
+    var btn=document.getElementById('share-copy-btn');
+    if(btn){btn.textContent=t('share.copied');setTimeout(function(){btn.textContent=t('share.copy');},2000);}
+  }):toast('URL: '+url);
+}
+
 // ═══ PROFILE REFRESH ═══
 function rProfile(){
   var p=lsG(LSP)||{};
@@ -3485,15 +4212,20 @@ function loadDemo(){
 // ═══ INIT ═══
 (function(){
   var p=lsG(LSP);
-  if(p){
+  if(p&&p.archKey){
     var ni=document.getElementById('inp-name');if(ni&&p.name)ni.value=p.name;
     var di=document.getElementById('inp-dob');if(di&&p.dob)di.value=p.dob;
     var ti=document.getElementById('inp-time');if(ti&&p.time)ti.value=p.time;
-    var pi=document.getElementById('inp-place');if(pi&&p.place)pi.value=p.place;
-    rSelf();     // restores the user's real saved archetype (not a default)
-    rTiming();   // restores the user's real saved life phase
+    initPlaceDropdown(p.place||'');
+    rSelf();
+    rTiming();
+    rDash();go('sc-dash');
+  } else {
+    // ผู้ใช้ใหม่หรือยังไม่ผ่าน onboarding — init dropdown เปล่าไว้รอกรอก
+    initPlaceDropdown('');
+    applyLang(); // apply saved language on startup
+    rDash();
   }
-  rDash();
 })();
 </script>
 <!-- ─── LIFE COACH MODAL ─── -->
@@ -3540,14 +4272,74 @@ function loadDemo(){
       <span id="lc-rate-label" style="font-size:11px;color:var(--tx3);width:28px">0.9x</span>
     </div>
     <!-- Play controls -->
-    <div style="display:flex;gap:10px">
+    <div style="display:flex;gap:8px;margin-bottom:8px">
       <button id="lc-play-btn" onclick="lcPlay()" class="btn bg" style="flex:1;font-size:18px">▶</button>
       <button onclick="lcPause()" class="btn bgh" style="flex:1;font-size:18px">⏸</button>
       <button onclick="lcStop()" class="btn bgh" style="flex:1;font-size:18px">⏹</button>
       <button onclick="lcRestart()" class="btn bgh" style="flex:1;font-size:16px">↺</button>
     </div>
+    <button onclick="lcDownloadPDF()" class="btn bgh" style="width:100%;font-size:13px">📥 ดาวน์โหลดรายงาน (.txt)</button>
     <div style="margin-top:10px;text-align:center;font-size:11px;color:var(--tx3)" id="lc-tts-note"></div>
   </div>
 </div>
+<!-- ─── FINANCIAL ARCHETYPE QUIZ (sc-fin-quiz) ─── -->
+<div class="sc" id="sc-fin-quiz">
+  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t" id="finq-title">💰 ต้นแบบการเงิน</div><div style="font-size:13px;color:var(--tx3)" id="finq-ctr">1 / 5</div></div>
+  <div class="sb" style="padding:22px 18px">
+    <div class="step-row" id="finq-dots"></div>
+    <div id="finq-body"></div>
+    <button class="btn" style="margin-top:16px;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--tx3);font-size:13px" onclick="skipFinQ()">ข้ามไปก่อน</button>
+  </div>
+</div>
+<!-- Financial Archetype Result (in Self Intelligence) embedded via rFinResult() -->
+
+<!-- ─── LIFE PURPOSE QUIZ (sc-purpose-quiz) ─── -->
+<div class="sc" id="sc-purpose-quiz">
+  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">🎯 ภารกิจชีวิต</div><div style="font-size:13px;color:var(--tx3)" id="purq-ctr">1 / 4</div></div>
+  <div class="sb" style="padding:22px 18px">
+    <div class="step-row" id="purq-dots"></div>
+    <div id="purq-body"></div>
+    <button class="btn" style="margin-top:16px;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--tx3);font-size:13px" onclick="skipPurQ()">ข้ามไปก่อน</button>
+  </div>
+</div>
+
+<!-- ─── RELATIONSHIP ARCHETYPE QUIZ (sc-rel-quiz) ─── -->
+<div class="sc" id="sc-rel-quiz">
+  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">💞 รูปแบบความรัก</div><div style="font-size:13px;color:var(--tx3)" id="relq-ctr">1 / 5</div></div>
+  <div class="sb" style="padding:22px 18px">
+    <div class="step-row" id="relq-dots"></div>
+    <div id="relq-body"></div>
+    <button class="btn" style="margin-top:16px;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--tx3);font-size:13px" onclick="skipRelQ()">ข้ามไปก่อน</button>
+  </div>
+</div>
+
+<!-- ─── SHARE MODAL ─── -->
+<div id="share-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:flex-end;justify-content:center">
+  <div style="background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:430px">
+    <div style="text-align:center;margin-bottom:18px">
+      <div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px" data-i18n="share.title">แชร์ผลลัพธ์ของคุณ</div>
+      <div style="font-size:12px;color:var(--tx3)" data-i18n="share.sub">แชร์ให้เพื่อนวิเคราะห์ตัวเองด้วย</div>
+    </div>
+    <!-- Share Card Preview -->
+    <div id="share-card" style="background:linear-gradient(135deg,#082B24,#163528);border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:22px;margin-bottom:18px;text-align:center">
+      <div style="font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:10px">ASTROVERA · PERSONAL LIFE INTELLIGENCE</div>
+      <div style="font-size:36px;margin-bottom:8px" id="share-icon">🔮</div>
+      <div style="font-size:18px;font-weight:700;color:var(--tx);margin-bottom:4px" id="share-arch-name"></div>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:14px" id="share-arch-trait"></div>
+      <div style="background:rgba(212,175,55,0.1);border-radius:8px;padding:8px 12px;margin-bottom:12px">
+        <div style="font-size:11px;color:var(--tx3);margin-bottom:3px" id="share-extra-label">เลขชีวิต</div>
+        <div style="font-size:13px;color:var(--gold);font-weight:600" id="share-extra-val"></div>
+      </div>
+      <div style="font-size:10px;color:var(--tx3)">ค้นพบตัวเองที่ astro-pwa.netlify.app</div>
+    </div>
+    <!-- Share buttons -->
+    <div style="display:flex;gap:10px;margin-bottom:12px">
+      <button class="btn bg" style="flex:1" onclick="shareNative()" id="share-native-btn">📤 แชร์</button>
+      <button class="btn bgh" style="flex:1" onclick="shareCopyLink()" id="share-copy-btn" data-i18n="share.copy">คัดลอกลิงก์</button>
+    </div>
+    <button onclick="closeShareModal()" style="width:100%;background:none;border:none;color:var(--tx3);font-size:13px;cursor:pointer;padding:8px">ปิด</button>
+  </div>
+</div>
+
 </body>
 </html>

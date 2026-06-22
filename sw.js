@@ -6,7 +6,7 @@
 // cache-first so the app opens instantly and works offline, and fall back to
 // offline.html only for navigations that can't be served from cache.
 
-const CACHE_NAME = 'astrovera-v1.0.9';
+const CACHE_NAME = 'astrovera-v1.2.0';
 const OFFLINE_URL = './offline.html';
 
 // Everything the app needs to run with zero network access once cached.
