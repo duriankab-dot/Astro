@@ -317,7 +317,7 @@ textarea.if{resize:none}
       <div class="card cg" style="padding:22px;margin-bottom:14px">
         <div style="font-size:14px;color:var(--tx2);margin-bottom:15px;text-align:center;line-height:1.5">เริ่มเข้าใจตัวเองใน 2 นาที<br><span style="font-size:12px;color:var(--tx3)">ฟรี · ไม่ต้องสมัครก่อน</span></div>
         <div class="ig" style="margin-bottom:11px"><label class="il">ชื่อของคุณ</label><input id="inp-name" class="if" type="text" placeholder="ชื่อ หรือชื่อเล่น"></div>
-        <div class="ig" style="margin-bottom:11px"><label class="il">วันเกิด <span style="color:var(--rose)">*</span></label><input id="inp-dob" class="if" type="date" max="2010-01-01" min="1940-01-01" style="font-size:16px"></div>
+        <div class="ig" style="margin-bottom:11px"><label class="il">วันเกิด <span style="color:var(--rose)">*</span></label><input id="inp-dob" class="if" type="date" max="2010-01-01" min="1940-01-01" style="font-size:16px"><div style="font-size:11px;color:var(--tx3);margin-top:4px">ใส่ตามรูปแบบ ปี/เดือน/วัน (ค.ศ.) เช่น 1990/06/15</div></div>
         <div class="ig" style="margin-bottom:11px"><label class="il">เวลาเกิด <span style="color:var(--tx3);font-weight:400">(ถ้าทราบ)</span></label><input id="inp-time" class="if" type="time"></div>
         <div class="ig" style="margin-bottom:0"><label class="il">สถานที่เกิด <span style="color:var(--tx3);font-weight:400">(จังหวัด/ประเทศ)</span></label><input id="inp-place" class="if" type="text" placeholder="เช่น กรุงเทพมหานคร, ประเทศไทย"></div>
         <div style="margin-top:16px"><button class="btn bg" onclick="startAnalysis()">✦ วิเคราะห์เลย — ฟรี</button></div>
@@ -398,7 +398,7 @@ textarea.if{resize:none}
       <div class="qopt" onclick="selQ(5,'c',this)"><div class="qdot"></div>รู้จังหวะว่าตอนนี้ควรทำอะไร</div>
       <div class="qopt" onclick="selQ(5,'d',this)"><div class="qdot"></div>เรียนรู้จากประสบการณ์ที่ผ่านมา</div>
     </div>
-    <button class="btn bgh" style="margin-top:16px" onclick="skipQuiz()">ข้ามไปก่อน</button>
+    <button class="btn" style="margin-top:16px;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--tx3);font-size:13px" onclick="skipQuiz()">ข้ามไปก่อน (ตอบทีหลังก็ได้)</button>
   </div>
 </div>
 
@@ -418,7 +418,7 @@ textarea.if{resize:none}
       <div id="fi-themes"></div>
     </div>
     <!-- Reflection Engine Preview -->
-    <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">✦ สิ่งที่ Astrovera เห็นในตัวคุณ</div><div class="rlt" id="fi-ins">—</div></div>
+    <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">✦ ✦ มุมมองของ ASTROVERA ต่อคุณ</div><div class="rlt" id="fi-ins">—</div></div>
     <div class="rl rl-m rlm" style="margin-bottom:6px"><div class="rll">◈ ความหมาย</div><div class="rlt" id="fi-mng">—</div></div>
     <div class="rl rl-e rle" style="margin-bottom:13px"><div class="rll">◉ ความรู้สึกที่อาจซ่อนอยู่</div><div class="rlt" id="fi-emo">—</div></div>
     <div class="refq" style="margin-bottom:13px"><div class="refql">💬 คำถามสะท้อนตัวเอง</div><div class="refqt" id="fi-ref">—</div></div>
@@ -437,14 +437,14 @@ textarea.if{resize:none}
 <!-- ─── UPGRADE ─── -->
 <div class="sc" id="sc-upgrade">
   <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">Premium Report</div></div>
-  <div class="sb" style="padding:18px">
+  <div class="sb" style="padding:18px;padding-bottom:80px">
     <div style="text-align:center;margin-bottom:22px">
       <div style="font-size:11px;color:var(--gold);letter-spacing:1.5px;margin-bottom:8px;text-transform:uppercase">Unlock Full Intelligence</div>
       <div style="font-family:var(--fh);font-size:21px;color:var(--tx);margin-bottom:9px">เข้าใจตัวเองครบทุกมิติ</div>
     </div>
     <div class="card" style="margin-bottom:14px">
       <div style="display:flex;flex-direction:column;gap:11px">
-        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Archetype Analysis + Reflection Engine ครบ 6 ชั้น</div><div style="font-size:12px;color:var(--tx3)">สิ่งที่เห็น · ความหมาย · ความรู้สึกแฝง · คำถามชวนคิด · ลงมือทำ · Journal</div></div></div>
+        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Archetype Analysis + Reflection Engine ครบ 6 ชั้น</div><div style="font-size:12px;color:var(--tx3)">สิ่งที่เห็น · ความหมาย · ความรู้สึกแฝง · คำถามชวนคิด · ลงมือทำ · Journal</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">(ฟรีได้ดูแค่ 2 ชั้นแรก — Premium ครบทั้ง 6)</div></div></div>
         <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Decision Journal + Follow-up 30/90/180/365 วัน</div><div style="font-size:12px;color:var(--tx3)">Growth Loop Engine ติดตามและเรียนรู้จากผลลัพธ์จริง</div></div></div>
         <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Weekly Reflection + Emotion Check-in</div><div style="font-size:12px;color:var(--tx3)">สร้างนิสัยการเรียนรู้จากชีวิตประจำวัน</div></div></div>
         <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Life Timing Intelligence</div><div style="font-size:12px;color:var(--tx3)">เข้าใจจังหวะชีวิตและโอกาสที่น่าสนใจในช่วงนี้</div></div></div>
@@ -469,8 +469,8 @@ textarea.if{resize:none}
         <div style="font-size:27px;font-weight:700;color:var(--gold)">1,990 <span style="font-size:13px;color:var(--tx3);font-weight:400">บาท</span></div>
       </div>
     </div>
-    <button class="btn bg" onclick="go('sc-payment')">ชำระเงิน →</button>
-    <div style="margin-top:10px;text-align:center;font-size:12px;color:var(--tx3)">รองรับ PromptPay · บัตรเครดิต · Apple Pay</div>
+    <button class="btn bg" onclick="go('sc-payment')" style="width:100%;margin-bottom:8px">ชำระเงิน →</button>
+    <div style="margin-top:4px;text-align:center;font-size:12px;color:var(--tx3);padding-bottom:20px">รองรับ PromptPay · บัตรเครดิต · Apple Pay</div>
   </div>
 </div>
 
@@ -587,7 +587,7 @@ textarea.if{resize:none}
     </div>
     <!-- Reflection Engine Full -->
     <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:12px">🔁 Reflection Engine</div>
-    <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">✦ สิ่งที่ Astrovera เห็นในตัวคุณ</div><div class="rlt" id="s-ins">คุณมีพลังงานของผู้นำที่ขับเคลื่อนจากวิสัยทัศน์ภายใน ไม่ใช่ความคาดหวังจากภายนอก คุณทำงานได้ดีที่สุดเมื่อมีอิสระในการสร้างสิ่งใหม่</div></div>
+    <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">✦ ✦ มุมมองของ ASTROVERA ต่อคุณ</div><div class="rlt" id="s-ins">คุณมีพลังงานของผู้นำที่ขับเคลื่อนจากวิสัยทัศน์ภายใน ไม่ใช่ความคาดหวังจากภายนอก คุณทำงานได้ดีที่สุดเมื่อมีอิสระในการสร้างสิ่งใหม่</div></div>
     <div class="rl rl-m rlm" style="margin-bottom:6px"><div class="rll">◈ ความหมาย</div><div class="rlt" id="s-mng">สิ่งนี้หมายความว่าคุณไม่ได้ถูกออกแบบมาเพื่อทำตามระบบที่มีอยู่ แต่เพื่อสร้างระบบใหม่ ความรู้สึกอยากเริ่มต้นสิ่งใหม่อยู่เสมอไม่ใช่ความไม่มั่นคง — นั่นคือธรรมชาติแท้ของคุณ</div></div>
     <div class="rl rl-e rle" style="margin-bottom:6px"><div class="rll">◉ ความรู้สึกที่อาจซ่อนอยู่</div><div class="rlt" id="s-emo">ลึกลงไปกว่านั้น คุณอาจกำลังมองหาความรู้สึกว่าสิ่งที่ทำมีความหมาย ไม่ใช่แค่ประสบความสำเร็จ ความหมายนั้นสำคัญกับคุณมากกว่าคะแนนหรือตัวเลข</div></div>
     <div class="refq" style="margin-bottom:6px"><div class="refql">💬 คำถามชวนคิด</div><div class="refqt" id="s-ref">"ในช่วงที่ผ่านมา คุณได้ใช้จุดแข็งด้านวิสัยทัศน์อย่างเต็มที่แล้วหรือยัง? มีเรื่องไหนที่คุณรู้สึกว่ายังไม่ได้แสดงศักยภาพที่แท้จริง?"</div></div>
@@ -647,7 +647,7 @@ textarea.if{resize:none}
     <div class="card cg" style="margin-bottom:13px">
       <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;margin-bottom:8px">ตอนนี้คุณอยู่ใน</div>
       <div style="font-size:20px;font-weight:700;color:var(--gold);margin-bottom:13px" id="t-label">● ช่วงสร้าง · Building Phase</div>
-      <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">สิ่งที่ Astrovera เห็นในตัวคุณ</div><div class="rlt" id="t-ins">ช่วงนี้พลังงานของคุณเอื้อต่อการเริ่มต้นและวางรากฐาน สิ่งที่ลงทุนตอนนี้ให้ผลในระยะยาว</div></div>
+      <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">✦ มุมมองของ ASTROVERA ต่อคุณ</div><div class="rlt" id="t-ins">ช่วงนี้พลังงานของคุณเอื้อต่อการเริ่มต้นและวางรากฐาน สิ่งที่ลงทุนตอนนี้ให้ผลในระยะยาว</div></div>
       <div class="rl rl-e rle" style="margin-bottom:6px"><div class="rll">ความรู้สึกที่อาจซ่อนอยู่</div><div class="rlt" id="t-emo">ลึกลงไป ช่วงนี้คุณอาจกำลังทดสอบความกล้าของตัวเอง ความกลัวที่จะเริ่มไม่ใช่สัญญาณว่าไม่พร้อม แต่เป็นสัญญาณว่าสิ่งนั้นมีความหมาย</div></div>
       <div class="refq" style="margin-bottom:0"><div class="refql">💬 คำถามชวนคิด</div><div class="refqt" id="t-refq">"สิ่งที่คุณกำลังรอให้พร้อม อยู่ตอนนี้ — ถ้าเริ่มด้วย 20% ที่มีอยู่ จะเกิดอะไรขึ้น?"</div></div>
     </div>
@@ -1177,7 +1177,7 @@ textarea.if{resize:none}
         <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="clearAll()"><span style="color:var(--rose)">ล้างข้อมูลทั้งหมด</span><span style="color:var(--rose)">→</span></div>
       </div>
     </div>
-    <div class="card" style="margin-bottom:11px">
+    <div class="card demo-nav-card" style="margin-bottom:11px;display:none">
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:10px">🎯 Demo Navigator</div>
       <div style="display:flex;flex-direction:column;gap:6px">
         <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-land')">🌙 Landing</button>
@@ -1727,8 +1727,10 @@ function rBaZiCard(bz){
     html+='<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:8px 4px;text-align:center;border:'+border+'">'
       +'<div style="font-size:9px;color:var(--tx3);margin-bottom:4px">'+pl.label+'</div>'
       +'<div style="font-size:20px;color:var(--gold);font-weight:700;line-height:1">'+BZ_STEMS[pl.stem]+'</div>'
-      +'<div style="font-size:10px;color:var(--tx3)">'+BZ_STEM_EL[pl.stem]+' '+BZ_STEM_POL[pl.stem]+'</div>'
+      +'<div style="font-size:9px;color:var(--tx3)">'+BZ_STEM_TH[pl.stem].split(' ')[0]+'</div>'
+      +'<div style="font-size:11px;color:var(--tx3)">'+BZ_STEM_EL[pl.stem]+' '+BZ_STEM_POL[pl.stem]+'</div>'
       +'<div style="font-size:20px;color:var(--tx);font-weight:700;line-height:1.2">'+BZ_BRANCHES[pl.branch]+'</div>'
+      +'<div style="font-size:9px;color:var(--tx3)">'+BZ_BRANCH_TH[pl.branch].split('-')[0]+'</div>'
       +'<div style="font-size:10px;color:var(--tx3)">'+BZ_BRANCH_EL[pl.branch]+'</div>'
       +'</div>';
   });
@@ -1825,7 +1827,7 @@ function startAnalysis(){
   var place=(document.getElementById('inp-place')||{}).value||'';
   lsS('_av_tmp',{name:name.trim()||'คุณ',dob:dob,time:time,place:place.trim()});
   go('sc-loading');
-  var steps=['อ่านรหัส Layer I...','ถอดรหัส Layer II...','ประมวลผล Layer III...','สังเคราะห์ Layer IV...','คำนวณ Layer V-VI...','รวม Convergence Engine...','ค้นหา Archetype...','สร้าง Reflection Engine...'];
+  var steps=['วิเคราะห์ Layer I-IV...','คำนวณ Layer V-VI...','รวม Convergence Engine...','ค้นหา Archetype...','สร้าง Reflection Engine...','เสร็จแล้ว ✓'];
   var i=0,lbl=document.getElementById('ld-step'),bar=document.getElementById('ld-bar');
   var iv=setInterval(function(){
     if(i<steps.length){
@@ -1834,9 +1836,9 @@ function startAnalysis(){
       i++;
     } else {
       clearInterval(iv);
-      setTimeout(function(){go('sc-quiz');},400);
+      setTimeout(function(){go('sc-quiz');},250);
     }
-  },420);
+  },280);
 }
 
 function buildInsight(){
@@ -1924,6 +1926,17 @@ function payNow(){
 
 // ═══ JOURNAL FORM HELPERS ═══
 var _jType='',_jConf=0,_rvRedo='';
+function goJnewCat(cat){
+  go('sc-jnew');
+  // reset form ก่อน
+  _jType='';_jConf=0;
+  document.querySelectorAll('#jn-type .chip,#jn-conf .chip').forEach(function(c){c.classList.remove('sel');});
+  // pre-select category ที่ส่งมา
+  document.querySelectorAll('#jn-type .chip').forEach(function(c){
+    if(c.textContent.trim()===cat){c.classList.add('sel');_jType=cat;}
+  });
+}
+
 function selType(el,v){
   _jType=v;
   document.querySelectorAll('#jn-type .chip').forEach(function(c){c.classList.remove('sel');});
@@ -2199,9 +2212,19 @@ function computeLifeOS(){
 }
 function rLifeOS(id){
   var el=document.getElementById(id);if(!el)return;
+  var jl=lsG(LSJ)||[];
+  var hasAny=computeLifeOS().some(function(c){return c.score!==null;});
+  if(!hasAny&&jl.length===0){
+    el.innerHTML='<div style="text-align:center;padding:12px 0">'
+      +'<div style="font-size:13px;color:var(--tx3);margin-bottom:10px">ยังไม่มีข้อมูลในระบบ — เริ่มบันทึกเพื่อดูคะแนนชีวิตของคุณ</div>'
+      +'<button class="btn bi bsm" onclick="go(\'sc-jnew\')" style="width:100%">+ บันทึก Decision Journal แรก</button>'
+      +'</div>';
+    return;
+  }
   el.innerHTML=computeLifeOS().map(function(c){
     if(c.score===null){
-      return '<div class="theme-row"><span style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--tx2)">'+c.icon+' '+c.name+'</span><span style="font-size:12px;color:var(--tx3)">ยังไม่มีข้อมูล</span></div>';
+      return '<div class="theme-row"><span style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--tx2)">'+c.icon+' '+c.name+'</span>'
+        +'<button onclick="goJnewCat(\''+c.name+'\')" style="font-size:11px;color:var(--gold);background:none;border:none;cursor:pointer;padding:0">+ เพิ่ม →</button></div>';
     }
     var tcol=c.trend==='ขึ้น'?'var(--grn)':c.trend==='ลง'?'var(--rose)':'var(--tx3)';
     var ticon=c.trend==='ขึ้น'?'▲':c.trend==='ลง'?'▼':'●';
@@ -3065,6 +3088,9 @@ function rProfile(){
   var nl=document.getElementById('inp-engname');if(nl)nl.value=p.engname||'';
   var np=document.getElementById('inp-phone');if(np)np.value=p.phone||'';
   var nu=document.getElementById('inp-numother');if(nu)nu.value=p.numOther||'';
+  // แสดง Demo Navigator เฉพาะ URL ?demo=1 หรือ localhost
+  var isDemo=location.search.indexOf('demo=1')>=0||location.hostname==='localhost'||location.hostname==='127.0.0.1';
+  var dn=document.querySelector('.demo-nav-card');if(dn)dn.style.display=isDemo?'block':'none';
   rNumeroResult(p);
   var jl=lsG(LSJ)||[];
   var e5=document.getElementById('pf-jct');if(e5)e5.textContent=jl.length;
