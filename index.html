@@ -2078,21 +2078,45 @@ function rNatal(data){
   }
   var html='';
   // ─── QUICK SUMMARY BOX ───
-  var sunSign=planets.Sun&&planets.Sun.sign?SIGN_TH[planets.Sun.sign]||planets.Sun.sign:'?';
-  var moonSign=planets.Moon&&planets.Moon.sign?SIGN_TH[planets.Moon.sign]||planets.Moon.sign:'?';
-  var ascSignTh=ascSign?SIGN_TH[ascSign]||ascSign:'?';
-  html+='<div style="background:rgba(176,64,255,.1);border:1px solid rgba(176,64,255,.3);border-radius:12px;padding:12px;margin-bottom:14px">'
-    +'<div style="font-size:11px;color:var(--gold);margin-bottom:8px;font-weight:600">✦ สรุปสั้นๆ ของคุณ</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">'
-    +'<div><div style="font-size:18px">☀️</div><div style="font-size:11px;color:var(--tx3)">ตัวตน</div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+sunSign+'</div></div>'
-    +'<div><div style="font-size:18px">🌙</div><div style="font-size:11px;color:var(--tx3)">ความรู้สึก</div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+moonSign+'</div></div>'
-    +'<div><div style="font-size:18px">🌅</div><div style="font-size:11px;color:var(--tx3)">ภาพลักษณ์</div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+ascSignTh+'</div></div>'
-    +'</div><div style="font-size:11px;color:var(--tx3);margin-top:10px;line-height:1.6">'
-    +'🌟 = ราศีอาทิตย์ คือ "ตัวตนที่แท้จริง" ของคุณ<br>'
-    +'🌙 = ราศีจันทร์ คือ "ความรู้สึกข้างใน" ที่คนอื่นอาจไม่เห็น<br>'
-    +'🌅 = ลัคนา คือ "ภาพที่คนอื่นมองเห็นคุณ" เมื่อแรกพบ</div>'
-    +'</div>';
-  html+='<div class="dv" style="margin:11px 0"></div>';
+  // helper: หา sign จาก planets object แบบ case-insensitive + หลาย key names
+  function getPlanetSign(keyVariants){
+    for(var i=0;i<keyVariants.length;i++){
+      var k=keyVariants[i];
+      if(planets[k]&&planets[k].sign)return planets[k].sign;
+      // ลองหาแบบ case-insensitive
+      var keys=Object.keys(planets);
+      for(var j=0;j<keys.length;j++){
+        if(keys[j].toLowerCase()===k.toLowerCase()&&planets[keys[j]]&&planets[keys[j]].sign){
+          return planets[keys[j]].sign;
+        }
+      }
+    }
+    return null;
+  }
+  var rawSun=getPlanetSign(['Sun','SUN','sun','Surya']);
+  var rawMoon=getPlanetSign(['Moon','MOON','moon','Chandra']);
+  var rawAsc=getPlanetSign(['Ascendant','ASC','Asc','Rising','Lagna','Lagan']);
+  var sunSign=rawSun?(SIGN_TH[rawSun]||rawSun):null;
+  var moonSign=rawMoon?(SIGN_TH[rawMoon]||rawMoon):null;
+  var ascSignTh=rawAsc?(SIGN_TH[rawAsc]||rawAsc):null;
+  // อัปเดต ascSign สำหรับการคำนวณเรือน
+  if(!ascSign&&rawAsc)ascSign=rawAsc;
+
+  // แสดง summary box เฉพาะเมื่อมีข้อมูลจริง
+  if(sunSign||moonSign||ascSignTh){
+    html+='<div style="background:rgba(176,64,255,.1);border:1px solid rgba(176,64,255,.3);border-radius:12px;padding:12px;margin-bottom:14px">'
+      +'<div style="font-size:11px;color:var(--gold);margin-bottom:8px;font-weight:600">✦ สรุปสั้นๆ ของคุณ</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center">'
+      +(sunSign?'<div><div style="font-size:18px">☀️</div><div style="font-size:11px;color:var(--tx3)">ตัวตน</div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+sunSign+'</div></div>':'<div></div>')
+      +(moonSign?'<div><div style="font-size:18px">🌙</div><div style="font-size:11px;color:var(--tx3)">ความรู้สึก</div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+moonSign+'</div></div>':'<div></div>')
+      +(ascSignTh?'<div><div style="font-size:18px">🌅</div><div style="font-size:11px;color:var(--tx3)">ภาพลักษณ์</div><div style="font-size:13px;font-weight:600;color:var(--tx)">'+ascSignTh+'</div></div>':'<div></div>')
+      +'</div><div style="font-size:11px;color:var(--tx3);margin-top:10px;line-height:1.6">'
+      +'☀️ = ราศีอาทิตย์ คือ "ตัวตนที่แท้จริง" ของคุณ<br>'
+      +'🌙 = ราศีจันทร์ คือ "ความรู้สึกข้างใน" ที่คนอื่นอาจไม่เห็น<br>'
+      +'🌅 = ลัคนา คือ "ภาพที่คนอื่นมองเห็นคุณ" เมื่อแรกพบ</div>'
+      +'</div>';
+    html+='<div class="dv" style="margin:11px 0"></div>';
+  }
   // ลัคนา — ภาพลักษณ์ภายนอก (ขึ้นก่อนเพราะเป็นจุดเริ่มของชาร์ท)
   var asc=row('Ascendant','🌅 ลัคนา — ภาพลักษณ์ภายนอก',ASCENDANT_MEANING);
   if(asc){
