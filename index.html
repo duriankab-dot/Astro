@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>ASTROVERA — Personal Life Intelligence Platform | วิเคราะห์ชีวิต พัฒนาความคิด</title>
+<title>ASTROVERA — Life OS Intelligence Platform | วิเคราะห์ชีวิต พัฒนาความคิด</title>
 
 <!-- ===== SEO ===== -->
 <meta name="description" content="ASTROVERA มากกว่าการดูดวง — วิเคราะห์ชีวิต 7 ศาสตร์ เข้าใจตัวเองลึกขึ้น ฟรี ไม่ต้องสมัคร">
@@ -12,7 +12,7 @@
 
 <!-- ===== Open Graph (Facebook / LINE) ===== -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="ASTROVERA — Personal Life Intelligence Platform">
+<meta property="og:title" content="ASTROVERA — Life OS Intelligence Platform">
 <meta property="og:description" content="มากกว่าการดูดวง — วิเคราะห์ชีวิต 7 ศาสตร์ ฟรี เริ่มต้นใน 2 นาที">
 <meta property="og:site_name" content="ASTROVERA">
 <meta property="og:image" content="./og-image.png">
@@ -22,7 +22,7 @@
 
 <!-- ===== Twitter Card ===== -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ASTROVERA — Personal Life Intelligence">
+<meta name="twitter:title" content="ASTROVERA — Life OS Intelligence">
 <meta name="twitter:description" content="วิเคราะห์ชีวิต พัฒนาความคิด ช่วยตัดสินใจ — ฟรี เริ่มต้นใน 2 นาที">
 <meta name="twitter:image" content="./og-image.png">
 
@@ -366,7 +366,7 @@ textarea.if{resize:none}
         </div>
       </div>
       <div style="position:relative;z-index:1">
-        <div style="font-size:11px;color:var(--gold);font-weight:600;letter-spacing:2px;margin-bottom:18px;text-transform:uppercase">Personal Life Intelligence Platform</div>
+        <div style="font-size:11px;color:var(--gold);font-weight:600;letter-spacing:2px;margin-bottom:18px;text-transform:uppercase">Life OS Intelligence Platform</div>
         <h1 style="font-family:var(--fh);font-size:32px;font-weight:700;line-height:1.45;margin-bottom:14px;letter-spacing:.2px">
           <span style="color:var(--gold)" id="land-title1">วิเคราะห์ชีวิต</span><br>
           <span style="color:var(--gold)" id="land-title2">พัฒนาความคิด</span><br>
@@ -392,19 +392,29 @@ textarea.if{resize:none}
           <input id="inp-place-other" class="if" type="text" placeholder="พิมพ์ชื่อจังหวัด/เมือง/ประเทศ" style="display:none">
           <input id="inp-place" type="hidden">
         </div>
+        <div class="ig" style="margin-bottom:0">
+          <label class="il">🩸 กรุ๊ปเลือด <span style="font-size:11px;color:var(--tx3);font-weight:400">(ถ้าทราบ — เพิ่มความแม่นยำ)</span></label>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px">
+            <button type="button" class="blood-btn" data-bt="O" onclick="selBlood('O',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:10px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600">🔴 O</button>
+            <button type="button" class="blood-btn" data-bt="A" onclick="selBlood('A',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:10px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600">🔵 A</button>
+            <button type="button" class="blood-btn" data-bt="B" onclick="selBlood('B',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:10px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600">🟡 B</button>
+            <button type="button" class="blood-btn" data-bt="AB" onclick="selBlood('AB',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:10px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600">🟣 AB</button>
+          </div>
+          <input id="inp-blood" type="hidden">
+        </div>
         <div style="margin-top:16px;display:flex;gap:8px">
           <button class="btn bg" id="land-cta" onclick="startAnalysis()" style="flex:2" data-i18n="land.cta">✦ วิเคราะห์เลย — ฟรี</button>
-          <button class="btn bgh" onclick="quickPreview()" style="flex:1;font-size:13px">👁️ Preview</button>
+          <button class="btn bgh" onclick="quickPreview()" style="flex:1;font-size:13px;animation:glow-pulse 2s ease-in-out infinite" title="ดู Life Signature เบื้องต้นจากชื่อ+วันเกิด">👁️ ดูก่อนได้!</button>
         </div>
         <div id="quick-preview" style="display:none"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🧭</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Archetype Analysis</div><div style="font-size:11px;color:var(--tx3)">รู้จัก ลักษณะ และ จุดแข็งลึก ของตัวเอง</div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🔁</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Reflection Engine</div><div style="font-size:11px;color:var(--tx3)">สะท้อนความคิดด้วยโมเดล 6 ชั้น</div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🎯</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Decision Journal</div><div style="font-size:11px;color:var(--tx3)">บันทึก ติดตาม เรียนรู้ พัฒนา</div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🌱</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Growth Loop</div><div style="font-size:11px;color:var(--tx3)">เติบโตจากบทเรียนชีวิต</div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🧭</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Life Signature Discovery</div><div style="font-size:11px;color:var(--tx3)">ดวงดาว มิติพลังงาน เลขศาสตร์ + จิตวิทยา ในที่เดียว</div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🔁</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Inner Mirror™</div><div style="font-size:11px;color:var(--tx3)">สะท้อนความคิดด้วยโมเดล 6 ชั้น</div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🎯</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Life Decision Tracker</div><div style="font-size:11px;color:var(--tx3)">บันทึก ติดตาม เรียนรู้ พัฒนา</div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:14px;border:1px solid var(--border)"><div style="font-size:20px;margin-bottom:7px">🌱</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:3px">Evolution Cycle™</div><div style="font-size:11px;color:var(--tx3)">เติบโตจากบทเรียนชีวิต</div></div>
       </div>
-      <div style="text-align:center;font-size:12px;color:var(--tx3);line-height:1.7">วิเคราะห์ผ่าน <strong style="color:var(--gold)">ASTROVERA Convergence Engine™</strong><br>6 ชั้นการวิเคราะห์เฉพาะทาง ที่ไม่มีที่ใดเหมือน<br>ใช้เป็น Framework สะท้อนมุมมอง ไม่ใช่คำทำนาย</div>
+      <div style="text-align:center;font-size:12px;color:var(--tx3);line-height:1.7">วิเคราะห์ผ่าน <strong style="color:var(--gold)">ASTROVERA Signature Convergence Engine™™</strong><br>6 ชั้นการวิเคราะห์เฉพาะทาง ที่ไม่มีที่ใดเหมือน<br>ใช้เป็น Framework สะท้อนมุมมอง ไม่ใช่คำทำนาย</div>
     </div>
   </div>
 </div>
@@ -421,11 +431,11 @@ textarea.if{resize:none}
       <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 200 200" style="width:38px;height:38px"><circle cx="100" cy="100" r="78" fill="none" stroke="#B040FF" stroke-width="5"/><circle cx="100" cy="100" r="66" fill="none" stroke="#B040FF" stroke-width="5"/><g stroke="#B040FF" stroke-width="6"><line x1="100" y1="38" x2="100" y2="162"/><line x1="38" y1="100" x2="162" y2="100"/><line x1="58" y1="58" x2="142" y2="142"/><line x1="142" y1="58" x2="58" y2="142"/></g></svg></div>
     </div>
     <div style="font-family:var(--fh);font-size:22px;color:var(--tx);margin-bottom:10px">กำลังวิเคราะห์...</div>
-    <div id="ld-step" style="font-size:14px;color:var(--tx3);margin-bottom:26px;min-height:20px">ค้นหา Archetype ของคุณ</div>
+    <div id="ld-step" style="font-size:14px;color:var(--tx3);margin-bottom:26px;min-height:20px">ค้นหา Life Signature ของคุณ</div>
     <div style="width:220px;height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;margin:0 auto">
       <div id="ld-bar" style="height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%;transition:width .4s"></div>
     </div>
-    <div style="margin-top:28px;font-size:12px;color:var(--tx3);line-height:1.9">วิเคราะห์ผ่าน 6 ชั้นเฉพาะทาง<br>สร้าง Theme Convergence<br>ค้นหา Archetype ของคุณ<br>สร้าง Reflection Engine ส่วนตัว</div>
+    <div style="margin-top:28px;font-size:12px;color:var(--tx3);line-height:1.9">วิเคราะห์ผ่าน 6 ชั้นเฉพาะทาง<br>สร้าง Signature Convergence™<br>ค้นหา Life Signature ของคุณ<br>สร้าง Inner Mirror™ ส่วนตัว</div>
   </div>
 </div>
 
@@ -490,30 +500,30 @@ textarea.if{resize:none}
       <div style="font-size:12px;color:var(--tx3)" id="fi-dob">—</div>
     </div>
     <div class="card cg" style="margin-bottom:13px">
-      <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Theme Convergence Engine™ · จุดที่ทุกชั้นชี้ตรงกัน</div>
+      <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">Signature Convergence™ Engine™ · จุดที่ทุกชั้นชี้ตรงกัน</div>
       <div id="fi-themes"></div>
     </div>
-    <!-- Reflection Engine Preview -->
+    <!-- Inner Mirror™ Preview -->
     <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">✦ ✦ มุมมองของ ASTROVERA ต่อคุณ</div><div class="rlt" id="fi-ins">—</div></div>
     <div class="rl rl-m rlm" style="margin-bottom:6px"><div class="rll">◈ ความหมาย</div><div class="rlt" id="fi-mng">—</div></div>
     <div class="rl rl-e rle" style="margin-bottom:13px"><div class="rll">◉ ความรู้สึกที่อาจซ่อนอยู่</div><div class="rlt" id="fi-emo">—</div></div>
     <div class="refq" style="margin-bottom:13px"><div class="refql">💬 คำถามสะท้อนตัวเอง</div><div class="refqt" id="fi-ref">—</div></div>
     <div style="position:relative;border-radius:var(--r3);overflow:hidden;margin-bottom:13px">
       <div style="filter:blur(5px);pointer-events:none;padding:18px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r3)">
-        <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:7px">🎯 Decision Intelligence</div>
+        <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:7px">🎯 Decision Signature Intelligence</div>
         <div style="font-size:13px;color:var(--tx2);line-height:1.6">รูปแบบการตัดสินใจของคุณ จุดแข็ง จุดที่ควรระวัง<br>และสิ่งที่ลองทำได้เฉพาะตัว...</div>
       </div>
-      <div class="lock-ov"><div style="font-size:22px">🔒</div><div style="font-size:14px;font-weight:600;color:var(--tx)">Decision Intelligence</div><div style="font-size:12px;color:var(--tx3);text-align:center">ปลดล็อคด้วย Premium Report</div><button class="btn bg bsm" onclick="go('sc-upgrade')">ดูแพ็คเกจ</button></div>
+      <div class="lock-ov"><div style="font-size:22px">🔒</div><div style="font-size:14px;font-weight:600;color:var(--tx)">Decision Signature Intelligence</div><div style="font-size:12px;color:var(--tx3);text-align:center">ปลดล็อคด้วย Life Signature Report</div><button class="btn bg bsm" onclick="go('sc-upgrade')">ดูแพ็คเกจ</button></div>
     </div>
-    <button class="btn bg" onclick="goToDash()" style="margin-bottom:9px" data-i18n="insight.dash">เข้าสู่ Dashboard ของฉัน →</button>
+    <button class="btn bg" onclick="goToDash()" style="margin-bottom:9px" data-i18n="insight.dash">เข้าสู่ Life OS ของฉัน →</button>
     <button class="btn bgh" style="margin-bottom:9px;width:100%" onclick="openShareModal()" data-i18n="btn.share">📤 แชร์ผลลัพธ์</button>
-    <button class="btn bgh" onclick="go('sc-upgrade')">ดู Premium Report</button>
+    <button class="btn bgh" onclick="go('sc-upgrade')">ดู Life Signature Report</button>
   </div>
 </div>
 
 <!-- ─── UPGRADE ─── -->
 <div class="sc" id="sc-upgrade">
-  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">Premium Report</div></div>
+  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">Life Signature Report</div></div>
   <div class="sb" style="padding:18px;padding-bottom:80px">
     <div style="text-align:center;margin-bottom:22px">
       <div style="font-size:11px;color:var(--gold);letter-spacing:1.5px;margin-bottom:8px;text-transform:uppercase">Unlock Full Intelligence</div>
@@ -521,16 +531,16 @@ textarea.if{resize:none}
     </div>
     <div class="card" style="margin-bottom:14px">
       <div style="display:flex;flex-direction:column;gap:11px">
-        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Archetype Analysis + Reflection Engine ครบ 6 ชั้น</div><div style="font-size:12px;color:var(--tx3)">สิ่งที่เห็น · ความหมาย · ความรู้สึกแฝง · คำถามชวนคิด · ลงมือทำ · Journal</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">(ฟรีได้ดูแค่ 2 ชั้นแรก — Premium ครบทั้ง 6)</div></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Decision Journal + Follow-up 30/90/180/365 วัน</div><div style="font-size:12px;color:var(--tx3)">Growth Loop Engine ติดตามและเรียนรู้จากผลลัพธ์จริง</div></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Weekly Reflection + Emotion Check-in</div><div style="font-size:12px;color:var(--tx3)">สร้างนิสัยการเรียนรู้จากชีวิตประจำวัน</div></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Life Timing Intelligence</div><div style="font-size:12px;color:var(--tx3)">เข้าใจจังหวะชีวิตและโอกาสที่น่าสนใจในช่วงนี้</div></div></div>
+        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Life Signature Discovery + Inner Mirror™ ครบ 6 ชั้น</div><div style="font-size:12px;color:var(--tx3)">สิ่งที่เห็น · ความหมาย · ความรู้สึกแฝง · คำถามชวนคิด · ลงมือทำ · Journal</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">(ฟรีได้ดูแค่ 2 ชั้นแรก — Premium ครบทั้ง 6)</div></div></div>
+        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Life Decision Tracker + Follow-up 30/90/180/365 วัน</div><div style="font-size:12px;color:var(--tx3)">Evolution Cycle™ Engine ติดตามและเรียนรู้จากผลลัพธ์จริง</div></div></div>
+        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Weekly Evolution + Emotion Pulse</div><div style="font-size:12px;color:var(--tx3)">สร้างนิสัยการเรียนรู้จากชีวิตประจำวัน</div></div></div>
+        <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">Life Rhythm Intelligence</div><div style="font-size:12px;color:var(--tx3)">เข้าใจจังหวะชีวิตและโอกาสที่น่าสนใจในช่วงนี้</div></div></div>
         <div style="display:flex;gap:9px;align-items:flex-start"><span style="color:var(--gold)">✦</span><div><div style="font-size:14px;color:var(--tx)">PDF Report + Memory Engine</div><div style="font-size:12px;color:var(--tx3)">ระบบจดจำและวิเคราะห์ Pattern ของคุณ</div></div></div>
       </div>
     </div>
     <div id="pl-report" class="plan hot" style="margin-bottom:11px" onclick="selPl('report')">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div><div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px">Self Intelligence Report</div><div style="font-size:13px;color:var(--tx2)">จ่ายครั้งเดียว วิเคราะห์ตลอดชีพ</div></div>
+        <div><div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px">Life Intelligence Report</div><div style="font-size:13px;color:var(--tx2)">จ่ายครั้งเดียว วิเคราะห์ตลอดชีพ</div></div>
         <div style="font-size:27px;font-weight:700;color:var(--gold)">399 <span style="font-size:13px;color:var(--tx3);font-weight:400">บาท</span></div>
       </div>
     </div>
@@ -557,7 +567,7 @@ textarea.if{resize:none}
   <div class="sb" style="padding:18px">
     <div class="card cg" style="margin-bottom:18px">
       <div style="font-size:12px;color:var(--tx3);margin-bottom:4px">รายการที่เลือก</div>
-      <div style="font-size:15px;font-weight:600;color:var(--tx);margin-bottom:8px" id="pay-nm">Self Intelligence Report</div>
+      <div style="font-size:15px;font-weight:600;color:var(--tx);margin-bottom:8px" id="pay-nm">Life Intelligence Report</div>
       <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:13px;color:var(--tx3)">รวมทั้งหมด</div><div style="font-size:24px;font-weight:700;color:var(--gold)" id="pay-amt">399 บาท</div></div>
     </div>
     <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:11px">เลือกวิธีชำระ</div>
@@ -595,11 +605,11 @@ textarea.if{resize:none}
       <div id="d-fu-alert" style="display:none" onclick="go('sc-decision')">
         <div class="alert-b"><div style="font-size:24px">🔔</div><div><div style="font-size:14px;font-weight:600;color:var(--teal);margin-bottom:2px">Follow-up ถึงกำหนดแล้ว</div><div style="font-size:13px;color:var(--tx2)" id="d-fu-txt">กรุณาบันทึกผลลัพธ์</div></div></div>
       </div>
-      <!-- Life OS Dashboard -->
-      <div class="sh"><div class="sht">🗺️ Life OS Dashboard</div></div>
+      <!-- Life OS Life OS -->
+      <div class="sh"><div class="sht">🗺️ Life OS Life OS</div></div>
       <div class="card" style="margin-bottom:13px" id="d-lifeos"></div>
-      <!-- Today's Reflection -->
-      <div class="sh"><div class="sht">Today's Reflection</div></div>
+      <!-- Daily Inner Sync -->
+      <div class="sh"><div class="sht">Daily Inner Sync</div></div>
       <div class="card cp" style="margin-bottom:13px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
           <div style="font-size:11px;color:var(--pur2);letter-spacing:1px" id="d-q-label">คำถามประจำวัน</div>
@@ -614,7 +624,8 @@ textarea.if{resize:none}
           <button class="btn bt bsm" style="flex:1" onclick="openMicro()">📝 บันทึกความคิด</button>
           <button class="btn" style="flex:1;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--pur2);font-size:13px;font-weight:600;border-radius:var(--r2);padding:10px;cursor:pointer" onclick="openEmo()">❤️ Check-in</button>
         </div>
-        <button class="btn" style="width:100%;background:linear-gradient(135deg,rgba(176,64,255,.2),rgba(129,140,248,.1));border:1px solid rgba(176,64,255,.4);color:var(--gold2);font-size:13px;font-weight:700;border-radius:var(--r2);padding:10px;cursor:pointer" onclick="openDailySync()">⚡ Daily Mental Sync — สแกนพลังงานวันนี้</button>
+        <button class="btn" style="width:100%;background:linear-gradient(135deg,rgba(176,64,255,.2),rgba(129,140,248,.1));border:1px solid rgba(176,64,255,.4);color:var(--gold2);font-size:13px;font-weight:700;border-radius:var(--r2);padding:10px;cursor:pointer;margin-bottom:8px" onclick="openDailySync()">⚡ Daily Inner Sync — สแกนพลังงานวันนี้</button>
+        <button class="btn bg" style="width:100%;font-size:14px" onclick="openConvergence()">✦ ดู Life Signature Overview ทั้งหมด →</button>
       </div>
       <!-- Stats -->
       <div class="stat-row">
@@ -623,14 +634,14 @@ textarea.if{resize:none}
         <div class="stat-box"><div class="stat-num" id="d-ecount">0</div><div class="stat-lbl">Check-ins</div></div>
       </div>
       <!-- Modules -->
-      <div class="sh"><div class="sht">Intelligence Modules</div></div>
+      <div class="sh"><div class="sht">Intelligence Modules</div><div style="font-size:11px;color:var(--gold);cursor:pointer" onclick="go('sc-self')">← เริ่มที่นี่</div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-self')"><div style="font-size:21px;margin-bottom:7px">🧭</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Self Intelligence</div><div style="font-size:11px;color:var(--tx3)">Archetype · จุดแข็ง</div><div style="margin-top:7px"><span style="background:rgba(201,169,110,.15);color:var(--gold);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ครบ</span></div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-timing')"><div style="font-size:21px;margin-bottom:7px">⏳</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Life Timing</div><div style="font-size:11px;color:var(--tx3)">จังหวะ · Growth</div><div style="margin-top:7px"><span style="background:rgba(201,169,110,.15);color:var(--gold);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ครบ</span></div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-decision')"><div style="font-size:21px;margin-bottom:7px">🎯</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Decision Journal</div><div style="font-size:11px;color:var(--tx3)">บันทึก · ติดตาม</div><div style="margin-top:7px"><span style="background:rgba(99,102,241,.15);color:var(--ind2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใช้งานได้</span></div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-weekly')"><div style="font-size:21px;margin-bottom:7px">🌱</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Weekly Reflection</div><div style="font-size:11px;color:var(--tx3)">60 วินาที · สะท้อน</div><div style="margin-top:7px"><span style="background:rgba(45,212,191,.12);color:var(--teal);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใช้งานได้</span></div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-dna')"><div style="font-size:21px;margin-bottom:7px">🧬</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Decision DNA</div><div style="font-size:11px;color:var(--tx3)">รูปแบบการตัดสินใจ</div><div style="margin-top:7px"><span style="background:rgba(99,102,241,.15);color:var(--ind2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-pattern')"><div style="font-size:21px;margin-bottom:7px">🔍</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Pattern Mining</div><div style="font-size:11px;color:var(--tx3)">รูปแบบชีวิตย้อนหลัง</div><div style="margin-top:7px"><span style="background:rgba(45,212,191,.12);color:var(--teal);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-self')"><div style="font-size:21px;margin-bottom:7px">🧭</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Life Intelligence</div><div style="font-size:11px;color:var(--tx3)">Life Signature · จุดแข็ง</div><div style="margin-top:7px"><span style="background:rgba(201,169,110,.15);color:var(--gold);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ครบ</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-timing')"><div style="font-size:21px;margin-bottom:7px">⏳</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Life Rhythm</div><div style="font-size:11px;color:var(--tx3)">จังหวะ · Growth</div><div style="margin-top:7px"><span style="background:rgba(201,169,110,.15);color:var(--gold);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ครบ</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-decision')"><div style="font-size:21px;margin-bottom:7px">🎯</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Life Decision Tracker</div><div style="font-size:11px;color:var(--tx3)">บันทึก · ติดตาม</div><div style="margin-top:7px"><span style="background:rgba(99,102,241,.15);color:var(--ind2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใช้งานได้</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-weekly')"><div style="font-size:21px;margin-bottom:7px">🌱</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Weekly Evolution</div><div style="font-size:11px;color:var(--tx3)">60 วินาที · สะท้อน</div><div style="margin-top:7px"><span style="background:rgba(45,212,191,.12);color:var(--teal);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใช้งานได้</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-dna')"><div style="font-size:21px;margin-bottom:7px">🧬</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Decision Signature</div><div style="font-size:11px;color:var(--tx3)">รูปแบบการตัดสินใจ</div><div style="margin-top:7px"><span style="background:rgba(99,102,241,.15);color:var(--ind2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-pattern')"><div style="font-size:21px;margin-bottom:7px">🔍</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Life Pattern Discovery</div><div style="font-size:11px;color:var(--tx3)">รูปแบบชีวิตย้อนหลัง</div><div style="margin-top:7px"><span style="background:rgba(45,212,191,.12);color:var(--teal);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
       </div>
       <!-- Strategic Modules -->
       <div class="sh"><div class="sht">🚀 Strategic Modules</div></div>
@@ -639,15 +650,15 @@ textarea.if{resize:none}
         <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-radar')"><div style="font-size:21px;margin-bottom:7px">📡</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Opportunity Radar</div><div style="font-size:11px;color:var(--tx3)">จัดลำดับโอกาส</div><div style="margin-top:7px"><span style="background:rgba(255,183,3,.15);color:var(--gold);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
         <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-relationship')"><div style="font-size:21px;margin-bottom:7px">💞</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Relationship Intel</div><div style="font-size:11px;color:var(--tx3)">รูปแบบความสัมพันธ์</div><div style="margin-top:7px"><span style="background:rgba(251,113,133,.15);color:var(--rose);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
         <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-benchmark')"><div style="font-size:21px;margin-bottom:7px">📊</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Reality Benchmark</div><div style="font-size:11px;color:var(--tx3)">เทียบค่าอ้างอิงตัวอย่าง</div><div style="margin-top:7px"><span style="background:rgba(45,212,191,.12);color:var(--teal);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer;grid-column:1/3" onclick="go('sc-advisor')"><div style="display:flex;align-items:center;gap:11px"><div style="font-size:24px">🧠</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--tx)">AI Strategic Advisor</div><div style="font-size:11px;color:var(--tx3)">ถามคำถามเชิงกลยุทธ์ ใช้ข้อมูลจริงของคุณตอบ</div></div><span style="background:rgba(99,102,241,.15);color:var(--ind2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;flex-shrink:0">ใหม่</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer;grid-column:1/3" onclick="go('sc-advisor')"><div style="display:flex;align-items:center;gap:11px"><div style="font-size:24px">🧠</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--tx)">Life Navigator AI</div><div style="font-size:11px;color:var(--tx3)">ถามคำถามเชิงกลยุทธ์ ใช้ข้อมูลจริงของคุณตอบ</div></div><span style="background:rgba(99,102,241,.15);color:var(--ind2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;flex-shrink:0">ใหม่</span></div></div>
       </div>
       <div class="sh"><div class="sht">🔮 Beyond</div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-memory')"><div style="font-size:21px;margin-bottom:7px">🧠</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">AI Memory</div><div style="font-size:11px;color:var(--tx3)">บทเรียนที่จดจำไว้</div><div style="margin-top:7px"><span style="background:rgba(99,102,241,.15);color:var(--ind2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-founder')"><div style="font-size:21px;margin-bottom:7px">🏆</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Founder Dashboard</div><div style="font-size:11px;color:var(--tx3)">ภาพรวมธุรกิจของคุณ</div><div style="margin-top:7px"><span style="background:rgba(255,183,3,.15);color:var(--gold);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer;grid-column:1/3" onclick="go('sc-copilot')"><div style="display:flex;align-items:center;gap:11px"><div style="font-size:24px">💬</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--tx)">Life Copilot</div><div style="font-size:11px;color:var(--tx3)">คุยกับ AI ที่เข้าใจข้อมูลชีวิตของคุณ</div></div><span style="background:rgba(45,212,191,.12);color:var(--teal);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;flex-shrink:0">ใหม่</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-memory')"><div style="font-size:21px;margin-bottom:7px">🧠</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Life Memory Vault</div><div style="font-size:11px;color:var(--tx3)">บทเรียนที่จดจำไว้</div><div style="margin-top:7px"><span style="background:rgba(99,102,241,.15);color:var(--ind2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-founder')"><div style="font-size:21px;margin-bottom:7px">🏆</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Founder Pulse</div><div style="font-size:11px;color:var(--tx3)">ภาพรวมธุรกิจของคุณ</div><div style="margin-top:7px"><span style="background:rgba(255,183,3,.15);color:var(--gold);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
+        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer;grid-column:1/3" onclick="go('sc-copilot')"><div style="display:flex;align-items:center;gap:11px"><div style="font-size:24px">💬</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--tx)">Life Companion AI</div><div style="font-size:11px;color:var(--tx3)">คุยกับ AI ที่เข้าใจข้อมูลชีวิตของคุณ</div></div><span style="background:rgba(45,212,191,.12);color:var(--teal);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;flex-shrink:0">ใหม่</span></div></div>
       </div>
-      <div class="sh"><div class="sht">Decision Journal</div><div class="shl" onclick="go('sc-decision')">เปิด →</div></div>
+      <div class="sh"><div class="sht">Life Decision Tracker</div><div class="shl" onclick="go('sc-decision')">เปิด →</div></div>
       <div id="d-jpreview"></div>
     </div>
   </div>
@@ -662,7 +673,7 @@ textarea.if{resize:none}
 
 <!-- ─── SELF INTELLIGENCE ─── -->
 <div class="sc" id="sc-self">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Self Intelligence</div></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Life Intelligence</div></div>
   <div class="sb" style="padding:18px">
     <div class="card cg" style="margin-bottom:13px;text-align:center;padding:24px">
       <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;margin-bottom:8px">ลักษณะตัวตนเฉพาะของคุณ</div>
@@ -671,8 +682,8 @@ textarea.if{resize:none}
       <div style="font-size:12px;color:var(--tx2);margin-bottom:11px;line-height:1.6" id="s-trait">ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง</div>
       <div style="font-size:13px;color:var(--tx2);line-height:1.65" id="s-core">คุณมีพลังงานของนักสร้างที่มีวิสัยทัศน์ ผสมผสานความสามารถในการมองภาพใหญ่กับการลงมือทำ คุณเห็นโอกาสที่คนอื่นยังมองไม่ออก และสามารถสร้างสิ่งใหม่จากความคิดได้อย่างรวดเร็ว</div>
     </div>
-    <!-- Reflection Engine Full -->
-    <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:12px">🔁 Reflection Engine</div>
+    <!-- Inner Mirror™ Full -->
+    <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:12px">🔁 Inner Mirror™</div>
     <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">✦ ✦ มุมมองของ ASTROVERA ต่อคุณ</div><div class="rlt" id="s-ins">คุณมีพลังงานของผู้นำที่ขับเคลื่อนจากวิสัยทัศน์ภายใน ไม่ใช่ความคาดหวังจากภายนอก คุณทำงานได้ดีที่สุดเมื่อมีอิสระในการสร้างสิ่งใหม่</div></div>
     <div class="rl rl-m rlm" style="margin-bottom:6px"><div class="rll">◈ ความหมาย</div><div class="rlt" id="s-mng">สิ่งนี้หมายความว่าคุณไม่ได้ถูกออกแบบมาเพื่อทำตามระบบที่มีอยู่ แต่เพื่อสร้างระบบใหม่ ความรู้สึกอยากเริ่มต้นสิ่งใหม่อยู่เสมอไม่ใช่ความไม่มั่นคง — นั่นคือธรรมชาติแท้ของคุณ</div></div>
     <div class="rl rl-e rle" style="margin-bottom:6px"><div class="rll">◉ ความรู้สึกที่อาจซ่อนอยู่</div><div class="rlt" id="s-emo">ลึกลงไปกว่านั้น คุณอาจกำลังมองหาความรู้สึกว่าสิ่งที่ทำมีความหมาย ไม่ใช่แค่ประสบความสำเร็จ ความหมายนั้นสำคัญกับคุณมากกว่าคะแนนหรือตัวเลข</div></div>
@@ -680,11 +691,11 @@ textarea.if{resize:none}
     <div class="rl rl-a rla" style="margin-bottom:6px"><div class="rll">→ สิ่งที่ลองทำได้ตอนนี้</div><div class="rlt" id="s-act">เลือกโปรเจกต์ที่ใช้ทั้งวิสัยทัศน์และการลงมือทำภายในเดือนนี้ ขนาดไม่สำคัญ แต่ต้องเป็นสิ่งที่คุณสร้างเอง</div></div>
     <div class="rl rl-j rlj" style="margin-bottom:13px"><div class="rll">📝 Journal Prompt</div><div class="rlt" id="s-jprompt">อีก 6 เดือนข้างหน้า คุณอยากขอบคุณตัวเองเรื่องอะไร?</div></div>
     <div class="card" style="margin-bottom:13px">
-      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:13px">✦ Theme Convergence</div>
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:13px">✦ Signature Convergence™</div>
       <div id="s-themes"></div>
     </div>
     <div class="card" style="margin-bottom:13px">
-      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:13px">🔢 ASTROVERA Convergence Engine™ — 6 ชั้นวิเคราะห์</div>
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:13px">🔢 ASTROVERA Signature Convergence Engine™™ — 7 Dimensions of Self</div>
       <div id="s-sciences" class="protected"></div>
       <div class="dv" style="margin:11px 0"></div>
       <div style="font-size:11px;color:var(--tx3);line-height:1.6">แต่ละชั้นใช้เป็น Framework สะท้อนมุมมอง ไม่ใช่คำทำนายตายตัว — ยิ่งหลายชั้นชี้ไปทางเดียวกัน ยิ่งมีความหมายมากขึ้น</div>
@@ -705,8 +716,8 @@ textarea.if{resize:none}
       <div style="font-size:11px;color:var(--tx3);margin-top:8px;text-align:center">สร้างรายงานครั้งแรก → ฟังเสียงได้ทันที + ดาวน์โหลด PDF</div>
     </div>
     <div class="card" id="natal-card" style="margin-bottom:13px">
-      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🪐 ดวงดาวจริงของคุณ</div>
-      <div style="font-size:11px;color:var(--tx3);margin-bottom:13px" id="natal-sub">คำนวณจากตำแหน่งดาวจริงตามวัน-เวลา-สถานที่เกิด (Western Astrology)</div>
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🪐 มิติจักรวาลของคุณ</div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:13px" id="natal-sub">คำนวณจากตำแหน่งดาวจริงตามวัน-เวลา-สถานที่เกิด (ASTROVERA Signature Convergence Engine™)</div>
       <div id="natal-idle">
         <button class="btn bi bsm" style="width:100%" onclick="fetchNatalChart()">✦ คำนวณดวงจริง</button>
       </div>
@@ -718,13 +729,14 @@ textarea.if{resize:none}
       <div id="bazi-content"></div>
     </div>
     <div class="card" id="convergence-visual-card" style="margin-bottom:13px">
-      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🔮 Convergence Engine — ภาพรวม 7 ศาสตร์</div>
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🔮 Signature Convergence Engine™ — ภาพรวม 7 ศาสตร์</div>
       <div style="font-size:11px;color:var(--tx3);margin-bottom:13px">จุดที่ทุกศาสตร์ชี้ไปทางเดียวกัน มีความหมายมากที่สุด</div>
       <svg id="convergence-chart" viewBox="0 0 240 240" style="width:100%;max-width:240px;display:block;margin:0 auto 12px"></svg>
       <div id="convergence-summary" style="font-size:12px;color:var(--tx2);line-height:1.7"></div>
     </div>
     <!-- 3 New Quiz Modules: Financial, Life Purpose, Relationship -->
     <div id="s-new-modules" style="margin-bottom:4px"></div>
+    <div id="s-phase2" style="margin-bottom:4px"></div>
     <div class="card" style="margin-bottom:13px">
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:12px" data-i18n="self.strength">⚡ จุดแข็ง</div>
       <div id="s-strengths"></div>
@@ -749,7 +761,7 @@ textarea.if{resize:none}
 
 <!-- ─── LIFE TIMING ─── -->
 <div class="sc" id="sc-timing">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Life Timing Intelligence</div></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Life Rhythm Intelligence</div></div>
   <div class="sb" style="padding:18px">
     <div class="card cg" style="margin-bottom:13px">
       <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;margin-bottom:8px">ตอนนี้คุณอยู่ใน</div>
@@ -783,13 +795,13 @@ textarea.if{resize:none}
 
 <!-- ─── DECISION LIST ─── -->
 <div class="sc" id="sc-decision">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Decision Journal</div><button class="tb-act" onclick="go('sc-jnew')">+ บันทึก</button></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Life Decision Tracker</div><button class="tb-act" onclick="go('sc-jnew')">+ บันทึก</button></div>
   <div class="sb" style="padding:18px">
-    <!-- Growth Loop Visual -->
+    <!-- Evolution Cycle™ Visual -->
     <div class="card" style="margin-bottom:13px;background:linear-gradient(135deg,rgba(99,102,241,.06),rgba(168,85,247,.04));border-color:rgba(99,102,241,.25)">
       <div style="font-size:11px;color:var(--ind2);letter-spacing:1.5px;margin-bottom:10px;font-weight:600">⟳ GROWTH LOOP ENGINE</div>
       <div style="display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:2px;flex-wrap:nowrap">
-        <div style="text-align:center;flex-shrink:0;padding:0 6px"><div style="font-size:17px">💡</div><div style="font-size:9px;color:var(--gold);margin-top:3px;font-weight:600">Insight</div></div>
+        <div style="text-align:center;flex-shrink:0;padding:0 6px"><div style="font-size:17px">💡</div><div style="font-size:9px;color:var(--gold);margin-top:3px;font-weight:600">Life Signal</div></div>
         <div style="font-size:12px;color:var(--tx3);flex-shrink:0">→</div>
         <div style="text-align:center;flex-shrink:0;padding:0 6px"><div style="font-size:17px">🤔</div><div style="font-size:9px;color:var(--ind2);margin-top:3px;font-weight:600">Reflect</div></div>
         <div style="font-size:12px;color:var(--tx3);flex-shrink:0">→</div>
@@ -846,7 +858,7 @@ textarea.if{resize:none}
         <div class="chip" onclick="selConf(this,4)" style="font-size:13px">😊<br><span style="font-size:10px">มั่นใจมาก</span></div>
       </div>
     </div>
-    <div style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);border-radius:var(--r2);padding:13px;font-size:13px;color:var(--tx2);line-height:1.7">📅 <strong style="color:var(--ind2)">Follow-up System</strong><br>ASTROVERA จะแจ้งให้ติดตามผลที่ <strong>30 / 90 / 180 / 365 วัน</strong><br>เพื่อสร้าง Growth Loop ของคุณ</div>
+    <div style="background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);border-radius:var(--r2);padding:13px;font-size:13px;color:var(--tx2);line-height:1.7">📅 <strong style="color:var(--ind2)">Follow-up System</strong><br>ASTROVERA จะแจ้งให้ติดตามผลที่ <strong>30 / 90 / 180 / 365 วัน</strong><br>เพื่อสร้าง Evolution Cycle™ ของคุณ</div>
   </div>
 </div>
 
@@ -861,10 +873,10 @@ textarea.if{resize:none}
       <div id="jd-body" style="display:flex;flex-direction:column;gap:9px"></div>
     </div>
     <div class="card ci" style="margin-bottom:13px">
-      <div style="font-size:14px;font-weight:600;color:var(--ind2);margin-bottom:11px">🎯 Decision Intelligence</div>
-      <div style="font-size:11px;color:var(--tx3);margin-bottom:11px">วิเคราะห์โดยอ้างอิงจาก Archetype + Life Timing ของคุณ</div>
-      <div class="rl rl-i rli" style="margin-bottom:7px"><div class="rll">สิ่งที่สนับสนุน</div><div class="rlt" id="jd-support">ช่วง Building Phase เหมาะมากสำหรับการเริ่มต้น Archetype Visionary Builder ของคุณมีพลังงานในการสร้างสิ่งใหม่ที่แข็งแกร่ง</div></div>
-      <div class="rl rl-e rle" style="margin-bottom:7px"><div class="rll">สิ่งที่ควรระวัง</div><div class="rlt" id="jd-caution">คนที่มี Archetype คล้ายคุณมักเสี่ยง overcommit ในช่วงแรก ระวังการขยายเร็วเกินไปก่อนทดสอบจริงๆ</div></div>
+      <div style="font-size:14px;font-weight:600;color:var(--ind2);margin-bottom:11px">🎯 Decision Signature Intelligence</div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:11px">วิเคราะห์โดยอ้างอิงจาก Life Signature + Life Rhythm ของคุณ</div>
+      <div class="rl rl-i rli" style="margin-bottom:7px"><div class="rll">สิ่งที่สนับสนุน</div><div class="rlt" id="jd-support">ช่วง Building Phase เหมาะมากสำหรับการเริ่มต้น Life Signature Visionary Builder ของคุณมีพลังงานในการสร้างสิ่งใหม่ที่แข็งแกร่ง</div></div>
+      <div class="rl rl-e rle" style="margin-bottom:7px"><div class="rll">สิ่งที่ควรระวัง</div><div class="rlt" id="jd-caution">คนที่มี Life Signature คล้ายคุณมักเสี่ยง overcommit ในช่วงแรก ระวังการขยายเร็วเกินไปก่อนทดสอบจริงๆ</div></div>
       <div class="refq" style="margin-bottom:0"><div class="refql">💬 Growth Reflection</div><div class="refqt">"ถ้าลงทุนแค่ครึ่งหนึ่งก็ได้ข้อมูลเพียงพอ แล้วทำไมต้องรอให้มากกว่านี้?"</div></div>
     </div>
     <div class="card" style="margin-bottom:13px">
@@ -902,7 +914,7 @@ textarea.if{resize:none}
 
 <!-- ─── WEEKLY REFLECTION ─── -->
 <div class="sc" id="sc-weekly">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Weekly Reflection</div><button class="tb-act" onclick="saveWeekly()">บันทึก</button></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Weekly Evolution</div><button class="tb-act" onclick="saveWeekly()">บันทึก</button></div>
   <div class="sb" style="padding:18px">
     <div class="card cg" style="margin-bottom:14px;text-align:center;padding:20px">
       <div style="font-size:22px;margin-bottom:7px">🌱</div>
@@ -919,11 +931,11 @@ textarea.if{resize:none}
 
 <!-- ─── DECISION DNA ─── -->
 <div class="sc" id="sc-dna">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Decision DNA</div></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Decision Signature</div></div>
   <div class="sb" style="padding:18px">
     <div id="dna-empty" style="display:none">
       <div class="empty"><div class="emj">🧬</div><div class="emt">ยังมีข้อมูลไม่พอ</div>
-        <div class="emd">บันทึก Decision Journal อย่างน้อย 2 รายการ<br>เพื่อให้ Decision DNA วิเคราะห์รูปแบบของคุณได้แม่นยำขึ้น</div>
+        <div class="emd">บันทึก Life Decision Tracker อย่างน้อย 2 รายการ<br>เพื่อให้ Decision Signature วิเคราะห์รูปแบบของคุณได้แม่นยำขึ้น</div>
         <button class="btn bi bsm" style="margin:14px auto 0" onclick="go('sc-jnew')">+ บันทึก Journal</button></div>
     </div>
     <div id="dna-content">
@@ -969,16 +981,16 @@ textarea.if{resize:none}
 
 <!-- ─── LIFE PATTERN MINING ─── -->
 <div class="sc" id="sc-pattern">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Pattern Mining</div></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Life Pattern Discovery</div></div>
   <div class="sb" style="padding:18px">
     <div id="pat-empty" style="display:none">
       <div class="empty"><div class="emj">🔍</div><div class="emt">ยังมีข้อมูลไม่พอ</div>
-        <div class="emd">Check-in อารมณ์, บันทึก Journal หรือ Weekly Reflection<br>สักสองสามครั้ง เพื่อเริ่มเห็นรูปแบบของคุณ</div>
+        <div class="emd">Check-in อารมณ์, บันทึก Journal หรือ Weekly Evolution<br>สักสองสามครั้ง เพื่อเริ่มเห็นรูปแบบของคุณ</div>
         <button class="btn bi bsm" style="margin:14px auto 0" onclick="go('sc-dash')">+ เริ่มบันทึก</button></div>
     </div>
     <div id="pat-content">
       <div class="card" style="margin-bottom:13px;text-align:center;padding:18px">
-        <div style="font-size:13px;color:var(--tx2);line-height:1.6">วิเคราะห์จากข้อมูลย้อนหลังจริงของคุณ: Emotion Check-in, Journal, Weekly Reflection และ Follow-up</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.6">วิเคราะห์จากข้อมูลย้อนหลังจริงของคุณ: Emotion Pulse, Journal, Weekly Evolution และ Follow-up</div>
       </div>
       <div class="stat-row">
         <div class="stat-box"><div class="stat-num" id="pat-jcount">0</div><div class="stat-lbl">Journal</div></div>
@@ -1143,10 +1155,10 @@ textarea.if{resize:none}
 
 <!-- ─── AI STRATEGIC ADVISOR ─── -->
 <div class="sc" id="sc-advisor">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">AI Strategic Advisor</div></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Life Navigator AI</div></div>
   <div class="sb" style="padding:18px">
     <div class="card cg" style="margin-bottom:14px">
-      <div style="font-size:13px;color:var(--tx2);line-height:1.6">ถามคำถามเชิงกลยุทธ์ — ระบบจะใช้ Archetype, Life Timing, Decision DNA, Pattern Mining และ Opportunity Radar ของคุณช่วยตอบ</div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.6">ถามคำถามเชิงกลยุทธ์ — ระบบจะใช้ Life Signature, Life Rhythm, Decision Signature, Life Pattern Discovery และ Opportunity Radar ของคุณช่วยตอบ</div>
     </div>
     <div class="ig"><textarea id="adv-q" class="if" rows="3" placeholder="เช่น ควรเปิดสาขาใหม่ตอนนี้ไหม?"></textarea></div>
     <div style="font-size:11px;color:var(--tx3);margin-bottom:8px">ตัวอย่างคำถาม — แตะเพื่อใช้</div>
@@ -1180,10 +1192,10 @@ textarea.if{resize:none}
 
 <!-- ─── AI MEMORY ─── -->
 <div class="sc" id="sc-memory">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">AI Memory</div></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Life Memory Vault</div></div>
   <div class="sb" style="padding:18px">
     <div class="card" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(168,85,247,.04));border-color:rgba(99,102,241,.25)">
-      <div style="font-size:13px;color:var(--tx2);line-height:1.6">ระบบจดจำบทเรียนสำคัญจาก Follow-up ของ Decision Journal โดยอัตโนมัติ — กดดาวเพื่อปักหมุดบทเรียนที่สำคัญที่สุด</div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.6">ระบบจดจำบทเรียนสำคัญจาก Follow-up ของ Life Decision Tracker โดยอัตโนมัติ — กดดาวเพื่อปักหมุดบทเรียนที่สำคัญที่สุด</div>
     </div>
     <div id="mem-list"></div>
   </div>
@@ -1198,10 +1210,10 @@ textarea.if{resize:none}
 
 <!-- ─── FOUNDER DASHBOARD ─── -->
 <div class="sc" id="sc-founder">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Founder Dashboard</div></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Founder Pulse</div></div>
   <div class="sb" style="padding:18px">
     <div class="card" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(255,183,3,.08),rgba(212,175,55,.04));border-color:rgba(255,183,3,.25)">
-      <div style="font-size:13px;color:var(--tx2);line-height:1.6">ภาพรวมด้านธุรกิจของคุณ รวบรวมจาก Life OS, Opportunity Radar, Decision DNA และ AI Memory</div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.6">ภาพรวมด้านธุรกิจของคุณ รวบรวมจาก Life OS, Opportunity Radar, Decision Signature และ Life Memory Vault</div>
     </div>
     <div class="sh"><div class="sht">คะแนนด้านธุรกิจ</div></div>
     <div class="card" style="margin-bottom:13px" id="fd-lifeos"></div>
@@ -1231,14 +1243,23 @@ textarea.if{resize:none}
 <div class="sc" id="sc-copilot">
   <div class="tb">
     <button class="bk-btn" onclick="go('sc-dash')">←</button>
-    <div class="tb-t" id="cop-vera-name">Life Copilot</div>
+    <div class="tb-t" id="cop-vera-name">Life Companion AI</div>
     <button onclick="openVeraSelector()" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--gold2);font-size:11px;padding:4px 10px;border-radius:12px;cursor:pointer" id="cop-persona-btn">✦ เลือก VERA</button>
   </div>
   <!-- VERA Persona Bar -->
-  <div id="cop-persona-bar" style="display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(19,0,40,.8);overflow-x:auto">
-    <button onclick="setVeraPersona('baby')" class="vera-btn" data-v="baby" style="flex-shrink:0;background:rgba(176,64,255,.12);border:1px solid rgba(176,64,255,.3);color:var(--tx2);font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;white-space:nowrap">🌱 Baby Vera</button>
-    <button onclick="setVeraPersona('young')" class="vera-btn" data-v="young" style="flex-shrink:0;background:rgba(129,140,248,.12);border:1px solid rgba(129,140,248,.3);color:var(--tx2);font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;white-space:nowrap">⚡ Young Vera</button>
-    <button onclick="setVeraPersona('future')" class="vera-btn" data-v="future" style="flex-shrink:0;background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.3);color:var(--tx2);font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;white-space:nowrap">🔮 Future Vera</button>
+  <div style="background:rgba(13,0,40,.9);padding:8px 14px;border-bottom:1px solid var(--border)" id="cop-vera-wrap">
+    <div style="font-size:10px;color:var(--tx3);margin-bottom:6px">✦ เลือกบุคลิก VERA ที่ต้องการคุยด้วย</div>
+    <div id="cop-persona-bar" style="display:flex;gap:7px;overflow-x:auto">
+      <button onclick="setVeraPersona('baby')" class="vera-btn" data-v="baby"
+        title="Stoic Sage — ปรัชญา ความนิ่ง"
+        style="flex-shrink:0;background:rgba(176,64,255,.2);border:2px solid var(--gold);color:var(--gold2);font-size:12px;padding:7px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;font-weight:700">🌱 Baby Vera</button>
+      <button onclick="setVeraPersona('young')" class="vera-btn" data-v="young"
+        title="Sharp VC — ธุรกิจ ตรงไปตรงมา"
+        style="flex-shrink:0;background:rgba(129,140,248,.12);border:1px solid rgba(129,140,248,.3);color:var(--tx2);font-size:12px;padding:7px 14px;border-radius:20px;cursor:pointer;white-space:nowrap">⚡ Young Vera</button>
+      <button onclick="setVeraPersona('future')" class="vera-btn" data-v="future"
+        title="Oracle — มองเห็น pattern ทุกมิติ"
+        style="flex-shrink:0;background:rgba(192,132,252,.12);border:1px solid rgba(192,132,252,.3);color:var(--tx2);font-size:12px;padding:7px 14px;border-radius:20px;cursor:pointer;white-space:nowrap">🔮 Future Vera</button>
+    </div>
   </div>
   <div class="sb" style="padding:14px" id="cop-thread"></div>
   <div style="padding:10px 14px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0">
@@ -1280,7 +1301,7 @@ textarea.if{resize:none}
     </div>
     <div class="card" style="margin-bottom:11px">
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🔢 เลขศาสตร์ตะวันตก <span style="color:var(--tx3);font-weight:400">(ไม่บังคับ)</span></div>
-      <div style="font-size:12px;color:var(--tx3);margin-bottom:13px;line-height:1.5">วิเคราะห์จากตัวอักษรชื่อแบบ Pythagorean Numerology — ระบบนี้คำนวณจากตัวอักษร A-Z เท่านั้น (เป็นข้อจำกัดของศาสตร์นี้เอง) จึงขอให้กรอกชื่อสะกดเป็นภาษาอังกฤษโดยเฉพาะ</div>
+      <div style="font-size:12px;color:var(--tx3);margin-bottom:13px;line-height:1.5">วิเคราะห์จากตัวอักษรชื่อแบบ  — ระบบนี้คำนวณจากตัวอักษร A-Z เท่านั้น (เป็นข้อจำกัดของศาสตร์นี้เอง) จึงขอให้กรอกชื่อสะกดเป็นภาษาอังกฤษโดยเฉพาะ</div>
       <div class="ig" style="margin-bottom:11px"><label class="il">ชื่อ-นามสกุล (สะกดอังกฤษ)</label><input id="inp-engname" class="if" type="text" placeholder="เช่น Somchai Jaidee"></div>
       <div class="ig" style="margin-bottom:11px"><label class="il">เบอร์โทรศัพท์หลัก</label><input id="inp-phone" class="if" type="tel" placeholder="เบอร์ที่ใช้ประจำ" maxlength="10"></div>
       <div class="ig" style="margin-bottom:13px"><label class="il">เลขอื่นๆ ที่ต้องการวิเคราะห์</label><input id="inp-numother" class="if" type="text" placeholder="เช่น ทะเบียนรถ, บ้านเลขที่"></div>
@@ -1303,9 +1324,9 @@ textarea.if{resize:none}
         <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-quiz')">📝 Quiz</button>
         <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-insight')">✦ ตัวอย่างฟรี</button>
         <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-upgrade')">💎 Upgrade</button>
-        <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-self')">🧭 Self Intelligence</button>
-        <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-timing')">⏳ Life Timing</button>
-        <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-weekly')">🌱 Weekly Reflection</button>
+        <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-self')">🧭 Life Intelligence</button>
+        <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-timing')">⏳ Life Rhythm</button>
+        <button class="btn bgh bsm" style="justify-content:flex-start" onclick="go('sc-weekly')">🌱 Weekly Evolution</button>
         <button class="btn" style="justify-content:flex-start;background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.3);color:var(--teal);font-size:14px;font-weight:600;border-radius:var(--r2);padding:10px 18px;cursor:pointer;width:100%" onclick="loadDemo()">🗂️ โหลด Demo Journal (3 รายการ)</button>
       </div>
     </div>
@@ -1360,7 +1381,7 @@ var LSP='av_p', LSJ='av_j', LSW='av_w', LSE='av_e', LSM='av_m', LSS='av_s', LSO=
 
 // ═══ QUESTION ROTATION ENGINE ═══
 
-// ═══ VERA PERSONAS — Life Copilot Characters ═══
+// ═══ VERA PERSONAS — Life Companion AI Characters ═══
 var _veraPersona=localStorage.getItem('av_vera')||'baby';
 var VERA_PERSONAS={
   baby:{
@@ -1384,7 +1405,7 @@ var VERA_PERSONAS={
     color:'#C084FC',
     desc:'มาจากอนาคต มองเห็นรูปแบบที่คนอื่นไม่เห็น ใช้ข้อมูลทุกศาสตร์รวมกัน',
     greeting:'... ฉันมาแล้ว Future Vera จากอีก 10 ปีข้างหน้า ฉันเห็นรูปแบบชีวิตของคุณชัดมาก ข้อมูลทั้งหมดที่คุณบันทึกไว้ — มันบอกอะไรบางอย่างที่น่าสนใจมาก ถามมาได้เลย',
-    systemHint:'คุณคือ Future Vera Oracle ที่พูดด้วยความมั่นใจและลึกลับ รวมข้อมูลทุกศาสตร์ (ดวงดาว ปาจื้อ เลขศาสตร์ จิตวิทยา) เพื่อ identify patterns ที่ซ่อนอยู่ในชีวิตผู้ใช้',
+    systemHint:'คุณคือ Future Vera Oracle ที่พูดด้วยความมั่นใจและลึกลับ รวมข้อมูลทุกศาสตร์ (ดวงดาว มิติพลังงาน เลขศาสตร์ จิตวิทยา) เพื่อ identify patterns ที่ซ่อนอยู่ในชีวิตผู้ใช้',
     starters:['pattern ชีวิตฉันเป็นยังไง','อะไรที่ฉันยังไม่เห็น','อนาคตระยะสั้นควรระวังอะไร']
   }
 };
@@ -1418,7 +1439,7 @@ function openVeraSelector(){
   toast('เลือก VERA ที่แถบด้านบนได้เลยครับ');
 }
 
-// ═══ DAILY MENTAL SYNC — 3Q Quick Check-in + Shareable Insight Card ═══
+// ═══ DAILY MENTAL SYNC — 3Q Quick Check-in + Shareable Life Signal Card ═══
 var SYNC_QS=[
   {q:'ตอนนี้พลังงานของคุณอยู่ระดับไหน?',opts:['🔥 เต็มพลัง','⚡ ดีพอใช้','😐 กลางๆ','🪫 ต่ำมาก'],vals:[4,3,2,1]},
   {q:'วันนี้คุณรู้สึกกับงาน/ชีวิตยังไง?',opts:['🌟 มีแรงบันดาลใจ','📋 ทำตามหน้าที่','🌊 ปล่อยตามไป','⛈️ หนักใจมาก'],vals:[4,3,2,1]},
@@ -1467,9 +1488,9 @@ function saveSyncResult(){
   emos.unshift({date:new Date().toISOString().split('T')[0],emoji:energy>=3?'😊':'😐',label:level,sync:card});
   lsS(LSE,emos.slice(0,60));
   // แสดง insight card
-  showSyncInsightCard(card,arch,p.name);
+  showSyncSignalCard(card,arch,p.name);
 }
-function showSyncInsightCard(card,arch,name){
+function showSyncSignalCard(card,arch,name){
   var el=document.getElementById('sync-body');if(!el)return;
   document.getElementById('sync-ctr').textContent='✓ เสร็จแล้ว';
   el.innerHTML='<div style="background:linear-gradient(135deg,rgba(176,64,255,.15),rgba(129,140,248,.1));border:1px solid rgba(176,64,255,.4);border-radius:16px;padding:20px;text-align:center">'
@@ -1479,13 +1500,13 @@ function showSyncInsightCard(card,arch,name){
     +'<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:16px">'+card.advice+'</div>'
     +'<div style="font-size:11px;color:var(--tx3);margin-bottom:16px">'+arch.icon+' '+arch.name+' · '+(name||'')+'</div>'
     +'<div style="display:flex;gap:8px">'
-    +'<button class="btn bg" style="flex:1;font-size:13px" onclick="shareInsightCard()">📤 แชร์</button>'
+    +'<button class="btn bg" style="flex:1;font-size:13px" onclick="shareSignalCard()">📤 แชร์</button>'
     +'<button class="btn bgh" style="flex:1;font-size:13px" onclick="bk()">ปิด</button>'
     +'</div>'
     +'</div>';
   window._lastSyncCard=card;
 }
-function shareInsightCard(){
+function shareSignalCard(){
   var card=window._lastSyncCard;if(!card)return;
   var p=lsG(LSP)||{};
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
@@ -1533,12 +1554,12 @@ function calcBusinessTiming(){
 var _tourDone=localStorage.getItem('av_tour')==='1';
 function checkShowTour(){
   if(_tourDone)return;
-  setTimeout(function(){showTourStep(0);},800);
+  setTimeout(function(){showTourStep(0);},400);
 }
 var TOUR_STEPS=[
-  {icon:'🧭',title:'เริ่มที่ Self Intelligence',desc:'ดูตัวตนหลัก ดวงดาว ปาจื้อ และ 7 โมดูลวิเคราะห์ของคุณที่นี่',btn:'ไปดูเลย',action:"go('sc-self')"},
-  {icon:'📝',title:'บันทึก Decision Journal',desc:'บันทึกการตัดสินใจสำคัญ ติดตามผล และเรียนรู้ pattern ของตัวเอง',btn:'ลองบันทึก',action:"go('sc-jnew')"},
-  {icon:'💬',title:'คุยกับ Life Copilot',desc:'ถาม VERA ได้ทุกเรื่อง มี 3 บุคลิกให้เลือก ตอบด้วย AI จริง',btn:'คุยกับ VERA',action:"go('sc-copilot')"}
+  {icon:'🧭',title:'เริ่มที่ Life Intelligence',desc:'ดูตัวตนหลัก ดวงดาว มิติพลังงาน และ 7 โมดูลวิเคราะห์ของคุณที่นี่',btn:'ไปดูเลย',action:"go('sc-self')"},
+  {icon:'📝',title:'บันทึก Life Decision Tracker',desc:'บันทึกการตัดสินใจสำคัญ ติดตามผล และเรียนรู้ pattern ของตัวเอง',btn:'ลองบันทึก',action:"go('sc-jnew')"},
+  {icon:'💬',title:'คุยกับ Life Companion AI',desc:'ถาม VERA ได้ทุกเรื่อง มี 3 บุคลิกให้เลือก ตอบด้วย AI จริง',btn:'คุยกับ VERA',action:"go('sc-copilot')"}
 ];
 var _tourStep=0;
 function showTourStep(step){
@@ -1748,6 +1769,7 @@ function go(id){
   if(id==='sc-talent-quiz')rTalentQ();
   if(id==='sc-love-quiz')rLoveQ();
   if(id==='sc-daily-sync')rSyncQ();
+  if(id==='sc-convergence')rConvergenceDash();
 }
 function bk(){
   if(_stk.length>1){_stk.pop();var p=_stk[_stk.length-1];_stk.pop();go(p);}
@@ -1842,6 +1864,134 @@ var LIFE_PHASES={
     opps:['ให้เวลาตัวเองปรับตัวกับสิ่งใหม่','รักษาความสัมพันธ์ที่มั่นคงไว้ท่ามกลางความเปลี่ยนแปลง','โฟกัสสิ่งที่ควบคุมได้ ปล่อยสิ่งที่ควบคุมไม่ได้','บันทึกความรู้สึกระหว่างทาง จะมีค่ามากตอนมองย้อนกลับ']}
 };
 var PHASE_ORDER=['a','b','c','d'];
+
+// ═══ BLOOD TYPE PERSONALITY ═══
+var BLOOD_TYPES={
+  O:{icon:'🔴',th:'O',
+    trait:'ผู้นำโดยธรรมชาติ · พลังงานสูง · มุ่งมั่นสู่เป้าหมาย',
+    core:'คุณมีพลังงานความเป็นผู้นำสูงมาก กล้าตัดสินใจและลงมือทำ เป็นคนที่คนอื่นมักพึ่งพาในยามวิกฤต จุดแข็งของคุณคือความมุ่งมั่นและความสามารถในการปรับตัวในสถานการณ์ที่เปลี่ยนแปลง',
+    strengths:['กล้าตัดสินใจ','เป็นผู้นำ','พลังงานสูง','ปรับตัวเก่ง','มุ่งมั่น'],
+    blinds:['อาจดูแข็งกร้าว','ใจร้อน','ไม่ชอบถูกจำกัด'],
+    decision:'ตัดสินใจด้วยสัญชาตญาณ เร็วและมักถูก ไม่ชอบเสียเวลาวิเคราะห์มาก',
+    relation:'เข้ากับทุกคนได้ดี แต่ต้องการพื้นที่และอิสระ',
+    dimScore:8},
+  A:{icon:'🔵',th:'A',
+    trait:'นักวางแผน · ละเอียดรอบคอบ · ใส่ใจคุณภาพ',
+    core:'คุณมีความละเอียดรอบคอบและใส่ใจในคุณภาพทุกอย่างที่ทำ มีระบบและวินัยในการทำงาน เป็นคนที่ไว้วางใจได้และมักทำทุกอย่างให้ดีที่สุด',
+    strengths:['ละเอียดรอบคอบ','มีระเบียบ','น่าเชื่อถือ','สร้างสรรค์','อดทน'],
+    blinds:['วิตกกังวลง่าย','สมบูรณ์แบบเกินไป','ตัดสินใจช้า'],
+    decision:'วิเคราะห์ข้อมูลอย่างละเอียดก่อนตัดสินใจ ชอบมีแผนสำรอง',
+    relation:'ซื่อสัตย์และจริงจัง ต้องการความไว้วางใจก่อนเปิดใจ',
+    dimScore:7},
+  B:{icon:'🟡',th:'B',
+    trait:'อิสระทางความคิด · สร้างสรรค์ · ตัวเองสูง',
+    core:'คุณเป็นคนที่คิดนอกกรอบและมีความคิดสร้างสรรค์สูง ไม่ชอบถูกจำกัดด้วยกฎเกณฑ์ มีพลังงานในการทำสิ่งที่ตัวเองสนใจอย่างเต็มที่ มักมีมุมมองที่แตกต่างจากคนอื่น',
+    strengths:['สร้างสรรค์','อิสระ','หลงใหล','มีพลัง','ยืดหยุ่น'],
+    blinds:['ขาดความสม่ำเสมอ','ดูเห็นแก่ตัว','ไม่ชอบกฎ'],
+    decision:'ตัดสินใจตามแรงบันดาลใจและความสนใจในขณะนั้น ชอบลองสิ่งใหม่',
+    relation:'สนุกและตื่นเต้น ต้องการคนที่เข้าใจความต้องการอิสระ',
+    dimScore:7},
+  AB:{icon:'🟣',th:'AB',
+    trait:'นักคิดเชิงเหตุผล · ปรับตัวได้ทุกสถานการณ์ · มองภาพรวม',
+    core:'คุณมีความสามารถในการมองทุกมุมของสถานการณ์ ใช้เหตุผลและอารมณ์ได้อย่างสมดุล เป็นคนที่ปรับตัวได้ดีในทุกสภาพแวดล้อม มักเป็นคนกลางที่ดีในความขัดแย้ง',
+    strengths:['มีเหตุผล','ปรับตัวเก่ง','มองภาพรวม','เป็นกลาง','ฉลาด'],
+    blinds:['ตัดสินใจลังเล','อาจดูเย็นชา','คาดเดาไม่ได้'],
+    decision:'ชั่งน้ำหนักทุกด้านก่อนตัดสินใจ บางครั้งใช้เวลานาน',
+    relation:'ยืดหยุ่นสูง เข้ากับได้ทุกคน แต่อาจดูห่างเหิน',
+    dimScore:8},
+};
+
+// ═══ NAKSHATRA — 27 Moon Mansions (Vedic) ═══
+// คำนวณจาก Moon fullDegree (tropical) → sidereal ด้วย Lahiri ayanamsha
+var LAHIRI_AYANAMSHA=23.85; // ปี 2025
+var NAKSHATRAS=[
+  {n:'Ashwini',th:'อัศวินี',q:'พลังงานใหม่ ริเริ่ม เร็ว',key:'energy'},
+  {n:'Bharani',th:'ภรณี',q:'การสร้างสรรค์ ความรับผิดชอบ เปลี่ยนแปลง',key:'transform'},
+  {n:'Krittika',th:'กฤตติกา',q:'ความแหลมคม ตัดสินใจเด็ดขาด บริสุทธิ์',key:'clarity'},
+  {n:'Rohini',th:'โรหิณี',q:'ความอุดมสมบูรณ์ ความงาม การเติบโต',key:'growth'},
+  {n:'Mrigashira',th:'มฤคศิรา',q:'การแสวงหา ความอยากรู้ ท่องเที่ยว',key:'explore'},
+  {n:'Ardra',th:'อาร์ดรา',q:'พายุแห่งการเปลี่ยนแปลง ความเจ็บปวดนำสู่การเติบโต',key:'storm'},
+  {n:'Punarvasu',th:'ปุนรวสุ',q:'การฟื้นฟู คืนสู่ความดี แสงหลังพายุ',key:'renewal'},
+  {n:'Pushya',th:'ปุษยะ',q:'การดูแล ความอุดมสมบูรณ์ การเลี้ยงดู',key:'nurture'},
+  {n:'Ashlesha',th:'อาศเลษา',q:'ความลึก สัญชาตญาณ การรับรู้ซ่อนเร้น',key:'intuition'},
+  {n:'Magha',th:'มฆะ',q:'ความยิ่งใหญ่ อำนาจ บรรพบุรุษ มรดก',key:'power'},
+  {n:'Purva Phalguni',th:'ปูรวผลคุณี',q:'ความสุข ความรัก ความงาม การผ่อนคลาย',key:'joy'},
+  {n:'Uttara Phalguni',th:'อุตรผลคุณี',q:'ความสำเร็จ มิตรภาพ การสนับสนุน',key:'achievement'},
+  {n:'Hasta',th:'หัสตะ',q:'ความชำนาญ ทักษะมือ การบำบัด',key:'skill'},
+  {n:'Chitra',th:'จิตรา',q:'ความสวยงาม ความคิดสร้างสรรค์ แสงแห่งจิต',key:'art'},
+  {n:'Swati',th:'สวาตี',q:'อิสรภาพ ความยืดหยุ่น ลม',key:'freedom'},
+  {n:'Vishakha',th:'วิศาขา',q:'เป้าหมายชัดเจน ความพยายาม การแข่งขัน',key:'focus'},
+  {n:'Anuradha',th:'อนุราธา',q:'ความภักดี มิตรภาพลึกซึ้ง ความสำเร็จผ่านความร่วมมือ',key:'loyalty'},
+  {n:'Jyeshtha',th:'เชษฐา',q:'ความเป็นผู้อาวุโส ความกล้าหาญ ความรับผิดชอบ',key:'courage'},
+  {n:'Mula',th:'มูละ',q:'รากฐาน การทบทวนตัวเอง การปลดปล่อย',key:'root'},
+  {n:'Purva Ashadha',th:'ปูรวอาษาฒ',q:'ความไม่ย่อท้อ ชัยชนะ พลังน้ำ',key:'victory'},
+  {n:'Uttara Ashadha',th:'อุตรอาษาฒ',q:'ชัยชนะสุดท้าย ความมั่นคง การบรรลุเป้าหมาย',key:'final'},
+  {n:'Shravana',th:'ศรวณะ',q:'การฟัง การเรียนรู้ การเชื่อมต่อ',key:'learn'},
+  {n:'Dhanishtha',th:'ธนิษฐา',q:'ความมั่งคั่ง ดนตรี จังหวะ กลุ่ม',key:'wealth'},
+  {n:'Shatabhisha',th:'ศตภิษัช',q:'การรักษา ความเป็นส่วนตัว ความลึกลับ',key:'heal'},
+  {n:'Purva Bhadrapada',th:'ปูรวภัทรปทา',q:'การเปลี่ยนแปลงลึก ความเสียสละ ไฟแห่งจิต',key:'sacrifice'},
+  {n:'Uttara Bhadrapada',th:'อุตรภัทรปทา',q:'ความลึก ปัญญา ความสงบหลังพายุ',key:'wisdom'},
+  {n:'Revati',th:'เรวตี',q:'การเดินทาง ความสมบูรณ์ การปิดวงจร',key:'complete'},
+];
+function getNakshatra(moonFullDegree){
+  if(typeof moonFullDegree!=='number')return null;
+  var sidereal=(moonFullDegree-LAHIRI_AYANAMSHA+360)%360;
+  var idx=Math.floor(sidereal/13.333);
+  return NAKSHATRAS[Math.min(idx,26)];
+}
+
+// ═══ DECISION SIGNATURE — Meta-Analysis ═══
+// รวม Life Signature + พลังงานหลัก + Blood Type + จังหวะชีวิต
+// → Fingerprint การตัดสินใจที่ไม่มีแอปไหนทำได้
+var DECISION_SIGS={
+  // [life_sig_key]: {blood_type_modifier}
+  analyst:{
+    icon:'🔬',name:'Precision Analyst',th:'นักวิเคราะห์เชิงลึก',
+    pattern:'รวบรวมข้อมูลมากก่อน → วิเคราะห์ทุกมุม → ตัดสินใจเมื่อมั่นใจ',
+    strength:'ตัดสินใจพลาดน้อย แม่นยำสูง',
+    risk:'อาจช้าเกินไปจนพลาดโอกาส',
+    tip:'ตั้ง deadline ให้ตัวเองก่อนตัดสินใจ เช่น "ภายใน 48 ชม."',
+    keys:['a','c']},// archKey a หรือ c
+  visionary:{
+    icon:'🌟',name:'Visionary Leap',th:'นักกระโดดสู่อนาคต',
+    pattern:'เห็นภาพใหญ่ → สัญชาตญาณบอก → ลงมือทำก่อนวิเคราะห์',
+    strength:'จับโอกาสได้เร็ว กล้าเสี่ยง',
+    risk:'อาจไม่มีแผนสำรองเพียงพอ',
+    tip:'หา "devil\'s advocate" คนที่จะตั้งคำถามแผนคุณก่อนลงมือ',
+    keys:['b']},
+  adaptive:{
+    icon:'🌊',name:'Adaptive Navigator',th:'นักนำทางที่ยืดหยุ่น',
+    pattern:'อ่านสถานการณ์ → ปรับแนวทาง → ตัดสินใจตามบริบท',
+    strength:'ยืดหยุ่นสูง ทนต่อความไม่แน่นอน',
+    risk:'อาจขาดทิศทางที่ชัดเจน',
+    tip:'กำหนด "core values" ที่ไม่เปลี่ยนไว้ก่อน แล้วปรับวิธีการตามสถานการณ์',
+    keys:['d']},
+};
+function calcDecisionSig(p){
+  var arch=p.archKey||'d';
+  var blood=p.bloodType||'';
+  var bz=p.dob?calcBaZi(p.dob,p.time):null;
+  var dm=bz?bz.dayMaster:'';
+  var sig=DECISION_SIGS.adaptive;
+  if(arch==='a'||arch==='c') sig=DECISION_SIGS.analyst;
+  else if(arch==='b') sig=DECISION_SIGS.visionary;
+  // Blood type modifier
+  var speedMod=0;
+  if(blood==='O'||blood==='B') speedMod=1;  // เร็วขึ้น
+  if(blood==='A') speedMod=-1;              // ช้าลง (ระวังมากขึ้น)
+  // Ba Zi modifier
+  if(dm==='ไฟ'||dm==='ทอง') speedMod+=1;
+  if(dm==='น้ำ'||dm==='ดิน') speedMod-=1;
+  // Nakshatra modifier (if available)
+  var natal=lsG(LSN);
+  var nak=null;
+  if(natal&&natal.planets&&natal.planets.Moon&&natal.planets.Moon.fullDegree){
+    nak=getNakshatra(natal.planets.Moon.fullDegree);
+  }
+  return {sig,speedMod,nak,dm,blood};
+}
+
+
 var CLBL=['ไม่มั่นใจ','กลางๆ','ค่อนข้างมั่นใจ','มั่นใจมาก'];
 var CEMO=['😰','😐','🙂','😊'];
 
@@ -1879,24 +2029,24 @@ th:{
   'q5.title':'สิ่งที่คุณต้องการจาก\nASTROVERA มากที่สุด?','q5.sub':'ช่วยปรับผลลัพธ์ให้ตรงคุณที่สุด',
   'q5.a':'เข้าใจตัวเองในระดับที่ลึกขึ้น','q5.b':'ตัดสินใจได้ดีขึ้นในชีวิต',
   'q5.c':'รู้จังหวะว่าตอนนี้ควรทำอะไร','q5.d':'เรียนรู้จากประสบการณ์ที่ผ่านมา',
-  // Insight
+  // Life Signal
   'insight.title':'สิ่งที่ Astrovera เห็น','insight.free':'✦ ฟรี',
   'insight.archetype':'ลักษณะตัวตนเฉพาะของคุณ',
   'insight.sees':'✦ มุมมองของ ASTROVERA ต่อคุณ','insight.meaning':'◈ ความหมาย',
   'insight.emotion':'◉ ความรู้สึกที่อาจซ่อนอยู่','insight.question':'💬 คำถามชวนคิด',
   'insight.action':'→ สิ่งที่ลองทำได้ตอนนี้','insight.journal':'📝 Journal Prompt',
-  'insight.theme':'✦ Theme Convergence',
-  'insight.unlock.title':'🎯 Decision Intelligence','insight.unlock.sub':'รูปแบบการตัดสินใจของคุณ จุดแข็ง จุดที่ควรระวัง\nและสิ่งที่ลองทำได้เฉพาะตัว...',
-  'insight.unlock.btn':'ดูแพ็คเกจ','insight.dash':'เข้าสู่ Dashboard ของฉัน →','insight.premium':'ดู Premium Report',
-  // Dashboard
+  'insight.theme':'✦ Signature Convergence™',
+  'insight.unlock.title':'🎯 Decision Signature Intelligence','insight.unlock.sub':'รูปแบบการตัดสินใจของคุณ จุดแข็ง จุดที่ควรระวัง\nและสิ่งที่ลองทำได้เฉพาะตัว...',
+  'insight.unlock.btn':'ดูแพ็คเกจ','insight.dash':'เข้าสู่ Life OS ของฉัน →','insight.premium':'ดู Life Signature Report',
+  // Life OS
   'dash.greeting':'สวัสดี','dash.premium':'+ Premium',
-  'dash.lifeos':'🗺️ Life OS Dashboard','dash.today':'Today\'s Reflection',
+  'dash.lifeos':'🗺️ Life OS Life OS','dash.today':'Today\'s Reflection',
   'dash.today.q':'คำถามประจำวัน','dash.journal':'📝 บันทึกความคิด','dash.checkin':'❤️ Check-in อารมณ์',
   'dash.intelligence':'Intelligence Modules','dash.strategic':'🚀 Strategic Modules','dash.beyond':'🔮 Beyond',
-  // Self Intelligence
-  'self.title':'Self Intelligence','self.archetype':'ลักษณะตัวตนเฉพาะของคุณ',
+  // Life Intelligence
+  'self.title':'Life Intelligence','self.archetype':'ลักษณะตัวตนเฉพาะของคุณ',
   'self.strength':'⚡ จุดแข็ง','self.blinds':'⚠️ จุดที่ควรระวัง',
-  'self.natal':'🪐 ดวงดาวจริงของคุณ','self.natal.sub':'คำนวณจากตำแหน่งดาวจริงตามวัน-เวลา-สถานที่เกิด (Western Astrology)',
+  'self.natal':'🪐 มิติจักรวาลของคุณ','self.natal.sub':'คำนวณจากตำแหน่งดาวจริงตามวัน-เวลา-สถานที่เกิด (ASTROVERA Signature Convergence Engine™)',
   'self.natal.btn':'✦ คำนวณดวงจริง','self.natal.loading':'🪐 กำลังคำนวณตำแหน่งดาว...',
   'self.coach.title':'ไลฟ์โค้ชส่วนตัว','self.coach.sub':'AI สรุปชีวิตเป็นเอกสาร + อ่านออกเสียงให้ฟัง',
   'self.coach.report':'📄 สร้างรายงาน','self.coach.audio':'▶ ฟังเสียง',
@@ -1904,7 +2054,7 @@ th:{
   'profile.title':'โปรไฟล์','profile.dob.section':'ข้อมูลวันเกิด',
   'profile.dob.label':'วันเกิด','profile.time.label':'เวลาเกิด','profile.place.label':'สถานที่เกิด',
   'profile.journal.label':'Journal ทั้งหมด',
-  'profile.num.title':'🔢 เลขศาสตร์ตะวันตก','profile.num.sub':'วิเคราะห์จากตัวอักษรชื่อแบบ Pythagorean Numerology',
+  'profile.num.title':'🔢 เลขศาสตร์ตะวันตก','profile.num.sub':'วิเคราะห์จากตัวอักษรชื่อแบบ ',
   'profile.num.name':'ชื่อ-นามสกุล (สะกดอังกฤษ)','profile.num.phone':'เบอร์โทรศัพท์หลัก',
   'profile.num.other':'เลขอื่นๆ ที่ต้องการวิเคราะห์','profile.num.btn':'วิเคราะห์เลขศาสตร์',
   'profile.export':'Export ข้อมูลทั้งหมด (.json)→','profile.clear':'ล้างข้อมูลทั้งหมด→',
@@ -1913,11 +2063,11 @@ th:{
   'btn.save':'บันทึก','btn.cancel':'ยกเลิก','btn.back':'←','btn.next':'ถัดไป',
   'btn.share':'📤 แชร์ผลลัพธ์','btn.download':'📥 ดาวน์โหลด',
   // Timing
-  'timing.title':'Life Timing Intelligence','timing.now':'ตอนนี้คุณอยู่ใน','timing.path':'เส้นทางข้างหน้า',
+  'timing.title':'Life Rhythm Intelligence','timing.now':'ตอนนี้คุณอยู่ใน','timing.path':'เส้นทางข้างหน้า',
   'timing.sees':'สิ่งที่ Astrovera เห็นในตัวคุณ','timing.feel':'ความรู้สึกที่อาจซ่อนอยู่',
   'timing.question':'💬 คำถามชวนคิด','timing.growth':'🎯 Growth Opportunities','timing.challenge':'⚠️ Challenge Areas',
   // Journal
-  'journal.title':'Decision Journal','journal.new':'+ บันทึก','journal.empty.title':'ยังไม่มี Journal',
+  'journal.title':'Life Decision Tracker','journal.new':'+ บันทึก','journal.empty.title':'ยังไม่มี Journal',
   'journal.type':'ประเภท','journal.options':'ทางเลือกที่มี','journal.goal':'เป้าหมายที่ต้องการ',
   'journal.worry':'ความกังวลหลัก','journal.conf':'ความมั่นใจตอนนี้',
   'journal.followup.title':'📅 Follow-up System',
@@ -1961,14 +2111,14 @@ en:{
   'insight.sees':'✦ ASTROVERA\'s Perspective on You','insight.meaning':'◈ Meaning',
   'insight.emotion':'◉ Hidden Feelings','insight.question':'💬 Reflective Question',
   'insight.action':'→ Try This Now','insight.journal':'📝 Journal Prompt',
-  'insight.theme':'✦ Theme Convergence',
-  'insight.unlock.title':'🎯 Decision Intelligence','insight.unlock.sub':'Your decision-making style, strengths, watch-outs\nand personalized actions...',
-  'insight.unlock.btn':'View Packages','insight.dash':'Enter My Dashboard →','insight.premium':'View Premium Report',
+  'insight.theme':'✦ Signature Convergence™',
+  'insight.unlock.title':'🎯 Decision Signature Intelligence','insight.unlock.sub':'Your decision-making style, strengths, watch-outs\nand personalized actions...',
+  'insight.unlock.btn':'View Packages','insight.dash':'Enter My Life OS →','insight.premium':'View Life Signature Report',
   'dash.greeting':'Hello','dash.premium':'+ Premium',
-  'dash.lifeos':'🗺️ Life OS Dashboard','dash.today':'Today\'s Reflection',
-  'dash.today.q':'Daily Question','dash.journal':'📝 Add Note','dash.checkin':'❤️ Emotion Check-in',
+  'dash.lifeos':'🗺️ Life OS Life OS','dash.today':'Today\'s Reflection',
+  'dash.today.q':'Daily Question','dash.journal':'📝 Add Note','dash.checkin':'❤️ Emotion Pulse',
   'dash.intelligence':'Intelligence Modules','dash.strategic':'🚀 Strategic Modules','dash.beyond':'🔮 Beyond',
-  'self.title':'Self Intelligence','self.archetype':'Your Unique Identity Pattern',
+  'self.title':'Life Intelligence','self.archetype':'Your Unique Identity Pattern',
   'self.strength':'⚡ Strengths','self.blinds':'⚠️ Watch Out For',
   'self.natal':'🪐 Your Real Star Chart','self.natal.sub':'Calculated from actual planetary positions at your birth',
   'self.natal.btn':'✦ Calculate Real Chart','self.natal.loading':'🪐 Calculating planetary positions...',
@@ -1977,17 +2127,17 @@ en:{
   'profile.title':'Profile','profile.dob.section':'Birth Information',
   'profile.dob.label':'Date of Birth','profile.time.label':'Birth Time','profile.place.label':'Place of Birth',
   'profile.journal.label':'Total Journals',
-  'profile.num.title':'🔢 Western Numerology','profile.num.sub':'Analysis based on Pythagorean Numerology',
+  'profile.num.title':'🔢 Western Numerology','profile.num.sub':'Analysis based on ',
   'profile.num.name':'Full name (English spelling)','profile.num.phone':'Primary phone number',
   'profile.num.other':'Other numbers to analyze','profile.num.btn':'Analyze Numerology',
   'profile.export':'Export all data (.json)→','profile.clear':'Clear all data→',
   'profile.logout':'Sign out',
   'btn.save':'Save','btn.cancel':'Cancel','btn.back':'←','btn.next':'Next',
   'btn.share':'📤 Share Results','btn.download':'📥 Download',
-  'timing.title':'Life Timing Intelligence','timing.now':'You are currently in','timing.path':'Path Ahead',
+  'timing.title':'Life Rhythm Intelligence','timing.now':'You are currently in','timing.path':'Path Ahead',
   'timing.sees':'What ASTROVERA Sees in You','timing.feel':'Hidden Feelings',
   'timing.question':'💬 Reflective Question','timing.growth':'🎯 Growth Opportunities','timing.challenge':'⚠️ Challenge Areas',
-  'journal.title':'Decision Journal','journal.new':'+ Record','journal.empty.title':'No journals yet',
+  'journal.title':'Life Decision Tracker','journal.new':'+ Record','journal.empty.title':'No journals yet',
   'journal.type':'Type','journal.options':'Options Available','journal.goal':'Desired Outcome',
   'journal.worry':'Main Concern','journal.conf':'Current Confidence',
   'journal.followup.title':'📅 Follow-up System',
@@ -2066,7 +2216,7 @@ zh:{
   'share.discover':'在ASTROVERA了解您自己'
 }};
 
-// Archetype names in ZH
+// Life Signature names in ZH
 var ARCHETYPE_ZH={
   a:{name:'分析型策略家',trait:'做決定前全面分析 · 相信數據勝過感覺 · 謹慎規劃'},
   b:{name:'直覺型遠見者',trait:'變革的領導者 · 喜歡開創 · 看大局但能付諸實踐'},
@@ -2475,7 +2625,7 @@ var SOULURGE_MEANING={1:'ลึกๆ แล้วต้องการควา
 var PERSONALITY_MEANING={1:'คนอื่นมองว่าคุณมั่นใจ เป็นผู้นำ ดูเป็นตัวของตัวเอง',2:'คนอื่นมองว่าคุณอ่อนโยน เข้าถึงง่าย ฟังคนอื่นเก่ง',3:'คนอื่นมองว่าคุณร่าเริง มีเสน่ห์ พูดจาน่าฟัง',4:'คนอื่นมองว่าคุณน่าเชื่อถือ มีระเบียบ ดูจริงจัง',5:'คนอื่นมองว่าคุณกระตือรือร้น มีชีวิตชีวา ชอบลองสิ่งใหม่',6:'คนอื่นมองว่าคุณอบอุ่น น่าไว้วางใจ ดูแลคนรอบข้างดี',7:'คนอื่นมองว่าคุณลึกลับ มีความคิดเป็นของตัวเอง ดูสุขุม',8:'คนอื่นมองว่าคุณดูมีอำนาจ มั่นคง ประสบความสำเร็จ',9:'คนอื่นมองว่าคุณใจกว้าง เป็นมิตร ดูมีเมตตา',11:'เลขมาสเตอร์ — คนอื่นมองว่าคุณมีพลังดึงดูดและสัญชาตญาณที่พิเศษ',22:'เลขมาสเตอร์ — คนอื่นมองว่าคุณดูน่าเชื่อถือและมีศักยภาพสร้างสิ่งใหญ่',33:'เลขมาสเตอร์ — คนอื่นมองว่าคุณดูอบอุ่นและเปี่ยมด้วยความเมตตาเป็นพิเศษ'};
 var PHONE_MEANING={1:'พลังของการเริ่มต้นและความเป็นผู้นำ เหมาะกับการเริ่มสิ่งใหม่',2:'พลังของความสมดุลและความร่วมมือ เหมาะกับงานที่ต้องประสานกับผู้อื่น',3:'พลังของการสื่อสารและความคิดสร้างสรรค์ เหมาะกับงานที่ต้องพูด/นำเสนอ',4:'พลังของความมั่นคงและรากฐาน เหมาะกับการสร้างสิ่งที่ยั่งยืน',5:'พลังของความเปลี่ยนแปลงและอิสระ เหมาะกับงานที่หลากหลายไม่ซ้ำเดิม',6:'พลังของความรับผิดชอบและการดูแล เหมาะกับงานบริการ/ครอบครัว',7:'พลังของการวิเคราะห์และความรู้ เหมาะกับงานที่ต้องคิดลึก',8:'พลังของความสำเร็จและทรัพย์สิน เหมาะกับธุรกิจและการเงิน',9:'พลังของการให้และภาพรวม เหมาะกับงานเพื่อสังคม',11:'พลังของแรงบันดาลใจและสัญชาตญาณพิเศษ',22:'พลังของการสร้างสิ่งใหญ่ที่ยั่งยืน',33:'พลังของการให้และเยียวยาผู้อื่น'};
 
-// ═══ BA ZI (八字 / ปาจื้อ) — Chinese Four Pillars of Destiny
+// ═══ BA ZI ( / มิติพลังงาน) — Chinese Four Pillars of Destiny
 // Full calculation from birth date+time. No external API needed.
 // Uses the Jiazi (甲子) 60-cycle: 10 Heavenly Stems × 12 Earthly Branches. ═══
 var BZ_STEMS=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
@@ -2537,7 +2687,7 @@ function calcBaZi(dob,time){
     pillars:[
       {label:'ปีเกิด',stem:yS,branch:yB},
       {label:'เดือนเกิด',stem:mS,branch:mB},
-      {label:'วันเกิด (Day Master)',stem:dS,branch:dB,isDayMaster:true},
+      {label:'วันเกิด (พลังงานหลัก)',stem:dS,branch:dB,isDayMaster:true},
       {label:'ชั่วโมงเกิด'+(hKnown?'':' (ประมาณ)'),stem:hS,branch:hB}
     ],
     dayMaster:dayEl,dayStemIndex:dS,elements:els,missing:missing,dominant:dominant,timeKnown:hKnown
@@ -2545,7 +2695,7 @@ function calcBaZi(dob,time){
 }
 function rBaZiCard(bz){
   if(!bz)return'';
-  var html='<div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:11px">🀄 ปาจื้อ (八字) — สี่เสาหลักชีวิต</div>';
+  var html='<div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:11px">🀄 มิติพลังงาน () — สี่เสาหลักชีวิต</div>';
   // 4 Pillars table
   html+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:13px">';
   bz.pillars.forEach(function(pl){
@@ -2561,9 +2711,9 @@ function rBaZiCard(bz){
       +'</div>';
   });
   html+='</div>';
-  // Day Master
+  // พลังงานหลัก
   html+='<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;margin-bottom:11px">'
-    +'<div style="font-size:12px;color:var(--gold);font-weight:600;margin-bottom:4px">'+EL_ICON[bz.dayMaster]+' Day Master — ธาตุประจำตัว: '+bz.dayMaster+'</div>'
+    +'<div style="font-size:12px;color:var(--gold);font-weight:600;margin-bottom:4px">'+EL_ICON[bz.dayMaster]+' พลังงานหลัก — ธาตุประจำตัว: '+bz.dayMaster+'</div>'
     +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+BZ_DAYMASTER_MEANING[bz.dayMaster]+'</div>'
     +'</div>';
   // 5 Elements balance
@@ -2698,9 +2848,10 @@ function startAnalysis(){
   var name=(document.getElementById('inp-name')||{}).value||'';
   var time=(document.getElementById('inp-time')||{}).value||'';
   var place=(document.getElementById('inp-place')||{}).value||'';
-  lsS('_av_tmp',{name:name.trim()||'คุณ',dob:dob,time:time,place:place.trim()});
+  var blood=getBloodType();
+  lsS('_av_tmp',{name:name.trim()||'คุณ',dob:dob,time:time,place:place.trim(),bloodType:blood});
   go('sc-loading');
-  var steps=['วิเคราะห์ Layer I-IV...','คำนวณ Layer V-VI...','รวม Convergence Engine...','ค้นหา Archetype...','สร้าง Reflection Engine...','เสร็จแล้ว ✓'];
+  var steps=['วิเคราะห์ Layer I-IV...','คำนวณ Layer V-VI...','รวม Signature Convergence Engine™...','ค้นหา Life Signature...','สร้าง Inner Mirror™...','เสร็จแล้ว ✓'];
   var i=0,lbl=document.getElementById('ld-step'),bar=document.getElementById('ld-bar');
   var iv=setInterval(function(){
     if(i<steps.length){
@@ -2747,6 +2898,7 @@ function buildInsight(){
 function goToDash(){
   var tmp=lsG('_av_tmp')||{};
   var p={name:tmp.name||'คุณ',dob:tmp.dob||'',time:tmp.time||'',place:tmp.place||'',
+    bloodType:tmp.bloodType||'',
     archKey:tmp.archKey||'d',phaseKey:tmp.phaseKey||'a',at:new Date().toISOString()};
   lsS(LSP,p);lsD('_av_tmp');
   rDash();go('sc-dash');checkShowTour();
@@ -2797,7 +2949,7 @@ function selPay(el,m){
 function selPl(p){
   ['report','plus','founder'].forEach(function(x){document.getElementById('pl-'+x).classList.remove('sel');});
   document.getElementById('pl-'+p).classList.add('sel');
-  var map={report:['Self Intelligence Report','399 บาท'],plus:['ASTROVERA PLUS','299 บาท/เดือน'],founder:['Founder Intelligence','1,990 บาท']};
+  var map={report:['Life Intelligence Report','399 บาท'],plus:['ASTROVERA PLUS','299 บาท/เดือน'],founder:['Founder Intelligence','1,990 บาท']};
   var d=map[p]||map.report;
   var nm=document.getElementById('pay-nm'),am=document.getElementById('pay-amt'),qa=document.getElementById('qr-amt');
   if(nm)nm.textContent=d[0];
@@ -2913,7 +3065,7 @@ function rList(){
   if(list.length===0){
     el.innerHTML='<div class="empty"><div class="emj">📝</div>'
       +'<div class="emt">ยังไม่มี Journal</div>'
-      +'<div class="emd">เริ่มบันทึกการตัดสินใจแรก<br>เพื่อเรียนรู้จาก Growth Loop ของคุณ</div>'
+      +'<div class="emd">เริ่มบันทึกการตัดสินใจแรก<br>เพื่อเรียนรู้จาก Evolution Cycle™ ของคุณ</div>'
       +'<button class="btn bi bsm" style="margin:14px auto 0" onclick="go(\'sc-jnew\')">+ บันทึกแรกเลย</button></div>';
     return;
   }
@@ -2950,14 +3102,14 @@ function openDet(jid){
   if(j.concern)parts.push('<div><div style="font-size:11px;color:var(--tx3);margin-bottom:4px">ความกังวล</div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+j.concern+'</div></div>');
   if(j.confidence)parts.push('<div><div style="font-size:11px;color:var(--tx3);margin-bottom:4px">ความมั่นใจตอนบันทึก</div><div style="font-size:14px;color:var(--tx)">'+CEMO[j.confidence-1]+' '+CLBL[j.confidence-1]+'</div></div>');
   document.getElementById('jd-body').innerHTML=parts.join('<div class="dv" style="margin:8px 0"></div>');
-  // Decision Intelligence card — real archetype + phase from profile
+  // Decision Signature Intelligence card — real archetype + phase from profile
   var pp=lsG(LSP)||{};
   var jdArch=ARCHETYPES[pp.archKey]||ARCHETYPES.d;
   var jdPhase=LIFE_PHASES[pp.phaseKey]||LIFE_PHASES.a;
   var jdSupEl=document.getElementById('jd-support');
-  if(jdSupEl)jdSupEl.textContent='ช่วง'+jdPhase.label+' ('+jdPhase.labelEn+') '+(pp.phaseKey==='a'?'เหมาะมากสำหรับการเริ่มต้น':pp.phaseKey==='b'?'เหมาะกับการต่อยอดสิ่งที่มีอยู่':pp.phaseKey==='c'?'เหมาะกับการทบทวนก่อนตัดสินใจใหญ่':'ควรระวังเรื่องความไม่แน่นอนรอบตัว')+' Archetype '+jdArch.nameTh+'ของคุณมี'+(pp.archKey==='a'?'ความรอบคอบที่ช่วยลดความเสี่ยงได้ดี':pp.archKey==='b'?'พลังงานในการสร้างสิ่งใหม่ที่แข็งแกร่ง':pp.archKey==='c'?'ความสามารถในการดึงมุมมองจากคนรอบข้างมาใช้':'ความยืดหยุ่นที่ปรับเข้ากับสถานการณ์นี้ได้ดี');
+  if(jdSupEl)jdSupEl.textContent='ช่วง'+jdPhase.label+' ('+jdPhase.labelEn+') '+(pp.phaseKey==='a'?'เหมาะมากสำหรับการเริ่มต้น':pp.phaseKey==='b'?'เหมาะกับการต่อยอดสิ่งที่มีอยู่':pp.phaseKey==='c'?'เหมาะกับการทบทวนก่อนตัดสินใจใหญ่':'ควรระวังเรื่องความไม่แน่นอนรอบตัว')+' Life Signature '+jdArch.nameTh+'ของคุณมี'+(pp.archKey==='a'?'ความรอบคอบที่ช่วยลดความเสี่ยงได้ดี':pp.archKey==='b'?'พลังงานในการสร้างสิ่งใหม่ที่แข็งแกร่ง':pp.archKey==='c'?'ความสามารถในการดึงมุมมองจากคนรอบข้างมาใช้':'ความยืดหยุ่นที่ปรับเข้ากับสถานการณ์นี้ได้ดี');
   var jdCauEl=document.getElementById('jd-caution');
-  if(jdCauEl)jdCauEl.textContent='คนที่มี Archetype '+jdArch.nameTh+'มักเสี่ยง'+(jdArch.blinds&&jdArch.blinds[0]?jdArch.blinds[0].t:'overcommit ในช่วงแรก')+' — ลองใช้ AI Memory และ Follow-up ของรายการนี้เป็นเครื่องเตือนตัวเอง';
+  if(jdCauEl)jdCauEl.textContent='คนที่มี Life Signature '+jdArch.nameTh+'มักเสี่ยง'+(jdArch.blinds&&jdArch.blinds[0]?jdArch.blinds[0].t:'overcommit ในช่วงแรก')+' — ลองใช้ Life Memory Vault และ Follow-up ของรายการนี้เป็นเครื่องเตือนตัวเอง';
   // Timeline
   var tl=document.getElementById('jd-timeline');
   tl.innerHTML=j.followups.map(function(fu,fi){
@@ -3011,7 +3163,7 @@ function saveRev(){
     redo:_rvRedo
   };
   lsS(LSJ,list);
-  toast('บันทึกผลแล้ว ✓ Growth Loop อัพเดทแล้ว');
+  toast('บันทึกผลแล้ว ✓ Evolution Cycle™ อัพเดทแล้ว');
   openDet(_cjid);
 }
 
@@ -3026,7 +3178,7 @@ function saveWeekly(){
   list.unshift({id:'w_'+Date.now(),date:today(),q1:q1,q2:q2,q3:q3,q4:q4});
   lsS(LSW,list);
   ['wq1','wq2','wq3','wq4'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
-  toast('บันทึก Weekly Reflection แล้ว ✓');
+  toast('บันทึก Weekly Evolution แล้ว ✓');
   go('sc-dash');
 }
 
@@ -3102,7 +3254,7 @@ function rLifeOS(id){
   if(!hasAny&&jl.length===0){
     el.innerHTML='<div style="text-align:center;padding:12px 0">'
       +'<div style="font-size:13px;color:var(--tx3);margin-bottom:10px">ยังไม่มีข้อมูลในระบบ — เริ่มบันทึกเพื่อดูคะแนนชีวิตของคุณ</div>'
-      +'<button class="btn bi bsm" onclick="go(\'sc-jnew\')" style="width:100%">+ บันทึก Decision Journal แรก</button>'
+      +'<button class="btn bi bsm" onclick="go(\'sc-jnew\')" style="width:100%">+ บันทึก Life Decision Tracker แรก</button>'
       +'</div>';
     return;
   }
@@ -3143,12 +3295,24 @@ function rSelf(){
   var bzEl=document.getElementById('bazi-content');
   if(bzEl){
     var bz=calcBaZi(p.dob,p.time);
-    bzEl.innerHTML=bz?rBaZiCard(bz):'<div style="color:var(--tx3);font-size:13px">กรอกวันเกิดในโปรไฟล์เพื่อดูปาจื้อ</div>';
+    bzEl.innerHTML=bz?rBaZiCard(bz):'<div style="color:var(--tx3);font-size:13px">กรอกวันเกิดในโปรไฟล์เพื่อดูมิติพลังงาน</div>';
     // save to auto summary
-    if(bz)saveSummaryPart('bazi','[ปาจื้อ]\nDay Master: ธาตุ'+bz.dayMaster+'\nธาตุเด่น: '+bz.dominant+'\nธาตุที่ขาด: '+(bz.missing||[]).join(', '));
+    if(bz)saveSummaryPart('bazi','[มิติพลังงาน]\nพลังงานหลัก: ธาตุ'+bz.dayMaster+'\nธาตุเด่น: '+bz.dominant+'\nธาตุที่ขาด: '+(bz.missing||[]).join(', '));
   }
   rConvergenceChart(p,arch);
   rNewModulesInSelf(p);
+  // Phase 2: Blood Type + Nakshatra + Decision Signature
+  var phase2El=document.getElementById('s-phase2');
+  if(phase2El){
+    var html2='';
+    if(p.bloodType) html2+=rBloodCard(p.bloodType);
+    var natal2=lsG(LSN);
+    if(natal2&&natal2.planets&&natal2.planets.Moon&&natal2.planets.Moon.fullDegree){
+      html2+=rNakshatraCard(natal2.planets.Moon.fullDegree);
+    }
+    html2+=rDecisionSigCard(p);
+    phase2El.innerHTML=html2;
+  }
   // save archetype to auto summary
   saveSummaryPart('archetype','[ตัวตนหลัก]\n'+arch.icon+' '+arch.name+' — '+arch.trait+'\n'+arch.core+'\nจุดแข็ง: '+(arch.strengths||[]).join(', ')+'\nจุดระวัง: '+(arch.blinds||[]).join(', '));
 }
@@ -3166,7 +3330,7 @@ function rExecSummary(p,arch){
     +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
     +(arch.name?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">ตัวตนหลัก</div><div style="font-size:12px;font-weight:600;color:var(--tx)">'+arch.icon+' '+arch.name+'</div></div>':'')
     +(phase.label?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">ช่วงชีวิต</div><div style="font-size:12px;font-weight:600;color:var(--tx)">'+phase.label+'</div></div>':'')
-    +(bz?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">Day Master</div><div style="font-size:12px;font-weight:600;color:var(--tx)">ธาตุ'+bz.dayMaster+'</div></div>':'')
+    +(bz?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">พลังงานหลัก</div><div style="font-size:12px;font-weight:600;color:var(--tx)">ธาตุ'+bz.dayMaster+'</div></div>':'')
     +(lp?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">เลขชีวิต</div><div style="font-size:12px;font-weight:600;color:var(--tx)">'+lp+'</div></div>':'')
     +(sunSign?'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">ดวงอาทิตย์</div><div style="font-size:12px;font-weight:600;color:var(--tx)">'+sunSign+'</div></div>':'')
     +'</div>'
@@ -3183,7 +3347,7 @@ function rConvergenceChart(p,arch){
   if(!svg||!sumEl)return;
   var scores=[50,50,50,50,50,50];
   var signals=[];
-  // System 1: Western Astrology
+  // System 1: ASTROVERA Signature Convergence Engine™
   var natal=lsG(LSN);
   if(natal&&natal.planets&&natal.planets.Sun){
     var sunSign=natal.planets.Sun.sign;
@@ -3193,15 +3357,15 @@ function rConvergenceChart(p,arch){
     if(sunEl==='Air'){scores[5]=Math.min(100,scores[5]+20);scores[4]=Math.min(100,scores[4]+15);signals.push('☀️ ดวงอาทิตย์ราศีลม — การคิดและตัดสินใจเฉียบแหลม');}
     if(sunEl==='Water'){scores[2]=Math.min(100,scores[2]+20);scores[1]=Math.min(100,scores[1]+10);signals.push('☀️ ดวงอาทิตย์ราศีน้ำ — ความสัมพันธ์และการเติบโตภายใน');}
   }
-  // System 2: Ba Zi
+  // System 2: Life Energy Matrix
   var bz=p.dob?calcBaZi(p.dob,p.time):null;
   if(bz){
     var dm=bz.dayMaster;
-    if(dm==='ไฟ'){scores[0]=Math.min(100,scores[0]+20);scores[4]=Math.min(100,scores[4]+15);signals.push(EL_ICON['ไฟ']+' Day Master ธาตุไฟ — พลังงานสูง');}
-    if(dm==='ไม้'){scores[1]=Math.min(100,scores[1]+20);scores[3]=Math.min(100,scores[3]+10);signals.push(EL_ICON['ไม้']+' Day Master ธาตุไม้ — ศักยภาพการเติบโตสูง');}
-    if(dm==='ดิน'){scores[3]=Math.min(100,scores[3]+20);scores[2]=Math.min(100,scores[2]+10);signals.push(EL_ICON['ดิน']+' Day Master ธาตุดิน — มั่นคงในการงาน');}
-    if(dm==='ทอง'){scores[5]=Math.min(100,scores[5]+20);signals.push(EL_ICON['ทอง']+' Day Master ธาตุทอง — ตัดสินใจแม่นยำ');}
-    if(dm==='น้ำ'){scores[5]=Math.min(100,scores[5]+15);scores[4]=Math.min(100,scores[4]+10);signals.push(EL_ICON['น้ำ']+' Day Master ธาตุน้ำ — สัญชาตญาณสูง');}
+    if(dm==='ไฟ'){scores[0]=Math.min(100,scores[0]+20);scores[4]=Math.min(100,scores[4]+15);signals.push(EL_ICON['ไฟ']+' พลังงานหลัก ธาตุไฟ — พลังงานสูง');}
+    if(dm==='ไม้'){scores[1]=Math.min(100,scores[1]+20);scores[3]=Math.min(100,scores[3]+10);signals.push(EL_ICON['ไม้']+' พลังงานหลัก ธาตุไม้ — ศักยภาพการเติบโตสูง');}
+    if(dm==='ดิน'){scores[3]=Math.min(100,scores[3]+20);scores[2]=Math.min(100,scores[2]+10);signals.push(EL_ICON['ดิน']+' พลังงานหลัก ธาตุดิน — มั่นคงในการงาน');}
+    if(dm==='ทอง'){scores[5]=Math.min(100,scores[5]+20);signals.push(EL_ICON['ทอง']+' พลังงานหลัก ธาตุทอง — ตัดสินใจแม่นยำ');}
+    if(dm==='น้ำ'){scores[5]=Math.min(100,scores[5]+15);scores[4]=Math.min(100,scores[4]+10);signals.push(EL_ICON['น้ำ']+' พลังงานหลัก ธาตุน้ำ — สัญชาตญาณสูง');}
     bz.missing.forEach(function(el){
       if(el==='ไฟ'){scores[0]=Math.max(20,scores[0]-15);signals.push('⚠️ ขาดธาตุไฟ — เสริมแรงบันดาลใจ');}
       if(el==='ไม้'){scores[1]=Math.max(20,scores[1]-15);signals.push('⚠️ ขาดธาตุไม้ — เสริมการเติบโต');}
@@ -3217,7 +3381,7 @@ function rConvergenceChart(p,arch){
     if(lp===7||lp===9){scores[1]=Math.min(100,scores[1]+15);signals.push('🔢 เลขชีวิต '+lp+' — ผู้แสวงหา ชี้การเติบโต');}
     if(lp===11||lp===22||lp===33){scores[0]=Math.min(100,scores[0]+15);scores[4]=Math.min(100,scores[4]+15);signals.push('🔢 เลขมาสเตอร์ '+lp+' — พลังงานพิเศษ');}
   }
-  // System 4: Archetype
+  // System 4: Life Signature
   if(arch){
     var ak=arch.key||'d';
     if(ak==='a'){scores[5]=Math.min(100,scores[5]+15);scores[3]=Math.min(100,scores[3]+10);}
@@ -3345,8 +3509,8 @@ function buildAutoSummary(){
     'ชื่อ: '+(p.name||'—')+'   วันที่: '+new Date().toLocaleDateString('th-TH'),
     'วันเกิด: '+(p.dob?fmtD(p.dob):'—')+'   สถานที่: '+(p.place||'—'),
     ''];
-  // Archetype
-  lines.push('── ตัวตนหลัก (Archetype) ──');
+  // Life Signature
+  lines.push('── ตัวตนหลัก (Life Signature) ──');
   lines.push(arch.icon+' '+arch.name+' — '+arch.nameTh);
   lines.push(arch.core||'');
   lines.push('จุดแข็ง: '+(arch.strengths||[]).join(', '));
@@ -3356,8 +3520,8 @@ function buildAutoSummary(){
   lines.push(phase.label+' ('+phase.labelEn+')');
   lines.push(phase.insight||'');
   lines.push('');
-  // Ba Zi
-  if(s.bazi){lines.push('── ปาจื้อ (八字) ──');lines.push(s.bazi);lines.push('');}
+  // Life Energy Matrix
+  if(s.bazi){lines.push('── มิติพลังงาน () ──');lines.push(s.bazi);lines.push('');}
   // Natal
   if(s.natal){lines.push('── ดวงดาวจริง ──');lines.push(s.natal);lines.push('');}
   // Numerology
@@ -3643,7 +3807,7 @@ function rDash(){
     prev.innerHTML='<div class="card ci" style="cursor:pointer;margin-bottom:13px" onclick="go(\'sc-jnew\')">'
       +'<div style="display:flex;gap:13px;align-items:center"><div style="font-size:30px">📝</div>'
       +'<div><div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px">บันทึกการตัดสินใจแรก</div>'
-      +'<div style="font-size:13px;color:var(--tx2)">เริ่มต้น Growth Loop ของคุณ</div></div></div>'
+      +'<div style="font-size:13px;color:var(--tx2)">เริ่มต้น Evolution Cycle™ ของคุณ</div></div></div>'
       +'<div style="margin-top:11px"><button class="btn bi bsm" style="width:auto">+ เพิ่ม Journal</button></div></div>';
     return;
   }
@@ -3664,26 +3828,26 @@ function decisionStyle(avgConf,total,typeVariety){
   if(avgConf<=2.2)return{key:'analyzer',name:'🧬 Careful Analyzer — นักวิเคราะห์รอบคอบ',desc:'คุณมักใช้เวลาพิจารณาอย่างรอบคอบก่อนตัดสินใจ ระมัดระวังความเสี่ยง'};
   return{key:'balanced',name:'🧬 Balanced Builder — นักสร้างสมดุล',desc:'คุณตัดสินใจอย่างสมดุล ผสมความรอบคอบกับความกล้าลงมือทำ'};
 }
-// ═══ CONFLICT CHECK — compares self-reported Archetype (Quiz) vs actual
-// behavior pattern (Decision DNA from real Journal data). Inspired by the
+// ═══ CONFLICT CHECK — compares self-reported Life Signature (Quiz) vs actual
+// behavior pattern (Decision Signature from real Journal data). Inspired by the
 // "expectation vs reality" comparison pattern, but built entirely from data
 // ASTROVERA already has — no birth-chart/ephemeris data involved. ═══
 var CONFLICT_MATRIX={
   a:{aligned:['analyzer','strategic'],conflict:['decisive'],
     alignMsg:'สิ่งที่คุณบอกว่าเป็นตัวเอง ("วิเคราะห์ข้อมูลก่อนตัดสินใจเสมอ") ตรงกับพฤติกรรมจริงในข้อมูล — คุณใช้เวลาพิจารณาอย่างรอบคอบจริงๆ ก่อนตัดสินใจแต่ละครั้ง',
-    conflMsg:'คุณบอกว่าตัวเองวิเคราะห์ข้อมูลก่อนตัดสินใจเสมอ แต่ Decision DNA จากพฤติกรรมจริงกลับแสดงว่าคุณตัดสินใจเร็วและมั่นใจสูงมาโดยตลอด',
+    conflMsg:'คุณบอกว่าตัวเองวิเคราะห์ข้อมูลก่อนตัดสินใจเสมอ แต่ Decision Signature จากพฤติกรรมจริงกลับแสดงว่าคุณตัดสินใจเร็วและมั่นใจสูงมาโดยตลอด',
     pain:'ความ "รอบคอบ" ที่คุณคิดว่าเป็นตัวเอง อาจเป็นแค่สิ่งที่คุณอยากเป็น ไม่ใช่สิ่งที่ทำจริง — หรือจริงๆ แล้วคุณคิดรอบคอบในใจ แต่ลงมือเร็วกว่าที่รู้ตัวเอง?'},
   b:{aligned:['decisive','strategic'],conflict:['analyzer'],
     alignMsg:'สิ่งที่คุณบอกว่าเป็นตัวเอง ("เชื่อความรู้สึกและสัญชาตญาณ") ตรงกับพฤติกรรมจริง — คุณตัดสินใจด้วยความมั่นใจและรวดเร็วจริงๆ',
-    conflMsg:'คุณบอกว่าตัวเองเชื่อสัญชาตญาณเป็นหลัก แต่ Decision DNA แสดงว่าพฤติกรรมจริงของคุณคือใช้เวลาคิดนานและไม่ค่อยมั่นใจก่อนตัดสินใจแทบทุกครั้ง',
+    conflMsg:'คุณบอกว่าตัวเองเชื่อสัญชาตญาณเป็นหลัก แต่ Decision Signature แสดงว่าพฤติกรรมจริงของคุณคือใช้เวลาคิดนานและไม่ค่อยมั่นใจก่อนตัดสินใจแทบทุกครั้ง',
     pain:'สัญชาตญาณที่คุณว่าเชื่อ — เชื่อจริงไหม หรือเป็นแค่สิ่งที่อยากบอกตัวเองว่าเป็น ทั้งที่ลึกๆ แล้วกลัวการตัดสินใจผิดไม่ต่างจากคนอื่น?'},
   c:{aligned:['balanced','analyzer'],conflict:['decisive'],
     alignMsg:'สิ่งที่คุณบอกว่าเป็นตัวเอง ("ปรึกษาคนที่ไว้วางใจก่อนเสมอ") สอดคล้องกับพฤติกรรมจริง — คุณมักใช้เวลาพิจารณาอย่างรอบคอบก่อนตัดสินใจ',
-    conflMsg:'คุณบอกว่าตัวเองปรึกษาคนอื่นก่อนตัดสินใจเสมอ แต่ Decision DNA แสดงว่าพฤติกรรมจริงคือตัดสินใจเร็วและมั่นใจด้วยตัวเองเป็นส่วนใหญ่',
+    conflMsg:'คุณบอกว่าตัวเองปรึกษาคนอื่นก่อนตัดสินใจเสมอ แต่ Decision Signature แสดงว่าพฤติกรรมจริงคือตัดสินใจเร็วและมั่นใจด้วยตัวเองเป็นส่วนใหญ่',
     pain:'การ "ปรึกษา" ที่คุณว่าทำเสมอ บางทีอาจเป็นการบอกคนอื่นหลังตัดสินใจไปแล้ว มากกว่าการปรึกษาก่อนตัดสินใจจริงๆ หรือเปล่า?'},
   d:{aligned:['balanced','strategic'],conflict:[], // 'd' uses a separate rigidity check below instead of style-key conflict
     alignMsg:'สิ่งที่คุณบอกว่าเป็นตัวเอง ("ปรับวิธีตัดสินใจตามสถานการณ์") ตรงกับพฤติกรรมจริง — คุณตัดสินใจในหลายมิติของชีวิตด้วยรูปแบบที่ไม่ตายตัว',
-    conflMsg:'คุณบอกว่าตัวเองปรับเปลี่ยนวิธีตัดสินใจตามสถานการณ์ แต่ Decision DNA แสดงว่าพฤติกรรมจริงของคุณตัดสินใจในรูปแบบเดิมซ้ำๆ ในมิติเดียวของชีวิตเป็นส่วนใหญ่',
+    conflMsg:'คุณบอกว่าตัวเองปรับเปลี่ยนวิธีตัดสินใจตามสถานการณ์ แต่ Decision Signature แสดงว่าพฤติกรรมจริงของคุณตัดสินใจในรูปแบบเดิมซ้ำๆ ในมิติเดียวของชีวิตเป็นส่วนใหญ่',
     pain:'ความ "ยืดหยุ่น" ที่คุณคิดว่ามี อาจจำกัดอยู่แค่บางด้านของชีวิต — มีมิติไหนของชีวิตที่คุณยังไม่เคยลองตัดสินใจด้วยวิธีอื่นเลยบ้าง?'}
 };
 function rConflictCheck(dnaKey,typeVariety,total){
@@ -3712,7 +3876,7 @@ function rConflictCheck(dnaKey,typeVariety,total){
   } else {
     statusEl.innerHTML='🌱 ยังไม่ชัดเจนพอจะสรุป';
     statusEl.style.color='var(--tx2)';
-    msgEl.textContent='Archetype ที่คุณตอบไว้กับพฤติกรรมจริงในข้อมูลยังไม่ชี้ไปทางใดทางหนึ่งชัดเจน — บันทึก Journal ต่อไปอีกสักระยะ Conflict Check จะแม่นยำขึ้น';
+    msgEl.textContent='Life Signature ที่คุณตอบไว้กับพฤติกรรมจริงในข้อมูลยังไม่ชี้ไปทางใดทางหนึ่งชัดเจน — บันทึก Journal ต่อไปอีกสักระยะ Conflict Check จะแม่นยำขึ้น';
     painWrap.style.display='none';
   }
 }
@@ -3749,9 +3913,9 @@ function rDNA(){
   }).join('');
   var watch=[];
   if(avgConf<2.3)watch.push({i:'😰',t:'มักตัดสินใจด้วยความไม่มั่นใจ',d:'ลองใช้ Scenario เปรียบเทียบทางเลือกก่อนตัดสินใจ อาจช่วยให้มั่นใจขึ้น'});
-  if(totalFU>0&&fuPct<30)watch.push({i:'⏳',t:'ค้างติดตามผลหลายรายการ',d:'การติดตามผลคือกุญแจสำคัญของ Growth Loop ลองกลับไปบันทึกผลที่ค้างไว้'});
+  if(totalFU>0&&fuPct<30)watch.push({i:'⏳',t:'ค้างติดตามผลหลายรายการ',d:'การติดตามผลคือกุญแจสำคัญของ Evolution Cycle™ ลองกลับไปบันทึกผลที่ค้างไว้'});
   if(typeVariety<=1&&total>=2)watch.push({i:'🎯',t:'ตัดสินใจกระจุกอยู่มิติเดียว',d:'ลองมองหามุมอื่นของชีวิตที่อาจต้องการการตัดสินใจเช่นกัน'});
-  if(watch.length===0)watch.push({i:'🌱',t:'ยังไม่พบจุดเสี่ยงชัดเจน',d:'บันทึกต่อไปอีกสักระยะ Decision DNA จะเริ่มเห็นรูปแบบที่ชัดเจนขึ้น'});
+  if(watch.length===0)watch.push({i:'🌱',t:'ยังไม่พบจุดเสี่ยงชัดเจน',d:'บันทึกต่อไปอีกสักระยะ Decision Signature จะเริ่มเห็นรูปแบบที่ชัดเจนขึ้น'});
   document.getElementById('dna-watch').innerHTML=watch.map(function(b){
     return '<div style="display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--border)"><span style="font-size:18px;flex-shrink:0">'+b.i+'</span><div><div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px">'+b.t+'</div><div style="font-size:13px;color:var(--tx2);line-height:1.5">'+b.d+'</div></div></div>';
   }).join('');
@@ -3780,9 +3944,9 @@ function rPattern(){
   if(topLabel)insights.push({l:'😊 อารมณ์ที่พบบ่อยที่สุด',t:topEmoji+' '+topLabel+' ('+topCount+' จาก '+emos.length+' ครั้งที่ Check-in)'});
   if(totalFU>0)insights.push({l:'📊 อัตราติดตามผลสำเร็จ',t:doneFU+' จาก '+totalFU+' รายการ ('+Math.round(doneFU/totalFU*100)+'%)'});
   if(redoYes+redoNo>0)insights.push({l:'🔁 ถ้าย้อนเวลากลับไป จะตัดสินใจเหมือนเดิมไหม',t:redoYes+' ครั้งตอบว่าใช่ · '+redoNo+' ครั้งตอบว่าไม่ จากการตัดสินใจที่ทบทวนแล้ว'});
-  if(weekly.length>0)insights.push({l:'🌱 Weekly Reflection',t:'บันทึกแล้ว '+weekly.length+' ครั้ง — เป็นพื้นฐานของ Growth Loop ระยะยาว'});
+  if(weekly.length>0)insights.push({l:'🌱 Weekly Evolution',t:'บันทึกแล้ว '+weekly.length+' ครั้ง — เป็นพื้นฐานของ Evolution Cycle™ ระยะยาว'});
   if(lessonCount>0)insights.push({l:'📚 บทเรียนที่บันทึกไว้',t:lessonCount+' ข้อ จากผลลัพธ์การตัดสินใจจริง'});
-  if(insights.length===0)insights.push({l:'🔍 กำลังเก็บข้อมูล',t:'บันทึกต่อไปอีกสักระยะ Pattern Mining จะเริ่มเห็นรูปแบบที่ชัดเจนขึ้น'});
+  if(insights.length===0)insights.push({l:'🔍 กำลังเก็บข้อมูล',t:'บันทึกต่อไปอีกสักระยะ Life Pattern Discovery จะเริ่มเห็นรูปแบบที่ชัดเจนขึ้น'});
   document.getElementById('pat-insights').innerHTML=insights.map(function(i){
     return '<div class="rl rl-i rli" style="margin-bottom:9px"><div class="rll">'+i.l+'</div><div class="rlt">'+i.t+'</div></div>';
   }).join('');
@@ -4040,8 +4204,8 @@ function rBenchmark(){
   journals.forEach(function(j){j.followups.forEach(function(f){totalFU++;if(f.done)doneFU++;});});
   var fuPct=totalFU>0?Math.round(doneFU/totalFU*100):0;
   var metrics=[
-    {label:'จำนวน Weekly Reflection ทั้งหมด',real:weekly.length,ref:4,unit:'ครั้ง'},
-    {label:'จำนวน Decision Journal ทั้งหมด',real:journals.length,ref:5,unit:'รายการ'},
+    {label:'จำนวน Weekly Evolution ทั้งหมด',real:weekly.length,ref:4,unit:'ครั้ง'},
+    {label:'จำนวน Life Decision Tracker ทั้งหมด',real:journals.length,ref:5,unit:'รายการ'},
     {label:'อัตราติดตามผล Follow-up สำเร็จ',real:fuPct,ref:50,unit:'%'}
   ];
   var el=document.getElementById('bm-metrics');
@@ -4094,14 +4258,14 @@ function genAdvice(){
     return{l:l,score:thaiOverlap(l.title,q)};
   }).filter(function(x){return x.score>=4;}).sort(function(a,b){return b.score-a.score;})[0];
   var relevantLesson=lessonMatch?lessonMatch.l:null;
-  if(relevantLesson)support.push('📌 จาก AI Memory: คุณเคยปักหมุดบทเรียนที่เกี่ยวข้องไว้ — "'+esc(relevantLesson.text)+'" (จาก "'+esc(relevantLesson.title)+'")');
+  if(relevantLesson)support.push('📌 จาก Life Memory Vault: คุณเคยปักหมุดบทเรียนที่เกี่ยวข้องไว้ — "'+esc(relevantLesson.text)+'" (จาก "'+esc(relevantLesson.title)+'")');
   if(style)support.push('สไตล์การตัดสินใจของคุณคือ '+style.name.replace('🧬 ','')+' — '+style.desc);
   var growingCats=lifeos.filter(function(c){return c.score!==null&&c.trend==='ขึ้น';});
-  if(growingCats.length>0)support.push('Life OS Dashboard แสดงแนวโน้มขาขึ้นในหมวด '+growingCats.map(function(c){return c.name;}).join(', '));
-  if(doneFU>0)support.push('คุณมีวินัยในการติดตามผล Decision Journal ('+doneFU+'/'+totalFU+' รายการ) ทำให้มีข้อมูลอ้างอิงจากอดีตประกอบการตัดสินใจครั้งนี้');
+  if(growingCats.length>0)support.push('Life OS Life OS แสดงแนวโน้มขาขึ้นในหมวด '+growingCats.map(function(c){return c.name;}).join(', '));
+  if(doneFU>0)support.push('คุณมีวินัยในการติดตามผล Life Decision Tracker ('+doneFU+'/'+totalFU+' รายการ) ทำให้มีข้อมูลอ้างอิงจากอดีตประกอบการตัดสินใจครั้งนี้');
   if(support.length===0){
     var fbArch=ARCHETYPES[(lsG(LSP)||{}).archKey]||ARCHETYPES.d;
-    support.push('ยังไม่มีประวัติการตัดสินใจมากพอจะสรุปแพทเทิร์น แต่ Archetype ของคุณ ('+fbArch.name+') มักทำงานได้ดีในสถานการณ์เช่นนี้');
+    support.push('ยังไม่มีประวัติการตัดสินใจมากพอจะสรุปแพทเทิร์น แต่ Life Signature ของคุณ ('+fbArch.name+') มักทำงานได้ดีในสถานการณ์เช่นนี้');
   }
 
   var caution=[];
@@ -4114,7 +4278,7 @@ function genAdvice(){
   var missing=[];
   var matchedOpp=opps.filter(function(o){return o.name&&q.indexOf(o.name)>=0;})[0];
   if(!matchedOpp)missing.push('ยังไม่มีการประเมินเรื่องนี้ใน Opportunity Radar โดยเฉพาะ — ลองเพิ่มเพื่อให้มีคะแนนเชิงตัวเลขประกอบการตัดสินใจ');
-  if(journals.length<2)missing.push('ประวัติ Decision Journal ยังน้อย ทำให้ Decision DNA วิเคราะห์รูปแบบได้ไม่เต็มที่');
+  if(journals.length<2)missing.push('ประวัติ Life Decision Tracker ยังน้อย ทำให้ Decision Signature วิเคราะห์รูปแบบได้ไม่เต็มที่');
   if(missing.length===0)missing.push('ข้อมูลพื้นฐานในระบบครบถ้วนพอสมควร แต่ตัวเลขทางการเงิน/ตลาดที่เป็นปัจจุบันยังเป็นสิ่งที่ระบบนี้ไม่มี ควรตรวจสอบเพิ่มเติมด้วยตัวเอง');
 
   var rec=(avgConf!==null&&avgConf>=3&&decliningCats.length===0)?
@@ -4212,18 +4376,18 @@ function rFounder(){
   var bizStyle=null;
   if(dnaEl){
     if(bizJournals.length<2){
-      dnaEl.innerHTML='<div style="font-size:13px;color:var(--tx3);text-align:center">ต้องมี Decision Journal ด้านธุรกิจ/อาชีพ อย่างน้อย 2 รายการ</div>';
+      dnaEl.innerHTML='<div style="font-size:13px;color:var(--tx3);text-align:center">ต้องมี Life Decision Tracker ด้านธุรกิจ/อาชีพ อย่างน้อย 2 รายการ</div>';
     }else{
       var avgConf=bizJournals.reduce(function(a,j){return a+(j.confidence||2.5);},0)/bizJournals.length;
       bizStyle=decisionStyle(avgConf,bizJournals.length,2);
-      dnaEl.innerHTML='<div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:6px">'+bizStyle.name+'</div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+bizStyle.desc+'</div><div style="font-size:11px;color:var(--tx3);margin-top:8px">จาก Decision Journal ด้านธุรกิจ/อาชีพ '+bizJournals.length+' รายการ</div>';
+      dnaEl.innerHTML='<div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:6px">'+bizStyle.name+'</div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+bizStyle.desc+'</div><div style="font-size:11px;color:var(--tx3);margin-top:8px">จาก Life Decision Tracker ด้านธุรกิจ/อาชีพ '+bizJournals.length+' รายการ</div>';
     }
   }
   var pinnedLessons=collectLessons(['ธุรกิจ','อาชีพ']).filter(function(l){return l.pinned;});
   var lessonsEl=document.getElementById('fd-lessons');
   if(lessonsEl){
     if(pinnedLessons.length===0){
-      lessonsEl.innerHTML='<div class="card" style="text-align:center;color:var(--tx3);font-size:13px">ยังไม่มีบทเรียนธุรกิจที่ปักหมุดไว้ — ไปที่ AI Memory เพื่อปักหมุด</div>';
+      lessonsEl.innerHTML='<div class="card" style="text-align:center;color:var(--tx3);font-size:13px">ยังไม่มีบทเรียนธุรกิจที่ปักหมุดไว้ — ไปที่ Life Memory Vault เพื่อปักหมุด</div>';
     }else{
       lessonsEl.innerHTML=pinnedLessons.map(function(l){
         return '<div class="jcard" style="margin-bottom:9px"><div style="font-size:13px;color:var(--tx);line-height:1.6">⭐ '+esc(l.text)+'</div><div style="font-size:11px;color:var(--tx3);margin-top:5px">จาก "'+esc(l.title)+'"</div></div>';
@@ -4238,7 +4402,7 @@ function rFounder(){
   }
   if(opps.length>0)summaryParts.push('โอกาสที่น่าสนใจที่สุดคือ "'+opps[0].name+'"');
   if(bizStyle)summaryParts.push('สไตล์การตัดสินใจด้านธุรกิจของคุณคือ '+bizStyle.name.replace('🧬 ',''));
-  if(summaryParts.length===0)summaryParts.push('ยังมีข้อมูลด้านธุรกิจไม่มากพอ ลองเริ่มจากบันทึก Decision Journal หรือเพิ่มโอกาสใน Opportunity Radar');
+  if(summaryParts.length===0)summaryParts.push('ยังมีข้อมูลด้านธุรกิจไม่มากพอ ลองเริ่มจากบันทึก Life Decision Tracker หรือเพิ่มโอกาสใน Opportunity Radar');
   document.getElementById('fd-summary').textContent=summaryParts.join(' · ');
 
   // ─── Business Timing Index ───
@@ -4402,7 +4566,7 @@ async function genCopilotReply(msg,thread){
 }
 
 
-// ═══ MONEY BLUEPRINT + LEAK DETECTOR (replaces Financial Archetype) ═══
+// ═══ MONEY BLUEPRINT + LEAK DETECTOR (replaces Money Blueprint) ═══
 // 5 คำถาม → ผลลัพธ์ 2 มิติ: Money Type + Leak Pattern
 // ออกแบบให้ Q1-Q2 วัด type, Q3 วัด leak โดยตรง, Q4-Q5 ยืนยัน type
 var _finAnswers={},_finQ=1;
@@ -4511,7 +4675,84 @@ function scrollToNewModules(){
   },200);
 }
 
-// ─── Shooting Star Field ───
+// ─── Blood Type ───
+function selBlood(type,btn){
+  document.querySelectorAll('.blood-btn').forEach(function(b){
+    b.style.borderColor='var(--border)';
+    b.style.background='rgba(176,64,255,.1)';
+    b.style.color='var(--tx2)';b.style.fontWeight='600';
+  });
+  btn.style.borderColor='var(--gold)';
+  btn.style.background='rgba(176,64,255,.25)';
+  btn.style.color='var(--gold)';btn.style.fontWeight='800';
+  document.getElementById('inp-blood').value=type;
+}
+function getBloodType(){return(document.getElementById('inp-blood')||{}).value||'';}
+
+// ─── Blood Type card ───
+function rBloodCard(bt){
+  if(!bt)return'';
+  var B=BLOOD_TYPES[bt];if(!B)return'';
+  return'<div class="card" style="margin-bottom:13px">'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
+    +'<span style="font-size:28px">'+B.icon+'</span>'
+    +'<div><div style="font-size:11px;color:var(--tx3)">มิติพลังงานชีวภาพ</div>'
+    +'<div style="font-size:15px;font-weight:700;color:var(--gold)">กรุ๊ป '+B.th+'</div></div></div>'
+    +'<div style="font-size:12px;color:var(--tx2);margin-bottom:8px">'+B.trait+'</div>'
+    +'<div style="font-size:13px;color:var(--tx);line-height:1.7;margin-bottom:10px">'+B.core+'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">'
+    +'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px">'
+    +'<div style="font-size:10px;color:var(--tx3);margin-bottom:4px">⚡ จุดแข็ง</div>'
+    +'<div style="font-size:11px;color:var(--gold2)">'+B.strengths.slice(0,3).join(' · ')+'</div></div>'
+    +'<div style="background:rgba(0,0,0,.2);border-radius:8px;padding:9px">'
+    +'<div style="font-size:10px;color:var(--tx3);margin-bottom:4px">🎯 การตัดสินใจ</div>'
+    +'<div style="font-size:11px;color:var(--tx2)">'+B.decision+'</div></div></div>'
+    +'<div style="font-size:11px;color:var(--tx3);line-height:1.5">💞 '+B.relation+'</div>'
+    +'</div>';
+}
+
+// ─── Nakshatra card ───
+function rNakshatraCard(moonFullDeg){
+  var nak=getNakshatra(moonFullDeg);if(!nak)return'';
+  return'<div class="card" style="margin-bottom:13px">'
+    +'<div style="font-size:11px;color:var(--tx3);margin-bottom:6px">✦ มิติจักรวาลชั้นลึก</div>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">'
+    +'<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#B040FF,#4B0082);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🌙</div>'
+    +'<div><div style="font-size:16px;font-weight:700;color:var(--tx)">'+nak.th+'</div>'
+    +'<div style="font-size:11px;color:var(--tx3)">'+nak.n+'</div></div></div>'
+    +'<div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:8px">'+nak.q+'</div>'
+    +'<div style="font-size:11px;color:var(--tx3);background:rgba(176,64,255,.06);border-radius:8px;padding:8px;line-height:1.5">'
+    +'สะท้อนสิ่งที่คุณต้องการจากชีวิตในระดับจิตใต้สำนึก</div></div>';
+}
+
+// ─── Decision Signature card ───
+function rDecisionSigCard(p){
+  var R=calcDecisionSig(p);
+  var sig=R.sig;
+  var speedLabels=['ช้า','ปกติ','เร็ว'];
+  var speed=speedLabels[Math.max(0,Math.min(2,R.speedMod+1))];
+  return'<div class="card" style="margin-bottom:13px;border-color:rgba(176,64,255,.35)">'
+    +'<div style="font-size:11px;color:var(--gold);font-weight:600;margin-bottom:10px;letter-spacing:.5px">🧬 Decision Signature — ลายนิ้วมือการตัดสินใจ</div>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">'
+    +'<span style="font-size:30px">'+sig.icon+'</span>'
+    +'<div><div style="font-size:16px;font-weight:700;color:var(--tx)">'+sig.th+'</div>'
+    +'<div style="font-size:12px;color:var(--tx3)">ความเร็วในการตัดสินใจ: '+speed+'</div></div></div>'
+    +'<div style="font-size:12px;color:var(--tx3);margin-bottom:4px">Pattern:</div>'
+    +'<div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:10px">'+sig.pattern+'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-radius:8px;padding:9px">'
+    +'<div style="font-size:10px;color:var(--tx3);margin-bottom:3px">⚡ จุดแข็ง</div>'
+    +'<div style="font-size:12px;color:var(--grn)">'+sig.strength+'</div></div>'
+    +'<div style="background:rgba(251,113,133,.06);border:1px solid rgba(251,113,133,.2);border-radius:8px;padding:9px">'
+    +'<div style="font-size:10px;color:var(--tx3);margin-bottom:3px">⚠️ ความเสี่ยง</div>'
+    +'<div style="font-size:12px;color:var(--rose)">'+sig.risk+'</div></div></div>'
+    +'<div style="background:rgba(176,64,255,.08);border-radius:8px;padding:10px">'
+    +'<div style="font-size:11px;color:var(--gold);margin-bottom:4px">💡 คำแนะนำเฉพาะคุณ</div>'
+    +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+sig.tip+'</div></div>'
+    +(R.nak?'<div style="margin-top:10px;font-size:11px;color:var(--tx3)">✦ มิติจักรวาลเสริม: '+R.nak.th+' — '+R.nak.q.split(' ')[0]+'</div>':'')
+    +'</div>';
+}
+
 function initStarField(){
   var bg=document.getElementById('star-field');
   if(!bg)return;
@@ -4970,7 +5211,7 @@ function rNewModulesInSelf(p){
     html+=entryCard('🎯','ค้นหาภารกิจชีวิต','คุณเกิดมาเพื่ออะไร? ค้นหาคำตอบผ่าน 4 คำถาม','openPurQ');
   }
 
-  // ─── 3. Relationship Archetype ───
+  // ─── 3. Relationship Life Signature ───
   var relKey=p.relType,rel=relKey?REL_ARCHETYPES[relKey]:null;
   if(rel){
     var relName=L==='zh'?rel.zh:L==='en'?rel.en:rel.th;
@@ -5098,6 +5339,208 @@ function _shareCopied(){
   var btn=document.getElementById('share-copy-btn');
   if(btn){btn.textContent=t('share.copied');setTimeout(function(){btn.textContent=t('share.copy');},2000);}
   closeShareModal();
+}
+
+// ═══ CONVERGENCE DASHBOARD — Life Signature Overview ═══
+function openConvergence(){
+  rConvergenceDash();
+  go('sc-convergence');
+}
+
+function rConvergenceDash(){
+  var el=document.getElementById('conv-body');
+  if(!el)return;
+  var p=lsG(LSP)||{};
+  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
+  var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
+  var bz=p.dob?calcBaZi(p.dob,p.time):null;
+  var lp=p.dob?lifePathNumber(p.dob):null;
+  var natal=lsG(LSN);
+  var L=_lang;
+
+  // ─── helper: bar chart row ───
+  function bar(label,val,max,color){
+    var pct=Math.round((val/max)*100);
+    return'<div style="margin-bottom:12px">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
+      +'<span style="font-size:12px;color:var(--tx2)">'+label+'</span>'
+      +'<span style="font-size:12px;font-weight:700;color:'+color+'">'+val+'/'+max+'</span></div>'
+      +'<div style="background:rgba(255,255,255,0.06);border-radius:4px;height:8px">'
+      +'<div style="width:'+pct+'%;height:100%;border-radius:4px;background:'+color+';transition:width .6s ease"></div>'
+      +'</div></div>';
+  }
+
+  // ─── Compute convergence scores ───
+  var dims={};
+  // มิติ 1: พลังงานหลัก (from arch + Ba Zi daymaster)
+  var energyMap={ไฟ:9,ดิน:7,ทอง:8,น้ำ:7,ไม้:8};
+  dims.energy=bz?(energyMap[bz.dayMaster]||7):6;
+  // มิติ 2: ความสัมพันธ์ (from relType + attachStyle)
+  var relScore={builder:8,nurturer:9,adventurer:8,mirror:7,freeSpirit:6};
+  dims.relation=p.relType?relScore[p.relType]||7:5;
+  // มิติ 3: ภารกิจ (from lifeType)
+  var purposeScore={creator:9,teacher:8,explorer:8,changemaker:9,nurturer:7};
+  dims.purpose=p.lifeType?purposeScore[p.lifeType]||7:5;
+  // มิติ 4: ความมั่งคั่ง (from finArchetype)
+  var wealthScore={builder:8,opportunist:9,protector:6,impact:7,avoider:5};
+  dims.wealth=p.finArchetype?wealthScore[p.finArchetype]||6:5;
+  // มิติ 5: ความแข็งแกร่งทีม (from teamRole)
+  var teamScore={visionary:9,executor:8,connector:8,challenger:7};
+  dims.team=p.teamRole?teamScore[p.teamRole]||7:5;
+  // มิติ 6: พรสวรรค์ (from hiddenTalent)
+  var talentScore={solver:9,creator:9,teacher:8,empath:8,organizer:7};
+  dims.talent=p.hiddenTalent?talentScore[p.hiddenTalent]||7:5;
+  // มิติ 7: จังหวะชีวิต (from phase + lp)
+  var phaseScore={a:8,b:9,c:6,d:7};
+  var lpBonus=lp?([1,8,9].includes(lp)?1:0):0;
+  dims.rhythm=Math.min(10,(phaseScore[p.phaseKey]||6)+lpBonus);
+
+  // มิติ 8: พลังงานชีวภาพ (from blood type) — Phase 2
+  var btScores={O:8,A:7,B:7,AB:8};
+  if(p.bloodType&&btScores[p.bloodType]){dims.bio=btScores[p.bloodType];}
+
+  // มิติ 9: มิติจักรวาลชั้นลึก (Nakshatra) — Phase 2
+  var natal2=lsG(LSN);
+  var nakData=null;
+  if(natal2&&natal2.planets&&natal2.planets.Moon&&natal2.planets.Moon.fullDegree){
+    nakData=getNakshatra(natal2.planets.Moon.fullDegree);
+    var nakScoreMap={energy:9,transform:8,clarity:8,growth:8,explore:7,storm:6,renewal:8,
+      nurture:8,intuition:9,power:9,joy:7,achievement:8,skill:8,art:7,freedom:7,
+      focus:9,loyalty:8,courage:8,root:7,victory:8,final:9,learn:7,wealth:8,
+      heal:7,sacrifice:7,wisdom:9,complete:8};
+    if(nakData)dims.cosmic=nakScoreMap[nakData.key]||7;
+  }
+
+  var totalScore=Object.values(dims).reduce(function(a,b){return a+b},0);
+  var maxTotal=70;
+  var convergePct=Math.round(totalScore/maxTotal*100);
+
+  // ─── PRIMARY SIGNATURE ───
+  var sunSign='';
+  if(natal&&natal.planets){
+    Object.keys(natal.planets).forEach(function(k){
+      if(k.toLowerCase()==='sun'&&natal.planets[k].sign)
+        sunSign=SIGN_TH[natal.planets[k].sign]||natal.planets[k].sign;
+    });
+  }
+
+  var html='';
+
+  // Header Card
+  html+='<div style="background:linear-gradient(135deg,rgba(176,64,255,.2),rgba(129,140,248,.1));border:1px solid rgba(176,64,255,.5);border-radius:16px;padding:18px;margin-bottom:14px;text-align:center">'
+    +'<div style="font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:8px">✦ ASTROVERA SIGNATURE CONVERGENCE ENGINE™</div>'
+    +'<div style="font-size:40px;margin-bottom:6px">'+arch.icon+'</div>'
+    +'<div style="font-size:20px;font-weight:800;color:var(--tx);margin-bottom:4px">'+arch.name+'</div>'
+    +'<div style="font-size:13px;color:var(--tx2);margin-bottom:14px">'+arch.trait+'</div>'
+    +'<div style="display:inline-flex;align-items:center;gap:8px;background:rgba(176,64,255,.15);border:1px solid rgba(176,64,255,.4);border-radius:20px;padding:8px 20px">'
+    +'<span style="font-size:24px;font-weight:800;color:var(--gold)">'+convergePct+'%</span>'
+    +'<span style="font-size:12px;color:var(--tx2)">Life Signature<br>Convergence™</span>'
+    +'</div></div>';
+
+  // Quick Summary Row
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">'
+    +(lp?'<div style="background:rgba(28,0,64,.8);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">เลขชีวิต</div><div style="font-size:22px;font-weight:800;color:var(--gold)">'+lp+'</div></div>':'')
+    +(sunSign?'<div style="background:rgba(28,0,64,.8);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">☀️ มิติจักรวาล</div><div style="font-size:13px;font-weight:700;color:var(--tx)">'+sunSign+'</div></div>':'')
+    +(bz?'<div style="background:rgba(28,0,64,.8);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--tx3);margin-bottom:3px">พลังงานหลัก</div><div style="font-size:13px;font-weight:700;color:var(--tx)">ธาตุ'+bz.dayMaster+'</div></div>':'')
+    +'</div>';
+
+  // 7 Dimensions bar chart
+  html+='<div class="card" style="margin-bottom:14px">'
+    +'<div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:14px">📊 7 Dimensions of Self</div>';
+
+  var dimLabels={
+    energy:'⚡ พลังงานหลัก',
+    relation:'💞 ความสัมพันธ์',
+    purpose:'🎯 ภารกิจชีวิต',
+    wealth:'💰 มิติความมั่งคั่ง',
+    team:'🏆 พลังทีม',
+    talent:'🔮 พรสวรรค์',
+    rhythm:'⏳ จังหวะชีวิต',
+    bio:'🩸 มิติพลังงานชีวภาพ',
+    cosmic:'🌙 มิติจักรวาลชั้นลึก'
+  };
+  var dimColors=['#B040FF','#F472B6','#60A5FA','#34D399','#FBBF24','#A78BFA','#C084FC','#FF6B6B','#7DD3FC'];
+  var di=0;
+  Object.keys(dims).forEach(function(k){
+    html+=bar(dimLabels[k],dims[k],10,dimColors[di++]);
+  });
+  html+='</div>';
+
+  // Life Signature Core text
+  html+='<div class="card" style="margin-bottom:14px">'
+    +'<div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:10px">✦ Life Signature ของคุณ</div>'
+    +'<div style="font-size:14px;color:var(--tx2);line-height:1.8;margin-bottom:12px">'+arch.core+'</div>'
+    +'<div style="border-top:1px solid var(--border);padding-top:10px">'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
+    +'<div><div style="font-size:10px;color:var(--tx3);margin-bottom:4px">ช่วงชีวิตตอนนี้</div>'
+    +'<div style="font-size:12px;color:var(--gold);font-weight:600">'+phase.label+'</div></div>'
+    +(p.finArchetype&&MONEY_LEAKS?'<div><div style="font-size:10px;color:var(--tx3);margin-bottom:4px">พลังการเงิน</div>'
+    +'<div style="font-size:12px;color:var(--gold);font-weight:600">'+(FIN_ARCHETYPES[p.finArchetype]?FIN_ARCHETYPES[p.finArchetype].nameTh:'—')+'</div></div>':'')
+    +'</div></div></div>';
+
+  // Key Strengths
+  if(arch.strengths&&arch.strengths.length){
+    html+='<div class="card" style="margin-bottom:14px">'
+      +'<div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:10px">⚡ จุดแข็งที่โดดเด่น</div>';
+    arch.strengths.forEach(function(s,i){
+      html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">'
+        +'<div style="width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;box-shadow:0 0 6px var(--gold)"></div>'
+        +'<div style="font-size:13px;color:var(--tx2)">'+s+'</div></div>';
+    });
+    html+='</div>';
+  }
+
+  // Action card
+  html+='<div style="background:linear-gradient(135deg,rgba(176,64,255,.15),rgba(129,140,248,.08));border:1px solid rgba(176,64,255,.35);border-radius:14px;padding:16px;margin-bottom:14px">'
+    +'<div style="font-size:11px;color:var(--gold);margin-bottom:6px">→ สิ่งที่ทำได้ตอนนี้</div>'
+    +'<div style="font-size:13px;color:var(--tx);line-height:1.7">'+arch.act+'</div>'
+    +'</div>';
+
+  // Decision Signature section
+  var dsResult=calcDecisionSig(p);
+  html+='<div class="card" style="margin-bottom:14px">'
+    +'<div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:10px">🧬 Decision Signature</div>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">'
+    +'<span style="font-size:24px">'+dsResult.sig.icon+'</span>'
+    +'<div><div style="font-size:14px;font-weight:600;color:var(--gold)">'+dsResult.sig.th+'</div>'
+    +'<div style="font-size:11px;color:var(--tx3)">'+dsResult.sig.name+'</div></div></div>'
+    +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:6px">'+dsResult.sig.pattern+'</div>'
+    +'<div style="font-size:11px;color:var(--tx3)">💡 '+dsResult.sig.tip+'</div>'
+    +(nakData?'<div style="margin-top:8px;font-size:11px;color:var(--tx3)">🌙 มิติจักรวาล: '+nakData.th+' · '+nakData.q+'</div>':'')
+    +'</div>';
+
+  // Footer branding
+  html+='<div style="text-align:center;padding:16px 0 8px">'
+    +'<div style="font-size:10px;color:var(--tx3);letter-spacing:1px;margin-bottom:6px">POWERED BY</div>'
+    +'<div style="font-size:12px;font-weight:700;color:var(--gold2)">ASTROVERA Signature Convergence Engine™</div>'
+    +'<div style="font-size:10px;color:var(--tx3);margin-top:4px">astro-pwa.netlify.app</div>'
+    +'</div>';
+
+  el.innerHTML=html;
+  // save summary
+  saveSummaryPart&&saveSummaryPart('convergence',
+    '[Life Signature]\n'+arch.name+' — '+arch.trait+'\nScore: '+convergePct+'%\n'+arch.core);
+}
+
+function shareConvergence(){
+  var p=lsG(LSP)||{};
+  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
+  var lp=p.dob?lifePathNumber(p.dob):null;
+  var bz=p.dob?calcBaZi(p.dob,p.time):null;
+  var url='https://astro-pwa.netlify.app';
+  var text=(_lang==='en'?'My Life Signature on ASTROVERA:\n':
+            _lang==='zh'?'我在ASTROVERA的生命印記：\n':
+            'Life Signature ของฉันที่ ASTROVERA:\n\n')
+    +arch.icon+' '+arch.name+'\n'
+    +arch.trait+'\n'
+    +(lp?'\n🔢 เลขชีวิต: '+lp:'')
+    +(bz?'\n⚡ พลังงานหลัก: ธาตุ'+bz.dayMaster:'')
+    +'\n\n✦ วิเคราะห์โดย ASTROVERA Signature Convergence Engine™'
+    +'\n'+url;
+  if(navigator.share&&/iPhone|Android/i.test(navigator.userAgent)){
+    navigator.share({title:'ASTROVERA — Life Signature',text:text,url:url})
+      .catch(function(){_shareFallback(url);});
+  } else { _shareFallback(text); }
 }
 
 // ═══ PROFILE REFRESH ═══
@@ -5350,7 +5793,7 @@ function loadDemo(){
     <button class="btn" style="margin-top:16px;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--tx3);font-size:13px" onclick="skipFinQ()">ข้ามไปก่อน</button>
   </div>
 </div>
-<!-- Financial Archetype Result (in Self Intelligence) embedded via rFinResult() -->
+<!-- Money Blueprint Result (in Life Intelligence) embedded via rFinResult() -->
 
 <!-- ─── LIFE PURPOSE QUIZ (sc-purpose-quiz) ─── -->
 <div class="sc" id="sc-purpose-quiz">
@@ -5399,8 +5842,18 @@ function loadDemo(){
     <button class="btn" style="margin-top:16px;width:100%;background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--tx3);font-size:13px" onclick="skipLoveQ()">ข้ามไปก่อน</button>
   </div>
 </div>
-</body>
-<div id="share-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:flex-end;justify-content:center">
+<!-- ─── CONVERGENCE DASHBOARD SCREEN ─── -->
+<div class="sc" id="sc-convergence">
+  <div class="tb">
+    <button class="bk-btn" onclick="bk()">←</button>
+    <div class="tb-t">✦ Life Signature Overview</div>
+    <button onclick="shareConvergence()" style="background:linear-gradient(135deg,#B040FF,#7B00D4);border:none;color:#fff;font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px;cursor:pointer">📤 แชร์</button>
+  </div>
+  <div class="sb" style="padding:16px 16px 100px" id="conv-body">
+    <div class="empty"><div class="emj">✦</div><div class="emt">กำลังสร้าง Life Signature...</div></div>
+  </div>
+</div>
+</body> style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:flex-end;justify-content:center">
   <div style="background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:430px">
     <div style="text-align:center;margin-bottom:18px">
       <div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px" data-i18n="share.title">แชร์ผลลัพธ์ของคุณ</div>
@@ -5432,7 +5885,7 @@ function loadDemo(){
     <div style="text-align:center;margin-bottom:20px">
       <div style="font-size:11px;color:var(--gold);letter-spacing:1px;margin-bottom:10px" id="tour-step">1/3</div>
       <div style="font-size:42px;margin-bottom:12px" id="tour-icon">🧭</div>
-      <div style="font-size:18px;font-weight:700;color:var(--tx);margin-bottom:8px" id="tour-title">เริ่มที่ Self Intelligence</div>
+      <div style="font-size:18px;font-weight:700;color:var(--tx);margin-bottom:8px" id="tour-title">เริ่มที่ Life Intelligence</div>
       <div style="font-size:14px;color:var(--tx2);line-height:1.6" id="tour-desc">ดูตัวตนหลัก ดวงดาว และการวิเคราะห์ทั้งหมดที่นี่</div>
     </div>
     <div style="display:flex;gap:10px">
@@ -5445,7 +5898,7 @@ function loadDemo(){
 <div class="sc" id="sc-daily-sync">
   <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">⚡ Daily Mental Sync</div><div style="font-size:12px;color:var(--tx3)" id="sync-ctr">1 / 3</div></div>
   <div class="sb" style="padding:22px 18px">
-    <div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">สแกนพลังงานตัวเองประจำวัน 3 ข้อ → รับ Insight Card แชร์ได้ทันที</div>
+    <div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">สแกนพลังงานตัวเองประจำวัน 3 ข้อ → รับ Life Signal Card แชร์ได้ทันที</div>
     <div id="sync-body"></div>
   </div>
 </div>
