@@ -116,10 +116,19 @@ body{min-height:100vh;background:var(--bg);font-family:var(--fn);color:var(--tx)
 .tb-t{flex:1;font-weight:600;font-size:16px;color:var(--tx)}
 .tb-act{padding:8px 16px;border-radius:20px;border:none;background:var(--gold);color:#fff;font-size:13px;font-weight:700;cursor:pointer}
 .bnav{display:flex;background:rgba(13,0,32,.92);backdrop-filter:blur(16px);border-top:1px solid var(--border);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,4px);width:100%}
-.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;cursor:pointer;border:none;background:none;gap:2px}
-.bni span:first-child{font-size:20px;line-height:1}
-.bni span:last-child{font-size:10px;font-weight:500;color:var(--tx3)}
-.bni.on span:last-child{color:var(--gold)}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;cursor:pointer;border:none;background:none;gap:2px;position:relative;transition:all .15s}
+.bni span:first-child{font-size:20px;line-height:1;transition:transform .15s}
+.bni span:last-child{font-size:10px;font-weight:500;color:var(--tx3);transition:color .15s}
+.bni.on span:last-child{color:var(--gold);font-weight:700}
+.bni.on span:first-child{transform:scale(1.15)}
+.bni.on{background:rgba(176,64,255,.08);border-radius:12px}
+/* Input error state */
+.if-err{border-color:var(--rose)!important;box-shadow:0 0 0 2px rgba(251,113,133,.2)!important;animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+/* Tooltip สำหรับปุ่ม icon */
+.has-tip{position:relative}
+.has-tip::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(20,0,50,.95);color:var(--tx);font-size:11px;white-space:nowrap;padding:5px 9px;border-radius:8px;border:1px solid var(--border);pointer-events:none;opacity:0;transition:opacity .2s;z-index:200}
+.has-tip:hover::after,.has-tip:focus::after{opacity:1}
 
 /* ═══ CARD — with star glow effect ═══ */
 .card{background:linear-gradient(135deg,rgba(28,0,64,.9),rgba(39,0,90,.7));border-radius:var(--r3);padding:20px;border:1px solid var(--border);position:relative;overflow:hidden}
@@ -412,7 +421,34 @@ textarea.if{resize:none}
       <div class="card cg" style="padding:22px;margin-bottom:14px">
         <div style="font-size:14px;color:var(--tx2);margin-bottom:15px;text-align:center;line-height:1.5" data-i18n="land.start">เริ่มเข้าใจตัวเองใน 2 นาที<br><span style="font-size:12px;color:var(--tx3)" data-i18n="land.free">ฟรี · ไม่ต้องสมัครก่อน</span></div>
         <div class="ig" style="margin-bottom:11px"><label class="il" data-i18n="inp.name">ชื่อของคุณ</label><input id="inp-name" class="if" type="text" placeholder="ชื่อ หรือชื่อเล่น" data-i18n="inp.name.ph"></div>
-        <div class="ig" style="margin-bottom:11px"><label class="il" data-i18n="inp.dob">วันเกิด <span style="color:var(--rose)">*</span></label><input id="inp-dob" class="if" type="date" max="2010-01-01" min="1940-01-01" style="font-size:16px"><div style="font-size:11px;color:var(--tx3);margin-top:4px" data-i18n="inp.dob.hint">ใส่ตามรูปแบบ ปี/เดือน/วัน (ค.ศ.) เช่น 1990/06/15</div></div>
+        <div class="ig" style="margin-bottom:11px">
+          <label class="il" data-i18n="inp.dob">วันเกิด <span style="color:var(--rose)">*</span></label>
+          <div style="display:grid;grid-template-columns:1fr 2fr 1.5fr;gap:7px">
+            <input id="inp-dob-d" class="if" type="number" placeholder="วัน" min="1" max="31" style="text-align:center;font-size:16px" oninput="syncDob()">
+            <select id="inp-dob-m" class="if" style="font-size:14px" onchange="syncDob()">
+              <option value="">— เดือน —</option>
+              <option value="01">มกราคม</option><option value="02">กุมภาพันธ์</option>
+              <option value="03">มีนาคม</option><option value="04">เมษายน</option>
+              <option value="05">พฤษภาคม</option><option value="06">มิถุนายน</option>
+              <option value="07">กรกฎาคม</option><option value="08">สิงหาคม</option>
+              <option value="09">กันยายน</option><option value="10">ตุลาคม</option>
+              <option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option>
+            </select>
+            <input id="inp-dob-y" class="if" type="number" placeholder="ปี" min="1483" max="2553" style="text-align:center;font-size:16px" oninput="syncDob()">
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:7px">
+            <div style="font-size:11px;color:var(--tx3)">ระบบปี:</div>
+            <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:var(--tx2)">
+              <input type="radio" name="cal-era" value="BE" checked onchange="syncDob()" style="accent-color:var(--gold)"> พ.ศ.
+            </label>
+            <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:var(--tx2)">
+              <input type="radio" name="cal-era" value="CE" onchange="syncDob()" style="accent-color:var(--gold)"> ค.ศ.
+            </label>
+            <div id="dob-preview" style="flex:1;text-align:right;font-size:11px;color:var(--gold)"></div>
+          </div>
+          <div id="dob-err" style="font-size:11px;color:var(--rose);margin-top:5px;display:none">⚠️ กรุณากรอกวันเกิดให้ถูกต้อง</div>
+          <input id="inp-dob" type="hidden">
+        </div>
         <div class="ig" style="margin-bottom:11px"><label class="il" data-i18n="inp.time">เวลาเกิด (ถ้าทราบ)</label><input id="inp-time" class="if" type="time"></div>
         <div class="ig" style="margin-bottom:0">
           <label class="il" data-i18n="inp.place">สถานที่เกิด</label>
@@ -597,13 +633,13 @@ textarea.if{resize:none}
     </div>
     <div id="pl-plus" class="plan" style="margin-bottom:11px" onclick="selPl('plus')">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div><div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px">ASTROVERA PLUS</div><div style="font-size:13px;color:var(--tx2)">บันทึกการตัดสินใจ+สะท้อนตัวตน 6 มิติ+ระบบติดตามผล</div></div>
+        <div><div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px">ASTROVERA พรีเมียม</div><div style="font-size:13px;color:var(--tx2)">บันทึกการตัดสินใจ+สะท้อนตัวตน 6 มิติ+ระบบติดตามผล</div></div>
         <div style="font-size:27px;font-weight:700;color:var(--gold)">299 <span style="font-size:13px;color:var(--tx3);font-weight:400">/ เดือน</span></div>
       </div>
     </div>
     <div id="pl-founder" class="plan" style="margin-bottom:20px" onclick="selPl('founder')">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div><div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px">Founder Intelligence</div><div style="font-size:13px;color:var(--tx2)">สำหรับผู้ก่อตั้งและผู้ประกอบการ</div></div>
+        <div><div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px">ปัญญาผู้ก่อตั้ง</div><div style="font-size:13px;color:var(--tx2)">สำหรับผู้ก่อตั้งและผู้ประกอบการ</div></div>
         <div style="font-size:27px;font-weight:700;color:var(--gold)">1,990 <span style="font-size:13px;color:var(--tx3);font-weight:400">บาท</span></div>
       </div>
     </div>
@@ -644,9 +680,9 @@ textarea.if{resize:none}
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:13px">
         <div><div style="font-size:13px;color:var(--tx3);margin-bottom:2px">สวัสดี</div><div style="font-family:var(--fh);font-size:21px;color:var(--tx)" id="d-name">คุณ</div></div>
         <div style="display:flex;gap:8px;align-items:center">
-          <button id="sound-btn" onclick="toggleSound()" title="เปิด/ปิดเสียง background" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx3);font-size:16px;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center">🔇</button>
-          <button id="theme-btn" onclick="toggleTheme()" title="สลับ Dark/Light Mode" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx3);font-size:16px;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center">🌙</button>
-          <div class="mtag">✦ Premium</div>
+          <button id="sound-btn" onclick="toggleSound()" title="เปิด/ปิดเสียง background" class="has-tip" data-tip="🔊 เปิด/ปิดเสียง ambient" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx3);font-size:16px;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center">🔇</button>
+          <button id="theme-btn" onclick="toggleTheme()" title="สลับ Dark/Light Mode" class="has-tip" data-tip="🌙 สลับ Dark / Light" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx3);font-size:16px;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center">🌙</button>
+          <div class="mtag">✦ พรีเมียม</div>
           <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gdim),var(--gold));display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer" onclick="go('sc-profile')">👤</div>
         </div>
       </div>
@@ -654,7 +690,7 @@ textarea.if{resize:none}
       <!-- Daily Horoscope Mini-card -->
       <div id="d-horo" style="background:linear-gradient(135deg,rgba(176,64,255,.12),rgba(129,140,248,.08));border:1px solid rgba(176,64,255,.3);border-radius:var(--r2);padding:11px 14px;margin-bottom:11px;cursor:pointer" onclick="go('sc-self')">
         <div style="display:flex;align-items:center;justify-content:space-between">
-          <div style="font-size:10px;color:var(--gold);letter-spacing:1px">✦ DAILY LIFE SIGNAL</div>
+          <div style="font-size:10px;color:var(--gold);letter-spacing:1px">✦ สัญญาณชีวิตวันนี้</div>
           <div style="font-size:10px;color:var(--tx3)" id="d-horo-date"></div>
         </div>
         <div style="font-size:13px;color:var(--tx);line-height:1.6;margin-top:5px" id="d-horo-msg">กำลังโหลด...</div>
@@ -669,8 +705,8 @@ textarea.if{resize:none}
       <div id="d-fu-alert" style="display:none" onclick="go('sc-decision')">
         <div class="alert-b"><div style="font-size:24px">🔔</div><div><div style="font-size:14px;font-weight:600;color:var(--teal);margin-bottom:2px">Follow-up ถึงกำหนดแล้ว</div><div style="font-size:13px;color:var(--tx2)" id="d-fu-txt">กรุณาบันทึกผลลัพธ์</div></div></div>
       </div>
-      <!-- Life OS Life OS -->
-      <div class="sh"><div class="sht">🗺️ Life OS Life OS</div></div>
+      <!-- Life OS -->
+      <div class="sh"><div class="sht">🗺️ แผนที่ชีวิต</div></div>
       <div class="card" style="margin-bottom:13px" id="d-lifeos"></div>
       <!-- Daily Inner Sync -->
       <div class="sh"><div class="sht">Daily Inner Sync</div></div>
@@ -688,7 +724,23 @@ textarea.if{resize:none}
           <button class="btn bt bsm" style="flex:1" onclick="openMicro()">📝 บันทึกความคิด</button>
           <button class="btn" style="flex:1;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--pur2);font-size:13px;font-weight:600;border-radius:var(--r2);padding:10px;cursor:pointer" onclick="openEmo()">❤️ Check-in</button>
         </div>
-        <button class="btn" style="width:100%;background:linear-gradient(135deg,rgba(176,64,255,.2),rgba(129,140,248,.1));border:1px solid rgba(176,64,255,.4);color:var(--gold2);font-size:13px;font-weight:700;border-radius:var(--r2);padding:10px;cursor:pointer;margin-bottom:8px" onclick="openDailySync()">⚡ Daily Inner Sync — สแกนพลังงานวันนี้</button>
+        <!-- Daily Sync CTA — อธิบายชัดว่าทำอะไร -->
+        <div style="background:linear-gradient(135deg,rgba(176,64,255,.08),rgba(129,140,248,.05));border:1px solid rgba(176,64,255,.25);border-radius:12px;padding:12px 14px;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+            <span style="font-size:18px">⚡</span>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--gold2)">Daily Inner Sync</div>
+              <div style="font-size:10px;color:var(--tx3)">ตอบ 3 คำถามสั้นๆ เกี่ยวกับวันนี้ → รับ Life Signal Card</div>
+            </div>
+          </div>
+          <!-- Preview ผลลัพธ์ที่จะได้ -->
+          <div style="display:flex;gap:6px;margin-bottom:9px">
+            <div style="flex:1;background:rgba(176,64,255,.1);border-radius:8px;padding:7px 8px;text-align:center;font-size:10px;color:var(--tx3)">⚡ ระดับพลังงาน</div>
+            <div style="flex:1;background:rgba(176,64,255,.1);border-radius:8px;padding:7px 8px;text-align:center;font-size:10px;color:var(--tx3)">😊 อารมณ์วันนี้</div>
+            <div style="flex:1;background:rgba(176,64,255,.1);border-radius:8px;padding:7px 8px;text-align:center;font-size:10px;color:var(--tx3)">🎯 โฟกัสสำคัญ</div>
+          </div>
+          <button class="btn" style="width:100%;background:linear-gradient(135deg,rgba(176,64,255,.3),rgba(129,140,248,.2));border:1px solid rgba(176,64,255,.5);color:var(--gold2);font-size:13px;font-weight:700;border-radius:var(--r1);padding:9px;cursor:pointer" onclick="openDailySync()">เริ่มสแกนพลังงาน (30 วินาที) →</button>
+        </div>
         <button class="btn bg" style="width:100%;font-size:14px" onclick="openConvergence()">✦ ดู Life Signature Overview ทั้งหมด →</button>
       </div>
       <!-- Stats -->
@@ -864,7 +916,7 @@ textarea.if{resize:none}
   <div class="sb" style="padding:18px">
     <!-- Evolution Cycle™ Visual -->
     <div class="card" style="margin-bottom:13px;background:linear-gradient(135deg,rgba(99,102,241,.06),rgba(168,85,247,.04));border-color:rgba(99,102,241,.25)">
-      <div style="font-size:11px;color:var(--ind2);letter-spacing:1.5px;margin-bottom:10px;font-weight:600">⟳ GROWTH LOOP ENGINE</div>
+      <div style="font-size:11px;color:var(--ind2);letter-spacing:1.5px;margin-bottom:10px;font-weight:600">⟳ วงจรการเติบโต</div>
       <div style="display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:2px;flex-wrap:nowrap">
         <div style="text-align:center;flex-shrink:0;padding:0 6px"><div style="font-size:17px">💡</div><div style="font-size:9px;color:var(--gold);margin-top:3px;font-weight:600">Life Signal</div></div>
         <div style="font-size:12px;color:var(--tx3);flex-shrink:0">→</div>
@@ -900,7 +952,15 @@ textarea.if{resize:none}
 <div class="sc" id="sc-jnew">
   <div class="tb"><button class="bk-btn" onclick="go('sc-decision')">←</button><div class="tb-t">บันทึกการตัดสินใจ</div><button class="tb-act" onclick="saveJ()">บันทึก</button></div>
   <div class="sb" style="padding:18px">
-    <div class="ig"><label class="il">เรื่องที่กำลังตัดสินใจ <span style="color:var(--rose)">*</span></label><input id="jn-ttl" class="if" type="text" placeholder="เช่น เปลี่ยนงาน, เปิดธุรกิจ..."></div>
+    <div class="ig"><label class="il">เรื่องที่กำลังตัดสินใจ <span style="color:var(--rose)">*</span></label>
+      <!-- Draft restore banner -->
+      <div id="jn-draft-banner" style="display:none;background:rgba(176,64,255,.12);border:1px solid rgba(176,64,255,.3);border-radius:10px;padding:9px 12px;margin-bottom:9px;align-items:center;gap:8px;font-size:12px">
+        <span>📝</span>
+        <span style="flex:1;color:var(--tx2)">มี draft ที่ยังไม่บันทึก — <span class="jn-draft-time" style="color:var(--tx3)"></span></span>
+        <button onclick="restoreJDraft()" style="background:rgba(176,64,255,.25);border:none;color:var(--gold);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600">กู้คืน</button>
+        <button onclick="discardJDraft()" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:14px">✕</button>
+      </div>
+      <input id="jn-ttl" class="if" type="text" placeholder="เช่น เปลี่ยนงาน, เปิดธุรกิจ..."></div>
     <div class="ig">
       <label class="il">ประเภท</label>
       <div class="chips" id="jn-type">
@@ -956,11 +1016,11 @@ textarea.if{resize:none}
   <div class="tb"><button class="bk-btn" onclick="go('sc-jdetail')">←</button><div class="tb-t">บันทึกผลลัพธ์</div><button class="tb-act" onclick="saveRev()">บันทึก</button></div>
   <div class="sb" style="padding:18px">
     <div class="card cg" style="margin-bottom:13px">
-      <div style="font-size:11px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;font-weight:600" id="rv-period">FOLLOW-UP 30 วัน</div>
+      <div style="font-size:11px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;font-weight:600" id="rv-period">ติดตามผล 30 วัน</div>
       <div style="font-size:15px;font-weight:600;color:var(--tx)" id="rv-title">—</div>
     </div>
     <div class="card" style="margin-bottom:13px;background:rgba(168,85,247,.04);border-color:rgba(168,85,247,.2)">
-      <div style="font-size:11px;color:var(--pur2);font-weight:700;letter-spacing:1.5px;margin-bottom:7px">⟳ GROWTH LOOP · เรียนรู้จากผลลัพธ์</div>
+      <div style="font-size:11px;color:var(--pur2);font-weight:700;letter-spacing:1.5px;margin-bottom:7px">⟳ วงจรการเติบโต · เรียนรู้จากผลลัพธ์</div>
       <div style="font-size:13px;color:var(--tx2);line-height:1.6">คำตอบของคุณจะสร้าง Decision Pattern ที่ใช้วิเคราะห์การตัดสินใจในอนาคต ยิ่งตอบตามความจริง ยิ่งเห็นภาพที่แม่นยำขึ้น</div>
     </div>
     <div class="ig"><label class="il">เกิดอะไรขึ้น? <span style="color:var(--rose)">*</span></label><textarea id="rv-out" class="if" rows="4" placeholder="เล่าให้ฟังว่าผลลัพธ์จริงเป็นอย่างไร..."></textarea></div>
@@ -1005,7 +1065,7 @@ textarea.if{resize:none}
     </div>
     <div id="dna-content">
       <div class="card cg" style="margin-bottom:14px;text-align:center;padding:22px">
-        <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;margin-bottom:9px">DECISION STYLE</div>
+        <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;margin-bottom:9px">รูปแบบการตัดสินใจ</div>
         <div class="arc" id="dna-style" style="margin:0 auto 11px;width:fit-content">🧬 —</div>
         <div style="font-size:13px;color:var(--tx2);line-height:1.6" id="dna-desc">—</div>
       </div>
@@ -1278,7 +1338,7 @@ textarea.if{resize:none}
   <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">Founder Pulse</div></div>
   <div class="sb" style="padding:18px">
     <div class="card" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(255,183,3,.08),rgba(212,175,55,.04));border-color:rgba(255,183,3,.25)">
-      <div style="font-size:13px;color:var(--tx2);line-height:1.6">ภาพรวมด้านธุรกิจของคุณ รวบรวมจาก Life OS, Opportunity Radar, Decision Signature และ Life Memory Vault</div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.6">ภาพรวมด้านธุรกิจของคุณ รวบรวมจากแผนที่ชีวิต, Opportunity Radar, รูปแบบการตัดสินใจ และ Life Memory Vault</div>
     </div>
     <div class="sh"><div class="sht">คะแนนด้านธุรกิจ</div></div>
     <div class="card" style="margin-bottom:13px" id="fd-lifeos"></div>
@@ -1317,7 +1377,7 @@ textarea.if{resize:none}
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:9px" id="cop-mascot-row">
       <div id="cop-mascot-slot" style="flex-shrink:0"></div>
       <div style="flex:1">
-        <div style="font-size:12px;font-weight:600;color:var(--tx)" id="cop-vera-tagline">VERA — ผู้ช่วยชีวิตของคุณ</div>
+        <div style="font-size:12px;font-weight:600;color:var(--tx)" id="cop-vera-tagline">VERA — ผู้ช่วยด้านชีวิตของคุณ</div>
         <div style="font-size:10px;color:var(--tx3);margin-top:2px">เลือกบุคลิกที่ต้องการคุยด้วยด้านล่าง</div>
       </div>
       <!-- VERA 3 mood buttons -->
@@ -1402,7 +1462,7 @@ textarea.if{resize:none}
     <div class="card" style="margin-bottom:11px">
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:11px">ข้อมูล</div>
       <div style="display:flex;flex-direction:column;gap:9px;font-size:14px">
-        <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="exportAll()"><span style="color:var(--tx2)">Export ข้อมูลทั้งหมด (.json)</span><span style="color:var(--gold)">→</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="exportAll()"><span style="color:var(--tx2)">ส่งออกข้อมูลทั้งหมด (.json)</span><span style="color:var(--gold)">→</span></div>
         <div class="dv" style="margin:0"></div>
         <div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer" onclick="clearAll()"><span style="color:var(--rose)">ล้างข้อมูลทั้งหมด</span><span style="color:var(--rose)">→</span></div>
       </div>
@@ -1544,7 +1604,17 @@ function rSyncQ(){
   var q=SYNC_QS[_syncQ];if(!q)return;
   var el=document.getElementById('sync-body');if(!el)return;
   document.getElementById('sync-ctr').textContent=(_syncQ+1)+' / '+SYNC_QS.length;
-  var html='<div style="font-size:18px;font-weight:600;color:var(--tx);margin-bottom:20px;line-height:1.4">'+q.q+'</div>';
+  // อัปเดต progress bar
+  var pct=(_syncQ/SYNC_QS.length)*100;
+  var pb=document.getElementById('sync-progress-bar');
+  if(pb)pb.style.width=pct+'%';
+  // ซ่อน intro card หลังจากเริ่มตอบ
+  if(_syncQ>0){var ic=document.getElementById('sync-intro-card');if(ic)ic.style.display='none';}
+  // label ขั้นตอน
+  var stepLabels=['⚡ ขั้นที่ 1: ระดับพลังงาน','😊 ขั้นที่ 2: อารมณ์ความรู้สึก','🎯 ขั้นที่ 3: โฟกัสสำคัญ'];
+  var stepLabel=stepLabels[_syncQ]||'';
+  var html='<div style="font-size:10px;color:var(--gold2);letter-spacing:1px;margin-bottom:8px;font-weight:600">'+stepLabel+'</div>';
+  html+='<div style="font-size:17px;font-weight:600;color:var(--tx);margin-bottom:18px;line-height:1.4">'+q.q+'</div>';
   q.opts.forEach(function(opt,i){
     html+='<div class="qopt" onclick="selSyncQ('+i+',this)" style="font-size:15px"><div class="qdot"></div>'+opt+'</div>';
   });
@@ -1854,6 +1924,39 @@ function go(id){
   var sb=n.querySelector('.sb');
   if(sb)sb.scrollTop=0;
   _stk.push(id);
+  // อัปเดต Bottom Nav highlight
+  var navMap={'sc-dash':'sc-dash','sc-self':'sc-self','sc-timing':'sc-timing',
+    'sc-decision':'sc-decision','sc-profile':'sc-profile',
+    // หน้าย่อย map กลับไปหา nav หลัก
+    'sc-jnew':'sc-decision','sc-jdetail':'sc-decision','sc-jreview':'sc-decision',
+    'sc-weekly':'sc-decision','sc-dna':'sc-self','sc-pattern':'sc-self',
+    'sc-scenario':'sc-self','sc-scenario-new':'sc-self','sc-scenario-result':'sc-self',
+    'sc-radar':'sc-self','sc-relationship':'sc-self','sc-benchmark':'sc-self',
+    'sc-memory':'sc-self','sc-founder':'sc-self','sc-copilot':'sc-self',
+    'sc-advisor':'sc-self','sc-convergence':'sc-self','sc-daily-sync':'sc-dash',
+    'sc-fin-quiz':'sc-self','sc-purpose-quiz':'sc-self','sc-rel-quiz':'sc-self',
+    'sc-team-quiz':'sc-self','sc-talent-quiz':'sc-self','sc-love-quiz':'sc-self'
+  };
+  var activeNav=navMap[id]||'';
+  document.querySelectorAll('.bni').forEach(function(btn){
+    var navId=btn.getAttribute('onclick')||'';
+    var match=navId.match(/go\('([^']+)'\)/);
+    var isActive=match&&match[1]===activeNav;
+    btn.classList.toggle('on',!!isActive);
+    // เพิ่ม indicator dot ด้านบน
+    var dot=btn.querySelector('.nav-dot');
+    if(isActive){
+      if(!dot){
+        dot=document.createElement('div');
+        dot.className='nav-dot';
+        dot.style.cssText='position:absolute;top:4px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:var(--gold);border-radius:50%';
+        btn.style.position='relative';
+        btn.insertBefore(dot,btn.firstChild);
+      }
+    } else {
+      if(dot)dot.remove();
+    }
+  });
   if(id==='sc-dash'){rDash();setTimeout(checkSmartNotifications,1200);}
   if(id==='sc-decision')rList();
   if(id==='sc-profile')rProfile();
@@ -1877,7 +1980,98 @@ function go(id){
   if(id==='sc-love-quiz')rLoveQ();
   if(id==='sc-daily-sync')rSyncQ();
   if(id==='sc-convergence')rConvergenceDash();
+  // Auto-save draft เมื่อออกจาก sc-jnew
+  var prev=_stk[_stk.length-2]||'';
+  if(prev==='sc-jnew'&&id!=='sc-jnew')saveJDraft();
+  // โหลด draft เมื่อเข้า sc-jnew
+  if(id==='sc-jnew')setTimeout(loadJDraft,100);
 }
+
+// ═══ JOURNAL AUTO-SAVE DRAFT ═══
+var _jAutoSaveTimer=null;
+var LS_JDRAFT='av_j_draft';
+
+function initJournalAutoSave(){
+  var fields=['jn-ttl','jn-opt','jn-goal','jn-con'];
+  fields.forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    el.addEventListener('input',function(){
+      clearTimeout(_jAutoSaveTimer);
+      _jAutoSaveTimer=setTimeout(saveJDraft,8000); // auto-save ทุก 8 วินาทีหลัง stop typing
+    });
+  });
+}
+
+function saveJDraft(){
+  var ttl=(document.getElementById('jn-ttl')||{}).value||'';
+  if(!ttl.trim())return; // ไม่บันทึก draft ถ้ายังไม่ได้พิมพ์ชื่อเรื่อง
+  var draft={
+    ttl:ttl,
+    opt:(document.getElementById('jn-opt')||{}).value||'',
+    goal:(document.getElementById('jn-goal')||{}).value||'',
+    con:(document.getElementById('jn-con')||{}).value||'',
+    type:_jType,conf:_jConf,
+    ts:new Date().toISOString()
+  };
+  lsS(LS_JDRAFT,draft);
+}
+
+function loadJDraft(){
+  var draft=lsG(LS_JDRAFT);
+  if(!draft||!draft.ttl)return;
+  // แสดง banner แจ้งว่ามี draft
+  var banner=document.getElementById('jn-draft-banner');
+  if(banner){
+    var dt=new Date(draft.ts);
+    var timeStr=dt.getHours()+':'+String(dt.getMinutes()).padStart(2,'0');
+    banner.style.display='flex';
+    banner.querySelector('.jn-draft-time').textContent='บันทึกอัตโนมัติเมื่อ '+timeStr+'น.';
+  }
+}
+
+function restoreJDraft(){
+  var draft=lsG(LS_JDRAFT);
+  if(!draft)return;
+  var el;
+  el=document.getElementById('jn-ttl');if(el)el.value=draft.ttl||'';
+  el=document.getElementById('jn-opt');if(el)el.value=draft.opt||'';
+  el=document.getElementById('jn-goal');if(el)el.value=draft.goal||'';
+  el=document.getElementById('jn-con');if(el)el.value=draft.con||'';
+  _jType=draft.type||'';_jConf=draft.conf||0;
+  // highlight chip ที่เลือกไว้
+  document.querySelectorAll('#jn-type .chip').forEach(function(c){
+    c.classList.toggle('sel',c.dataset.val===_jType);
+  });
+  document.querySelectorAll('#jn-conf .chip').forEach(function(c){
+    c.classList.toggle('sel',parseInt(c.dataset.val)===_jConf);
+  });
+  hideDraftBanner();
+  toast('📝 กู้คืน draft แล้ว');
+}
+
+function discardJDraft(){
+  lsD(LS_JDRAFT);
+  hideDraftBanner();
+}
+
+function hideDraftBanner(){
+  var banner=document.getElementById('jn-draft-banner');
+  if(banner)banner.style.display='none';
+}
+
+// beforeunload — เตือนเมื่อพยายามปิดแท็บขณะพิมพ์ journal
+window.addEventListener('beforeunload',function(e){
+  var cur=(document.querySelector('.sc.on')||{}).id||'';
+  if(cur==='sc-jnew'){
+    var ttl=(document.getElementById('jn-ttl')||{}).value||'';
+    if(ttl.trim()){
+      saveJDraft(); // force save ก่อน unload
+      e.preventDefault();
+      e.returnValue='มีการบันทึกที่ยังไม่เสร็จ ต้องการออกจากหน้านี้หรือไม่?';
+    }
+  }
+});
 function bk(){
   if(_stk.length>1){_stk.pop();var p=_stk[_stk.length-1];_stk.pop();go(p);}
 }
@@ -2144,10 +2338,10 @@ th:{
   'insight.action':'→ สิ่งที่ลองทำได้ตอนนี้','insight.journal':'📝 Journal Prompt',
   'insight.theme':'✦ Signature Convergence™',
   'insight.unlock.title':'🎯 Decision Signature Intelligence','insight.unlock.sub':'รูปแบบการตัดสินใจของคุณ จุดแข็ง จุดที่ควรระวัง\nและสิ่งที่ลองทำได้เฉพาะตัว...',
-  'insight.unlock.btn':'ดูแพ็คเกจ','insight.dash':'เข้าสู่ Life OS ของฉัน →','insight.premium':'ดู Life Signature Report',
-  // Life OS
+  'insight.unlock.btn':'ดูแพ็คเกจ','insight.dash':'เข้าสู่แผนที่ชีวิต →','insight.premium':'ดูรายงาน Life Signature',
+  // แผนที่ชีวิต
   'dash.greeting':'สวัสดี','dash.premium':'+ Premium',
-  'dash.lifeos':'🗺️ Life OS Life OS','dash.today':'Today\'s Reflection',
+  'dash.lifeos':'🗺️ แผนที่ชีวิต','dash.today':'บทสะท้อนวันนี้',
   'dash.today.q':'คำถามประจำวัน','dash.journal':'📝 บันทึกความคิด','dash.checkin':'❤️ Check-in อารมณ์',
   'dash.intelligence':'Intelligence Modules','dash.strategic':'🚀 Strategic Modules','dash.beyond':'🔮 Beyond',
   // Life Intelligence
@@ -2164,7 +2358,7 @@ th:{
   'profile.num.title':'🔢 เลขศาสตร์ตะวันตก','profile.num.sub':'วิเคราะห์จากตัวอักษรชื่อแบบ ',
   'profile.num.name':'ชื่อ-นามสกุล (สะกดอังกฤษ)','profile.num.phone':'เบอร์โทรศัพท์หลัก',
   'profile.num.other':'เลขอื่นๆ ที่ต้องการวิเคราะห์','profile.num.btn':'วิเคราะห์เลขศาสตร์',
-  'profile.export':'Export ข้อมูลทั้งหมด (.json)→','profile.clear':'ล้างข้อมูลทั้งหมด→',
+  'profile.export':'ส่งออกข้อมูลทั้งหมด (.json)→','profile.clear':'ล้างข้อมูลทั้งหมด→',
   'profile.logout':'ออกจากระบบ',
   // Buttons
   'btn.save':'บันทึก','btn.cancel':'ยกเลิก','btn.back':'←','btn.next':'ถัดไป',
@@ -2222,7 +2416,7 @@ en:{
   'insight.unlock.title':'🎯 Decision Signature Intelligence','insight.unlock.sub':'Your decision-making style, strengths, watch-outs\nand personalized actions...',
   'insight.unlock.btn':'View Packages','insight.dash':'Enter My Life OS →','insight.premium':'View Life Signature Report',
   'dash.greeting':'Hello','dash.premium':'+ Premium',
-  'dash.lifeos':'🗺️ Life OS Life OS','dash.today':'Today\'s Reflection',
+  'dash.lifeos':'🗺️ Life Map','dash.today':'Today\'s Reflection',
   'dash.today.q':'Daily Question','dash.journal':'📝 Add Note','dash.checkin':'❤️ Emotion Pulse',
   'dash.intelligence':'Intelligence Modules','dash.strategic':'🚀 Strategic Modules','dash.beyond':'🔮 Beyond',
   'self.title':'Life Intelligence','self.archetype':'Your Unique Identity Pattern',
@@ -3080,6 +3274,14 @@ function buildInsight(){
 }
 
 function goToDash(){
+  // Validate วันเกิด (จำเป็น)
+  var dob=(document.getElementById('inp-dob')||{}).value||'';
+  if(!dob){
+    var dobErr=document.getElementById('dob-err');
+    if(dobErr)dobErr.style.display='block';
+    toast('⚠️ กรุณากรอกวันเกิดก่อน');
+    return;
+  }
   var tmp=lsG('_av_tmp')||{};
   var p={name:tmp.name||'คุณ',dob:tmp.dob||'',time:tmp.time||'',place:tmp.place||'',
     bloodType:tmp.bloodType||'',
@@ -3133,7 +3335,7 @@ function selPay(el,m){
 function selPl(p){
   ['report','plus','founder'].forEach(function(x){document.getElementById('pl-'+x).classList.remove('sel');});
   document.getElementById('pl-'+p).classList.add('sel');
-  var map={report:['Life Intelligence Report','399 บาท'],plus:['ASTROVERA PLUS','299 บาท/เดือน'],founder:['Founder Intelligence','1,990 บาท']};
+  var map={report:['รายงาน Life Intelligence','399 บาท'],plus:['ASTROVERA พรีเมียม','299 บาท/เดือน'],founder:['ปัญญาผู้ก่อตั้ง','1,990 บาท']};
   var d=map[p]||map.report;
   var nm=document.getElementById('pay-nm'),am=document.getElementById('pay-amt'),qa=document.getElementById('qr-amt');
   if(nm)nm.textContent=d[0];
@@ -3184,7 +3386,8 @@ function fuSt(fu){if(fu.done)return 'done';if(isDue(fu.date))return 'due';return
 // ═══ SAVE JOURNAL ═══
 function saveJ(){
   var ttl=(document.getElementById('jn-ttl')||{}).value;
-  if(!ttl||!ttl.trim()){toast('กรุณากรอกเรื่องที่ตัดสินใจก่อน');return;}
+  if(!validateRequired('jn-ttl','กรุณากรอกเรื่องที่กำลังตัดสินใจ'))return;
+  attachValidationClear('jn-ttl');
   var t=today();
   var j={
     id:'j_'+Date.now(),
@@ -3211,6 +3414,7 @@ function saveJ(){
   _jType='';_jConf=0;
   document.querySelectorAll('#jn-type .chip,#jn-conf .chip').forEach(function(c){c.classList.remove('sel');});
   toast('บันทึกแล้ว ✓ ติดตามผลครั้งแรกใน 30 วัน');
+  lsD(LS_JDRAFT); // ล้าง draft หลัง save สำเร็จ
   go('sc-decision');
 }
 
@@ -3324,7 +3528,7 @@ function openRv(jid,fi){
   var j=list.find(function(x){return x.id===jid;});
   if(!j)return;
   _cjid=jid;_cfidx=fi;_rvRedo='';
-  document.getElementById('rv-period').textContent='FOLLOW-UP '+j.followups[fi].period;
+  document.getElementById('rv-period').textContent='ติดตามผล '+j.followups[fi].period;
   document.getElementById('rv-title').textContent=j.title;
   ['rv-out','rv-sup','rv-les'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   document.querySelectorAll('#rv-redo .chip').forEach(function(c){c.classList.remove('sel');});
@@ -3333,8 +3537,9 @@ function openRv(jid,fi){
 
 // ═══ SAVE REVIEW ═══
 function saveRev(){
+  if(!validateRequired('rv-out','กรุณาอธิบายผลลัพธ์ที่เกิดขึ้น'))return;
+  attachValidationClear('rv-out');
   var out=(document.getElementById('rv-out').value||'').trim();
-  if(!out){toast('กรุณาอธิบายผลลัพธ์ที่เกิดขึ้น');return;}
   var list=lsG(LSJ)||[];
   var j=list.find(function(x){return x.id===_cjid;});
   if(!j)return;
@@ -3357,7 +3562,8 @@ function saveWeekly(){
   var q2=(document.getElementById('wq2').value||'').trim();
   var q3=(document.getElementById('wq3').value||'').trim();
   var q4=(document.getElementById('wq4').value||'').trim();
-  if(!q1&&!q2&&!q3&&!q4){toast('กรุณาตอบอย่างน้อย 1 ข้อ');return;}
+  var answered=[q1,q2,q3,q4].filter(Boolean).length;
+  if(answered<2){toast('⚠️ กรุณาตอบอย่างน้อย 2 ข้อ เพื่อให้การสะท้อนมีความหมาย');return;}
   var list=lsG(LSW)||[];
   list.unshift({id:'w_'+Date.now(),date:today(),q1:q1,q2:q2,q3:q3,q4:q4});
   lsS(LSW,list);
@@ -3367,21 +3573,20 @@ function saveWeekly(){
 }
 
 // ═══ EMOTION CHECK-IN ═══
-function openEmo(){document.getElementById('mo-emotion').classList.add('open');}
-function closeEmo(e){if(e.target===document.getElementById('mo-emotion'))document.getElementById('mo-emotion').classList.remove('open');}
+function openEmo(){modalOpen('mo-emotion');}
+function closeEmo(e){if(!e||e.target===document.getElementById('mo-emotion'))modalClose('mo-emotion');}
 function saveEmo(el,emoji,label){
   var list=lsG(LSE)||[];
   list.unshift({id:'e_'+Date.now(),emoji:emoji,label:label,date:today()});
   if(list.length>50)list=list.slice(0,50);
   lsS(LSE,list);
-  document.getElementById('mo-emotion').classList.remove('open');
-  toast('Check-in: '+emoji+' '+label+' ✓');
+  modalClose('mo-emotion');
   rDash();
 }
 
 // ═══ MICRO JOURNAL ═══
-function openMicro(){document.getElementById('mo-micro').classList.add('open');}
-function closeMicro(e){if(!e||e.target===document.getElementById('mo-micro'))document.getElementById('mo-micro').classList.remove('open');}
+function openMicro(){modalOpen('mo-micro');}
+function closeMicro(e){if(!e||e.target===document.getElementById('mo-micro'))modalClose('mo-micro');}
 function saveMicro(){
   var txt=(document.getElementById('micro-input').value||'').trim();
   if(!txt){toast('กรุณาพิมพ์ข้อความก่อน');return;}
@@ -3390,7 +3595,7 @@ function saveMicro(){
   if(list.length>100)list=list.slice(0,100);
   lsS(LSM,list);
   document.getElementById('micro-input').value='';
-  document.getElementById('mo-micro').classList.remove('open');
+  modalClose('mo-micro');
   toast('บันทึกความคิดแล้ว ✓');
   rDash();
 }
@@ -3609,9 +3814,7 @@ var LSC_SCRIPT='av_lc_script';
 var _lcUtterance=null,_lcScript='',_lcVoices=[];
 
 function openLifeCoach(mode){
-  var modal=document.getElementById('lc-modal');
-  modal.style.display='flex';
-  document.body.style.overflow='hidden';
+  modalOpen('lc-modal');
   loadVoices();
   var p=lsG(LSP)||{};
   // Render mascot
@@ -3619,24 +3822,18 @@ function openLifeCoach(mode){
   if(ms)ms.innerHTML=renderMascotAvatar(getMascotTier(p).id,52);
   var cache=lsG(LSC_SCRIPT);
   var hasCache=cache&&cache.profileKey===_lcProfileKey(p);
-  // Check auto-play setting
   var autoPlayChk=document.getElementById('lc-autoplay');
-  var shouldAutoPlay=(mode==='audio')||( autoPlayChk&&autoPlayChk.checked);
+  var shouldAutoPlay=(mode==='audio')||(autoPlayChk&&autoPlayChk.checked);
   if(mode==='audio'&&!hasCache){
     showLcError('สร้างรายงานก่อนนะครับ กดปุ่ม "📄 สร้างรายงาน" แล้วค่อยกลับมาฟังเสียง');
     return;
   }
-  if(hasCache){
-    showScript(cache.script,shouldAutoPlay);
-  } else {
-    loadLifeCoach();
-  }
+  if(hasCache){showScript(cache.script,shouldAutoPlay);}
+  else{loadLifeCoach();}
 }
-
 function closeLifeCoach(){
   lcStop();
-  document.getElementById('lc-modal').style.display='none';
-  document.body.style.overflow='';
+  modalClose('lc-modal');
 }
 
 function _lcProfileKey(p){
@@ -4265,13 +4462,14 @@ function openOppModal(){
   _oppSel={reward:null,ready:null,urgent:null};
   document.getElementById('opp-name').value='';
   document.querySelectorAll('#opp-reward .chip,#opp-ready .chip,#opp-urgent .chip').forEach(function(c){c.classList.remove('sel');});
-  document.getElementById('mo-opp').classList.add('open');
+  modalOpen('mo-opp');
 }
-function closeOppModal(e){if(!e||e.target===document.getElementById('mo-opp'))document.getElementById('mo-opp').classList.remove('open');}
+function closeOppModal(e){if(!e||e.target===document.getElementById('mo-opp'))modalClose('mo-opp');}
 function saveOpp(){
+  if(!validateRequired('opp-name','กรุณาตั้งชื่อโอกาสก่อน'))return;
+  attachValidationClear('opp-name');
   var name=(document.getElementById('opp-name').value||'').trim();
-  if(!name){toast('กรุณาตั้งชื่อโอกาสก่อน');return;}
-  if(!_oppSel.reward||!_oppSel.ready||!_oppSel.urgent){toast('กรุณาเลือกให้ครบทุกข้อ');return;}
+  if(!_oppSel.reward||!_oppSel.ready||!_oppSel.urgent){toast('⚠️ กรุณาเลือกให้ครบทุกข้อ');return;}
   var o={id:'o_'+Date.now(),name:name,reward:_oppSel.reward,ready:_oppSel.ready,urgent:_oppSel.urgent,date:today(),demo:false};
   var list=lsG(LSO)||[];list.unshift(o);lsS(LSO,list);
   closeOppModal();
@@ -4372,17 +4570,43 @@ function rRelationship(){
   var saved=lsG(LSR);
   var quizEl=document.getElementById('rel-quiz'),resultEl=document.getElementById('rel-result');
   if(!quizEl||!resultEl)return;
-  if(!saved){quizEl.style.display='block';resultEl.style.display='none';return;}
+  if(!saved||!saved.result){quizEl.style.display='block';resultEl.style.display='none';return;}
   quizEl.style.display='none';resultEl.style.display='block';
   var r=saved.result;
-  document.getElementById('rel-arch').textContent='💞 '+r.archName;
-  document.getElementById('rel-comm-l').textContent=r.commLabel;
-  document.getElementById('rel-comm-d').textContent=r.commDesc;
-  document.getElementById('rel-need-l').textContent=r.needLabel;
-  document.getElementById('rel-need-d').textContent=r.needDesc;
-  document.getElementById('rel-blind').textContent=r.blind;
-  document.getElementById('rel-growth').textContent=r.growth;
-  document.getElementById('rel-note').textContent=r.note;
+  // ป้องกัน undefined — fallback ทุก field
+  var archName=r.archName||'—';
+  var commLabel=r.commLabel||'—';
+  var commDesc=r.commDesc||'';
+  var needLabel=r.needLabel||'—';
+  var needDesc=r.needDesc||'';
+  var blind=r.blind||'—';
+  var growth=r.growth||'—';
+  var note=r.note||'—';
+  // render result card ใหม่แบบ full
+  resultEl.innerHTML=
+    '<div class="card cg" style="margin-bottom:14px;text-align:center;padding:24px">'
+    +'<div style="font-size:10px;color:var(--tx3);letter-spacing:1.5px;margin-bottom:10px">รูปแบบความสัมพันธ์ของคุณ</div>'
+    +'<div style="font-size:26px;margin-bottom:8px">💞</div>'
+    +'<div style="font-size:20px;font-weight:800;color:var(--gold);margin-bottom:6px">'+esc(archName)+'</div>'
+    +'<div style="font-size:11px;color:var(--tx3)">วิเคราะห์จากรูปแบบการสื่อสารและความต้องการในความสัมพันธ์</div>'
+    +'</div>'
+    +'<div class="rl rl-i rli" style="margin-bottom:9px">'
+    +'<div class="rll">💬 สไตล์การสื่อสาร · '+esc(commLabel)+'</div>'
+    +'<div class="rlt">'+esc(commDesc)+'</div></div>'
+    +'<div class="rl rl-m rlm" style="margin-bottom:9px">'
+    +'<div class="rll">🫀 สิ่งที่ต้องการในความสัมพันธ์ · '+esc(needLabel)+'</div>'
+    +'<div class="rlt">'+esc(needDesc)+'</div></div>'
+    +'<div class="rl rl-e rle" style="margin-bottom:9px">'
+    +'<div class="rll">⚠️ จุดที่ควรระวัง</div>'
+    +'<div class="rlt">'+esc(blind)+'</div></div>'
+    +'<div class="rl rl-a rla" style="margin-bottom:9px">'
+    +'<div class="rll">🌱 สิ่งที่ลองทำได้เลย</div>'
+    +'<div class="rlt">'+esc(growth)+'</div></div>'
+    +'<div class="rl rl-j rlj" style="margin-bottom:16px">'
+    +'<div class="rll">🔍 เมื่อคนใกล้ตัวไม่สบายใจ</div>'
+    +'<div class="rlt">'+esc(note)+'</div></div>'
+    +'<div style="font-size:11px;color:var(--tx3);line-height:1.6;text-align:center;margin-bottom:14px">นี่คือกรอบความคิดเพื่อช่วยสะท้อนตัวเอง ไม่ใช่คำทำนายความสัมพันธ์</div>'
+    +'<button class="btn bgh" onclick="retakeRel()">ทำแบบทดสอบใหม่</button>';
 }
 
 // ═══ REALITY BENCHMARK — real user counts vs clearly-labeled illustrative reference ═══
@@ -4450,7 +4674,7 @@ function genAdvice(){
   if(relevantLesson)support.push('📌 จาก Life Memory Vault: คุณเคยปักหมุดบทเรียนที่เกี่ยวข้องไว้ — "'+esc(relevantLesson.text)+'" (จาก "'+esc(relevantLesson.title)+'")');
   if(style)support.push('สไตล์การตัดสินใจของคุณคือ '+style.name.replace('🧬 ','')+' — '+style.desc);
   var growingCats=lifeos.filter(function(c){return c.score!==null&&c.trend==='ขึ้น';});
-  if(growingCats.length>0)support.push('Life OS Life OS แสดงแนวโน้มขาขึ้นในหมวด '+growingCats.map(function(c){return c.name;}).join(', '));
+  if(growingCats.length>0)support.push('แผนที่ชีวิตแสดงแนวโน้มขาขึ้นในหมวด '+growingCats.map(function(c){return c.name;}).join(', '));
   if(doneFU>0)support.push('คุณมีวินัยในการติดตามผล Life Decision Tracker ('+doneFU+'/'+totalFU+' รายการ) ทำให้มีข้อมูลอ้างอิงจากอดีตประกอบการตัดสินใจครั้งนี้');
   if(support.length===0){
     var fbArch=ARCHETYPES[(lsG(LSP)||{}).archKey]||ARCHETYPES.d;
@@ -4889,6 +5113,137 @@ function scrollToNewModules(){
     var top=el.offsetTop;
     sb.scrollTo({top:Math.max(0,top-16),behavior:'smooth'});
   },200);
+}
+
+// ═══ MODAL STACK MANAGER ═══
+var _modalStack=[];
+function modalOpen(id){
+  // ปิด modal overlay ที่เปิดอยู่ก่อน (ถ้ามี) ป้องกันซ้อน
+  if(_modalStack.length>0){
+    var prev=_modalStack[_modalStack.length-1];
+    if(prev!==id)modalClose(prev);
+  }
+  _modalStack.push(id);
+  var el=document.getElementById(id);
+  if(!el)return;
+  // support ทั้ง display:flex และ classList.add('open')
+  if(el.classList.contains('modal-overlay')){
+    el.classList.add('open');
+  } else {
+    el.style.display='flex';
+  }
+  document.body.style.overflow='hidden';
+}
+function modalClose(id){
+  var idx=_modalStack.indexOf(id);
+  if(idx>=0)_modalStack.splice(idx,1);
+  var el=document.getElementById(id);
+  if(!el)return;
+  if(el.classList.contains('modal-overlay')){
+    el.classList.remove('open');
+  } else {
+    el.style.display='none';
+  }
+  if(_modalStack.length===0)document.body.style.overflow='';
+}
+function modalCloseTop(){
+  if(_modalStack.length===0)return;
+  var top=_modalStack[_modalStack.length-1];
+  // lc-modal ต้อง stop audio ก่อน
+  if(top==='lc-modal')lcStop();
+  modalClose(top);
+}
+// ESC key ปิด modal บนสุด
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')modalCloseTop();
+});
+// Backdrop click ปิด modal-overlay
+document.addEventListener('click',function(e){
+  if(e.target&&e.target.classList.contains('modal-overlay')){
+    modalCloseTop();
+  }
+});
+function showFieldErr(elId,msg){
+  var el=document.getElementById(elId);
+  if(!el)return;
+  el.style.borderColor='var(--rose)';
+  el.style.boxShadow='0 0 0 2px rgba(251,113,133,.25)';
+  var errId='err-'+elId;
+  var existing=document.getElementById(errId);
+  if(!existing){
+    var err=document.createElement('div');
+    err.id=errId;
+    err.style.cssText='font-size:11px;color:var(--rose);margin-top:4px';
+    el.parentNode.insertBefore(err,el.nextSibling);
+  }
+  document.getElementById(errId).textContent='⚠️ '+msg;
+  el.focus();
+}
+function clearFieldErr(elId){
+  var el=document.getElementById(elId);
+  if(!el)return;
+  el.style.borderColor='';el.style.boxShadow='';
+  var err=document.getElementById('err-'+elId);
+  if(err)err.remove();
+}
+function validateRequired(elId,msg){
+  var el=document.getElementById(elId);
+  if(!el)return true;
+  var val=(el.value||'').trim();
+  if(!val){showFieldErr(elId,msg||'กรุณากรอกข้อมูล');return false;}
+  clearFieldErr(elId);return true;
+}
+// เพิ่ม auto-clear error เมื่อผู้ใช้เริ่มพิมพ์
+function attachValidationClear(elId){
+  var el=document.getElementById(elId);
+  if(el)el.addEventListener('input',function(){clearFieldErr(elId);});
+}
+
+// ─── DOB 3-field sync (วัน/เดือน/ปี + พ.ศ./ค.ศ.) ───
+function syncDob(){
+  var d=parseInt(document.getElementById('inp-dob-d').value)||0;
+  var m=document.getElementById('inp-dob-m').value;
+  var yRaw=parseInt(document.getElementById('inp-dob-y').value)||0;
+  var era=(document.querySelector('input[name="cal-era"]:checked')||{}).value||'BE';
+  var errEl=document.getElementById('dob-err');
+  var prevEl=document.getElementById('dob-preview');
+  var hidEl=document.getElementById('inp-dob');
+  if(!d||!m||!yRaw){
+    if(prevEl)prevEl.textContent='';
+    if(hidEl)hidEl.value='';
+    return;
+  }
+  // แปลงปี
+  var yCE=era==='BE'?yRaw-543:yRaw;
+  var yBE=era==='BE'?yRaw:yRaw+543;
+  // validate
+  var valid=d>=1&&d<=31&&yCE>=1900&&yCE<=2010;
+  var dateObj=new Date(yCE+'-'+m+'-'+String(d).padStart(2,'0'));
+  valid=valid&&!isNaN(dateObj.getTime())&&dateObj.getDate()===d;
+  if(errEl)errEl.style.display=valid?'none':'block';
+  if(!valid){if(hidEl)hidEl.value='';return;}
+  // format สำหรับ hidden input (ISO: YYYY-MM-DD ค.ศ.)
+  var iso=yCE+'-'+m+'-'+String(d).padStart(2,'0');
+  if(hidEl)hidEl.value=iso;
+  // preview
+  var thMonth=['','ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  if(prevEl)prevEl.textContent=d+' '+thMonth[parseInt(m)]+' พ.ศ. '+yBE+' (ค.ศ. '+yCE+')';
+}
+// โหลดค่า DOB เดิม (จาก localStorage) กลับเข้า 3 ช่อง
+function loadDobFields(isoVal){
+  if(!isoVal)return;
+  var parts=isoVal.split('-');
+  if(parts.length<3)return;
+  var yCE=parseInt(parts[0]);
+  var m=parts[1];
+  var d=parseInt(parts[2]);
+  var el=document.getElementById('inp-dob-d');if(el)el.value=d;
+  var em=document.getElementById('inp-dob-m');if(em)em.value=m;
+  var ey=document.getElementById('inp-dob-y');if(ey)ey.value=yCE+543;
+  // set era to BE
+  var beRadio=document.querySelector('input[name="cal-era"][value="BE"]');
+  if(beRadio)beRadio.checked=true;
+  syncDob();
 }
 
 // ─── Blood Type ───
@@ -5507,27 +5862,24 @@ function rNewModulesInSelf(p){
 
 // ═══ SHARE FEATURE ═══
 function openShareModal(){
+  modalOpen('share-modal');
   var p=lsG(LSP)||{};
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
   var lang=_lang;
-  // Set share card content
   document.getElementById('share-icon').textContent=arch.icon;
   var archName=lang==='zh'?(ARCHETYPE_ZH[p.archKey]||{}).name||arch.name:lang==='en'?arch.name:arch.nameTh;
   document.getElementById('share-arch-name').textContent=archName;
   var archTrait=lang==='zh'?(ARCHETYPE_ZH[p.archKey]||{}).trait||arch.trait:arch.trait;
   document.getElementById('share-arch-trait').textContent=archTrait;
-  // Extra info (life path)
   var lp=p.dob?lifePathNumber(p.dob):null;
   if(lp){
     document.getElementById('share-extra-label').textContent=lang==='zh'?'生命數字':lang==='en'?'Life Path Number':'เลขชีวิต';
     document.getElementById('share-extra-val').textContent=lp+' — '+(LIFE_PATH_MEANING[lp]||'');
   }
-  document.getElementById('share-modal').style.display='flex';
-  // Update share buttons for current lang
   var nativeBtn=document.getElementById('share-native-btn');
   if(nativeBtn)nativeBtn.textContent=t('btn.share');
 }
-function closeShareModal(){document.getElementById('share-modal').style.display='none';}
+function closeShareModal(){modalClose('share-modal');}
 function shareNative(){
   var p=lsG(LSP)||{};
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
@@ -6142,8 +6494,9 @@ function rProfile(){
       b.style.fontWeight=active?'800':'600';
     });
   }
-  var isDemo=location.search.indexOf('demo=1')>=0||location.hostname==='localhost'||location.hostname==='127.0.0.1';
-  var dn=document.querySelector('.demo-nav-card');if(dn)dn.style.display=isDemo?'block':'none';
+  // Demo Navigator — ซ่อนจาก production, เปิดได้ด้วย ?debug=true เท่านั้น
+  var isDebug=location.search.indexOf('debug=true')>=0;
+  var dn=document.querySelector('.demo-nav-card');if(dn)dn.style.display=isDebug?'block':'none';
   rNumeroResult(p);
   var jl=lsG(LSJ)||[];
   var e5=document.getElementById('pf-jct');if(e5)e5.textContent=jl.length;
@@ -6293,7 +6646,7 @@ function loadDemo(){
   var p=lsG(LSP);
   if(p&&p.archKey){
     var ni=document.getElementById('inp-name');if(ni&&p.name)ni.value=p.name;
-    var di=document.getElementById('inp-dob');if(di&&p.dob)di.value=p.dob;
+    if(p.dob)loadDobFields(p.dob); // โหลด DOB กลับเข้า 3 ช่อง
     var ti=document.getElementById('inp-time');if(ti&&p.time)ti.value=p.time;
     initPlaceDropdown(p.place||'');
     rSelf();
@@ -6302,8 +6655,9 @@ function loadDemo(){
   } else {
     // ผู้ใช้ใหม่หรือยังไม่ผ่าน onboarding — init dropdown เปล่าไว้รอกรอก
     initPlaceDropdown('');
-    applyLang(); // apply saved language on startup
-    initStarField(); // shooting stars background
+    applyLang();
+    initStarField();
+    initJournalAutoSave(); // journal auto-save system
     rDash();
   }
 })();
@@ -6481,9 +6835,46 @@ function loadDemo(){
 </div>
 <!-- ─── DAILY MENTAL SYNC SCREEN ─── -->
 <div class="sc" id="sc-daily-sync">
-  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">⚡ Daily Mental Sync</div><div style="font-size:12px;color:var(--tx3)" id="sync-ctr">1 / 3</div></div>
+  <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">⚡ Daily Inner Sync</div><div style="font-size:12px;color:var(--tx3)" id="sync-ctr">1 / 3</div></div>
   <div class="sb" style="padding:22px 18px">
-    <div style="font-size:12px;color:var(--gold);margin-bottom:16px;line-height:1.5">สแกนพลังงานตัวเองประจำวัน 3 ข้อ → รับ Life Signal Card แชร์ได้ทันที</div>
+    <!-- Intro card อธิบาย flow -->
+    <div id="sync-intro-card" style="background:linear-gradient(135deg,rgba(176,64,255,.08),rgba(129,140,248,.04));border:1px solid rgba(176,64,255,.2);border-radius:14px;padding:14px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <span style="font-size:22px">⚡</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tx)">สแกนพลังงาน 3 ขั้นตอน</div>
+          <div style="font-size:11px;color:var(--tx3)">ใช้เวลาประมาณ 30 วินาที</div>
+        </div>
+      </div>
+      <!-- Step preview -->
+      <div style="display:flex;gap:6px">
+        <div style="flex:1;text-align:center">
+          <div style="font-size:18px;margin-bottom:3px">⚡</div>
+          <div style="font-size:9px;color:var(--tx3)">ขั้นที่ 1<br>ระดับพลังงาน</div>
+        </div>
+        <div style="color:var(--tx3);align-self:center;font-size:10px">→</div>
+        <div style="flex:1;text-align:center">
+          <div style="font-size:18px;margin-bottom:3px">😊</div>
+          <div style="font-size:9px;color:var(--tx3)">ขั้นที่ 2<br>อารมณ์ความรู้สึก</div>
+        </div>
+        <div style="color:var(--tx3);align-self:center;font-size:10px">→</div>
+        <div style="flex:1;text-align:center">
+          <div style="font-size:18px;margin-bottom:3px">🎯</div>
+          <div style="font-size:9px;color:var(--tx3)">ขั้นที่ 3<br>โฟกัสสำคัญ</div>
+        </div>
+        <div style="color:var(--tx3);align-self:center;font-size:10px">→</div>
+        <div style="flex:1;text-align:center">
+          <div style="font-size:18px;margin-bottom:3px">✦</div>
+          <div style="font-size:9px;color:var(--gold2)">ผล<br>Life Signal Card</div>
+        </div>
+      </div>
+    </div>
+    <!-- Progress bar -->
+    <div style="margin-bottom:16px">
+      <div style="height:4px;background:rgba(176,64,255,.15);border-radius:2px;overflow:hidden">
+        <div id="sync-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--gold),var(--ind));border-radius:2px;transition:width .4s ease;width:0%"></div>
+      </div>
+    </div>
     <div id="sync-body"></div>
   </div>
 </div>
