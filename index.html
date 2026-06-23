@@ -59,7 +59,7 @@
 </script>
 <style>
 :root{
-  /* ═══ ULTRAVIOLET DARK SPACE THEME ═══ */
+  /* ═══ ULTRAVIOLET DARK SPACE THEME (default) ═══ */
   --bg:#0A0118;--bg2:#130028;--bg3:#1C0040;--bg4:#27005A;
   --border:rgba(176,64,255,.22);--border2:rgba(176,64,255,.42);
   --gold:#B040FF;--gold2:#E0A0FF;--glow:rgba(176,64,255,.22);--gdim:#7B00D4;
@@ -71,6 +71,27 @@
   --fl:"Georgia","Times New Roman",serif;
   --r1:10px;--r2:14px;--r3:18px;
 }
+/* ═══ LIGHT MODE ═══ */
+body.light-mode{
+  --bg:#F4F0FF;--bg2:#EDE6FF;--bg3:#E2D9FF;--bg4:#D5C8FF;
+  --border:rgba(120,40,200,.18);--border2:rgba(120,40,200,.35);
+  --gold:#7B00D4;--gold2:#5A00A8;--glow:rgba(120,40,200,.15);--gdim:#9D4FE8;
+  --ind:#4F46E5;--ind2:#3730A3;--iglow:rgba(79,70,229,.1);
+  --pur:#7C3AED;--pur2:#5B21B6;--teal:#6D28D9;--rose:#DB2777;--grn:#7C3AED;
+  --tx:#1A0040;--tx2:#3B0080;--tx3:#6B21A8;
+}
+body.light-mode #app{background:var(--bg);box-shadow:0 0 80px rgba(120,40,200,.12)}
+body.light-mode .card{background:linear-gradient(135deg,rgba(230,220,255,.9),rgba(245,240,255,.7))}
+body.light-mode .tb{background:rgba(237,230,255,.95)}
+body.light-mode .bnav{background:rgba(244,240,255,.95)}
+body.light-mode .sb::-webkit-scrollbar-thumb{background:rgba(120,40,200,.25)}
+body.light-mode .btn.bg{box-shadow:0 4px 24px rgba(120,40,200,.3)}
+body.light-mode .sc{background:var(--bg)}
+body.light-mode .modal-sheet{background:linear-gradient(135deg,#EDE6FF,#E2D9FF)}
+body.light-mode #star-field{opacity:.3}
+body.light-mode input,body.light-mode select,body.light-mode textarea{background:rgba(200,180,255,.3) !important;color:var(--tx) !important}
+body.light-mode .qopt{background:rgba(200,180,255,.4);color:var(--tx2)}
+body.light-mode .jcard{background:rgba(210,195,255,.5)}
 html,body{height:100%;margin:0}
 body{min-height:100vh;background:var(--bg);font-family:var(--fn);color:var(--tx);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 #app{width:100%;max-width:430px;min-height:100vh;height:100vh;margin:0 auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 0 80px rgba(176,64,255,.15)}
@@ -405,12 +426,30 @@ textarea.if{resize:none}
           <input id="inp-place" type="hidden">
         </div>
         <div class="ig" style="margin-bottom:0">
-          <label class="il">🩸 กรุ๊ปเลือด <span style="font-size:11px;color:var(--tx3);font-weight:400">(ถ้าทราบ — เพิ่มความแม่นยำ)</span></label>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px">
-            <button type="button" class="blood-btn" data-bt="O" onclick="selBlood('O',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:10px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600">🔴 O</button>
-            <button type="button" class="blood-btn" data-bt="A" onclick="selBlood('A',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:10px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600">🔵 A</button>
-            <button type="button" class="blood-btn" data-bt="B" onclick="selBlood('B',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:10px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600">🟡 B</button>
-            <button type="button" class="blood-btn" data-bt="AB" onclick="selBlood('AB',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:10px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600">🟣 AB</button>
+          <!-- Blood Type — prominent section -->
+          <div style="background:linear-gradient(135deg,rgba(176,64,255,.1),rgba(244,114,182,.06));border:1px solid rgba(176,64,255,.3);border-radius:14px;padding:14px 14px 12px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+              <span style="font-size:20px">🩸</span>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:var(--tx)">กรุ๊ปเลือดของคุณ</div>
+                <div style="font-size:11px;color:var(--tx3)">เพิ่มความแม่นยำการวิเคราะห์มิติพลังงาน</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:10px">
+              <button type="button" class="blood-btn" data-bt="O" onclick="selBlood('O',this)" style="background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.25);color:var(--tx2);padding:12px 6px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+                <span>🔴</span><span style="font-size:13px">O</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักสู้</span>
+              </button>
+              <button type="button" class="blood-btn" data-bt="A" onclick="selBlood('A',this)" style="background:rgba(59,130,246,.1);border:2px solid rgba(59,130,246,.25);color:var(--tx2);padding:12px 6px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+                <span>🔵</span><span style="font-size:13px">A</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักวางแผน</span>
+              </button>
+              <button type="button" class="blood-btn" data-bt="B" onclick="selBlood('B',this)" style="background:rgba(234,179,8,.1);border:2px solid rgba(234,179,8,.25);color:var(--tx2);padding:12px 6px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+                <span>🟡</span><span style="font-size:13px">B</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักสร้างสรรค์</span>
+              </button>
+              <button type="button" class="blood-btn" data-bt="AB" onclick="selBlood('AB',this)" style="background:rgba(168,85,247,.1);border:2px solid rgba(168,85,247,.25);color:var(--tx2);padding:12px 6px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+                <span>🟣</span><span style="font-size:13px">AB</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักปรับตัว</span>
+              </button>
+            </div>
+            <div id="blood-preview" style="display:none;margin-top:10px;padding:8px 12px;background:rgba(176,64,255,.12);border-radius:10px;font-size:12px;color:var(--gold2);text-align:center"></div>
           </div>
           <input id="inp-blood" type="hidden">
         </div>
@@ -606,6 +645,7 @@ textarea.if{resize:none}
         <div><div style="font-size:13px;color:var(--tx3);margin-bottom:2px">สวัสดี</div><div style="font-family:var(--fh);font-size:21px;color:var(--tx)" id="d-name">คุณ</div></div>
         <div style="display:flex;gap:8px;align-items:center">
           <button id="sound-btn" onclick="toggleSound()" title="เปิด/ปิดเสียง background" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx3);font-size:16px;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center">🔇</button>
+          <button id="theme-btn" onclick="toggleTheme()" title="สลับ Dark/Light Mode" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx3);font-size:16px;width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center">🌙</button>
           <div class="mtag">✦ Premium</div>
           <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gdim),var(--gold));display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer" onclick="go('sc-profile')">👤</div>
         </div>
@@ -1271,9 +1311,23 @@ textarea.if{resize:none}
     <div class="tb-t" id="cop-vera-name">Life Companion AI</div>
     <button onclick="openVeraSelector()" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--gold2);font-size:11px;padding:4px 10px;border-radius:12px;cursor:pointer" id="cop-persona-btn">✦ เลือก VERA</button>
   </div>
-  <!-- VERA Persona Bar -->
-  <div style="background:rgba(13,0,40,.9);padding:8px 14px;border-bottom:1px solid var(--border)" id="cop-vera-wrap">
-    <div style="font-size:10px;color:var(--tx3);margin-bottom:6px">✦ เลือกบุคลิก VERA ที่ต้องการคุยด้วย</div>
+  <!-- VERA Mascot + Persona Bar -->
+  <div style="background:rgba(13,0,40,.9);padding:10px 14px;border-bottom:1px solid var(--border)" id="cop-vera-wrap">
+    <!-- Mascot row -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:9px" id="cop-mascot-row">
+      <div id="cop-mascot-slot" style="flex-shrink:0"></div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:600;color:var(--tx)" id="cop-vera-tagline">VERA — ผู้ช่วยชีวิตของคุณ</div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:2px">เลือกบุคลิกที่ต้องการคุยด้วยด้านล่าง</div>
+      </div>
+      <!-- VERA 3 mood buttons -->
+      <div style="display:flex;gap:5px;flex-shrink:0">
+        <button onclick="setVeraMood('calm')" title="สงบ" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center" id="vera-mood-calm">🌱</button>
+        <button onclick="setVeraMood('focus')" title="โฟกัส" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center" id="vera-mood-focus">⚡</button>
+        <button onclick="setVeraMood('deep')" title="ลึกซึ้ง" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center" id="vera-mood-deep">🔮</button>
+      </div>
+    </div>
+    <div style="font-size:10px;color:var(--tx3);margin-bottom:6px">✦ บุคลิก VERA</div>
     <div id="cop-persona-bar" style="display:flex;gap:7px;overflow-x:auto">
       <button onclick="setVeraPersona('baby')" class="vera-btn" data-v="baby"
         title="Stoic Sage — ปรัชญา ความนิ่ง"
@@ -1322,14 +1376,15 @@ textarea.if{resize:none}
       <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:7px"><span style="color:var(--tx2)">วันเกิด</span><span style="color:var(--tx)" id="pf-dob2">—</span></div>
       <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:7px"><span style="color:var(--tx2)">เวลาเกิด</span><span style="color:var(--tx)" id="pf-time">—</span></div>
       <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:7px"><span style="color:var(--tx2)">สถานที่เกิด</span><span style="color:var(--tx)" id="pf-place">—</span></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-bottom:10px">
-        <span style="color:var(--tx2)">🩸 กรุ๊ปเลือด</span>
-        <div style="display:flex;gap:6px" id="pf-blood-btns">
-          <button type="button" class="pf-blood" data-bt="O" onclick="setPfBlood('O',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:5px 10px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">O</button>
-          <button type="button" class="pf-blood" data-bt="A" onclick="setPfBlood('A',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:5px 10px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">A</button>
-          <button type="button" class="pf-blood" data-bt="B" onclick="setPfBlood('B',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:5px 10px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">B</button>
-          <button type="button" class="pf-blood" data-bt="AB" onclick="setPfBlood('AB',this)" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx2);padding:5px 10px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">AB</button>
-          <button type="button" class="pf-blood" data-bt="" onclick="setPfBlood('',this)" style="background:rgba(176,64,255,.05);border:1px solid var(--border);color:var(--tx3);padding:5px 10px;border-radius:8px;cursor:pointer;font-size:12px">ไม่ระบุ</button>
+      <!-- Blood Type — prominent in Profile -->
+      <div style="margin-bottom:11px">
+        <div style="font-size:12px;color:var(--tx3);margin-bottom:8px;letter-spacing:.5px">🩸 กรุ๊ปเลือด — มิติพลังงานชีวภาพ</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px" id="pf-blood-btns">
+          <button type="button" class="pf-blood" data-bt="O" onclick="setPfBlood('O',this)" style="background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🔴</span><span style="font-size:12px">O</span></button>
+          <button type="button" class="pf-blood" data-bt="A" onclick="setPfBlood('A',this)" style="background:rgba(59,130,246,.1);border:2px solid rgba(59,130,246,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🔵</span><span style="font-size:12px">A</span></button>
+          <button type="button" class="pf-blood" data-bt="B" onclick="setPfBlood('B',this)" style="background:rgba(234,179,8,.1);border:2px solid rgba(234,179,8,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🟡</span><span style="font-size:12px">B</span></button>
+          <button type="button" class="pf-blood" data-bt="AB" onclick="setPfBlood('AB',this)" style="background:rgba(168,85,247,.1);border:2px solid rgba(168,85,247,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🟣</span><span style="font-size:12px">AB</span></button>
+          <button type="button" class="pf-blood" data-bt="" onclick="setPfBlood('',this)" style="background:rgba(176,64,255,.05);border:2px solid var(--border);color:var(--tx3);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>✕</span><span>ลบ</span></button>
         </div>
       </div>
       <div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:var(--tx2)">Journal ทั้งหมด</span><span style="color:var(--gold)" id="pf-jct">0</span></div>
@@ -1505,6 +1560,8 @@ function selSyncQ(idx,el){
   },320);
 }
 function saveSyncResult(){
+  // mark ว่าทำ daily sync วันนี้แล้ว
+  localStorage.setItem('av_last_sync',new Date().toDateString());
   var a=_syncAnswers;
   var energy=(SYNC_QS[0].vals||[])[a[0]]||2;
   var mood=(SYNC_QS[1].vals||[])[a[1]]||2;
@@ -1797,7 +1854,7 @@ function go(id){
   var sb=n.querySelector('.sb');
   if(sb)sb.scrollTop=0;
   _stk.push(id);
-  if(id==='sc-dash')rDash();
+  if(id==='sc-dash'){rDash();setTimeout(checkSmartNotifications,1200);}
   if(id==='sc-decision')rList();
   if(id==='sc-profile')rProfile();
   if(id==='sc-dna')rDNA();
@@ -2511,18 +2568,21 @@ async function fetchVedicNakshatra(){
 function setPfBlood(type,btn){
   document.querySelectorAll('.pf-blood').forEach(function(b){
     b.style.borderColor='var(--border)';
-    b.style.background='rgba(176,64,255,.1)';
+    b.style.background='rgba(176,64,255,.08)';
     b.style.color='var(--tx2)';b.style.fontWeight='600';
+    b.style.transform='scale(1)';b.style.boxShadow='none';
   });
   if(btn&&type){
     btn.style.borderColor='var(--gold)';
-    btn.style.background='rgba(176,64,255,.25)';
+    btn.style.background='rgba(176,64,255,.28)';
     btn.style.color='var(--gold)';btn.style.fontWeight='800';
+    btn.style.transform='scale(1.06)';
+    btn.style.boxShadow='0 0 16px rgba(176,64,255,.4)';
   }
   var p=lsG(LSP)||{};
   p.bloodType=type;
   lsS(LSP,p);
-  toast(type?'บันทึกกรุ๊ปเลือด '+type+' แล้ว ✓':'ลบข้อมูลกรุ๊ปเลือดแล้ว');
+  toast(type?'🩸 บันทึกกรุ๊ปเลือด '+type+' แล้ว ✓':'ลบข้อมูลกรุ๊ปเลือดแล้ว');
   rSelf(); // อัปเดต self intelligence ทันที
 }
 
@@ -2559,21 +2619,56 @@ function rNatal(data){
   loading.style.display='none';errEl.style.display='none';
   var planets=data.planets||{};
   var ascSign=planets.Ascendant&&planets.Ascendant.sign;
+  // สัญลักษณ์ราศี
+  var ZODIAC_SYMBOL={Aries:'♈',Taurus:'♉',Gemini:'♊',Cancer:'♋',Leo:'♌',Virgo:'♍',
+    Libra:'♎',Scorpio:'♏',Sagittarius:'♐',Capricorn:'♑',Aquarius:'♒',Pisces:'♓'};
+  // พลังงานของดาวในราศีนั้น (1-100)
+  var DIGNITY_SCORE={
+    Sun:{Leo:95,Aries:80,Sagittarius:75,Libra:30,Aquarius:40,default:60},
+    Moon:{Cancer:95,Taurus:85,Pisces:75,Scorpio:30,Capricorn:40,default:60},
+    Mercury:{Gemini:95,Virgo:90,Aquarius:75,Sagittarius:35,Pisces:40,default:60},
+    Venus:{Taurus:95,Libra:90,Pisces:85,Scorpio:30,Aries:40,default:60},
+    Mars:{Aries:95,Scorpio:85,Capricorn:75,Libra:30,Taurus:40,default:60},
+    Jupiter:{Sagittarius:95,Pisces:90,Cancer:75,Gemini:30,Capricorn:35,default:60},
+    Saturn:{Capricorn:95,Aquarius:90,Libra:75,Cancer:30,Aries:35,default:60}
+  };
+  function getDignityScore(key,sign){
+    var d=DIGNITY_SCORE[key];
+    if(!d)return 65;
+    return d[sign]||d.default||60;
+  }
+  function scoreBar(score,color){
+    color=color||'var(--gold)';
+    return '<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">'
+      +'<div style="flex:1;height:4px;background:rgba(176,64,255,.15);border-radius:2px;overflow:hidden">'
+      +'<div style="height:100%;width:'+score+'%;background:'+color+';border-radius:2px;transition:width .5s"></div>'
+      +'</div><div style="font-size:10px;color:var(--tx3);flex-shrink:0;width:24px;text-align:right">'+score+'</div></div>';
+  }
   function row(key,label,meaning){
     var pl=planets[key];
     if(!pl||!pl.sign)return '';
     var signTh=SIGN_TH[pl.sign]||pl.sign;
     var mean=meaning[pl.sign]||'';
-    var retro=pl.retrograde?' <span style="color:var(--tx3);font-size:11px">(ย้อนเวลา)</span>':'';
+    var sym=ZODIAC_SYMBOL[pl.sign]||'✦';
+    var retro=pl.retrograde?' <span style="color:var(--tx3);font-size:10px">℞</span>':'';
     var houseLine='';
     if(ascSign&&key!=='Ascendant'){
       var hn=wholeSignHouse(ascSign,pl.sign);
-      if(hn)houseLine='<div style="font-size:11px;color:var(--tx3);margin-bottom:3px">เรือนที่ '+hn+' — '+HOUSE_MEANING[hn]+'</div>';
+      if(hn)houseLine='<div style="font-size:10px;color:var(--tx3);margin-bottom:4px">🏠 เรือนที่ '+hn+' — '+HOUSE_MEANING[hn]+'</div>';
     }
-    return '<div style="margin-bottom:12px"><div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px">'+label+'</div>'
-      +'<div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:3px">'+signTh+retro+'</div>'
+    var score=getDignityScore(key,pl.sign);
+    var barColor=score>=80?'#52E3B0':score>=60?'var(--gold)':'#FB7185';
+    var scoreHtml=DIGNITY_SCORE[key]?scoreBar(score,barColor):'';
+    return '<div style="background:rgba(176,64,255,.04);border:1px solid rgba(176,64,255,.12);border-radius:10px;padding:11px 13px;margin-bottom:9px">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">'
+      +'<div style="font-size:12px;font-weight:600;color:var(--tx2)">'+label+'</div>'
+      +'<div style="display:flex;align-items:center;gap:5px">'
+      +'<span style="font-size:20px;line-height:1">'+sym+'</span>'
+      +'<span style="font-size:13px;font-weight:700;color:var(--gold)">'+signTh+retro+'</span>'
+      +'</div></div>'
+      +scoreHtml
       +houseLine
-      +'<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+mean+'</div></div>';
+      +'<div style="font-size:11px;color:var(--tx3);line-height:1.6">'+mean+'</div></div>';
   }
   var html='';
   // ─── QUICK SUMMARY BOX ───
@@ -3856,6 +3951,10 @@ function rTiming(){
   }
 }
 function rDash(){
+  // reset notif ทุกวัน (เพื่อให้แสดงใหม่ได้)
+  var todayStr=new Date().toDateString();
+  var lastNotifDay=localStorage.getItem('av_last_notif_day');
+  if(lastNotifDay!==todayStr){_notifShown=false;localStorage.setItem('av_last_notif_day',todayStr);}
   var p=lsG(LSP)||{};
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
   var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
@@ -4518,6 +4617,13 @@ function rCopilot(){
   // โหลด persona ที่บันทึกไว้
   _veraPersona=localStorage.getItem('av_vera')||'baby';
   var persona=VERA_PERSONAS[_veraPersona]||VERA_PERSONAS.baby;
+  // render mascot ใน copilot screen
+  var p=lsG(LSP)||{};
+  var ms=document.getElementById('cop-mascot-slot');
+  if(ms)ms.innerHTML=renderMascotAvatar(getMascotTier(p).id,46);
+  // tagline
+  var tagEl=document.getElementById('cop-vera-tagline');
+  if(tagEl)tagEl.textContent=persona.name+' — '+persona.starters[0];
   // อัปเดต UI persona buttons
   document.querySelectorAll('.vera-btn').forEach(function(btn){
     var isActive=btn.dataset.v===_veraPersona;
@@ -4540,6 +4646,26 @@ function rCopilot(){
     lsS(LSC,thread);
   }
   renderCopThread(thread);
+}
+
+// VERA Mood buttons — ส่งข้อความ mood ไปในแชท
+var VERA_MOODS={
+  calm:{msg:'ช่วยให้ฉันรู้สึกสงบและชัดเจนขึ้น พูดช้าๆ อ่อนโยน',label:'สงบ',id:'vera-mood-calm'},
+  focus:{msg:'ฉันต้องการโฟกัสและลงมือทำ ช่วยให้ฉันชัดเจน',label:'โฟกัส',id:'vera-mood-focus'},
+  deep:{msg:'ฉันต้องการเข้าใจตัวเองในระดับลึก ช่วยวิเคราะห์',label:'ลึกซึ้ง',id:'vera-mood-deep'}
+};
+function setVeraMood(mood){
+  // reset ปุ่มทั้งหมด
+  ['calm','focus','deep'].forEach(function(m){
+    var btn=document.getElementById('vera-mood-'+m);
+    if(btn){btn.style.background='rgba(176,64,255,.15)';btn.style.borderColor='var(--border)';}
+  });
+  // highlight ปุ่มที่เลือก
+  var btn=document.getElementById('vera-mood-'+mood);
+  if(btn){btn.style.background='rgba(176,64,255,.3)';btn.style.borderColor='var(--gold)';}
+  // ส่งข้อความ mood
+  var m=VERA_MOODS[mood];
+  if(m)sendCopilot(m.msg);
 }
 
 function renderCopThread(thread){
@@ -4766,16 +4892,33 @@ function scrollToNewModules(){
 }
 
 // ─── Blood Type ───
+var BLOOD_PREVIEW={
+  'O':'🔴 กรุ๊ป O — ความเป็นผู้นำ ตัดสินใจเด็ดขาด มีพลังงานสูง',
+  'A':'🔵 กรุ๊ป A — รอบคอบ วางแผนดี มีระเบียบ ชอบความสมบูรณ์แบบ',
+  'B':'🟡 กรุ๊ป B — สร้างสรรค์ ยืดหยุ่น ทำตามใจ ไม่ยึดติดกฎ',
+  'AB':'🟣 กรุ๊ป AB — ปรับตัวเก่ง มองหลายมุม เข้าใจคนได้ดี'
+};
 function selBlood(type,btn){
   document.querySelectorAll('.blood-btn').forEach(function(b){
-    b.style.borderColor='var(--border)';
-    b.style.background='rgba(176,64,255,.1)';
-    b.style.color='var(--tx2)';b.style.fontWeight='600';
+    // reset ทุกปุ่ม
+    var bt=b.dataset.bt;
+    var baseColors={'O':'rgba(239,68,68,.1)','A':'rgba(59,130,246,.1)','B':'rgba(234,179,8,.1)','AB':'rgba(168,85,247,.1)'};
+    var baseBorders={'O':'rgba(239,68,68,.25)','A':'rgba(59,130,246,.25)','B':'rgba(234,179,8,.25)','AB':'rgba(168,85,247,.25)'};
+    b.style.background=baseColors[bt]||'rgba(176,64,255,.1)';
+    b.style.borderColor=baseBorders[bt]||'var(--border)';
+    b.style.color='var(--tx2)';b.style.transform='scale(1)';
+    b.style.boxShadow='none';
   });
+  // highlight ปุ่มที่เลือก
+  btn.style.background='rgba(176,64,255,.3)';
   btn.style.borderColor='var(--gold)';
-  btn.style.background='rgba(176,64,255,.25)';
-  btn.style.color='var(--gold)';btn.style.fontWeight='800';
+  btn.style.color='var(--gold)';
+  btn.style.transform='scale(1.06)';
+  btn.style.boxShadow='0 0 16px rgba(176,64,255,.4)';
   document.getElementById('inp-blood').value=type;
+  // แสดง preview ทันที
+  var prev=document.getElementById('blood-preview');
+  if(prev){prev.textContent=BLOOD_PREVIEW[type]||'';prev.style.display='block';}
 }
 function getBloodType(){return(document.getElementById('inp-blood')||{}).value||'';}
 
@@ -5634,48 +5777,116 @@ function shareConvergence(){
 }
 
 
-// ═══ BACKGROUND SOUND SYSTEM ═══
-var _audio=null,_audioPlaying=false,_audioVol=0.12;
-var SOUND_TRACKS={
-  ambient:'https://cdn.freesound.org/previews/612/612850_5674468-lq.mp3',
-  insight:'https://cdn.freesound.org/previews/528/528041_1648170-lq.mp3',
-  calm:'https://cdn.freesound.org/previews/476/476434_6337135-lq.mp3'
-};
-function initAudio(track){
-  if(_audio){_audio.pause();}
-  _audio=new Audio(SOUND_TRACKS[track]||SOUND_TRACKS.ambient);
-  _audio.loop=true;_audio.volume=0;
-  _audio.addEventListener('canplaythrough',function(){
-    if(_audioPlaying){
-      _audio.play().catch(function(){});
-      fadeAudio(0,_audioVol,2000);
-    }
+// ═══ BACKGROUND SOUND SYSTEM — Web Audio API (ไม่ต้องโหลดไฟล์) ═══
+var _audioCtx=null,_audioPlaying=false,_audioVol=0.08;
+var _audioNodes={osc1:null,osc2:null,osc3:null,gain:null,lfo:null,lfoGain:null};
+
+function _getAudioCtx(){
+  if(!_audioCtx){
+    _audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  }
+  if(_audioCtx.state==='suspended')_audioCtx.resume();
+  return _audioCtx;
+}
+
+// สร้างเสียง ambient แบบ generative — ไม่ต้องโหลดไฟล์เลย
+function _buildAmbientNodes(track){
+  var ctx=_getAudioCtx();
+  // กำหนด frequency ตาม track
+  var freqs={
+    ambient:[55,82.4,110],   // A1 E2 A2 — deep space
+    insight:[69.3,110,164.8], // Bb1 A2 E3 — mystical
+    calm:[48.99,73.4,98]      // G1 D2 G2 — grounding
+  };
+  var f=freqs[track]||freqs.ambient;
+  // Master gain
+  var gain=ctx.createGain();
+  gain.gain.setValueAtTime(0,ctx.currentTime);
+  gain.connect(ctx.destination);
+  // LFO — ทำให้เสียงโคลงเคลง ไม่นิ่ง
+  var lfo=ctx.createOscillator();
+  lfo.type='sine';lfo.frequency.setValueAtTime(0.07,ctx.currentTime);
+  var lfoGain=ctx.createGain();
+  lfoGain.gain.setValueAtTime(0.012,ctx.currentTime);
+  lfo.connect(lfoGain);
+  lfo.start();
+  // สร้าง 3 oscillator ซ้อนกัน
+  var oscs=f.map(function(freq,i){
+    var osc=ctx.createOscillator();
+    var oscGain=ctx.createGain();
+    osc.type=i===0?'sine':'triangle';
+    osc.frequency.setValueAtTime(freq,ctx.currentTime);
+    // detune เล็กน้อยให้เสียงไม่ synthetic เกินไป
+    osc.detune.setValueAtTime(i*7,ctx.currentTime);
+    lfoGain.connect(osc.frequency); // LFO modulate pitch
+    oscGain.gain.setValueAtTime(i===0?0.5:i===1?0.3:0.2,ctx.currentTime);
+    osc.connect(oscGain);
+    oscGain.connect(gain);
+    osc.start();
+    return osc;
   });
-  _audio.load();
+  return{oscs:oscs,gain:gain,lfo:lfo,lfoGain:lfoGain};
 }
-function fadeAudio(from,to,dur){
-  if(!_audio)return;
-  _audio.volume=from;
-  var steps=20,step=(to-from)/steps,i=0;
-  var iv=setInterval(function(){
-    i++;_audio.volume=Math.max(0,Math.min(1,_audio.volume+step));
-    if(i>=steps)clearInterval(iv);
-  },dur/steps);
+
+function _stopAmbientNodes(nodes,fadeDur){
+  if(!nodes||!_audioCtx)return;
+  var ctx=_audioCtx;
+  var now=ctx.currentTime;
+  if(nodes.gain){
+    nodes.gain.gain.setValueAtTime(nodes.gain.gain.value,now);
+    nodes.gain.gain.linearRampToValueAtTime(0,now+(fadeDur||1));
+  }
+  setTimeout(function(){
+    try{
+      nodes.oscs&&nodes.oscs.forEach(function(o){o.stop();});
+      nodes.lfo&&nodes.lfo.stop();
+    }catch(e){}
+  },(fadeDur||1)*1000+100);
 }
+
+var _currentNodes=null,_currentTrack='ambient';
+function initAudio(track){
+  if(_currentNodes)_stopAmbientNodes(_currentNodes,0.3);
+  _currentTrack=track||'ambient';
+  _currentNodes=_buildAmbientNodes(_currentTrack);
+}
+
+function fadeAudioIn(nodes,targetVol,dur){
+  if(!nodes||!_audioCtx)return;
+  var now=_audioCtx.currentTime;
+  nodes.gain.gain.setValueAtTime(0,now);
+  nodes.gain.gain.linearRampToValueAtTime(targetVol,now+dur);
+}
+
 function toggleSound(){
-  if(!_audio)initAudio(getCurrentTrack());
   if(_audioPlaying){
-    fadeAudio(_audio.volume,0,1000);
-    setTimeout(function(){if(_audio)_audio.pause();},1100);
+    // ปิด — fade out แล้ว stop
+    if(_currentNodes&&_audioCtx){
+      var now=_audioCtx.currentTime;
+      _currentNodes.gain.gain.setValueAtTime(_currentNodes.gain.gain.value,now);
+      _currentNodes.gain.gain.linearRampToValueAtTime(0,now+1.2);
+      var nodes=_currentNodes;
+      setTimeout(function(){
+        try{nodes.oscs.forEach(function(o){o.stop();});nodes.lfo.stop();}catch(e){}
+      },1400);
+      _currentNodes=null;
+    }
     _audioPlaying=false;
   } else {
-    _audioPlaying=true;
-    _audio.play().catch(function(){});
-    fadeAudio(0,_audioVol,2000);
+    // เปิด — สร้างเสียงใหม่ fade in
+    try{
+      initAudio(getCurrentTrack());
+      if(_currentNodes)fadeAudioIn(_currentNodes,_audioVol,2.5);
+      _audioPlaying=true;
+    }catch(e){
+      console.warn('Web Audio API not available:',e);
+      toast('เบราว์เซอร์นี้ไม่รองรับเสียง');
+    }
   }
   updateSoundBtn();
   lsS('av_sound',_audioPlaying?'1':'0');
 }
+
 function getCurrentTrack(){
   var cur=(document.querySelector('.sc.on')||{}).id||'';
   if(cur==='sc-convergence'||cur==='sc-self')return'insight';
@@ -5684,18 +5895,193 @@ function getCurrentTrack(){
 }
 function updateSoundBtn(){
   var btn=document.getElementById('sound-btn');
-  if(btn)btn.textContent=_audioPlaying?'🔊':'🔇';
+  if(btn)btn.innerHTML=_audioPlaying?'🔊':'🔇';
 }
 function adjustVolume(v){
   _audioVol=parseFloat(v);
-  if(_audio&&_audioPlaying)_audio.volume=_audioVol;
-}
-// Auto-restore sound preference
-(function(){
-  if(lsG('av_sound')==='1'){
-    _audioPlaying=true;
-    setTimeout(function(){initAudio(getCurrentTrack());},1000);
+  if(_currentNodes&&_audioPlaying&&_audioCtx){
+    _currentNodes.gain.gain.setValueAtTime(_audioVol,_audioCtx.currentTime);
   }
+}
+// เปลี่ยน track ตามหน้าที่เปิดอยู่ (ถ้าเปิดเสียงอยู่)
+function switchTrackForScreen(screenId){
+  if(!_audioPlaying)return;
+  var newTrack=screenId==='sc-convergence'||screenId==='sc-self'?'insight':
+               screenId==='sc-decision'||screenId==='sc-jnew'?'calm':'ambient';
+  if(newTrack!==_currentTrack){
+    _stopAmbientNodes(_currentNodes,1.5);
+    _currentNodes=_buildAmbientNodes(newTrack);
+    _currentTrack=newTrack;
+    fadeAudioIn(_currentNodes,_audioVol,2);
+  }
+}
+// Auto-restore sound preference (ไม่ auto-start เพราะ browser block autoplay)
+// ผู้ใช้ต้องกดเอง — แต่จำสถานะไว้
+(function(){
+  // ไม่ auto-play เพื่อให้ผ่าน browser autoplay policy
+  _audioPlaying=false;
+  updateSoundBtn();
+})();
+
+// ═══ DARK / LIGHT MODE ═══
+var _isLight=false;
+function toggleTheme(){
+  _isLight=!_isLight;
+  document.body.classList.toggle('light-mode',_isLight);
+  var btn=document.getElementById('theme-btn');
+  if(btn)btn.innerHTML=_isLight?'☀️':'🌙';
+  localStorage.setItem('av_theme',_isLight?'light':'dark');
+  toast(_isLight?'☀️ Light Mode':'🌙 Dark Mode');
+}
+// Auto-restore theme
+(function(){
+  var saved=localStorage.getItem('av_theme');
+  if(saved==='light'){
+    _isLight=true;
+    document.body.classList.add('light-mode');
+    var btn=document.getElementById('theme-btn');
+    if(btn)btn.innerHTML='☀️';
+  }
+})();
+
+// ═══ SMART NOTIFICATION SYSTEM ═══
+// แจ้งเตือนฉลาด: วิเคราะห์ข้อมูลของผู้ใช้แล้วสร้าง insight เฉพาะตัว
+var _notifShown=false;
+var _notifTimer=null;
+
+function checkSmartNotifications(){
+  if(_notifShown)return;
+  var p=lsG(LSP)||{};
+  var journals=lsG(LSJ)||[];
+  var emos=lsG(LSE)||[];
+  var notifs=[];
+  var now=new Date();
+  var hour=now.getHours();
+  var day=now.getDay(); // 0=อาทิตย์
+
+  // 1. Follow-up due
+  var dueCount=0;
+  journals.forEach(function(j){
+    if(j.followups)j.followups.forEach(function(fu){
+      if(!fu.done&&isDue(fu.date))dueCount++;
+    });
+  });
+  if(dueCount>0){
+    notifs.push({
+      icon:'🔔',title:'Follow-up ถึงกำหนด',
+      msg:dueCount+' การตัดสินใจรอบันทึกผล ใช้เวลาแค่ 2 นาที',
+      action:"go('sc-decision')",color:'var(--teal)',priority:10
+    });
+  }
+
+  // 2. Journal streak — ไม่ได้บันทึกนาน
+  if(journals.length>0){
+    var lastJ=journals[journals.length-1];
+    var lastDate=new Date(lastJ.date);
+    var daysSince=Math.floor((now-lastDate)/(1000*60*60*24));
+    if(daysSince>=7){
+      notifs.push({
+        icon:'📔',title:'นานแล้วที่ไม่ได้บันทึก',
+        msg:daysSince+' วันที่แล้ว — มีการตัดสินใจอะไรที่อยากจำไว้บ้าง?',
+        action:"go('sc-jnew')",color:'var(--ind2)',priority:7
+      });
+    }
+  }
+
+  // 3. Morning check-in (6-10 น.)
+  if(hour>=6&&hour<=10){
+    var todayStr=now.toDateString();
+    var lastSync=localStorage.getItem('av_last_sync');
+    if(lastSync!==todayStr){
+      notifs.push({
+        icon:'⚡',title:'Morning Energy Check',
+        msg:'สแกนพลังงานเช้านี้ใน 30 วินาที แล้วรับ Life Signal Card',
+        action:"openDailySync()",color:'var(--gold)',priority:8
+      });
+    }
+  }
+
+  // 4. Evening reflection (20-23 น.)
+  if(hour>=20&&hour<=23){
+    var eToday=emos.filter(function(e){
+      return new Date(e.date).toDateString()===now.toDateString();
+    });
+    if(eToday.length===0){
+      notifs.push({
+        icon:'🌙',title:'Evening Check-in',
+        msg:'วันนี้รู้สึกยังไง? บันทึกอารมณ์ก่อนนอน ใช้เวลาแค่วินาทีเดียว',
+        action:"openEmo()",color:'var(--pur)',priority:6
+      });
+    }
+  }
+
+  // 5. Weekend reflection (วันเสาร์-อาทิตย์ บ่าย)
+  if((day===6||day===0)&&hour>=13&&hour<=18){
+    var weekly=lsG(LSW)||[];
+    var thisWeekStr=getWeekStr(now);
+    var hasThisWeek=weekly.some(function(w){return getWeekStr(new Date(w.date))===thisWeekStr;});
+    if(!hasThisWeek){
+      notifs.push({
+        icon:'🌱',title:'Weekly Evolution รออยู่',
+        msg:'สะท้อนสัปดาห์นี้ใน 60 วินาที เพื่อเรียนรู้และเติบโต',
+        action:"go('sc-weekly')",color:'var(--grn)',priority:9
+      });
+    }
+  }
+
+  // เรียง priority แล้วแสดงอันสำคัญสุด
+  if(notifs.length===0)return;
+  notifs.sort(function(a,b){return b.priority-a.priority;});
+  showSmartNotif(notifs[0]);
+  _notifShown=true;
+}
+
+function getWeekStr(d){
+  var date=new Date(d);
+  date.setHours(0,0,0,0);
+  date.setDate(date.getDate()-date.getDay());
+  return date.toISOString().slice(0,10);
+}
+
+function showSmartNotif(n){
+  // สร้าง notification card ที่ด้านบน
+  var existing=document.getElementById('smart-notif');
+  if(existing)existing.remove();
+  var el=document.createElement('div');
+  el.id='smart-notif';
+  el.style.cssText='position:absolute;top:0;left:0;right:0;z-index:100;padding:10px 14px 0;animation:slideDown .3s ease';
+  el.innerHTML='<div style="background:linear-gradient(135deg,'+n.color.replace('var(--','rgba(').replace(')',',.15)')+'rgba(0,0,0,.4));'
+    +'border:1px solid '+n.color+';border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;'
+    +'box-shadow:0 4px 20px rgba(0,0,0,.3)" onclick="'+n.action+';dismissSmartNotif()">'
+    +'<div style="font-size:24px;flex-shrink:0">'+n.icon+'</div>'
+    +'<div style="flex:1;min-width:0">'
+    +'<div style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:2px">'+n.title+'</div>'
+    +'<div style="font-size:11px;color:var(--tx2);line-height:1.4">'+n.msg+'</div>'
+    +'</div>'
+    +'<button onclick="event.stopPropagation();dismissSmartNotif()" style="background:none;border:none;color:var(--tx3);font-size:16px;cursor:pointer;flex-shrink:0;padding:2px">✕</button>'
+    +'</div>';
+  // ใส่ใน app
+  var app=document.getElementById('app');
+  var dash=document.getElementById('sc-dash');
+  if(dash&&dash.classList.contains('on')){
+    dash.insertBefore(el,dash.firstChild);
+  }
+  // Auto-dismiss หลัง 8 วินาที
+  clearTimeout(_notifTimer);
+  _notifTimer=setTimeout(dismissSmartNotif,8000);
+}
+
+function dismissSmartNotif(){
+  clearTimeout(_notifTimer);
+  var el=document.getElementById('smart-notif');
+  if(el){el.style.opacity='0';el.style.transform='translateY(-100%)';el.style.transition='all .25s';setTimeout(function(){el.remove();},300);}
+}
+
+// เพิ่ม CSS animation
+(function(){
+  var style=document.createElement('style');
+  style.textContent='@keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}';
+  document.head.appendChild(style);
 })();
 
 // ═══ DAILY HOROSCOPE MINI-CARD ENGINE ═══
