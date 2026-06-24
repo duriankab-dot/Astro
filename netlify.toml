@@ -1,33 +1,11 @@
-# ============================================
-# ASTROVERA Intelligence Engine
-# Netlify Configuration
-# ============================================
-
 [build]
-  command = "npm run build"
-  publish = "frontend"
+  command = ""
+  publish = "."
 
-# ============================================
-# FUNCTIONS
-# ============================================
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# ============================================
-# ENVIRONMENT VARIABLES
-# (ค่าเหล่านี้ตั้งผ่าน Netlify UI หรือ CLI)
-# ============================================
-#[build.environment]
-  # DEEPSEEK_API_KEY = "sk-xxxxxxxxxxxxxxxxxxxxxxxx"
-  # SUPABASE_URL = "https://xxxxxxxxxxxx.supabase.co"
-  # SUPABASE_SERVICE_ROLE_KEY = "eyJxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  # NODE_ENV = "production"
-  # USE_MOCK = "false"
-
-# ============================================
-# REDIRECTS (SPA Routing)
-# ============================================
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
