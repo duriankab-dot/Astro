@@ -1,3 +1,6 @@
+Index html ดาวตกใหม่
+Siam Portal
+​You​
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -6,14 +9,14 @@
     <title>ASTROVERA — ค้นหาตัวตน</title>
     <style>
         :root {
-            --bg: #0a0a0f;
-            --bg2: #12121a;
-            --tx: #e0dcd0;
-            --tx2: #a09a8c;
-            --gold: #c4a45a;
-            --gold2: #8b7535;
-            --accent: #2a2a35;
-            --border: #2a2820;
+            --bg: #0a0812;
+            --bg2: #12102a;
+            --tx: #e8e0f0;
+            --tx2: #9a90b8;
+            --primary: #7c5ce7;
+            --primary2: #5b3dc7;
+            --accent: #a78bfa;
+            --border: #2a2540;
             --radius: 12px;
             --font: 'Sarabun', 'Noto Sans Thai', sans-serif;
         }
@@ -26,9 +29,72 @@
             font-family: var(--font);
             line-height: 1.7;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .container { max-width: 480px; margin: 0 auto; padding: 24px 20px; }
+        /* ============================================
+           SHOOTING STARS BACKGROUND
+           ============================================ */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #c4b5fd;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(196, 181, 253, 0.6);
+            animation: shoot linear infinite;
+            opacity: 0;
+        }
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(196, 181, 253, 0.8), transparent);
+        }
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translateX(-500px) translateY(300px); opacity: 0; }
+        }
+
+        /* Generate multiple stars with different delays */
+        .shooting-star:nth-child(1) { top: 10%; left: 80%; animation-duration: 3s; animation-delay: 0s; }
+        .shooting-star:nth-child(2) { top: 25%; left: 90%; animation-duration: 4s; animation-delay: 1.5s; }
+        .shooting-star:nth-child(3) { top: 40%; left: 85%; animation-duration: 3.5s; animation-delay: 3s; }
+        .shooting-star:nth-child(4) { top: 55%; left: 95%; animation-duration: 5s; animation-delay: 5s; }
+        .shooting-star:nth-child(5) { top: 70%; left: 75%; animation-duration: 3.8s; animation-delay: 2s; }
+        .shooting-star:nth-child(6) { top: 15%; left: 88%; animation-duration: 4.2s; animation-delay: 6s; }
+        .shooting-star:nth-child(7) { top: 60%; left: 92%; animation-duration: 3.2s; animation-delay: 4s; }
+        .shooting-star:nth-child(8) { top: 80%; left: 82%; animation-duration: 4.5s; animation-delay: 7s; }
+        .shooting-star:nth-child(9) { top: 35%; left: 78%; animation-duration: 3.6s; animation-delay: 8s; }
+        .shooting-star:nth-child(10){ top: 50%; left: 87%; animation-duration: 4.8s; animation-delay: 2.5s; }
+
+        /* Static stars */
+        .static-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(196, 181, 253, 0.5);
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container { max-width: 480px; margin: 0 auto; padding: 24px 20px; position: relative; z-index: 1; }
 
         /* Header */
         .header {
@@ -39,7 +105,7 @@
             font-size: 28px;
             font-weight: 700;
             letter-spacing: 3px;
-            color: var(--gold);
+            color: var(--accent);
             text-transform: uppercase;
         }
         .subtitle {
@@ -100,7 +166,7 @@
         }
         .card input:focus,
         .card select:focus {
-            border-color: var(--gold);
+            border-color: var(--primary);
         }
         .card select {
             appearance: none;
@@ -132,30 +198,32 @@
             transition: all 0.2s;
         }
         .radio-pill input:checked + label {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(196, 164, 90, 0.08);
+            border-color: var(--primary);
+            color: var(--accent);
+            background: rgba(124, 92, 231, 0.1);
         }
 
         /* Buttons */
         .btn-primary {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, var(--gold), var(--gold2));
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
             border: none;
             border-radius: 8px;
-            color: #1a1a1a;
+            color: #fff;
             font-family: var(--font);
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             letter-spacing: 0.5px;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(124, 92, 231, 0.3);
         }
-        .btn-primary:hover { opacity: 0.9; }
+        .btn-primary:hover { opacity: 0.9; box-shadow: 0 6px 30px rgba(124, 92, 231, 0.5); }
         .btn-primary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            box-shadow: none;
         }
         .btn-secondary {
             width: 100%;
@@ -170,8 +238,8 @@
             transition: all 0.2s;
         }
         .btn-secondary:hover {
-            border-color: var(--gold);
-            color: var(--gold);
+            border-color: var(--primary);
+            color: var(--accent);
         }
 
         /* Features */
@@ -197,12 +265,12 @@
 
         /* Alert */
         .alert {
-            background: rgba(196, 164, 90, 0.08);
-            border: 1px solid var(--gold2);
+            background: rgba(124, 92, 231, 0.08);
+            border: 1px solid var(--primary2);
             border-radius: 8px;
             padding: 12px 16px;
             font-size: 12px;
-            color: var(--gold);
+            color: var(--accent);
             text-align: center;
             margin-bottom: 16px;
         }
@@ -212,7 +280,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(10, 8, 18, 0.9);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -231,7 +299,7 @@
         .modal .loader {
             width: 48px; height: 48px;
             border: 3px solid var(--border);
-            border-top-color: var(--gold);
+            border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto 20px;
@@ -266,8 +334,9 @@
             text-align: center;
         }
         .ai-btn.active {
-            border-color: var(--gold);
-            color: var(--gold);
+            border-color: var(--primary);
+            color: var(--accent);
+            background: rgba(124, 92, 231, 0.08);
         }
         .ai-btn .ai-name {
             font-weight: 600;
@@ -296,6 +365,20 @@
 </head>
 <body>
 
+<!-- Shooting Stars Background -->
+<div class="stars-container">
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+</div>
+
 <div class="container">
 
     <!-- Header -->
@@ -318,11 +401,11 @@
         </button>
         <button class="ai-btn" onclick="selectAI('vela')" id="btn-vela">
             <div class="ai-name">⚡ เวล่า</div>
-            <div class="ai-desc">Western · ตัวตน</div>
+            <div class="ai-desc">วิเคราะห์ตัวตนและปัจจุบัน</div>
         </button>
         <button class="ai-btn" onclick="selectAI('wellani')" id="btn-wellani">
             <div class="ai-name">🌟 เว็ลลานี่</div>
-            <div class="ai-desc">Vedic+Thai · แนวโน้ม</div>
+            <div class="ai-desc">วิเคราะห์แนวโน้มอนาคต</div>
         </button>
     </div>
 
@@ -389,7 +472,7 @@
         </div>
         <div class="feature-item">
             <div class="icon">🔁</div>
-            กระจกตัวตน™<br>6 ชั้น
+            สะท้อนตัวตน™<br>6 ชั้น
         </div>
         <div class="feature-item">
             <div class="icon">🎯</div>
@@ -402,7 +485,7 @@
     </div>
 
     <p style="text-align:center;font-size:12px;color:var(--tx2);margin-bottom:24px;">
-        🔁 กระจกตัวตน™ สะท้อนความคิดด้วยโมเดล 6 ชั้น<br>
+        🔁 สะท้อนตัวตน™ สะท้อนความคิดด้วยโมเดล 6 ชั้น<br>
         🎯 Life Decision Tracker บันทึก ติดตาม เรียนรู้ พัฒนา<br>
         🌱 วงจรการเติบโต เติบโตจากบทเรียนชีวิต
     </p>
@@ -431,6 +514,21 @@
 // --- State ---
 let selectedLens = 'auto';
 
+// --- Static Stars Generation ---
+(function generateStaticStars() {
+    const container = document.querySelector('.stars-container');
+    for (let i = 0; i < 30; i++) {
+        const star = document.createElement('div');
+        star.className = 'static-star';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        star.style.width = (1 + Math.random() * 2) + 'px';
+        star.style.height = star.style.width;
+        container.appendChild(star);
+    }
+})();
+
 // --- AI Selection ---
 function selectAI(lens) {
     selectedLens = lens;
@@ -454,19 +552,14 @@ function submitForm() {
     const birthTime = document.getElementById('birthTime').value;
     const birthPlace = document.getElementById('birthPlace').value;
     
-    // Get year system
     const yearSystem = document.querySelector('input[name="yearSystem"]:checked')?.value || 'BE';
-    
-    // Get blood type
     const bloodType = document.querySelector('input[name="bloodType"]:checked')?.value || '';
     
-    // Validate required
     if (!birthDate) {
         alert('⚠️ กรุณากรอกวันเกิดให้ถูกต้อง');
         return;
     }
     
-    // Prepare data
     const userData = {
         name: name || 'ไม่ระบุ',
         birth_date: birthDate,
@@ -477,17 +570,15 @@ function submitForm() {
         lens: selectedLens
     };
     
-    // Show modal
     const modal = document.getElementById('analyzingModal');
     modal.classList.add('active');
     
-    // Simulate analysis steps
     const statusEl = document.getElementById('modalStatus');
     const steps = [
         'ค้นหา ผลวิเคราะห์ตัวตน ของคุณ',
-        'วิเคราะห์ผ่าน 6 ชั้นเฉพาะทาง',
+        'วิเคราะห์ผ่าน 9 ชั้นเฉพาะทาง',
         'สร้าง การสังเคราะห์ ASTROVERA',
-        'สร้าง กระจกตัวตน™ ส่วนตัว'
+        'สร้าง สะท้อนตัวตน™ ส่วนตัว'
     ];
     let step = 0;
     const stepInterval = setInterval(() => {
@@ -499,7 +590,6 @@ function submitForm() {
         }
     }, 800);
     
-    // Store data and redirect (in production: call Netlify Function)
     setTimeout(() => {
         localStorage.setItem('astrovera_user_data', JSON.stringify(userData));
         localStorage.setItem('astrovera_selected_lens', selectedLens);
@@ -509,7 +599,6 @@ function submitForm() {
 
 // --- Init ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Set min date for birth date (100 years ago)
     const dateInput = document.getElementById('birthDate');
     const today = new Date();
     const maxDate = today.toISOString().split('T')[0];
@@ -517,7 +606,6 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInput.setAttribute('max', maxDate);
     dateInput.setAttribute('min', minDate);
     
-    // Check for saved data
     const saved = localStorage.getItem('astrovera_user_data');
     if (saved) {
         const data = JSON.parse(saved);
@@ -538,3 +626,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
+รับ Outlook สำหรับ Android
