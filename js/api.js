@@ -1,115 +1,168 @@
-// ===== CONFIG =====
-const API_BASE = '/.netlify/functions';
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
-
-// ===== ANALYZE WITH DEEPSEEK =====
-window.analyzeWithDeepseek = async function (lens = 'vela', ai = 'vela') {
-    const payload = {
-        user_id: 'demo-user',
-        name: 'ธีรชัย พรั่งยืน',
-        gender: 'ชาย',
-        birth_date: '1981-07-30',
-        birth_time: '10:24',
-        birth_place: 'กรุงเทพฯ, ไทย',
-        blood_type: 'O',
-        events: {
-            start_work_year: 2009,
-            job_change_year: 2011,
-            business_peak_year: 2022,
-            best_finance_year: 2022,
-            worst_finance_year: 2024,
-            lost_family_year: 2024,
-            major_issues: 'ย้ายประเทศไปมา 2 ปี'
-        },
-        question: 'เน้นอาชีพ การเงิน ความรัก แนวโน้ม 5 ปี',
-        lens: lens,
-        ai: ai  // เพิ่มฟิลด์ ai
-    };
-
-    const response = await fetch(`${API_BASE}/analyze`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`API error (${response.status}): ${errText}`);
+// ===== AI CONFIG =====
+const AI_CONFIG = {
+    vela: {
+        id: 'vela',
+        name: 'เวล่า (VELA)',
+        icon: '🧠',
+        desc: 'ผู้รู้ หนักแน่น วิเคราะห์ชีวิต',
+        voice: 'Female',
+        color: '#B040FF'
+    },
+    wellany: {
+        id: 'wellany',
+        name: 'เว็ลลานี่ (WELLANY)',
+        icon: '💚',
+        desc: 'นุ่มนวล ดูแลสุขภาพใจ',
+        voice: 'Male',
+        color: '#34D399'
     }
-
-    const result = await response.json();
-    return result.data || 'ไม่ได้รับข้อมูลจาก Deepseek';
 };
 
-// ===== ASK FOLLOW-UP =====
-window.askFollowUp = async function (question, lens = 'vela', ai = 'vela') {
-    const payload = {
-        user_id: 'demo-user',
-        question: question,
-        lens: lens,
-        ai: ai,
-        context: 'follow-up'
-    };
+// ===== DOM READY =====
+document.addEventListener('DOMContentLoaded', function() {
+    // ---- LENS SELECTOR ----
+    const lensBtns = document.querySelectorAll('.lens-btn');
+    const resultBox = document.getElementById('analysis-result');
 
-    const response = await fetch(`${API_BASE}/analyze`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
+    if (lensBtns.length) {
+        lensBtns.forEach(btn => {
+            btn.addEventListener('click', async function() {
+                lensBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
 
-    if (!response.ok) {
-        throw new Error('ไม่สามารถส่งคำถามได้');
+                const lens = this.dataset.lens;
+                resultBox.innerHTML = '⏳ กำลังโหลดผลวิเคราะห์...';
+
+                try {
+                    const ai = localStorage.getItem('av_ai') || 'vela';
+                    const data = await window.analyzeWithDeepseek(lens, ai);
+                    resultBox.innerHTML = data;
+                } catch (err) {
+                    resultBox.innerHTML = '❌ เกิดข้อผิดพลาด: ' + err.message;
+                }
+            });
+        });
     }
 
-    const result = await response.json();
-    return result.data || 'ไม่ได้รับคำตอบ';
-};
-
-// ===== SAVE TO SUPABASE =====
-window.saveToSupabase = async function (content, lens = 'general', ai = 'vela') {
-    const payload = {
-        user_id: 'demo-user',
-        content: content,
-        lens: lens,
-        ai: ai,
-        created_at: new Date().toISOString()
-    };
-
-    // ถ้ามี Supabase client
-    if (window.supabase) {
-        const { data, error } = await window.supabase
-            .from('analysis_history')
-            .insert([payload]);
-        
-        if (error) throw new Error(error.message);
-        return data;
+    // ---- AI SELECTOR ----
+    const aiBtns = document.querySelectorAll('.ai-btn');
+    if (aiBtns.length) {
+        aiBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const ai = this.dataset.ai;
+                localStorage.setItem('av_ai', ai);
+                
+                aiBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // เลือกเสียง
+                if (window.selectVoiceForAI) {
+                    window.selectVoiceForAI(ai);
+                }
+                
+                toast('เลือก ' + AI_CONFIG[ai].name + ' แล้ว');
+                
+                // วิเคราะห์ใหม่อัตโนมัติ
+                const activeLens = document.querySelector('.lens-btn.active');
+                if (activeLens) {
+                    activeLens.click();
+                }
+            });
+        });
     }
 
-    // Fallback: ใช้ Netlify Function
-    const response = await fetch(`${API_BASE}/save-data`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
+    // ---- VOICE CONTROLS ----
+    const playBtn = document.getElementById('playVoiceBtn');
+    const stopBtn = document.getElementById('stopVoiceBtn');
 
-    if (!response.ok) {
-        const err = await response.text();
-        throw new Error(err);
+    if (playBtn && window.speakText) {
+        playBtn.addEventListener('click', function() {
+            const resultBox = document.getElementById('analysis-result');
+            const text = resultBox ? resultBox.innerText : '';
+            if (text && !text.includes('⏳') && !text.includes('👋')) {
+                const ai = localStorage.getItem('av_ai') || 'vela';
+                const voice = window.selectVoiceForAI ? 
+                    window.selectVoiceForAI(ai) : null;
+                window.speakText(text, voice, 0.9);
+            } else {
+                toast('ยังไม่มีข้อความให้อ่าน กรุณาวิเคราะห์ก่อน');
+            }
+        });
     }
 
-    return await response.json();
-};
-
-// ===== LOAD SUPABASE CLIENT =====
-// ใช้สำหรับเชื่อมต่อ Supabase โดยตรงจาก Frontend
-// (แนะนำให้ใช้ผ่าน Netlify Function เพื่อความปลอดภัย)
-window.initSupabase = function() {
-    if (typeof supabase === 'undefined') {
-        console.warn('Supabase client not loaded');
-        return null;
+    if (stopBtn && window.stopSpeaking) {
+        stopBtn.addEventListener('click', function() {
+            window.stopSpeaking();
+        });
     }
-    
-    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    return window.supabase;
-};
+
+    // ---- FOLLOW-UP QUESTION ----
+    const askBtn = document.querySelector('.ask-more button');
+    const questionInput = document.getElementById('followUpQuestion');
+
+    if (askBtn && questionInput) {
+        askBtn.addEventListener('click', async function() {
+            const q = questionInput.value.trim();
+            if (!q) {
+                toast('กรุณาพิมพ์คำถาม');
+                return;
+            }
+            
+            const activeLens = document.querySelector('.lens-btn.active');
+            const lens = activeLens ? activeLens.dataset.lens : 'general';
+            const ai = localStorage.getItem('av_ai') || 'vela';
+            const resultBox = document.getElementById('analysis-result');
+
+            resultBox.innerHTML = '⏳ กำลังคิดคำตอบ...';
+            try {
+                const answer = await window.askFollowUp(q, lens, ai);
+                resultBox.innerHTML = answer;
+                questionInput.value = '';
+            } catch (err) {
+                resultBox.innerHTML = '❌ ' + err.message;
+            }
+        });
+    }
+
+    // ---- SAVE TO SUPABASE ----
+    const saveBtn = document.querySelector('.tb-act');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', async function() {
+            const resultBox = document.getElementById('analysis-result');
+            const text = resultBox ? resultBox.innerText : '';
+            if (!text || text.includes('⏳') || text.includes('👋')) {
+                toast('ยังไม่มีข้อมูลให้บันทึก');
+                return;
+            }
+            
+            const activeLens = document.querySelector('.lens-btn.active');
+            const lens = activeLens ? activeLens.dataset.lens : 'general';
+            const ai = localStorage.getItem('av_ai') || 'vela';
+            
+            try {
+                await window.saveToSupabase(text, lens, ai);
+                toast('✅ บันทึกสำเร็จ!');
+            } catch (err) {
+                toast('❌ บันทึกไม่สำเร็จ: ' + err.message);
+            }
+        });
+    }
+
+    // ---- AUTO-LOAD DEFAULT LENS ----
+    const defaultLens = document.querySelector('.lens-btn.active') || document.querySelector('.lens-btn');
+    if (defaultLens) {
+        defaultLens.click();
+    }
+});
+
+// ===== TOAST HELPER =====
+function toast(msg) {
+    const el = document.getElementById('toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('on');
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(function() {
+        el.classList.remove('on');
+    }, 2500);
+}
