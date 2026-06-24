@@ -1,9 +1,39 @@
-# netlify.toml — บอก Netlify ว่าโฟลเดอร์ Functions อยู่ตรงไหน
-# ไม่มีไฟล์นี้ Netlify จะไม่รู้จัก netlify/functions/natal-chart.js เลย
+# ============================================
+# ASTROVERA Intelligence Engine
+# Netlify Configuration
+# ============================================
 
 [build]
-  functions = "netlify/functions"
-  publish = "."
+  command = "npm run build"
+  publish = "frontend"
 
+# ============================================
+# FUNCTIONS
+# ============================================
 [functions]
+  directory = "netlify/functions"
   node_bundler = "esbuild"
+
+# ============================================
+# ENVIRONMENT VARIABLES
+# (ค่าเหล่านี้ตั้งผ่าน Netlify UI หรือ CLI)
+# ============================================
+#[build.environment]
+  # DEEPSEEK_API_KEY = "sk-xxxxxxxxxxxxxxxxxxxxxxxx"
+  # SUPABASE_URL = "https://xxxxxxxxxxxx.supabase.co"
+  # SUPABASE_SERVICE_ROLE_KEY = "eyJxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  # NODE_ENV = "production"
+  # USE_MOCK = "false"
+
+# ============================================
+# REDIRECTS (SPA Routing)
+# ============================================
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
