@@ -1,8 +1,10 @@
 // ===== CONFIG =====
 const API_BASE = '/.netlify/functions';
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
 // ===== ANALYZE WITH DEEPSEEK =====
-window.analyzeWithDeepseek = async function (lens = 'vela') {
+window.analyzeWithDeepseek = async function (lens = 'vela', ai = 'vela') {
     const payload = {
         user_id: 'demo-user',
         name: 'ธีรชัย พรั่งยืน',
@@ -21,7 +23,8 @@ window.analyzeWithDeepseek = async function (lens = 'vela') {
             major_issues: 'ย้ายประเทศไปมา 2 ปี'
         },
         question: 'เน้นอาชีพ การเงิน ความรัก แนวโน้ม 5 ปี',
-        lens: lens
+        lens: lens,
+        ai: ai  // เพิ่มฟิลด์ ai
     };
 
     const response = await fetch(`${API_BASE}/analyze`, {
@@ -40,11 +43,12 @@ window.analyzeWithDeepseek = async function (lens = 'vela') {
 };
 
 // ===== ASK FOLLOW-UP =====
-window.askFollowUp = async function (question, lens = 'vela') {
+window.askFollowUp = async function (question, lens = 'vela', ai = 'vela') {
     const payload = {
         user_id: 'demo-user',
         question: question,
         lens: lens,
+        ai: ai,
         context: 'follow-up'
     };
 
@@ -63,14 +67,26 @@ window.askFollowUp = async function (question, lens = 'vela') {
 };
 
 // ===== SAVE TO SUPABASE =====
-window.saveToSupabase = async function (content) {
+window.saveToSupabase = async function (content, lens = 'general', ai = 'vela') {
     const payload = {
         user_id: 'demo-user',
         content: content,
-        lens: document.querySelector('.lens-btn.active')?.dataset.lens || 'unknown',
+        lens: lens,
+        ai: ai,
         created_at: new Date().toISOString()
     };
 
+    // ถ้ามี Supabase client
+    if (window.supabase) {
+        const { data, error } = await window.supabase
+            .from('analysis_history')
+            .insert([payload]);
+        
+        if (error) throw new Error(error.message);
+        return data;
+    }
+
+    // Fallback: ใช้ Netlify Function
     const response = await fetch(`${API_BASE}/save-data`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -83,4 +99,17 @@ window.saveToSupabase = async function (content) {
     }
 
     return await response.json();
+};
+
+// ===== LOAD SUPABASE CLIENT =====
+// ใช้สำหรับเชื่อมต่อ Supabase โดยตรงจาก Frontend
+// (แนะนำให้ใช้ผ่าน Netlify Function เพื่อความปลอดภัย)
+window.initSupabase = function() {
+    if (typeof supabase === 'undefined') {
+        console.warn('Supabase client not loaded');
+        return null;
+    }
+    
+    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    return window.supabase;
 };
