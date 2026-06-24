@@ -6,28 +6,20 @@
     <title>ASTROVERA — ปัญญาชีวิต</title>
     <style>
         :root {
-            --bg: #fff;
-            --text: #1a1a1a;
-            --gold: #b8860b;
-            --card: #fafafa;
-            --border: #e0d5c1;
-            --muted: #666;
-            --blur: rgba(255,255,255,0.7);
-            --premium: #fef9f0;
-        }
-        [data-theme="dark"] {
-            --bg: #1a1a1a;
-            --text: #f0e6d3;
-            --gold: #d4a017;
-            --card: #2a2a2a;
-            --border: #3a3a3a;
-            --muted: #999;
-            --blur: rgba(0,0,0,0.7);
-            --premium: #2a2418;
+            --bg: #1a1035;
+            --bg-card: #231a45;
+            --text: #e8e0f0;
+            --gold: #d4a843;
+            --gold-light: #f0d078;
+            --border: #3a2f5c;
+            --muted: #a095b8;
+            --premium: #2a1f50;
+            --accent: #7c5ce7;
+            --white: #ffffff;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Thai', sans-serif; 
             background: var(--bg); color: var(--text); 
             max-width: 480px; margin: 0 auto; min-height: 100vh;
             line-height: 1.6; padding-bottom: 80px;
@@ -38,148 +30,163 @@
             position: sticky; top: 0; background: var(--bg); z-index: 100;
         }
         .logo { font-weight: 700; font-size: 18px; color: var(--gold); }
-        .top-actions { display: flex; gap: 12px; align-items: center; }
-        .btn-icon { background: none; border: none; font-size: 18px; cursor: pointer; }
+        .top-actions { display: flex; gap: 12px; align-items: center; font-size: 13px; color: var(--muted); }
+        .btn-icon { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text); }
         .container { padding: 16px; }
         .card {
-            background: var(--card); border: 1px solid var(--border);
+            background: var(--bg-card); border: 1px solid var(--border);
             border-radius: 16px; padding: 20px; margin-bottom: 16px;
         }
-        .emoji-group { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; }
+        .card-highlight {
+            background: linear-gradient(135deg, #2a1f50 0%, #1f1540 100%);
+            border: 1px solid var(--gold);
+        }
+        h1, h2, h3 { color: var(--text); margin-bottom: 8px; }
+        h1 { font-size: 24px; }
+        h2 { font-size: 20px; }
+        h3 { font-size: 16px; }
+        .text-muted { color: var(--muted); font-size: 13px; }
+        .text-gold { color: var(--gold); }
+        .text-center { text-align: center; }
+        .emoji-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
         .emoji-btn {
-            background: var(--card); border: 2px solid var(--border);
-            border-radius: 12px; padding: 12px 16px; font-size: 16px;
-            cursor: pointer; text-align: center; min-width: 70px;
-            transition: all 0.2s;
+            background: var(--bg-card); border: 2px solid var(--border);
+            border-radius: 12px; padding: 10px 14px; font-size: 14px;
+            cursor: pointer; text-align: center; min-width: 65px;
+            transition: all 0.2s; color: var(--text);
         }
         .emoji-btn:hover, .emoji-btn.active { border-color: var(--gold); background: var(--premium); }
         .btn {
-            background: var(--gold); color: #fff; border: none;
-            border-radius: 12px; padding: 12px 24px; font-size: 16px;
-            cursor: pointer; width: 100%; font-weight: 600; margin: 8px 0;
+            display: inline-block; border: none; border-radius: 12px;
+            padding: 12px 24px; font-size: 15px; cursor: pointer;
+            font-weight: 600; text-align: center; transition: all 0.2s;
         }
-        .btn-outline {
+        .btn-primary { background: var(--gold); color: #1a1035; width: 100%; margin: 6px 0; }
+        .btn-primary:hover { background: var(--gold-light); }
+        .btn-secondary { 
             background: transparent; color: var(--gold); border: 2px solid var(--gold);
+            width: 100%; margin: 6px 0;
         }
-        .btn-ghost {
+        .btn-secondary:hover { background: rgba(212,168,67,0.1); }
+        .btn-ghost { 
             background: transparent; color: var(--muted); border: none;
-            width: auto; padding: 8px 12px; font-weight: 400;
+            padding: 8px 12px; font-weight: 400; text-decoration: underline;
         }
-        .btn-sm {
-            width: auto; padding: 8px 16px; font-size: 14px;
-        }
+        .btn-sm { width: auto; padding: 8px 14px; font-size: 13px; }
         .tag {
             display: inline-block; background: var(--premium); color: var(--gold);
-            border-radius: 8px; padding: 4px 10px; font-size: 12px; margin: 2px;
-        }
-        .badge {
-            display: inline-block; background: var(--gold); color: #fff;
-            border-radius: 50%; width: 24px; height: 24px; line-height: 24px;
-            text-align: center; font-size: 12px;
+            border-radius: 6px; padding: 3px 8px; font-size: 11px;
         }
         input, textarea, select {
-            width: 100%; padding: 12px; border: 1px solid var(--border);
-            border-radius: 10px; font-size: 16px; margin: 6px 0;
+            width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+            border-radius: 10px; font-size: 15px; margin: 6px 0;
             background: var(--bg); color: var(--text);
         }
-        textarea { min-height: 80px; resize: vertical; }
-        label { font-weight: 600; display: block; margin-top: 12px; }
+        textarea { min-height: 70px; resize: vertical; }
+        label { font-weight: 600; display: block; margin-top: 10px; font-size: 14px; }
         .flex-row { display: flex; gap: 8px; align-items: center; }
         .flex-wrap { flex-wrap: wrap; }
+        .flex-between { justify-content: space-between; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .nav-bar {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 480px; background: var(--bg);
+            width: 100%; max-width: 480px; background: var(--bg-card);
             border-top: 1px solid var(--border); display: flex;
             justify-content: space-around; padding: 8px 0; z-index: 100;
         }
-        .nav-item { text-align: center; font-size: 12px; cursor: pointer; color: var(--muted); }
+        .nav-item { 
+            text-align: center; font-size: 11px; cursor: pointer; color: var(--muted);
+            padding: 4px 8px; border-radius: 8px; transition: all 0.2s;
+        }
         .nav-item.active { color: var(--gold); }
-        .nav-item span { display: block; font-size: 20px; }
-        .blurred { filter: blur(4px); user-select: none; pointer-events: none; opacity: 0.5; }
-        .preview-locked { position: relative; }
-        .preview-locked::after {
+        .nav-item span { display: block; font-size: 20px; margin-bottom: 2px; }
+        .blurred { filter: blur(3px); user-select: none; opacity: 0.4; }
+        .locked-section { position: relative; margin: 8px 0; padding: 8px; border-radius: 8px; }
+        .locked-section::after {
             content: "🔒"; position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); font-size: 32px; z-index: 10;
+            transform: translate(-50%, -50%); font-size: 28px; z-index: 5;
         }
         .voice-btn {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 10px; padding: 10px 14px; cursor: pointer;
-            font-size: 18px; margin-left: 8px; white-space: nowrap;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 10px; padding: 10px 12px; cursor: pointer;
+            font-size: 18px; white-space: nowrap; color: var(--text);
         }
-        .voice-btn.recording { border-color: red; animation: pulse 1s infinite; }
+        .voice-btn.recording { border-color: #ff4444; animation: pulse 1s infinite; }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .cta-primary { 
-            background: var(--gold); color: #fff; font-size: 18px; padding: 14px 20px;
-            border-radius: 14px; font-weight: 700;
-        }
-        .cta-secondary {
-            background: transparent; color: var(--gold); border: 2px solid var(--gold);
-            font-size: 15px; padding: 10px 18px; border-radius: 12px;
-        }
-        .cta-ghost {
-            background: transparent; color: var(--muted); border: none;
-            font-size: 13px; padding: 8px; text-decoration: underline;
-        }
         .onboarding-overlay {
             position: fixed; top: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 480px; height: 100vh; background: rgba(0,0,0,0.8);
-            z-index: 200; display: flex; align-items: center; justify-content: center;
+            width: 100%; max-width: 480px; height: 100vh; 
+            background: rgba(10,8,25,0.9); z-index: 200; 
+            display: flex; align-items: center; justify-content: center;
         }
         .onboarding-card {
-            background: var(--bg); border-radius: 20px; padding: 24px;
-            margin: 16px; text-align: center; max-width: 380px;
+            background: var(--bg-card); border-radius: 20px; padding: 28px 24px;
+            margin: 16px; text-align: center; border: 1px solid var(--border);
+            max-width: 350px; width: 100%;
         }
         .step-dots { display: flex; gap: 6px; justify-content: center; margin: 12px 0; }
-        .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+        .step-dot { 
+            width: 8px; height: 8px; border-radius: 50%; background: var(--border);
+            transition: all 0.3s;
+        }
         .step-dot.active { background: var(--gold); width: 24px; border-radius: 4px; }
+        .page-link { color: var(--muted); text-decoration: none; font-size: 13px; cursor: pointer; }
+        .page-link:hover { color: var(--gold); }
+        .divider { border-top: 1px solid var(--border); margin: 16px 0; }
+        ul { padding-left: 20px; }
+        li { margin: 4px 0; font-size: 13px; color: var(--muted); }
+        .phase-badge {
+            display: inline-block; padding: 6px 14px; border-radius: 20px;
+            background: var(--premium); color: var(--gold); font-weight: 600;
+        }
     </style>
 </head>
-<body data-theme="light">
+<body>
 
-<!-- ========== TOP BAR ========== -->
+<!-- ==================== TOP BAR ==================== -->
 <div class="top-bar">
-    <div class="logo">ASTROVERA</div>
+    <div class="logo">✨ ASTROVERA</div>
     <div class="top-actions">
-        <span>TH</span> <span>EN</span> <span>中文</span>
-        <button class="btn-icon" id="darkToggle">🌙</button>
+        <span>TH</span> · <span>EN</span> · <span>中文</span>
     </div>
 </div>
 
 <div class="container">
 
-<!-- ========== LANDING: เริ่มเข้าใจตัวเองใน 2 นาที ========== -->
+<!-- ==================== LANDING PAGE ==================== -->
 <section id="landing">
-    <div class="card" style="text-align:center;">
-        <h1 style="font-size:24px;margin-bottom:8px;">ASTROVERA — ปัญญาชีวิต</h1>
-        <p style="color:var(--muted);margin-bottom:4px;">วิเคราะห์ชีวิต · พัฒนาความคิด · ช่วยตัดสินใจ</p>
-        <p style="color:var(--muted);font-size:13px;">มากกว่าการดูดวงและการทำนาย เพราะประสบการณ์และบทเรียน คือกระจกสะท้อนชีวิตที่ลึกที่สุด</p>
+    <div class="card text-center">
+        <h1>ASTROVERA</h1>
+        <p style="color:var(--gold);">DATA LIFE INTELLIGENCE</p>
+        <p class="text-muted" style="margin-top:8px;">ปัญญาชีวิต · วิเคราะห์ชีวิต · พัฒนาความคิด · ช่วยตัดสินใจ</p>
+        <p class="text-muted" style="font-size:12px;">มากกว่าการดูดวง เพราะประสบการณ์และบทเรียน คือกระจกสะท้อนชีวิตที่ลึกที่สุด</p>
     </div>
 
-    <div class="card">
-        <h2 style="text-align:center;margin-bottom:16px;">เริ่มเข้าใจตัวเองใน 2 นาที</h2>
-        <p style="text-align:center;color:var(--muted);font-size:13px;margin-bottom:16px;">ฟรี · ไม่ต้องสมัครก่อน</p>
+    <div class="card card-highlight">
+        <h2 class="text-center">เริ่มเข้าใจตัวเองใน 2 นาที</h2>
+        <p class="text-center text-muted">ฟรี · ไม่ต้องสมัครก่อน</p>
         
         <label>ชื่อของคุณ</label>
         <input type="text" placeholder="ชื่อ (ไม่จำเป็น)">
         
         <label>วันเกิด *</label>
         <div class="flex-row">
-            <select>
+            <select style="flex:1;">
                 <option>— เดือน —</option>
                 <option>มกราคม</option><option>กุมภาพันธ์</option><option>มีนาคม</option>
                 <option>เมษายน</option><option>พฤษภาคม</option><option>มิถุนายน</option>
                 <option>กรกฎาคม</option><option>สิงหาคม</option><option>กันยายน</option>
                 <option>ตุลาคม</option><option>พฤศจิกายน</option><option>ธันวาคม</option>
             </select>
-            <input type="number" placeholder="วัน" style="width:60px;">
-            <input type="number" placeholder="ปี" style="width:80px;">
+            <input type="number" placeholder="วัน" style="width:55px;">
+            <input type="number" placeholder="ปี" style="width:70px;">
         </div>
-        <div class="flex-row" style="margin:6px 0;">
+        <div class="flex-row" style="margin:6px 0;font-size:13px;">
             <span>ระบบปี:</span>
-            <label><input type="radio" name="yearSys" value="be" checked> พ.ศ.</label>
-            <label><input type="radio" name="yearSys" value="ce"> ค.ศ.</label>
+            <label style="margin:0;"><input type="radio" name="yearSys" checked> พ.ศ.</label>
+            <label style="margin:0;"><input type="radio" name="yearSys"> ค.ศ.</label>
         </div>
-        <p style="color:red;font-size:12px;">⚠️ กรุณากรอกวันเกิดให้ถูกต้อง</p>
+        <p style="color:#ff6b6b;font-size:11px;">⚠️ กรุณากรอกวันเกิดให้ถูกต้อง</p>
 
         <label>เวลาเกิด (ถ้าทราบ)</label>
         <input type="time">
@@ -190,7 +197,7 @@
         </select>
 
         <label>🩸 กรุ๊ปเลือดของคุณ</label>
-        <p style="font-size:12px;color:var(--muted);">เพิ่มความแม่นยำการวิเคราะห์มิติพลังงาน</p>
+        <p class="text-muted" style="font-size:11px;">เพิ่มความแม่นยำการวิเคราะห์มิติพลังงาน</p>
         <div class="emoji-group">
             <button class="emoji-btn">🔴 O<br><small>นักสู้</small></button>
             <button class="emoji-btn">🔵 A<br><small>นักวางแผน</small></button>
@@ -198,990 +205,207 @@
             <button class="emoji-btn">🟣 AB<br><small>นักปรับตัว</small></button>
         </div>
 
-        <button class="btn cta-primary" onclick="showSection('loading')">✦ วิเคราะห์เลย — ฟรี</button>
-        <button class="btn btn-ghost" style="width:100%;">👁️ ดูก่อนได้!</button>
+        <button class="btn btn-primary" onclick="startAnalysis()">✦ วิเคราะห์เลย — ฟรี</button>
+        <p class="text-center text-muted" style="font-size:12px;cursor:pointer;" onclick="startAnalysis()">👁️ ดูก่อนได้!</p>
     </div>
 
     <div class="card">
         <div class="flex-row" style="justify-content:space-around;text-align:center;">
-            <div>🧭<br><small>การค้นพบตัวตน</small></div>
+            <div>🧭<br><small>ค้นพบตัวตน</small></div>
             <div>🔁<br><small>กระจกตัวตน</small></div>
-            <div>🎯<br><small>Life Decision Tracker</small></div>
-            <div>🌱<br><small>วงจรการเติบโต</small></div>
+            <div>🎯<br><small>ตัดสินใจ</small></div>
+            <div>🌱<br><small>วงจรเติบโต</small></div>
         </div>
-        <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:8px;">
-            วิเคราะห์ผ่าน Astrovera Intelligence Engine — 6 ชั้นการวิเคราะห์เฉพาะทาง ที่ไม่มีที่ใดเหมือน<br>
-            ใช้เป็น Framework สะท้อนมุมมอง ไม่ใช่คำทำนาย
+        <p class="text-muted text-center" style="font-size:11px;margin-top:8px;">
+            ขับเคลื่อนด้วย Astrovera Intelligence Engine · 6 ชั้นการวิเคราะห์เฉพาะทาง
         </p>
     </div>
 </section>
 
-<!-- ========== LOADING ========== -->
+<!-- ==================== LOADING ==================== -->
 <section id="loading" style="display:none;">
-    <div class="card" style="text-align:center;">
+    <div class="card text-center" style="padding:40px 20px;">
+        <p style="font-size:40px;">🔮</p>
         <h2>กำลังวิเคราะห์...</h2>
-        <p>ค้นหา ผลวิเคราะห์ตัวตน ของคุณ</p>
-        <p>วิเคราะห์ผ่าน 6 ชั้นเฉพาะทาง</p>
-        <p>สร้างด้วย Astrovera Intelligence Engine</p>
-        <p>ค้นหา ผลวิเคราะห์ตัวตน ของคุณ</p>
-        <p>สร้าง กระจกตัวตน ส่วนตัว</p>
+        <p class="text-muted">ค้นหา ผลวิเคราะห์ตัวตน ของคุณ</p>
+        <p class="text-muted">วิเคราะห์ผ่าน 6 ชั้นเฉพาะทาง</p>
+        <p class="text-muted">สร้างด้วย Astrovera Intelligence Engine</p>
+        <div style="margin-top:20px;">
+            <div style="width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;margin:0 auto;animation:spin 1s linear infinite;"></div>
+        </div>
     </div>
+    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
 </section>
 
-<!-- ========== QUIZ 1/5 ========== -->
+<!-- ==================== QUIZ ==================== -->
 <section id="quiz" style="display:none;">
     <div class="card">
-        <a href="#" onclick="showSection('landing')" style="color:var(--muted);">← ข้อมูลเพิ่มเติม</a>
-        <span style="float:right;">1 / 5</span>
+        <span class="page-link" onclick="goTo('landing')">← ข้อมูลเพิ่มเติม</span>
+        <span style="float:right;color:var(--gold);">1 / 5</span>
         
         <h3 style="margin-top:12px;">เมื่อต้องตัดสินใจเรื่องสำคัญ คุณมักทำอย่างไร?</h3>
-        <p style="font-size:12px;color:var(--muted);">ตอบตามสิ่งที่ทำจริง ไม่มีถูกผิด</p>
+        <p class="text-muted">ตอบตามสิ่งที่ทำจริง ไม่มีถูกผิด</p>
         <div style="display:flex;flex-direction:column;gap:8px;margin:12px 0;">
-            <button class="emoji-btn" style="text-align:left;">วิเคราะห์ข้อมูลก่อนตัดสินใจเสมอ</button>
-            <button class="emoji-btn" style="text-align:left;">เชื่อความรู้สึกและสัญชาตญาณ</button>
-            <button class="emoji-btn" style="text-align:left;">ปรึกษาคนที่ไว้วางใจก่อน</button>
-            <button class="emoji-btn" style="text-align:left;">ผสมผสาน ขึ้นอยู่กับสถานการณ์</button>
+            <button class="emoji-btn" style="text-align:left;">📊 วิเคราะห์ข้อมูลก่อนตัดสินใจเสมอ</button>
+            <button class="emoji-btn" style="text-align:left;">💭 เชื่อความรู้สึกและสัญชาตญาณ</button>
+            <button class="emoji-btn" style="text-align:left;">👥 ปรึกษาคนที่ไว้วางใจก่อน</button>
+            <button class="emoji-btn" style="text-align:left;">🔄 ผสมผสาน ขึ้นอยู่กับสถานการณ์</button>
         </div>
 
         <h3>เมื่อแผนที่วางไว้ไม่เป็นไปตามคาด คุณมักจะ?</h3>
-        <p style="font-size:12px;color:var(--muted);">มุมมองที่ 2 ของแกนเดียวกัน — ช่วยให้ผลแม่นยำขึ้น</p>
+        <p class="text-muted">มุมมองที่ 2 ของแกนเดียวกัน — ช่วยให้ผลแม่นยำขึ้น</p>
         <div style="display:flex;flex-direction:column;gap:8px;margin:12px 0;">
-            <button class="emoji-btn" style="text-align:left;">กลับไปทบทวนข้อมูลทั้งหมดอีกครั้งอย่างละเอียด</button>
-            <button class="emoji-btn" style="text-align:left;">ปรับเปลี่ยนตามความรู้สึกหน้างานทันที</button>
-            <button class="emoji-btn" style="text-align:left;">โทรหาคนที่ไว้ใจเพื่อขอความเห็นก่อนตัดสินใจต่อ</button>
-            <button class="emoji-btn" style="text-align:left;">ลองวิธีใหม่ไปเรื่อยๆ จนกว่าจะเจอทางที่ใช้ได้</button>
+            <button class="emoji-btn" style="text-align:left;">🔍 กลับไปทบทวนข้อมูลทั้งหมดอีกครั้ง</button>
+            <button class="emoji-btn" style="text-align:left;">⚡ ปรับเปลี่ยนตามความรู้สึกหน้างานทันที</button>
+            <button class="emoji-btn" style="text-align:left;">📞 โทรหาคนที่ไว้ใจเพื่อขอความเห็น</button>
+            <button class="emoji-btn" style="text-align:left;">🧪 ลองวิธีใหม่ไปเรื่อยๆ จนกว่าจะเจอทาง</button>
         </div>
+
+        <button class="btn btn-primary" onclick="goTo('innerMirror')">ดูผลลัพธ์ →</button>
     </div>
 </section>
 
-<!-- ========== INNER MIRROR™ (สิ่งที่ Astrovera เห็น — ฟรี) ========== -->
-<!-- แก้ไข: ลบปุ่มปลดล็อกซ้ำ, ลบราคา, จัดลำดับ CTA ใหม่ -->
+<!-- ==================== INNER MIRROR ==================== -->
 <section id="innerMirror" style="display:none;">
-    <div class="card">
-        <a href="#" onclick="showSection('landing')" style="color:var(--muted);">← สิ่งที่ Astrovera เห็น</a>
+    <div class="card card-highlight">
+        <span class="page-link" onclick="goTo('quiz')">← สิ่งที่ Astrovera เห็น</span>
         <span style="float:right;color:var(--gold);">✦ ฟรี</span>
 
         <h2 style="margin-top:12px;">ลักษณะตัวตนเฉพาะของคุณ</h2>
-        <p style="font-size:24px;">🔮 The Visionary Builder</p>
-        <p style="font-size:13px;color:var(--muted);">ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง</p>
-        <p>—</p>
-        <p style="font-size:12px;color:var(--muted);">Astrovera Intelligence Engine · จุดที่ทุกชั้นชี้ตรงกัน</p>
+        <p style="font-size:28px;">🔮 The Visionary Builder</p>
+        <p class="text-muted">ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง</p>
+        <p class="text-muted">Astrovera Intelligence Engine · จุดที่ทุกชั้นชี้ตรงกัน</p>
 
-        <!-- ✅ ชั้นที่ 1: ฟรี -->
+        <div class="divider"></div>
+
+        <!-- ✅ ฟรี 2 ชั้น -->
         <h3>✦ ✦ มุมมองของ ASTROVERA ต่อคุณ</h3>
-        <p>—</p>
+        <p>คุณมีพลังงานของผู้นำที่ขับเคลื่อนจากวิสัยทัศน์ภายใน ทำงานได้ดีที่สุดเมื่อมีอิสระในการสร้างสิ่งใหม่</p>
 
-        <!-- ✅ ชั้นที่ 2: ฟรี -->
         <h3>◈ ความหมาย</h3>
-        <p>—</p>
+        <p>คุณไม่ได้ถูกออกแบบมาเพื่อทำตามระบบที่มีอยู่ แต่เพื่อสร้างระบบใหม่ ความรู้สึกอยากเริ่มต้นสิ่งใหม่อยู่เสมอคือธรรมชาติแท้ของคุณ</p>
 
-        <!-- 🔒 ชั้นที่ 3-6: เบลอ -->
-        <div class="preview-locked">
-            <div class="blurred">
-                <h3>◉ ความรู้สึกที่ซ่อนอยู่</h3>
-                <p>มีความรู้สึกบางอย่างที่คุณยังไม่ได้พูดออกมา สิ่งที่ถูกเก็บไว้ภายในมีผลต่อการตัดสินใจของคุณ...</p>
-            </div>
-        </div>
-        <div class="preview-locked">
-            <div class="blurred">
-                <h3>💬 คำถามชวนคิด</h3>
-                <p>ถ้าคุณรู้อยู่แล้วว่าคำตอบคืออะไร คุณกำลังรอสิ่งใดอยู่? สิ่งที่คุณกลัวที่สุดในตอนนี้คืออะไร...</p>
-            </div>
-        </div>
-        <div class="preview-locked">
-            <div class="blurred">
-                <h3>→ ลงมือทำ</h3>
-                <p>ขั้นตอนเล็กที่สุดที่คุณทำได้ภายใน 24 ชั่วโมงเพื่อเคลื่อนไปข้างหน้า คือการ...</p>
-            </div>
-        </div>
-        <div class="preview-locked">
-            <div class="blurred">
-                <h3>📝 Journal Prompt</h3>
-                <p>เขียนถึงเวอร์ชั่นของตัวเองในอีก 1 ปี บอกว่าตอนนี้คุณกำลังเผชิญกับอะไร และสิ่งที่คุณ...</p>
-            </div>
-        </div>
+        <!-- ✅ เบลอ 4 ชั้น -->
+        <div class="locked-section"><div class="blurred">
+            <h3>◉ ความรู้สึกที่ซ่อนอยู่</h3>
+            <p>มีความรู้สึกบางอย่างที่คุณยังไม่ได้พูดออกมา สิ่งที่ถูกเก็บไว้ภายในมีผลต่อการตัดสินใจของคุณ...</p>
+        </div></div>
 
-        <!-- ✅ CTA ปุ่มเดียว — จัดลำดับชัดเจน -->
-        <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;">
-            <button class="btn cta-primary" onclick="showSection('upgrade')">
-                🔓 ปลดล็อก 4 ชั้นที่เหลือ — ดูครบทั้ง 6 ชั้น
-            </button>
-            <button class="btn cta-secondary" onclick="showSection('lifeOS')">
-                เข้าสู่แผนที่ชีวิตของฉัน →
-            </button>
-            <button class="btn cta-ghost" style="width:100%;text-align:center;">
-                📤 แชร์ผลลัพธ์
-            </button>
-        </div>
+        <div class="locked-section"><div class="blurred">
+            <h3>💬 คำถามชวนคิด</h3>
+            <p>ถ้าคุณรู้อยู่แล้วว่าคำตอบคืออะไร คุณกำลังรอสิ่งใดอยู่? สิ่งที่คุณกลัวที่สุดในตอนนี้คืออะไร...</p>
+        </div></div>
+
+        <div class="locked-section"><div class="blurred">
+            <h3>→ ลงมือทำ</h3>
+            <p>ขั้นตอนเล็กที่สุดที่คุณทำได้ภายใน 24 ชั่วโมงเพื่อเคลื่อนไปข้างหน้า คือการ...</p>
+        </div></div>
+
+        <div class="locked-section"><div class="blurred">
+            <h3>📝 Journal Prompt</h3>
+            <p>เขียนถึงเวอร์ชั่นของตัวเองในอีก 1 ปี บอกว่าตอนนี้คุณกำลังเผชิญกับอะไร...</p>
+        </div></div>
+
+        <div class="divider"></div>
+
+        <!-- ✅ CTA — จัดลำดับชัดเจน -->
+        <button class="btn btn-primary" onclick="goTo('upgrade')">
+            🔓 ปลดล็อก 4 ชั้นที่เหลือ — ดูครบทั้ง 6 ชั้น
+        </button>
+        <button class="btn btn-secondary" onclick="goTo('lifeOS')">
+            เข้าสู่แผนที่ชีวิตของฉัน →
+        </button>
+        <p class="text-center text-muted" style="font-size:12px;cursor:pointer;margin-top:4px;">📤 แชร์ผลลัพธ์</p>
     </div>
 </section>
-<!-- ========== UPGRADE PAGE ========== -->
-<!-- แก้ไข: แสดงราคา 299/399 ในหน้านี้ -->
+
+<!-- ==================== UPGRADE PAGE ==================== -->
 <section id="upgrade" style="display:none;">
     <div class="card">
-        <a href="#" onclick="showSection('innerMirror')" style="color:var(--muted);">← รายงานวิเคราะห์ชีวิตเชิงลึก</a>
-        
-        <h2 style="text-align:center;margin:16px 0;">Unlock Full Intelligence</h2>
-        <p style="text-align:center;color:var(--muted);">เข้าใจตัวเองครบทุกมิติ</p>
+        <span class="page-link" onclick="goTo('innerMirror')">← กลับ</span>
+        <h2 class="text-center">Unlock Full Intelligence</h2>
+        <p class="text-center text-muted">เข้าใจตัวเองครบทุกมิติ</p>
 
-        <div class="card" style="background:var(--premium);">
+        <div class="card" style="border:1px solid var(--gold);">
             <h3>✦ รายงานวิเคราะห์ชีวิต</h3>
-            <ul style="font-size:13px;color:var(--muted);margin:8px 0;padding-left:16px;">
+            <ul>
                 <li>การค้นพบตัวตน + กระจกตัวตน ครบ 6 ชั้น</li>
-                <li>สิ่งที่เห็น · ความหมาย · ความรู้สึกแฝง · คำถามชวนคิด · ลงมือทำ · Journal</li>
-                <li><span style="color:var(--gold);">(ฟรีได้ดูแค่ 2 ชั้นแรก — Premium ครบทั้ง 6)</span></li>
-                <li>Life Decision Tracker + Follow-up 30/90/180/365 วัน</li>
-                <li>วงจรการเติบโต ติดตามและเรียนรู้จากผลลัพธ์จริง</li>
+                <li>Life Decision Tracker + Follow-up</li>
                 <li>Weekly Evolution + Emotion Pulse</li>
                 <li>จังหวะชีวิต Intelligence</li>
                 <li>PDF Report + Memory Engine</li>
             </ul>
-            <p style="font-size:24px;font-weight:700;text-align:center;margin:12px 0;">💰 399 บาท</p>
-            <p style="font-size:12px;color:var(--muted);text-align:center;">จ่ายครั้งเดียว วิเคราะห์ตลอดชีพ</p>
-            <button class="btn cta-primary" onclick="showSection('payment')">เลือกแพ็คเกจนี้</button>
+            <p style="font-size:28px;font-weight:700;text-align:center;color:var(--gold);">399 บาท</p>
+            <p class="text-center text-muted">จ่ายครั้งเดียว วิเคราะห์ตลอดชีพ</p>
+            <button class="btn btn-primary" onclick="goTo('payment')">เลือก →</button>
         </div>
 
         <div class="card">
             <h3>✦ ASTROVERA พรีเมียม</h3>
-            <p style="font-size:13px;color:var(--muted);">บันทึกการตัดสินใจ + สะท้อนตัวตน 6 มิติ + ระบบติดตามผล</p>
-            <p style="font-size:24px;font-weight:700;text-align:center;margin:12px 0;">💎 299 บาท/เดือน</p>
-            <button class="btn cta-secondary" onclick="showSection('payment')">เลือกแพ็คเกจนี้</button>
+            <p class="text-muted">บันทึก + สะท้อนตัวตน 6 มิติ + ติดตามผล</p>
+            <p style="font-size:28px;font-weight:700;text-align:center;color:var(--gold);">299 / เดือน</p>
+            <button class="btn btn-secondary" onclick="goTo('payment')">เลือก →</button>
         </div>
 
         <div class="card">
             <h3>✦ ปัญญาผู้ก่อตั้ง</h3>
-            <p style="font-size:13px;color:var(--muted);">สำหรับผู้ก่อตั้งและผู้ประกอบการ</p>
-            <p style="font-size:24px;font-weight:700;text-align:center;margin:12px 0;">🚀 1,990 บาท</p>
-            <button class="btn cta-secondary" onclick="showSection('payment')">เลือกแพ็คเกจนี้</button>
+            <p class="text-muted">สำหรับผู้ก่อตั้งและผู้ประกอบการ</p>
+            <p style="font-size:28px;font-weight:700;text-align:center;color:var(--gold);">1,990 บาท</p>
+            <button class="btn btn-secondary" onclick="goTo('payment')">เลือก →</button>
         </div>
     </div>
 </section>
 
-<!-- ========== PAYMENT PAGE ========== -->
+<!-- ==================== PAYMENT ==================== -->
 <section id="payment" style="display:none;">
-    <div class="card">
-        <a href="#" onclick="showSection('upgrade')" style="color:var(--muted);">← ชำระเงิน</a>
-        
-        <h2 style="text-align:center;margin:16px 0;">ชำระเงิน</h2>
-        
-        <div class="card" style="background:var(--premium);">
-            <p><strong>รายการที่เลือก:</strong> <span id="selectedPlan">รายงานวิเคราะห์ชีวิต</span></p>
-            <p style="font-size:24px;font-weight:700;">รวมทั้งหมด <span id="selectedPrice">399</span> บาท</p>
+    <div class="card text-center">
+        <span class="page-link" onclick="goTo('upgrade')">← กลับ</span>
+        <h2>ชำระเงิน</h2>
+        <div style="background:var(--premium);border-radius:12px;padding:12px;margin:12px 0;">
+            <p><strong>รายการ:</strong> รายงานวิเคราะห์ชีวิต</p>
+            <p style="font-size:24px;font-weight:700;color:var(--gold);">399 บาท</p>
         </div>
-
-        <h3>เลือกวิธีชำระ</h3>
-        <div class="flex-row" style="flex-wrap:wrap;gap:8px;margin:12px 0;">
-            <button class="emoji-btn active">📱 PromptPay QR</button>
-            <button class="emoji-btn">💳 บัตรเครดิต / เดบิต</button>
-            <button class="emoji-btn">🍎 Apple Pay</button>
+        <p>📱 PromptPay QR</p>
+        <div style="width:140px;height:140px;border:2px dashed var(--border);margin:12px auto;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+            ▦ QR Code
         </div>
-
-        <div style="text-align:center;padding:20px;">
-            <p>สแกน QR เพื่อชำระ</p>
-            <div style="width:150px;height:150px;border:2px dashed var(--border);margin:16px auto;display:flex;align-items:center;justify-content:center;border-radius:12px;">
-                ▦ QR Code
-            </div>
-            <p style="font-size:12px;color:var(--muted);">พร้อมเพย์: 099-XXX-XXXX</p>
-            <p style="font-weight:700;">399 บาท</p>
-            <button class="btn cta-primary" onclick="alert('การชำระเงินเสร็จสมบูรณ์!');showSection('lifeOS');">
-                ยืนยันการชำระเงิน
-            </button>
-        </div>
+        <p class="text-muted" style="font-size:12px;">พร้อมเพย์: 099-XXX-XXXX</p>
+        <button class="btn btn-primary" onclick="alert('ชำระเงินสำเร็จ! ✅');goTo('lifeOS');">ยืนยันการชำระเงิน</button>
     </div>
 </section>
 
-<!-- ========== LIFE OS (แผนที่ชีวิต) ========== -->
+<!-- ==================== LIFE OS ==================== -->
 <section id="lifeOS" style="display:none;">
-    <div class="top-bar">
-        <div>สวัสดี คุณ</div>
-        <div class="top-actions">
-            <button class="btn-icon">🔇</button>
-            <button class="btn-icon" id="darkToggle2">🌙</button>
-            <span style="color:var(--gold);font-size:12px;">✦ พรีเมียม</span>
-            <span>👤</span>
-        </div>
+    <p style="font-size:14px;margin-bottom:8px;">สวัสดี คุณ <span style="color:var(--gold);">✦</span></p>
+    <p style="color:var(--gold);font-weight:600;">🔮 The Visionary Builder</p>
+
+    <div class="card" style="border-left:3px solid var(--gold);">
+        <p><strong>✦ สัญญาณชีวิตวันนี้</strong></p>
+        <p class="text-muted">● ช่วงสร้าง · Building Phase — พลังงานสูง เน้นลงมือทำ</p>
     </div>
 
-    <div class="container">
-        <p style="color:var(--gold);">🔮 The Visionary Builder</p>
-
-        <div class="card" style="background:var(--premium);">
-            <h3>✦ สัญญาณชีวิตวันนี้</h3>
-            <p style="color:var(--muted);">กำลังโหลด...</p>
-        </div>
-
-        <div class="card">
-            <p><strong>ช่วงชีวิตตอนนี้</strong></p>
-            <p>● ช่วงสร้าง · Building Phase</p>
-            <p style="font-size:13px;color:var(--muted);">พลังงานสูง เน้นลงมือทำ</p>
-        </div>
-
-        <div class="card" style="border-left:4px solid var(--gold);">
-            <p>🔔 Follow-up ถึงกำหนดแล้ว</p>
-            <p style="font-size:13px;color:var(--muted);">กรุณาบันทึกผลลัพธ์</p>
-        </div>
-
-        <h3>🗺️ แผนที่ชีวิต</h3>
-
-        <div class="card">
-            <h3>Daily Inner Sync</h3>
-            <div class="flex-row" style="gap:4px;margin:8px 0;">
-                <button class="btn btn-sm" style="background:var(--card);color:var(--text);border:1px solid var(--border);">วันนี้</button>
-                <button class="btn btn-sm" style="background:var(--card);color:var(--text);border:1px solid var(--border);">สัปดาห์</button>
-                <button class="btn btn-sm" style="background:var(--card);color:var(--text);border:1px solid var(--border);">เดือน</button>
-            </div>
-            <div class="flex-row" style="gap:8px;">
-                <button class="btn btn-sm">📝 บันทึกความคิด</button>
-                <button class="btn btn-sm">❤️ Check-in</button>
-            </div>
-
-            <div style="margin-top:12px;padding:12px;background:var(--premium);border-radius:12px;">
-                <p><strong>⚡ Daily Inner Sync</strong></p>
-                <p style="font-size:13px;color:var(--muted);">ตอบ 3 คำถามสั้นๆ เกี่ยวกับวันนี้ → รับ Life Signal Card</p>
-                <div class="flex-row" style="gap:8px;margin:8px 0;">
-                    <span>⚡ ระดับพลังงาน</span>
-                    <span>😊 อารมณ์วันนี้</span>
-                    <span>🎯 โฟกัสสำคัญ</span>
-                </div>
-                <button class="btn btn-sm">เริ่มสแกนพลังงาน (30 วินาที) →</button>
-            </div>
-
-            <!-- ✅ แก้ไข: ลบ "ทั้งหมด" ซ้ำ -->
-            <p style="margin-top:12px;text-align:center;">
-                <a href="#" onclick="showSection('lifeIntelligence')" style="color:var(--gold);">
-                    ✦ ดูภาพรวมการวิเคราะห์ทั้งหมด →
-                </a>
-            </p>
-        </div>
-
-        <!-- Stats -->
-        <div class="flex-row" style="justify-content:space-around;margin:16px 0;">
-            <div style="text-align:center;"><strong>0</strong><br><small>Journal</small></div>
-            <div style="text-align:center;"><strong>0</strong><br><small>Reflections</small></div>
-            <div style="text-align:center;"><strong>0</strong><br><small>Check-ins</small></div>
-        </div>
-
-        <!-- Intelligence Modules -->
-        <h3>Intelligence Modules</h3>
-        <p style="font-size:12px;color:var(--muted);">← เริ่มที่นี่</p>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div class="card" style="padding:12px;cursor:pointer;" onclick="showSection('lifeIntelligence')">
-                <span>🧭</span><strong> ปัญญาชีวิต</strong><br>
-                <small style="color:var(--muted);">ผลวิเคราะห์ตัวตน · จุดแข็ง</small><br>
-                <span class="tag">ครบ</span>
-            </div>
-            <div class="card" style="padding:12px;cursor:pointer;" onclick="showSection('lifeRhythm')">
-                <span>⏳</span><strong> จังหวะชีวิต</strong><br>
-                <small style="color:var(--muted);">จังหวะ · Growth</small><br>
-                <span class="tag">ครบ</span>
-            </div>
-            <div class="card" style="padding:12px;cursor:pointer;" onclick="showSection('decisionCenter')">
-                <span>🎯</span><strong> Life Decision Tracker</strong><br>
-                <small style="color:var(--muted);">บันทึก · ติดตาม</small><br>
-                <span class="tag">ใช้งานได้</span>
-            </div>
-            <div class="card" style="padding:12px;">
-                <span>🌱</span><strong> Weekly Evolution</strong><br>
-                <small style="color:var(--muted);">60 วินาที · สะท้อน</small><br>
-                <span class="tag">ใช้งานได้</span>
-            </div>
-            <div class="card" style="padding:12px;">
-                <span>🧬</span><strong> รูปแบบการตัดสินใจ</strong><br>
-                <small style="color:var(--muted);">รูปแบบการตัดสินใจ</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-            <div class="card" style="padding:12px;">
-                <span>🔍</span><strong> การค้นพบรูปแบบชีวิต</strong><br>
-                <small style="color:var(--muted);">รูปแบบชีวิตย้อนหลัง</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-        </div>
-
-        <h3 style="margin-top:16px;">🚀 Strategic Modules</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div class="card" style="padding:12px;">
-                <span>🧪</span><strong> Scenario Intelligence</strong><br>
-                <small style="color:var(--muted);">จำลองทางเลือก A/B/C</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-            <div class="card" style="padding:12px;">
-                <span>📡</span><strong> Opportunity Radar</strong><br>
-                <small style="color:var(--muted);">จัดลำดับโอกาส</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-            <div class="card" style="padding:12px;">
-                <span>💞</span><strong> Relationship Intel</strong><br>
-                <small style="color:var(--muted);">รูปแบบความสัมพันธ์</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-            <div class="card" style="padding:12px;">
-                <span>📊</span><strong> Reality Benchmark</strong><br>
-                <small style="color:var(--muted);">เทียบค่าอ้างอิงตัวอย่าง</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-        </div>
-
-        <h3 style="margin-top:16px;">🔮 Beyond</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div class="card" style="padding:12px;">
-                <span>🧠</span><strong> AI ที่ปรึกษาชีวิต</strong><br>
-                <small style="color:var(--muted);">ถามคำถามเชิงกลยุทธ์</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-            <div class="card" style="padding:12px;">
-                <span>🧠</span><strong> คลังความทรงจำชีวิต</strong><br>
-                <small style="color:var(--muted);">บทเรียนที่จดจำไว้</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-            <div class="card" style="padding:12px;">
-                <span>🏆</span><strong> Founder Pulse</strong><br>
-                <small style="color:var(--muted);">ภาพรวมธุรกิจของคุณ</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-            <div class="card" style="padding:12px;">
-                <span>💬</span><strong> VERA ผู้ช่วยชีวิต</strong><br>
-                <small style="color:var(--muted);">คุยกับ AI ที่เข้าใจข้อมูลชีวิตของคุณ</small><br>
-                <span class="tag">ใหม่</span>
-            </div>
-        </div>
-
-        <button class="btn" style="margin-top:16px;" onclick="showSection('decisionCenter')">
-            Life Decision Tracker — เปิด →
-        </button>
+    <div class="card">
+        <p>🔔 <strong>Follow-up ถึงกำหนดแล้ว</strong> — กรุณาบันทึกผลลัพธ์</p>
     </div>
-</section>
 
-<!-- ========== LIFE INTELLIGENCE (ปัญญาชีวิต) ========== -->
-<section id="lifeIntelligence" style="display:none;">
+    <h3>🗺️ แผนที่ชีวิต</h3>
     <div class="card">
-        <a href="#" onclick="showSection('lifeOS')" style="color:var(--muted);">← ปัญญาชีวิต</a>
-
-        <h2 style="margin-top:12px;">ลักษณะตัวตนเฉพาะของคุณ</h2>
-        <p style="font-size:24px;">🔮 The Visionary Builder</p>
-        <p style="font-size:13px;color:var(--muted);">ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง</p>
-        <p style="font-size:13px;">คุณมีพลังงานของนักสร้างที่มีวิสัยทัศน์ ผสมผสานความสามารถในการมองภาพใหญ่กับการลงมือทำ คุณเห็นโอกาสที่คนอื่นยังมองไม่ออก และสามารถสร้างสิ่งใหม่จากความคิดได้อย่างรวดเร็ว</p>
-        
-        <p style="margin-top:8px;">🔁 กระจกตัวตน</p>
-
-        <h3>✦ ✦ มุมมองของ ASTROVERA ต่อคุณ</h3>
-        <p>คุณมีพลังงานของผู้นำที่ขับเคลื่อนจากวิสัยทัศน์ภายใน ไม่ใช่ความคาดหวังจากภายนอก คุณทำงานได้ดีที่สุดเมื่อมีอิสระในการสร้างสิ่งใหม่</p>
-
-        <h3>◈ ความหมาย</h3>
-        <p>สิ่งนี้หมายความว่าคุณไม่ได้ถูกออกแบบมาเพื่อทำตามระบบที่มีอยู่ แต่เพื่อสร้างระบบใหม่ ความรู้สึกอยากเริ่มต้นสิ่งใหม่อยู่เสมอไม่ใช่ความไม่มั่นคง — นั่นคือธรรมชาติแท้ของคุณ</p>
-
-        <h3>◉ ความรู้สึกที่อาจซ่อนอยู่</h3>
-        <p>ลึกลงไปกว่านั้น คุณอาจกำลังมองหาความรู้สึกว่าสิ่งที่ทำมีความหมาย ไม่ใช่แค่ประสบความสำเร็จ ความหมายนั้นสำคัญกับคุณมากกว่าคะแนนหรือตัวเลข</p>
-
-        <h3>💬 คำถามชวนคิด</h3>
-        <p>"ในช่วงที่ผ่านมา คุณได้ใช้จุดแข็งด้านวิสัยทัศน์อย่างเต็มที่แล้วหรือยัง? มีเรื่องไหนที่คุณรู้สึกว่ายังไม่ได้แสดงศักยภาพที่แท้จริง?"</p>
-
-        <h3>→ สิ่งที่ลองทำได้ตอนนี้</h3>
-        <p>เลือกโปรเจกต์ที่ใช้ทั้งวิสัยทัศน์และการลงมือทำภายในเดือนนี้ ขนาดไม่สำคัญ แต่ต้องเป็นสิ่งที่คุณสร้างเอง</p>
-
-        <h3>📝 Journal Prompt</h3>
-        <p>อีก 6 เดือนข้างหน้า คุณอยากขอบคุณตัวเองเรื่องอะไร?</p>
-
-        <!-- ✅ เปลี่ยนเป็น Astrovera Intelligence Engine -->
-        <div style="margin-top:16px;padding:12px;background:var(--premium);border-radius:12px;">
-            <p style="font-size:12px;color:var(--muted);">✦ Astrovera Intelligence Engine</p>
-            <p style="font-size:12px;">🔢 ✦ ภาพรวม 7 มิติของคุณ — ASTROVERA</p>
-            <p style="font-size:11px;color:var(--muted);">แต่ละชั้นใช้เป็น Framework สะท้อนมุมมอง ไม่ใช่คำทำนายตายตัว — ยิ่งหลายชั้นชี้ไปทางเดียวกัน ยิ่งมีความหมายมากขึ้น</p>
+        <h3>⚡ Daily Inner Sync</h3>
+        <p class="text-muted">ตอบ 3 คำถามสั้นๆ → รับ Life Signal Card</p>
+        <div class="flex-row flex-wrap" style="gap:6px;margin:8px 0;">
+            <span class="phase-badge">⚡ ระดับพลังงาน</span>
+            <span class="phase-badge">😊 อารมณ์วันนี้</span>
+            <span class="phase-badge">🎯 โฟกัสสำคัญ</span>
         </div>
-
-        <!-- ไลฟ์โค้ชส่วนตัว -->
-        <div style="margin-top:12px;padding:12px;background:var(--card);border-radius:12px;border:1px solid var(--border);">
-            <p>🎙️ ไลฟ์โค้ชส่วนตัว</p>
-            <p style="font-size:12px;color:var(--muted);">AI สรุปชีวิตเป็นเอกสาร + อ่านออกเสียงให้ฟัง</p>
-            <div class="flex-row" style="gap:8px;">
-                <button class="btn btn-sm">📄 สร้างรายงาน</button>
-                <button class="btn btn-sm">▶ ฟังเสียง</button>
-            </div>
-            <p style="font-size:11px;color:var(--muted);margin-top:4px;">สร้างรายงานครั้งแรก → ฟังเสียงได้ทันที + ดาวน์โหลด PDF</p>
-        </div>
-
-        <!-- มิติจักรวาล -->
-        <div style="margin-top:12px;">
-            <p>🪐 มิติจักรวาลของคุณ</p>
-            <p style="font-size:12px;color:var(--muted);">คำนวณจากตำแหน่งดาวจริงตามวัน-เวลา-สถานที่เกิด (Astrovera Intelligence Engine)</p>
-            <div class="flex-row" style="gap:8px;">
-                <button class="btn btn-sm">✦ คำนวณดวงจริง</button>
-                <button class="btn btn-sm">🌙 คำนวณ Nakshatra (มิติจักรวาลชั้นลึก)</button>
-            </div>
-            <p style="font-size:12px;color:var(--muted);margin-top:4px;">🪐 กำลังคำนวณตำแหน่งดาว...</p>
-        </div>
-
-        <!-- ภาพรวม 7 ศาสตร์ -->
-        <div style="margin-top:12px;">
-            <p>🔮 ✦ ภาพรวม 7 ศาสตร์ที่วิเคราะห์ตัวตนของคุณ</p>
-            <p style="font-size:12px;color:var(--muted);">จุดที่ทุกศาสตร์ชี้ไปทางเดียวกัน มีความหมายมากที่สุด</p>
-            <p>⚡ จุดแข็ง</p>
-            <p>⚠️ จุดที่ควรระวัง</p>
-            <button class="btn btn-sm">📤 แชร์ผลลัพธ์</button>
-        </div>
-    </div>
-</section>
-
-<!-- ========== LIFE RHYTHM (จังหวะชีวิต) ========== -->
-<section id="lifeRhythm" style="display:none;">
-    <div class="card">
-        <a href="#" onclick="showSection('lifeOS')" style="color:var(--muted);">← จังหวะชีวิต Intelligence</a>
-
-        <h2 style="margin-top:12px;">ตอนนี้คุณอยู่ใน</h2>
-        <p style="font-size:20px;font-weight:700;">● ช่วงสร้าง · Building Phase</p>
-
-        <h3>✦ มุมมองของ ASTROVERA ต่อคุณ</h3>
-        <p>ช่วงนี้พลังงานของคุณเอื้อต่อการเริ่มต้นและวางรากฐาน สิ่งที่ลงทุนตอนนี้ให้ผลในระยะยาว</p>
-
-        <h3>ความรู้สึกที่อาจซ่อนอยู่</h3>
-        <p>ลึกลงไป ช่วงนี้คุณอาจกำลังทดสอบความกล้าของตัวเอง ความกลัวที่จะเริ่มไม่ใช่สัญญาณว่าไม่พร้อม แต่เป็นสัญญาณว่าสิ่งนั้นมีความหมาย</p>
-
-        <h3>💬 คำถามชวนคิด</h3>
-        <p>"สิ่งที่คุณกำลังรอให้พร้อม อยู่ตอนนี้ — ถ้าเริ่มด้วย 20% ที่มีอยู่ จะเกิดอะไรขึ้น?"</p>
-
-        <h3>🎯 Growth Opportunities</h3>
-        <p><strong>เส้นทางข้างหน้า</strong></p>
-        <div style="padding:8px;background:var(--premium);border-radius:8px;margin:4px 0;">
-            <p>ช่วงสร้าง · Building ● กำลังอยู่ในช่วงนี้</p>
-        </div>
-        <div style="padding:8px;background:var(--card);border-radius:8px;margin:4px 0;">
-            <p>ช่วงขยาย · Expanding — ช่วงที่มักตามมาถัดจากนี้</p>
-        </div>
-
-        <h3>⚠️ Challenge Areas</h3>
-        <p>หลีกเลี่ยงการรอโอกาสสมบูรณ์แบบ ช่วงสร้างคือช่วงทดลองและเรียนรู้ ไม่ใช่ช่วงที่ทุกอย่างต้องสมบูรณ์ตั้งแต่ต้น การรีรอมากเกินไปจะทำให้พลาดจังหวะที่ดีที่สุดในชีวิต</p>
-    </div>
-</section>
-
-<!-- ========== DECISION CENTER (ศูนย์ตัดสินใจ) ========== -->
-<section id="decisionCenter" style="display:none;">
-    <div class="card">
-        <a href="#" onclick="showSection('lifeOS')" style="color:var(--muted);">← 🎯 ศูนย์ตัดสินใจ</a>
-        <button class="btn btn-sm" style="float:right;" onclick="showSection('decisionJournal')">+ บันทึก</button>
-
-        <h2 style="margin-top:12px;">🎯 เครื่องมือตัดสินใจทั้งหมด</h2>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0;">
-            <div class="card" style="padding:12px;text-align:center;cursor:pointer;" onclick="showSection('decisionJournal')">
-                <span style="font-size:24px;">📝</span><br>
-                <strong>Decision Journal</strong><br>
-                <small style="color:var(--muted);">บันทึก+ติดตามผล</small>
-            </div>
-            <div class="card" style="padding:12px;text-align:center;">
-                <span style="font-size:24px;">🧪</span><br>
-                <strong>Scenario Intelligence</strong><br>
-                <small style="color:var(--muted);">จำลองทางเลือก A/B/C</small>
-            </div>
-            <div class="card" style="padding:12px;text-align:center;">
-                <span style="font-size:24px;">📡</span><br>
-                <strong>Opportunity Radar</strong><br>
-                <small style="color:var(--muted);">จัดลำดับโอกาส</small>
-            </div>
-            <div class="card" style="padding:12px;text-align:center;">
-                <span style="font-size:24px;">🧠</span><br>
-                <strong>AI ที่ปรึกษาชีวิต</strong><br>
-                <small style="color:var(--muted);">ถามเชิงกลยุทธ์</small>
-            </div>
-        </div>
-
-        <!-- วงจรการเติบโต -->
-        <div style="margin-top:16px;padding:12px;background:var(--premium);border-radius:12px;">
-            <p><strong>⟳ วงจรการเติบโต</strong></p>
-            <div class="flex-row" style="justify-content:space-around;font-size:12px;margin:8px 0;">
-                <span>💡<br>Life Signal</span>
-                <span>→</span>
-                <span>🤔<br>Reflect</span>
-                <span>→</span>
-                <span>🎯<br>Decide</span>
-                <span>→</span>
-                <span>⚡<br>Act</span>
-                <span>→</span>
-                <span>📊<br>Outcome</span>
-                <span>→</span>
-                <span>📚<br>Lesson</span>
-            </div>
-            <p style="font-size:11px;color:var(--muted);text-align:center;">บันทึกการตัดสินใจ → ติดตามผล → เรียนรู้รูปแบบ → มุมมอง
-<!-- ========== WEEKLY EVOLUTION (✅ เพิ่ม Voice Input ครบ 4 จุด) ========== -->
-<section id="weeklyEvolution" style="display:none;">
-    <div class="card">
-        <a href="#" onclick="showSection('lifeOS')" style="color:var(--muted);">← Weekly Evolution</a>
-        <button class="btn btn-sm" style="float:right;">บันทึก</button>
-
-        <h2 style="margin-top:12px;">🌱 สะท้อนตัวเองประจำสัปดาห์</h2>
-        <p style="font-size:12px;color:var(--muted);">ใช้เวลา 60 วินาที · สร้างความทรงจำการเติบโต</p>
-
-        <label>1. สิ่งที่ภูมิใจที่สุดสัปดาห์นี้?</label>
-        <div class="flex-row">
-            <textarea placeholder="เขียนสิ่งที่ภูมิใจ..." style="flex:1;"></textarea>
-            <button class="voice-btn" onclick="toggleRecording(this)" title="บันทึกเสียง">🎤</button>
-        </div>
-
-        <label>2. อะไรที่ท้าทายคุณที่สุด?</label>
-        <div class="flex-row">
-            <textarea placeholder="เขียนความท้าทาย..." style="flex:1;"></textarea>
-            <button class="voice-btn" onclick="toggleRecording(this)" title="บันทึกเสียง">🎤</button>
-        </div>
-
-        <label>3. คุณเรียนรู้อะไรจากสัปดาห์นี้?</label>
-        <div class="flex-row">
-            <textarea placeholder="เขียนบทเรียน..." style="flex:1;"></textarea>
-            <button class="voice-btn" onclick="toggleRecording(this)" title="บันทึกเสียง">🎤</button>
-        </div>
-
-        <label>4. สัปดาห์หน้าอยากโฟกัสเรื่องอะไร?</label>
-        <div class="flex-row">
-            <textarea placeholder="เขียนโฟกัส..." style="flex:1;"></textarea>
-            <button class="voice-btn" onclick="toggleRecording(this)" title="บันทึกเสียง">🎤</button>
-        </div>
-
-        <p style="font-size:11px;color:var(--muted);margin-top:8px;">
-            Reflection นี้จะถูกนำไปวิเคราะห์ใน ภาพรวมชีวิตทุก 90 วัน เพื่อช่วยให้คุณเห็น Pattern ของชีวิต
+        <button class="btn btn-secondary btn-sm">เริ่มสแกนพลังงาน (30 วินาที) →</button>
+        <p style="margin-top:12px;text-align:center;">
+            <span class="page-link" onclick="goTo('lifeIntelligence')">✦ ดูภาพรวมการวิเคราะห์ทั้งหมด →</span>
         </p>
     </div>
-</section>
 
-<!-- ========== RELATIONSHIP INTELLIGENCE ========== -->
-<section id="relationshipIntel" style="display:none;">
-    <div class="card">
-        <a href="#" onclick="showSection('lifeOS')" style="color:var(--muted);">← Relationship Intelligence</a>
-
-        <h2 style="margin-top:12px;">💞 Relationship Intelligence</h2>
-        <p style="font-size:12px;color:var(--muted);">ไม่ใช่การดูดวงความรัก แต่เป็นการเข้าใจรูปแบบความสัมพันธ์ของตัวคุณเอง ผ่านคำถามสั้นๆ 3 ข้อ</p>
-
-        <h3>1. เวลามีปัญหากับคนใกล้ตัว คุณมักจะ?</h3>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-            <button class="emoji-btn" style="text-align:left;">พูดตรงๆ ทันที</button>
-            <button class="emoji-btn" style="text-align:left;">ใช้เวลาคิดก่อนพูด</button>
-            <button class="emoji-btn" style="text-align:left;">หลีกเลี่ยงความขัดแย้ง</button>
+    <h3>📊 Intelligence Modules</h3>
+    <div class="grid-2">
+        <div class="card" style="padding:12px;cursor:pointer;" onclick="goTo('lifeIntelligence')">
+            🧭 <strong>ปัญญาชีวิต</strong><br><small class="text-muted">ตัวตน · จุดแข็ง</small>
         </div>
-
-        <h3>2. สิ่งที่คุณต้องการมากที่สุดในความสัมพันธ์?</h3>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-            <button class="emoji-btn" style="text-align:left;">พื้นที่ส่วนตัว</button>
-            <button class="emoji-btn" style="text-align:left;">ความเข้าใจลึกซึ้ง</button>
-            <button class="emoji-btn" style="text-align:left;">ความมั่นคงสม่ำเสมอ</button>
-        </div>
-
-        <h3>3. เมื่อคนใกล้ตัวมีเรื่องไม่สบายใจ คุณมักจะ?</h3>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-            <button class="emoji-btn" style="text-align:left;">รับฟังเงียบๆ</button>
-            <button class="emoji-btn" style="text-align:left;">ช่วยหาทางแก้ทันที</button>
-            <button class="emoji-btn" style="text-align:left;">ให้พื้นที่ก่อนแล้วค่อยถาม</button>
-        </div>
-
-        <button class="btn cta-primary" style="margin-top:16px;">💞 วิเคราะห์</button>
-
-        <div style="margin-top:16px;padding:12px;background:var(--premium);border-radius:12px;">
-            <p><strong>RELATIONSHIP ARCHETYPE</strong></p>
-            <p>💞 —</p>
-            <p>—</p>
-            <p>⚠ จุดที่ควรระวัง —</p>
-            <p>→ สิ่งที่ลองทำได้ —</p>
-            <p>🔍 เมื่อมีเรื่องไม่สบายใจ —</p>
-            <p style="font-size:11px;color:var(--muted);margin-top:8px;">นี่คือกรอบความคิดเพื่อช่วยสะท้อนตัวเอง ไม่ใช่คำทำนายความสัมพันธ์</p>
-            <button class="btn btn-sm">ทำแบบทดสอบใหม่</button>
-        </div>
-    </div>
-</section>
-
-<!-- ========== PROFILE ========== -->
-<section id="profile" style="display:none;">
-    <div class="card">
-        <a href="#" onclick="showSection('lifeOS')" style="color:var(--muted);">← โปรไฟล์</a>
-
-        <div style="text-align:center;margin:16px 0;">
-            <span style="font-size:48px;">👤</span>
-            <p>—</p>
-            <p>🔮 The Visionary Builder</p>
-        </div>
-
-        <h3>ข้อมูลวันเกิด</h3>
-        <p>วันเกิด —</p>
-        <p>เวลาเกิด —</p>
-        <p>สถานที่เกิด —</p>
-
-        <h3>🩸 กรุ๊ปเลือด — มิติพลังงานชีวภาพ</h3>
-        <div class="emoji-group">
-            <button class="emoji-btn">🔴 O</button>
-            <button class="emoji-btn">🔵 A</button>
-            <button class="emoji-btn">🟡 B</button>
-            <button class="emoji-btn">🟣 AB</button>
-            <button class="emoji-btn">✕ ลบ</button>
-        </div>
-        <p style="font-size:13px;">Journal ทั้งหมด <strong>0</strong></p>
-
-        <h3>🔢 เลขศาสตร์ตะวันตก (ไม่บังคับ)</h3>
-        <p style="font-size:11px;color:var(--muted);">วิเคราะห์จากตัวอักษรชื่อแบบ — ระบบนี้คำนวณจากตัวอักษร A-Z เท่านั้น (เป็นข้อจำกัดของศาสตร์นี้เอง) จึงขอให้กรอกชื่อสะกดเป็นภาษาอังกฤษโดยเฉพาะ</p>
-        <label>ชื่อ-นามสกุล (สะกดอังกฤษ)</label>
-        <input type="text">
-        <label>เบอร์โทรศัพท์หลัก</label>
-        <input type="text">
-        <label>เลขอื่นๆ ที่ต้องการวิเคราะห์</label>
-        <input type="text">
-        <button class="btn btn-sm">วิเคราะห์เลขศาสตร์</button>
-
-        <h3 style="margin-top:16px;">ข้อมูล</h3>
-        <div class="flex-row" style="gap:8px;">
-            <button class="btn btn-outline btn-sm">ส่งออกข้อมูลทั้งหมด (.json) →</button>
-            <button class="btn btn-ghost btn-sm" style="color:red;">ล้างข้อมูลทั้งหมด →</button>
-        </div>
-
-        <h3 style="margin-top:16px;">🎯 Demo Navigator</h3>
-        <div class="flex-row flex-wrap" style="gap:4px;">
-            <button class="btn btn-sm" onclick="showSection('landing')">🌙 Landing</button>
-            <button class="btn btn-sm" onclick="showSection('quiz')">📝 Quiz</button>
-            <button class="btn btn-sm" onclick="showSection('innerMirror')">✦ ตัวอย่างฟรี</button>
-            <button class="btn btn-sm" onclick="showSection('upgrade')">💎 Upgrade</button>
-            <button class="btn btn-sm" onclick="showSection('lifeIntelligence')">🧭 ปัญญาชีวิต</button>
-            <button class="btn btn-sm" onclick="showSection('lifeRhythm')">⏳ จังหวะชีวิต</button>
-            <button class="btn btn-sm" onclick="showSection('weeklyEvolution')">🌱 Weekly Evolution</button>
-            <button class="btn btn-sm" onclick="loadDemoJournal()">🗂️ โหลด Demo Journal (3 รายการ)</button>
-        </div>
-        <button class="btn btn-ghost btn-sm" style="margin-top:8px;color:red;">ออกจากระบบ</button>
-    </div>
-</section>
-
-</div><!-- /.container -->
-
-<!-- ========== ONBOARDING TOUR (✅ แก้ไข: ป้องกันการกระพริบข้ามขั้น) ========== -->
-<div id="onboardingOverlay" class="onboarding-overlay" style="display:none;">
-    <div class="onboarding-card" id="onboardingCard">
-        <!-- Step 1 -->
-        <div class="onboarding-step" data-step="1">
-            <p style="font-size:40px;">🧭</p>
-            <p style="font-size:12px;color:var(--muted);">1/4</p>
-            <h3>รู้จักตัวเองใน 60 วินาที</h3>
-            <p style="font-size:13px;color:var(--muted);">ปัญญาชีวิต วิเคราะห์ตัวตนจาก 7 มิติ</p>
-            <p style="font-size:14px;margin:12px 0;">💡 เริ่มที่นี่ก่อนเลย</p>
-            <div class="step-dots">
-                <span class="step-dot active"></span>
-                <span class="step-dot"></span>
-                <span class="step-dot"></span>
-                <span class="step-dot"></span>
-            </div>
-            <div class="flex-row" style="gap:12px;justify-content:center;margin-top:12px;">
-                <button class="btn btn-ghost btn-sm" onclick="skipOnboarding()">ข้ามทั้งหมด</button>
-                <button class="btn cta-primary btn-sm" onclick="nextOnboardingStep()">ไปดูเลย →</button>
-            </div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="onboarding-step" data-step="2" style="display:none;">
-            <p style="font-size:40px;">⚡</p>
-            <p style="font-size:12px;color:var(--muted);">2/4</p>
-            <h3>Daily Inner Sync</h3>
-            <p style="font-size:13px;color:var(--muted);">สแกนพลังงาน 3 ขั้นตอน ใช้เวลา 30 วินาที</p>
-            <div class="step-dots">
-                <span class="step-dot"></span>
-                <span class="step-dot active"></span>
-                <span class="step-dot"></span>
-                <span class="step-dot"></span>
-            </div>
-            <div class="flex-row" style="gap:12px;justify-content:center;margin-top:12px;">
-                <button class="btn btn-ghost btn-sm" onclick="skipOnboarding()">ข้ามทั้งหมด</button>
-                <button class="btn cta-primary btn-sm" onclick="nextOnboardingStep()">ถัดไป →</button>
-            </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="onboarding-step" data-step="3" style="display:none;">
-            <p style="font-size:40px;">🎯</p>
-            <p style="font-size:12px;color:var(--muted);">3/4</p>
-            <h3>บันทึกการตัดสินใจ</h3>
-            <p style="font-size:13px;color:var(--muted);">Life Decision Tracker ช่วยติดตามผลและเรียนรู้จากทุกการตัดสินใจ</p>
-            <div class="step-dots">
-                <span class="step-dot"></span>
-                <span class="step-dot"></span>
-                <span class="step-dot active"></span>
-                <span class="step-dot"></span>
-            </div>
-            <div class="flex-row" style="gap:12px;justify-content:center;margin-top:12px;">
-                <button class="btn btn-ghost btn-sm" onclick="skipOnboarding()">ข้ามทั้งหมด</button>
-                <button class="btn cta-primary btn-sm" onclick="nextOnboardingStep()">ถัดไป →</button>
-            </div>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="onboarding-step" data-step="4" style="display:none;">
-            <p style="font-size:40px;">🔮</p>
-            <p style="font-size:12px;color:var(--muted);">4/4</p>
-            <h3>กลับมาติดตามผล</h3>
-            <p style="font-size:13px;color:var(--muted);">ระบบจะแจ้ง Follow-up ที่ 30/90/180/365 วัน — ยิ่งบันทึกสม่ำเสมอ ยิ่งเห็น Pattern ชีวิตชัดเจน</p>
-            <div class="step-dots">
-                <span class="step-dot"></span>
-                <span class="step-dot"></span>
-                <span class="step-dot"></span>
-                <span class="step-dot active"></span>
-            </div>
-            <div class="flex-row" style="gap:12px;justify-content:center;margin-top:12px;">
-                <button class="btn btn-ghost btn-sm" onclick="skipOnboarding()">ข้ามทั้งหมด</button>
-                <button class="btn cta-primary btn-sm" onclick="finishOnboarding()">เริ่มใช้งานเลย ✨</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ========== BOTTOM NAVIGATION BAR ========== -->
-<nav class="nav-bar">
-    <div class="nav-item active" onclick="showSection('lifeOS')">
-        <span>✦</span> หน้าหลัก
-    </div>
-    <div class="nav-item" onclick="showSection('lifeIntelligence')">
-        <span>🧭</span> ตัวตน
-    </div>
-    <div class="nav-item" onclick="showSection('lifeRhythm')">
-        <span>⏳</span> จังหวะ
-    </div>
-    <div class="nav-item" onclick="showSection('decisionCenter')">
-        <span>🎯</span> ตัดสินใจ
-    </div>
-    <div class="nav-item" onclick="showSection('profile')">
-        <span>👤</span> โปรไฟล์
-    </div>
-</nav>
-
-<!-- ========== SCRIPTS ========== -->
-<script>
-// ==================== COUNTRY LIST (ISO 3166-1) ====================
-// ✅ แก้ไข: เพิ่ม Input List ประเทศในฟอร์มสถานที่เกิด
-const countries = [
-    { code: "TH", name: "🇹🇭 ไทย" },
-    { code: "AF", name: "🇦🇫 อัฟกานิสถาน" },
-    { code: "AL", name: "🇦🇱 แอลเบเนีย" },
-    { code: "DZ", name: "🇩🇿 แอลจีเรีย" },
-    { code: "AR", name: "🇦🇷 อาร์เจนตินา" },
-    { code: "AU", name: "🇦🇺 ออสเตรเลีย" },
-    { code: "AT", name: "🇦🇹 ออสเตรีย" },
-    { code: "BD", name: "🇧🇩 บังกลาเทศ" },
-    { code: "BE", name: "🇧🇪 เบลเยียม" },
-    { code: "BR", name: "🇧🇷 บราซิล" },
-    { code: "KH", name: "🇰🇭 กัมพูชา" },
-    { code: "CA", name: "🇨🇦 แคนาดา" },
-    { code: "CN", name: "🇨🇳 จีน" },
-    { code: "DK", name: "🇩🇰 เดนมาร์ก" },
-    { code: "EG", name: "🇪🇬 อียิปต์" },
-    { code: "FI", name: "🇫🇮 ฟินแลนด์" },
-    { code: "FR", name: "🇫🇷 ฝรั่งเศส" },
-    { code: "DE", name: "🇩🇪 เยอรมนี" },
-    { code: "GR", name: "🇬🇷 กรีซ" },
-    { code: "HK", name: "🇭🇰 ฮ่องกง" },
-    { code: "IN", name: "🇮🇳 อินเดีย" },
-    { code: "ID", name: "🇮🇩 อินโดนีเซีย" },
-    { code: "IT", name: "🇮🇹 อิตาลี" },
-    { code: "JP", name: "🇯🇵 ญี่ปุ่น" },
-    { code: "KR", name: "🇰🇷 เกาหลีใต้" },
-    { code: "LA", name: "🇱🇦 ลาว" },
-    { code: "MY", name: "🇲🇾 มาเลเซีย" },
-    { code: "MM", name: "🇲🇲 เมียนมา" },
-    { code: "NL", name: "🇳🇱 เนเธอร์แลนด์" },
-    { code: "NZ", name: "🇳🇿 นิวซีแลนด์" },
-    { code: "NO", name: "🇳🇴 นอร์เวย์" },
-    { code: "PH", name: "🇵🇭 ฟิลิปปินส์" },
-    { code: "RU", name: "🇷🇺 รัสเซีย" },
-    { code: "SA", name: "🇸🇦 ซาอุดีอาระเบีย" },
-    { code: "SG", name: "🇸🇬 สิงคโปร์" },
-    { code: "ZA", name: "🇿🇦 แอฟริกาใต้" },
-    { code: "ES", name: "🇪🇸 สเปน" },
-    { code: "SE", name: "🇸🇪 สวีเดน" },
-    { code: "CH", name: "🇨🇭 สวิตเซอร์แลนด์" },
-    { code: "TW", name: "🇹🇼 ไต้หวัน" },
-    { code: "AE", name: "🇦🇪 สหรัฐอาหรับเอมิเรตส์" },
-    { code: "GB", name: "🇬🇧 สหราชอาณาจักร" },
-    { code: "US", name: "🇺🇸 สหรัฐอเมริกา" },
-    { code: "VN", name: "🇻🇳 เวียดนาม" },
-    { code: "OTHER", name: "🌏 ประเทศอื่น" }
-];
-
-function populateCountrySelect() {
-    const select = document.getElementById('countrySelect');
-    if (!select) return;
-    countries.forEach(c => {
-        const option = document.createElement('option');
-        option.value = c.code;
-        option.textContent = c.name;
-        select.appendChild(option);
-    });
-}
-
-// ==================== SECTION NAVIGATION ====================
-const allSections = [
-    'landing', 'loading', 'quiz', 'innerMirror', 'upgrade', 'payment',
-    'lifeOS', 'lifeIntelligence', 'lifeRhythm', 'decisionCenter',
-    'decisionJournal', 'weeklyEvolution', 'relationshipIntel', 'profile'
-];
-
-function showSection(sectionId) {
-    allSections.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.style.display = 'none';
-    });
-    const target = document.getElementById(sectionId);
-    if (target) {
-        target.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    // Update nav active state
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    const navMap = {
-        'lifeOS': 0, 'lifeIntelligence': 1, 'lifeRhythm': 2,
-        'decisionCenter': 3, 'decisionJournal': 3, 'profile': 4
-    };
-    if (navMap[sectionId] !== undefined) {
-        const navItems = document.querySelectorAll('.nav-item');
-        if (navItems[navMap[sectionId]]) navItems[navMap[sectionId]].classList.add('active');
-    }
-}
-
-// ==================== ONBOARDING (✅ แก้ไข: ป้องกันกระพริบข้ามขั้น) ====================
-let currentOnboardingStep = 1;
-let isTransitioning = false; // ✅ ป้องกันการคลิกซ้ำเร็วเกินไป
-
-function showOnboarding() {
-    currentOnboardingStep = 1;
-    isTransitioning = false;
-    document.getElementById('onboardingOverlay').style.display = 'flex';
-    showOnboardingStep(1);
-}
-
-function showOnboardingStep(step) {
-    document.querySelectorAll('.onboarding-step').forEach(el => el.style.display = 'none');
-    const target = document.querySelector(`.onboarding-step[data-step="${step}"]`);
-    if (target) target.style.display = 'block';
-}
-
-function nextOnboardingStep() {
-    if (isTransitioning) return; // ✅ ป้องกันคลิกซ้ำ
-    isTransitioning = true;
-    
-    if (currentOnboardingStep < 4) {
-        currentOnboardingStep++;
-        showOnboardingStep(currentOnboardingStep);
-    } else {
-        finishOnboarding();
-        return;
-    }
-    
-    // ✅ หน่วงเวลา 300ms ก่อนให้คลิกได้อีกครั้ง
-    setTimeout(() => { isTransitioning = false; }, 300);
-}
-
-function skipOnboarding() {
-    document.getElementById('onboardingOverlay').style.display = 'none';
-    isTransitioning = false;
-    showSection('lifeOS');
-}
-
-function finishOnboarding() {
-    document.getElementById('onboardingOverlay').style.display = 'none';
-    isTransitioning = false;
-    showSection('lifeOS');
-}
-
-// ==================== VOICE INPUT (✅ Web Speech API) ====================
-let isRecording = false;
-let currentVoiceBtn = null;
-
-function toggleRecording(btn) {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert('🎤 ขออภัย เบราว์เซอร์นี้ไม่รองรับการบันทึกเสียง กรุณาใช้ Chrome หรือพิมพ์แทน');
-        return;
-    }
-
-    if (isRecording) {
-        stopRecording();
-        return;
-    }
-
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'th-TH';
-    recognition.interimResults = false;
-    recognition.continuous = false;
-
-    currentVoiceBtn = btn;
-    btn.classList.add('recording');
-    btn.textContent = '🔴';
-    isRecording = true;
-
-    recognition.start();
-
-    recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        const textarea = btn.parentElement.querySelector('textarea');
-        if (textarea) {
-            textarea.value = (textarea.value ? textarea.value + ' ' : '') + transcript;
-        }
-        stopRecordingVisual();
-    };
-
-    recognition.onerror = function(event) {
-        console.log('Voice error:', event.error);
-        stopRecordingVisual();
-    };
-
-    recognition.onend = function() {
-        stopRecordingVisual();
-    };
-
-    // Auto-stop after 10 seconds
-    setTimeout(() => {
-        if (isRecording) {
-            recognition.stop();
-            stopRecordingVisual();
-        }
-    }, 10000);
-}
-
-function stopRecording() {
-    if (currentVoiceBtn) {
-        stopRecordingVisual();
-    }
-}
-
-function stopRecordingVisual() {
-    if (currentVoiceBtn) {
-        currentVoiceBtn.classList.remove('recording');
-        currentVoiceBtn.textContent = '🎤';
-    }
-    isRecording = false;
-    currentVoiceBtn = null;
-}
-
-// ==================== DARK MODE TOGGLE ====================
-function toggleDarkMode() {
-    const body = document.body;
-    const currentTheme = body.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    body.setAttribute('data-theme', newTheme);
-    
-    const icons = document.querySelectorAll('#darkToggle, #darkToggle2');
-    icons.forEach(icon => {
-        icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-    });
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Dark mode toggle
-    document.getElementById('darkToggle')?.addEventListener('click', toggleDarkMode);
-    document.getElementById('darkToggle2')?.addEventListener('click', toggleDarkMode);
-    
-    // Populate country list
-    populateCountrySelect();
-    
-    // Show landing by default
-    showSection('landing');
-    
-    // ✅ แสดง Onboarding หลังจากดู Inner Mirror ครั้งแรก
-    // (จำลอง: ถ้าเข้าสู่ lifeOS ครั้งแรกจะแสดง onboarding)
-    const originalShowSection = showSection;
-    let onboardingShown = false;
-    showSection = function(sectionId) {
-        originalShowSection(sectionId);
-        if (sectionId === 'lifeOS' && !onboardingShown) {
-            onboardingShown = true;
-            setTimeout(() => showOnboarding(), 500);
-        }
-    };
-});
-
-// ==================== DEMO JOURNAL LOADER ====================
+        <div class="card" style="padding:12px;cursor:pointer;" onclick="goTo('lifeRhy
