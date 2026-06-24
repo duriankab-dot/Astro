@@ -7,14 +7,14 @@
     <title>ASTROVERA — ผลวิเคราะห์</title>
     <style>
         :root {
-            --bg: #0a0a0f;
-            --bg2: #12121a;
-            --tx: #e0dcd0;
-            --tx2: #a09a8c;
-            --gold: #c4a45a;
-            --gold2: #8b7535;
-            --accent: #2a2a35;
-            --border: #2a2820;
+            --bg: #0a0812;
+            --bg2: #12102a;
+            --tx: #e8e0f0;
+            --tx2: #9a90b8;
+            --primary: #7c5ce7;
+            --primary2: #5b3dc7;
+            --accent: #a78bfa;
+            --border: #2a2540;
             --radius: 12px;
             --font: 'Sarabun', 'Noto Sans Thai', sans-serif;
         }
@@ -27,9 +27,69 @@
             font-family: var(--font);
             line-height: 1.7;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .container { max-width: 480px; margin: 0 auto; padding: 20px; }
+        /* ============================================
+           SHOOTING STARS BACKGROUND
+           ============================================ */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #c4b5fd;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(196, 181, 253, 0.6);
+            animation: shoot linear infinite;
+            opacity: 0;
+        }
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(196, 181, 253, 0.8), transparent);
+        }
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translateX(-600px) translateY(350px); opacity: 0; }
+        }
+        .shooting-star:nth-child(1) { top: 5%; left: 85%; animation-duration: 3s; animation-delay: 0s; }
+        .shooting-star:nth-child(2) { top: 20%; left: 90%; animation-duration: 4s; animation-delay: 1.5s; }
+        .shooting-star:nth-child(3) { top: 35%; left: 88%; animation-duration: 3.5s; animation-delay: 3s; }
+        .shooting-star:nth-child(4) { top: 50%; left: 92%; animation-duration: 5s; animation-delay: 5s; }
+        .shooting-star:nth-child(5) { top: 65%; left: 80%; animation-duration: 3.8s; animation-delay: 2s; }
+        .shooting-star:nth-child(6) { top: 10%; left: 95%; animation-duration: 4.2s; animation-delay: 6s; }
+        .shooting-star:nth-child(7) { top: 55%; left: 86%; animation-duration: 3.2s; animation-delay: 4s; }
+        .shooting-star:nth-child(8) { top: 75%; left: 90%; animation-duration: 4.5s; animation-delay: 7s; }
+        .shooting-star:nth-child(9) { top: 30%; left: 82%; animation-duration: 3.6s; animation-delay: 8s; }
+        .shooting-star:nth-child(10){ top: 45%; left: 94%; animation-duration: 4.8s; animation-delay: 2.5s; }
+
+        .static-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(196, 181, 253, 0.5);
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container { max-width: 480px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
 
         /* Top Bar */
         .topbar {
@@ -50,12 +110,12 @@
             font-size: 13px;
             transition: all 0.2s;
         }
-        .back-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .back-btn:hover { border-color: var(--primary); color: var(--accent); }
         .logo-sm {
             font-size: 18px;
             font-weight: 700;
             letter-spacing: 2px;
-            color: var(--gold);
+            color: var(--accent);
         }
 
         /* User Info Bar */
@@ -69,21 +129,15 @@
             justify-content: space-between;
             align-items: center;
         }
-        .user-info h2 {
-            font-size: 16px;
-            font-weight: 600;
-        }
-        .user-info span {
-            font-size: 12px;
-            color: var(--tx2);
-        }
+        .user-info h2 { font-size: 16px; font-weight: 600; }
+        .user-info span { font-size: 12px; color: var(--tx2); }
         .archetype-badge {
-            background: rgba(196, 164, 90, 0.1);
-            border: 1px solid var(--gold2);
+            background: rgba(124, 92, 231, 0.12);
+            border: 1px solid var(--primary2);
             border-radius: 20px;
             padding: 6px 14px;
             font-size: 11px;
-            color: var(--gold);
+            color: var(--accent);
             white-space: nowrap;
         }
 
@@ -107,9 +161,9 @@
             text-align: center;
         }
         .ai-btn.active {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(196, 164, 90, 0.06);
+            border-color: var(--primary);
+            color: var(--accent);
+            background: rgba(124, 92, 231, 0.08);
         }
         .ai-btn .ai-icon { font-size: 18px; display: block; }
         .ai-btn .ai-name { font-weight: 600; font-size: 13px; }
@@ -130,7 +184,7 @@
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
         }
         .voice-label {
             font-size: 10px;
@@ -149,20 +203,18 @@
         }
 
         /* Progress Bar */
-        .progress-wrap {
-            margin-bottom: 20px;
-        }
+        .progress-wrap { margin-bottom: 20px; }
         .progress-bar {
             width: 100%;
             height: 6px;
-            background: var(--accent);
+            background: var(--border);
             border-radius: 3px;
             overflow: hidden;
             margin-bottom: 6px;
         }
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--gold), var(--gold2));
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             border-radius: 3px;
             transition: width 0.3s;
             width: 0%;
@@ -195,16 +247,17 @@
             align-items: center;
             justify-content: center;
         }
-        .ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .ctrl-btn:hover { border-color: var(--primary); color: var(--accent); }
         .ctrl-btn.play-btn {
             width: 56px; height: 56px;
-            background: var(--gold);
-            color: #1a1a1a;
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            color: #fff;
             border: none;
             font-size: 22px;
+            box-shadow: 0 4px 20px rgba(124, 92, 231, 0.4);
         }
-        .ctrl-btn.play-btn:hover { opacity: 0.9; }
-        .ctrl-btn.play-btn.playing { background: var(--gold2); }
+        .ctrl-btn.play-btn:hover { opacity: 0.9; box-shadow: 0 6px 30px rgba(124, 92, 231, 0.6); }
+        .ctrl-btn.play-btn.playing { background: var(--primary2); }
         .speed-indicator {
             font-size: 10px;
             color: var(--tx2);
@@ -230,14 +283,15 @@
             font-family: var(--font);
             transition: all 0.2s;
         }
-        .voice-opt:hover { border-color: var(--gold); color: var(--gold); }
-        .voice-opt.selected { border-color: var(--gold); color: var(--gold); background: rgba(196,164,90,0.08); }
+        .voice-opt:hover { border-color: var(--primary); color: var(--accent); }
+        .voice-opt.selected {
+            border-color: var(--primary);
+            color: var(--accent);
+            background: rgba(124, 92, 231, 0.1);
+        }
 
         /* Download */
-        .download-area {
-            text-align: center;
-            margin-bottom: 16px;
-        }
+        .download-area { text-align: center; margin-bottom: 16px; }
         .download-btn {
             background: none;
             border: 1px solid var(--border);
@@ -249,12 +303,10 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        .download-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .download-btn:hover { border-color: var(--primary); color: var(--accent); }
 
-        /* Chat Area */
-        .chat-section {
-            margin-bottom: 20px;
-        }
+        /* Chat Section */
+        .chat-section { margin-bottom: 20px; }
         .chat-section h3 {
             font-size: 13px;
             color: var(--tx2);
@@ -278,13 +330,13 @@
             font-size: 14px;
             outline: none;
         }
-        .chat-input-wrap input:focus { border-color: var(--gold); }
+        .chat-input-wrap input:focus { border-color: var(--primary); }
         .chat-input-wrap button {
             padding: 12px 18px;
-            background: var(--gold);
+            background: var(--primary);
             border: none;
             border-radius: 8px;
-            color: #1a1a1a;
+            color: #fff;
             font-family: var(--font);
             font-weight: 600;
             cursor: pointer;
@@ -302,7 +354,7 @@
             font-size: 18px;
             transition: all 0.2s;
         }
-        .mic-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .mic-btn:hover { border-color: var(--primary); color: var(--accent); }
         .mic-btn.listening {
             border-color: #e74c3c;
             color: #e74c3c;
@@ -314,10 +366,7 @@
         }
 
         /* Chat History */
-        .chat-history {
-            max-height: 300px;
-            overflow-y: auto;
-        }
+        .chat-history { max-height: 300px; overflow-y: auto; }
         .chat-msg {
             margin-bottom: 12px;
             padding: 10px 14px;
@@ -326,7 +375,7 @@
             line-height: 1.6;
         }
         .chat-msg.user {
-            background: var(--accent);
+            background: rgba(124, 92, 231, 0.15);
             text-align: right;
             margin-left: 30px;
         }
@@ -337,7 +386,7 @@
         }
         .chat-msg .sender {
             font-size: 10px;
-            color: var(--gold);
+            color: var(--accent);
             margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -357,7 +406,7 @@
         }
         .analysis-card h4 {
             font-size: 13px;
-            color: var(--gold);
+            color: var(--accent);
             margin-bottom: 8px;
         }
         .analysis-card p {
@@ -390,8 +439,8 @@
             font-family: var(--font);
         }
         .tab.active {
-            background: var(--gold);
-            color: #1a1a1a;
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            color: #fff;
             font-weight: 600;
         }
 
@@ -401,8 +450,8 @@
             bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--gold);
-            color: #1a1a1a;
+            background: var(--primary);
+            color: #fff;
             padding: 10px 20px;
             border-radius: 20px;
             font-size: 13px;
@@ -411,6 +460,7 @@
             opacity: 0;
             transition: opacity 0.3s;
             pointer-events: none;
+            box-shadow: 0 4px 15px rgba(124, 92, 231, 0.4);
         }
         .toast.show { opacity: 1; }
 
@@ -423,6 +473,20 @@
     </style>
 </head>
 <body>
+
+<!-- Shooting Stars Background -->
+<div class="stars-container">
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+</div>
 
 <div class="container">
 
@@ -474,7 +538,6 @@
             <div class="voice-label">🎙️ Live Voice Summary</div>
             <div class="voice-title" id="voiceTitle">กำลังสร้างบทสรุปของคุณ...</div>
 
-            <!-- Progress -->
             <div class="progress-wrap">
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
@@ -485,7 +548,6 @@
                 </div>
             </div>
 
-            <!-- Controls -->
             <div class="playback-controls">
                 <button class="ctrl-btn" onclick="skipBack()" title="ย้อนกลับ 10s">⏪</button>
                 <button class="ctrl-btn play-btn" id="playBtn" onclick="togglePlay()">▶</button>
@@ -493,7 +555,6 @@
             </div>
             <div class="speed-indicator">ความเร็ว <strong id="speedDisplay">0.9x</strong></div>
 
-            <!-- Voice Options -->
             <div class="voice-options">
                 <button class="voice-opt selected" onclick="setSpeed(0.9)">0.9x</button>
                 <button class="voice-opt" onclick="setSpeed(1.0)">1.0x</button>
@@ -501,13 +562,12 @@
                 <button class="voice-opt" onclick="restartAudio()">↺ เริ่มใหม่</button>
             </div>
 
-            <!-- Download -->
             <div class="download-area">
                 <button class="download-btn" onclick="downloadReport()">📥 ดาวน์โหลดรายงาน (.txt)</button>
             </div>
         </div>
 
-        <!-- Chat Section -->
+<!-- Chat Section -->
         <div class="chat-section">
             <h3>💬 ถามต่อเนื่อง (Real-time)</h3>
             <div class="chat-input-wrap">
@@ -527,9 +587,7 @@
 
     <!-- === ANALYSIS TAB === -->
     <div id="analysisTab" style="display:none;">
-        <div class="analysis-grid" id="analysisGrid">
-            <!-- Filled by JS -->
-        </div>
+        <div class="analysis-grid" id="analysisGrid"></div>
     </div>
 
 </div>
@@ -546,23 +604,22 @@ let currentTab = 'voice';
 let isPlaying = false;
 let currentSpeed = 0.9;
 let audioProgress = 0;
-let audioDuration = 120; // seconds (simulated)
+let audioDuration = 120;
 let progressInterval = null;
 let isListening = false;
 
-// Mock analysis data
 let analysisData = {
     vela: {
-        personality: 'คุณเป็นนักรบแห่งราศีสิงห์...',
-        strength: 'สื่อสารหนักแน่น ทำงานละเอียด เป็นผู้นำโดยธรรมชาติ',
-        weakness: 'แบกทุกอย่างไว้คนเดียว ไม่ค่อยขอความช่วยเหลือ',
+        personality: 'คุณเป็นผู้มีพลังงานของนักสร้างที่มีวิสัยทัศน์...',
+        strength: 'สื่อสารหนักแน่น · ทำงานละเอียด · เป็นผู้นำโดยธรรมชาติ · มองภาพใหญ่ · กล้าตัดสินใจ',
+        weakness: 'แบกทุกอย่างไว้คนเดียว ไม่ค่อยขอความช่วยเหลือ บางครั้งรีบร้อนเกินไป',
         talent: 'ผู้นำ นักพัฒนา นักวิเคราะห์ข้อมูล นักเจรจาต่อรอง'
     },
     wellani: {
-        finance_trend: 'แนวโน้มการเงินดีในปี 2028-2029 ระวังครึ่งหลังปี 2027',
-        investment_advice: 'ดีลนี้มีแนวโน้มสำเร็จ แต่ระวังโครงสร้างทีมและสัญญา',
+        finance_trend: 'แนวโน้มการเงินดีขึ้นช่วงกลางปี 2028-2029 ดาวพฤหัสเคลื่อนผ่านเรือนการเงิน',
+        investment_advice: 'ดีลนี้มีแนวโน้มสำเร็จ 60-70% แต่แนะนำตรวจสอบทีมและสัญญาอย่างละเอียด',
         relationship_trend: 'ควรสื่อสารให้ชัดเจน หลีกเลี่ยงการเก็บความรู้สึก',
-        forecast_5y: '2026 เริ่มต้น, 2027 ปรับตัว, 2028 เติบโต, 2029 ขยาย, 2030 เก็บเกี่ยว'
+        forecast_5y: '2026: เริ่มต้น, 2027: ปรับตัว, 2028: เติบโต, 2029: ขยาย, 2030: เก็บเกี่ยว'
     }
 };
 
@@ -570,10 +627,22 @@ let analysisData = {
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    // Generate static stars
+    const container = document.querySelector('.stars-container');
+    for (let i = 0; i < 25; i++) {
+        const star = document.createElement('div');
+        star.className = 'static-star';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        star.style.width = (1 + Math.random() * 2) + 'px';
+        star.style.height = star.style.width;
+        container.appendChild(star);
+    }
+    
     loadUserData();
     renderAnalysisCards();
     
-    // Check if returning from somewhere with lens preference
     const savedLens = localStorage.getItem('astrovera_selected_lens');
     if (savedLens && savedLens !== 'auto') {
         switchAI(savedLens);
@@ -585,16 +654,12 @@ function loadUserData() {
     if (saved) {
         const data = JSON.parse(saved);
         document.getElementById('userNameDisplay').textContent = data.name || 'ไม่ระบุ';
-        
         const details = [];
         if (data.birth_date) details.push('เกิด ' + formatDate(data.birth_date));
         if (data.blood_type) details.push('กรุ๊ป ' + data.blood_type);
         document.getElementById('userDetailDisplay').textContent = details.join(' · ') || '—';
-        
-        // Set archetype
         document.getElementById('archetypeBadge').textContent = '🔮 The Visionary Builder';
     } else {
-        // Demo data
         document.getElementById('userNameDisplay').textContent = 'ตัวอย่าง';
         document.getElementById('userDetailDisplay').textContent = 'เกิด 30 ก.ค. 1981 · กรุ๊ป O';
         document.getElementById('archetypeBadge').textContent = '🔮 The Visionary Builder';
@@ -613,26 +678,19 @@ function formatDate(dateStr) {
 // ============================================
 function switchAI(lens) {
     currentAI = lens;
-    
-    // Update buttons
     document.querySelectorAll('.ai-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(`tab-${lens}`).classList.add('active');
     
-    // Update voice title based on lens
     const titles = {
         auto: 'ระบบเลือกเลนส์ที่เหมาะสมให้คุณ...',
-        Vellani: '⚡ เว็ลลานี่ วิเคราะห์ตัวตน · Western Astrology',
-        Vera: '🌟 เวร่า วิเคราะห์แนวโน้ม · Vedic + Thai'
+        vellani: '⚡ เว็ลลานี่ วิเคราะห์ตัวตน · ตัวตนปัจจุบัน',
+        Vera: '🌟 เวร่า วิเคราะห์แนวโน้ม · แนวโน้มในอนาคต'
     };
     document.getElementById('voiceTitle').textContent = titles[lens] || titles.auto;
     
-    // Reset audio
     resetAudio();
-    
-    // Update analysis cards
     renderAnalysisCards();
-    
-    showToast(`เปลี่ยนเป็น: ${lens === 'auto' ? 'ระบบอัตโนมัติ' : lens === 'vela' ? 'เวล่า (Western)' : 'เว็ลลานี่ (Vedic+Thai)'}`);
+    showToast(`เปลี่ยนเป็น: ${lens === 'auto' ? 'ระบบอัตโนมัติ' : lens === 'vela' ? 'เว็ลลานี่ (ตัวตน,บุคลิก,พรสวรรค์และปัจจุบัน)' : 'เว็ลลานี่ (แนวโน้มอนาคต,จังหวะเวลา,โอกาส,ความเสี่ยง)'}`);
 }
 
 // ============================================
@@ -642,35 +700,29 @@ function switchTab(tab) {
     currentTab = tab;
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.getElementById(`tab-${tab}`).classList.add('active');
-    
     document.getElementById('voiceTab').style.display = tab === 'voice' ? 'block' : 'none';
     document.getElementById('analysisTab').style.display = tab === 'analysis' ? 'block' : 'none';
 }
 
 // ============================================
-// AUDIO PLAYBACK (Simulated)
+// AUDIO PLAYBACK
 // ============================================
 function togglePlay() {
     const btn = document.getElementById('playBtn');
-    
     if (isPlaying) {
-        // Pause
         isPlaying = false;
         btn.textContent = '▶';
         btn.classList.remove('playing');
         clearInterval(progressInterval);
     } else {
-        // Play
         isPlaying = true;
         btn.textContent = '⏸';
         btn.classList.add('playing');
-        
         progressInterval = setInterval(() => {
             if (audioProgress < audioDuration) {
                 audioProgress += 0.5;
                 updateProgress();
             } else {
-                // Finished
                 isPlaying = false;
                 btn.textContent = '▶';
                 btn.classList.remove('playing');
@@ -683,54 +735,35 @@ function togglePlay() {
 function updateProgress() {
     const percent = (audioProgress / audioDuration) * 100;
     document.getElementById('progressFill').style.width = percent + '%';
-    
     const current = Math.floor(audioProgress);
     const mins = Math.floor(current / 60);
     const secs = current % 60;
     document.getElementById('currentTime').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
-    
     const totalMins = Math.floor(audioDuration / 60);
     const totalSecs = Math.floor(audioDuration % 60);
     document.getElementById('totalTime').textContent = `${totalMins}:${totalSecs.toString().padStart(2, '0')}`;
 }
 
-function skipForward() {
-    audioProgress = Math.min(audioProgress + 10, audioDuration);
-    updateProgress();
-}
-
-function skipBack() {
-    audioProgress = Math.max(audioProgress - 10, 0);
-    updateProgress();
-}
+function skipForward() { audioProgress = Math.min(audioProgress + 10, audioDuration); updateProgress(); }
+function skipBack() { audioProgress = Math.max(audioProgress - 10, 0); updateProgress(); }
 
 function setSpeed(speed) {
     currentSpeed = speed;
     document.getElementById('speedDisplay').textContent = speed + 'x';
     document.querySelectorAll('.voice-opt').forEach(o => o.classList.remove('selected'));
-    // Update selected speed button
     const speedBtns = document.querySelectorAll('.voice-opt');
-    speedBtns.forEach(b => {
-        if (b.textContent.includes(speed + 'x')) b.classList.add('selected');
-    });
-    
-    // Restart interval with new speed if playing
+    speedBtns.forEach(b => { if (b.textContent.includes(speed + 'x')) b.classList.add('selected'); });
     if (isPlaying) {
         clearInterval(progressInterval);
         progressInterval = setInterval(() => {
-            if (audioProgress < audioDuration) {
-                audioProgress += 0.5;
-                updateProgress();
-            }
+            if (audioProgress < audioDuration) { audioProgress += 0.5; updateProgress(); }
         }, 500 / currentSpeed);
     }
-    
     showToast(`ปรับความเร็วเป็น ${speed}x`);
 }
 
 function restartAudio() {
-    audioProgress = 0;
-    updateProgress();
+    audioProgress = 0; updateProgress();
     if (isPlaying) {
         clearInterval(progressInterval);
         isPlaying = false;
@@ -751,9 +784,7 @@ function resetAudio() {
 }
 
 function downloadReport() {
-    // Generate report content
     let report = '=== ASTROVERA — รายงานวิเคราะห์ชีวิต ===\n\n';
-    
     const saved = localStorage.getItem('astrovera_user_data');
     if (saved) {
         const data = JSON.parse(saved);
@@ -763,20 +794,10 @@ function downloadReport() {
         report += `สถานที่เกิด: ${data.birth_place || 'ไม่ระบุ'}\n`;
         report += `กรุ๊ปเลือด: ${data.blood_type || 'ไม่ระบุ'}\n\n`;
     }
+    report += '--- เลนส์: ' + (currentAI === 'auto' ? 'อัตโนมัติ' : currentAI === 'vela' ? 'เวล่า' : 'เว็ลลานี่') + ' ---\n\n';
+    report += '[เวล่า — ตัวตน]\nบุคลิกภาพ: ' + analysisData.vela.personality + '\nจุดแข็ง: ' + analysisData.vela.strength + '\nจุดอ่อน: ' + analysisData.vela.weakness + '\nพรสวรรค์: ' + analysisData.vela.talent + '\n\n';
+    report += '[เว็ลลานี่ — แนวโน้ม]\nการเงิน: ' + analysisData.wellani.finance_trend + '\nลงทุน: ' + analysisData.wellani.investment_advice + '\nความสัมพันธ์: ' + analysisData.wellani.relationship_trend + '\n5 ปี: ' + analysisData.wellani.forecast_5y + '\n';
     
-    report += '--- เลนส์ที่ใช้: ' + (currentAI === 'auto' ? 'อัตโนมัติ' : currentAI === 'vela' ? 'เวล่า (Western)' : 'เว็ลลานี่ (Vedic+Thai)') + ' ---\n\n';
-    report += '[เวล่า — ตัวตน]\n';
-    report += 'บุคลิกภาพ: ' + analysisData.vela.personality + '\n';
-    report += 'จุดแข็ง: ' + analysisData.vela.strength + '\n';
-    report += 'จุดอ่อน: ' + analysisData.vela.weakness + '\n';
-    report += 'พรสวรรค์: ' + analysisData.vela.talent + '\n\n';
-    report += '[เว็ลลานี่ — แนวโน้ม]\n';
-    report += 'แนวโน้มการเงิน: ' + analysisData.wellani.finance_trend + '\n';
-    report += 'คำแนะนำการลงทุน: ' + analysisData.wellani.investment_advice + '\n';
-    report += 'แนวโน้มความสัมพันธ์: ' + analysisData.wellani.relationship_trend + '\n';
-    report += 'พยากรณ์ 5 ปี: ' + analysisData.wellani.forecast_5y + '\n';
-    
-    // Download
     const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -786,7 +807,6 @@ function downloadReport() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
     showToast('📥 ดาวน์โหลดรายงานเรียบร้อย');
 }
 
@@ -797,36 +817,27 @@ function sendMessage() {
     const input = document.getElementById('chatInput');
     const message = input.value.trim();
     if (!message) return;
-    
-    // Add user message
     addChatMessage('user', 'คุณ', message);
     input.value = '';
-    
-    // Simulate AI response
     setTimeout(() => {
         const lensName = currentAI === 'auto' ? 'ASTROVERA' : currentAI === 'vela' ? 'เวล่า' : 'เว็ลลานี่';
-        let response = generateAIResponse(message, currentAI);
+        let response = generateAIResponse(message);
         addChatMessage('ai', lensName, response);
     }, 800 + Math.random() * 1500);
 }
 
-function generateAIResponse(question, lens) {
+function generateAIResponse(question) {
     const responses = {
         vela: [
-            'จากมุมมองตัวตนของคุณ (Western Astrology) — คุณมีพลังงานของชาวราศีสิงห์ผสมกับความเป็นนักวางแผนจากตำแหน่งดาวพุธ ซึ่งหมายความว่าคุณจะทำได้ดีเมื่อมีอิสระในการตัดสินใจ',
-            'การวิเคราะห์บุคลิกภาพเชิงลึกชี้ว่า จุดแข็งหลักของคุณคือการมองภาพใหญ่และความสามารถในการสร้างแรงบันดาลใจให้ผู้อื่น',
+            'จากมุมมองตัวตนของคุณ (Western Astrology) — คุณมีพลังงานของนักสร้างที่ผสมผสานระหว่างวิสัยทัศน์กับการลงมือทำ จุดแข็งหลักคือการมองภาพใหญ่',
+            'การวิเคราะห์บุคลิกภาพชี้ว่า คุณทำได้ดีที่สุดเมื่อมีอิสระในการตัดสินใจและสร้างสิ่งใหม่จากความคิด',
         ],
         wellani: [
-            'จากมุมมอง Vedic + Thai — จังหวะชีวิตคุณกำลังเข้าสู่ช่วงที่ดีในช่วงไตรมาสแรกของปี 2027 ดาวพฤหัสจะเคลื่อนผ่านเรือนการเงินของคุณ',
-            'ตามหลักโหราศาสตร์ไทย ดาวเสาร์กำลังทดสอบความอดทนของคุณในปีนี้ แต่ผลลัพธ์จะออกมาดีหากคุณไม่รีบร้อนเกินไป',
+            'จากมุมมอง Vedic + Thai — จังหวะชีวิตคุณกำลังเข้าสู่ช่วงที่ดีในไตรมาสแรกของปี 2027 ดาวพฤหัสเคลื่อนผ่านเรือนการเงินของคุณ',
+            'ตามหลักโหราศาสตร์ไทย ดาวเสาร์กำลังทดสอบความอดทนของคุณ แต่ผลลัพธ์จะดีหากไม่รีบร้อนเกินไป',
         ]
     };
-    
-    // Default to auto (mix)
-    const pool = currentAI === 'vela' ? responses.vela : 
-                 currentAI === 'wellani' ? responses.wellani :
-                 [...responses.vela, ...responses.wellani];
-    
+    const pool = currentAI === 'vela' ? responses.vela : currentAI === 'wellani' ? responses.wellani : [...responses.vela, ...responses.wellani];
     return pool[Math.floor(Math.random() * pool.length)];
 }
 
@@ -842,12 +853,9 @@ function addChatMessage(type, sender, text) {
 function toggleMic() {
     const micBtn = document.getElementById('micBtn');
     isListening = !isListening;
-    
     if (isListening) {
         micBtn.classList.add('listening');
         showToast('🎤 กำลังฟัง... (พูดได้เลย)');
-        
-        // Simulate voice recognition after 2 seconds
         setTimeout(() => {
             if (isListening) {
                 document.getElementById('chatInput').value = 'แนวโน้มการเงินปีนี้เป็นยังไง';
@@ -868,49 +876,20 @@ function toggleMic() {
 function renderAnalysisCards() {
     const grid = document.getElementById('analysisGrid');
     let html = '';
-    
-    if (currentAI === 'auto' || currentAI === 'vela') {
+    if (currentAI === 'auto' || currentAI === 'Vellani') {
         html += `
-            <div class="analysis-card">
-                <h4>⚡ บุคลิกภาพ (เวล่า · Western)</h4>
-                <p>${analysisData.vela.personality}</p>
-            </div>
-            <div class="analysis-card">
-                <h4>💪 จุดแข็ง</h4>
-                <p>${analysisData.vela.strength}</p>
-            </div>
-            <div class="analysis-card">
-                <h4>⚠️ จุดที่ควรระวัง</h4>
-                <p>${analysisData.vela.weakness}</p>
-            </div>
-            <div class="analysis-card">
-                <h4>🎯 พรสวรรค์</h4>
-                <p>${analysisData.vela.talent}</p>
-            </div>
-        `;
+            <div class="analysis-card"><h4>⚡ บุคลิกภาพ (เว็ลลานี่ · วิเคราะห์ตัวตน)</h4><p>${analysisData.vela.personality}</p></div>
+            <div class="analysis-card"><h4>💪 จุดแข็ง</h4><p>${analysisData.vela.strength}</p></div>
+            <div class="analysis-card"><h4>⚠️ จุดที่ควรระวัง</h4><p>${analysisData.vela.weakness}</p></div>
+            <div class="analysis-card"><h4>🎯 พรสวรรค์</h4><p>${analysisData.vela.talent}</p></div>`;
     }
-    
-    if (currentAI === 'auto' || currentAI === 'wellani') {
+    if (currentAI === 'auto' || currentAI === 'Vera') {
         html += `
-            <div class="analysis-card">
-                <h4>🌟 แนวโน้มการเงิน (เว็ลลานี่ · Vedic+Thai)</h4>
-                <p>${analysisData.wellani.finance_trend}</p>
-            </div>
-            <div class="analysis-card">
-                <h4>💰 คำแนะนำการลงทุน</h4>
-                <p>${analysisData.wellani.investment_advice}</p>
-            </div>
-            <div class="analysis-card">
-                <h4>💞 แนวโน้มความสัมพันธ์</h4>
-                <p>${analysisData.wellani.relationship_trend}</p>
-            </div>
-            <div class="analysis-card">
-                <h4>📅 พยากรณ์ 5 ปี</h4>
-                <p>${analysisData.wellani.forecast_5y}</p>
-            </div>
-        `;
+            <div class="analysis-card"><h4>🌟 แนวโน้มการเงิน (เวร่า · วิเคราะห์แนวโน้มอนาคต)</h4><p>${analysisData.wellani.finance_trend}</p></div>
+            <div class="analysis-card"><h4>💰 คำแนะนำการลงทุน</h4><p>${analysisData.wellani.investment_advice}</p></div>
+            <div class="analysis-card"><h4>💞 แนวโน้มความสัมพันธ์</h4><p>${analysisData.wellani.relationship_trend}</p></div>
+            <div class="analysis-card"><h4>📅 พยากรณ์ 5 ปี</h4><p>${analysisData.wellani.forecast_5y}</p></div>`;
     }
-    
     grid.innerHTML = html;
 }
 
@@ -924,11 +903,10 @@ function showToast(message) {
     setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
-// ============================================
-// INIT PROGRESS DISPLAY
-// ============================================
+// INIT PROGRESS
 updateProgress();
 </script>
 
 </body>
-</html
+</html>
+```
