@@ -1,46 +1,625 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASTROVERA — ค้นหาตัวตน</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
+    <style>
+        :root {
+            --bg: #0a0812;
+            --bg2: #12102a;
+            --tx: #e8e0f0;
+            --tx2: #9a90b8;
+            --primary: #7c5ce7;
+            --primary2: #5b3dc7;
+            --accent: #a78bfa;
+            --border: #2a2540;
+            --radius: 12px;
+            --font: 'Sarabun', 'Noto Sans Thai', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--tx);
+            font-family: var(--font);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ============================================
+           SHOOTING STARS BACKGROUND
+           ============================================ */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #c4b5fd;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(196, 181, 253, 0.6);
+            animation: shoot linear infinite;
+            opacity: 0;
+        }
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(196, 181, 253, 0.8), transparent);
+        }
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translateX(-500px) translateY(300px); opacity: 0; }
+        }
+
+        /* Generate multiple stars with different delays */
+        .shooting-star:nth-child(1) { top: 10%; left: 80%; animation-duration: 3s; animation-delay: 0s; }
+        .shooting-star:nth-child(2) { top: 25%; left: 90%; animation-duration: 4s; animation-delay: 1.5s; }
+        .shooting-star:nth-child(3) { top: 40%; left: 85%; animation-duration: 3.5s; animation-delay: 3s; }
+        .shooting-star:nth-child(4) { top: 55%; left: 95%; animation-duration: 5s; animation-delay: 5s; }
+        .shooting-star:nth-child(5) { top: 70%; left: 75%; animation-duration: 3.8s; animation-delay: 2s; }
+        .shooting-star:nth-child(6) { top: 15%; left: 88%; animation-duration: 4.2s; animation-delay: 6s; }
+        .shooting-star:nth-child(7) { top: 60%; left: 92%; animation-duration: 3.2s; animation-delay: 4s; }
+        .shooting-star:nth-child(8) { top: 80%; left: 82%; animation-duration: 4.5s; animation-delay: 7s; }
+        .shooting-star:nth-child(9) { top: 35%; left: 78%; animation-duration: 3.6s; animation-delay: 8s; }
+        .shooting-star:nth-child(10){ top: 50%; left: 87%; animation-duration: 4.8s; animation-delay: 2.5s; }
+
+        /* Static stars */
+        .static-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(196, 181, 253, 0.5);
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container { max-width: 480px; margin: 0 auto; padding: 24px 20px; position: relative; z-index: 1; }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 0 32px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+        .subtitle {
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--tx2);
+            margin-top: 6px;
+            text-transform: uppercase;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .hero h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--tx);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .hero p {
+            font-size: 14px;
+            color: var(--tx2);
+            line-height: 1.7;
+        }
+
+        /* Form Card */
+        .card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            margin-bottom: 20px;
+        }
+        .card label {
+            display: block;
+            font-size: 12px;
+            color: var(--tx2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .card input,
+        .card select {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--tx);
+            font-family: var(--font);
+            font-size: 15px;
+            margin-bottom: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .card input:focus,
+        .card select:focus {
+            border-color: var(--primary);
+        }
+        .card select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .radio-pill {
+            flex: 1;
+            min-width: 70px;
+        }
+        .radio-pill input { display: none; }
+        .radio-pill label {
+            display: block;
+            text-align: center;
+            padding: 10px 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--tx2);
+            transition: all 0.2s;
+        }
+        .radio-pill input:checked + label {
+            border-color: var(--primary);
+            color: var(--accent);
+            background: rgba(124, 92, 231, 0.1);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary2));
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-family: var(--font);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(124, 92, 231, 0.3);
+        }
+        .btn-primary:hover { opacity: 0.9; box-shadow: 0 6px 30px rgba(124, 92, 231, 0.5); }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--tx2);
+            font-family: var(--font);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--accent);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .feature-item {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 14px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--tx2);
+        }
+        .feature-item .icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        /* Alert */
+        .alert {
+            background: rgba(124, 92, 231, 0.08);
+            border: 1px solid var(--primary2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 12px;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 8, 18, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 24px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .modal .loader {
+            width: 48px; height: 48px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .modal h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        .modal p {
+            font-size: 13px;
+            color: var(--tx2);
+        }
+
+        /* AI Selector */
+        .ai-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .ai-btn {
+            flex: 1;
+            padding: 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--tx2);
+            font-family: var(--font);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .ai-btn.active {
+            border-color: var(--primary);
+            color: var(--accent);
+            background: rgba(124, 92, 231, 0.08);
+        }
+        .ai-btn .ai-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .ai-btn .ai-desc {
+            font-size: 10px;
+            color: var(--tx2);
+            margin-top: 2px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 11px;
+            color: var(--tx2);
+        }
+
+        /* Responsive */
+        @media (max-width: 360px) {
+            .container { padding: 16px 12px; }
+            .hero h1 { font-size: 18px; }
+        }
+    </style>
 </head>
 <body>
-    <header>
+
+<!-- Shooting Stars Background -->
+<div class="stars-container">
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+</div>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
         <div class="logo">ASTROVERA</div>
-        <nav>
-            <a href="index.html">หน้าแรก</a>
-            <a href="analysis.html">วิเคราะห์</a>
-        </nav>
-    </header>
+        <div class="subtitle">Data Life Intelligence</div>
+    </div>
 
-    <section class="hero">
-        <h1>ค้นหาตัวตน <br>เข้าใจชีวิต <br>ตัดสินใจได้ดีขึ้น</h1>
-        <p>มากกว่าการดูดวง — เพราะประสบการณ์และบทเรียน <br>คือกระจกสะท้อนชีวิตที่ลึกที่สุด</p>
-        <a href="analysis.html" class="btn-primary">เริ่มวิเคราะห์ฟรี</a>
-    </section>
+    <!-- Hero -->
+    <div class="hero">
+        <h1>เริ่มเข้าใจตัวเอง<br>ใน 2 นาที</h1>
+        <p>ฟรี · ไม่ต้องสมัครก่อน</p>
+    </div>
 
-    <section class="features">
-        <div class="card">
-            <h3>🧭 กระจกตัวตน™</h3>
-            <p>สะท้อนความคิดด้วยโมเดล 6 ชั้น</p>
+    <!-- AI Selector -->
+    <div class="ai-selector">
+        <button class="ai-btn active" onclick="selectAI('auto')" id="btn-auto">
+            <div class="ai-name">🔮 อัตโนมัติ</div>
+            <div class="ai-desc">ระบบเลือกให้</div>
+        </button>
+        <button class="ai-btn" onclick="selectAI('vela')" id="btn-vela">
+            <div class="ai-name">⚡ เวล่า</div>
+            <div class="ai-desc">Western · ตัวตน</div>
+        </button>
+        <button class="ai-btn" onclick="selectAI('wellani')" id="btn-wellani">
+            <div class="ai-name">🌟 เว็ลลานี่</div>
+            <div class="ai-desc">Vedic+Thai · แนวโน้ม</div>
+        </button>
+    </div>
+
+    <!-- Main Form -->
+    <div class="card">
+        <label>ชื่อของคุณ</label>
+        <input type="text" id="name" placeholder="ชื่อ-นามสกุล" required>
+
+        <label>วันเกิด *</label>
+        <input type="date" id="birthDate" required onchange="validateForm()">
+
+        <label>ปีเกิด (ระบบ)</label>
+        <div class="radio-group">
+            <div class="radio-pill">
+                <input type="radio" name="yearSystem" id="be" value="BE" checked>
+                <label for="be">พ.ศ.</label>
+            </div>
+            <div class="radio-pill">
+                <input type="radio" name="yearSystem" id="ce" value="CE">
+                <label for="ce">ค.ศ.</label>
+            </div>
         </div>
-        <div class="card">
-            <h3>🎯 Life Decision Tracker</h3>
-            <p>บันทึก ติดตาม เรียนรู้ พัฒนา</p>
-        </div>
-        <div class="card">
-            <h3>🌱 วงจรการเติบโต</h3>
-            <p>เติบโตจากบทเรียนชีวิต</p>
-        </div>
-    </section>
 
-    <footer>
-        <p>© 2026 ASTROVERA — DATA LIFE INTELLIGENCE</p>
-    </footer>
+        <label>เวลาเกิด (ถ้าทราบ)</label>
+        <input type="time" id="birthTime">
 
-    <script src="js/app.js"></script>
+        <label>สถานที่เกิด</label>
+        <select id="birthPlace">
+            <option value="">— เลือกประเทศ —</option>
+            <option value="TH">🇹🇭 ไทย</option>
+            <option value="OTHER">🌏 ประเทศอื่น</option>
+        </select>
+
+        <label>🩸 กรุ๊ปเลือดของคุณ</label>
+        <div class="radio-group">
+            <div class="radio-pill">
+                <input type="radio" name="bloodType" id="bloodO" value="O">
+                <label for="bloodO">🔴 O</label>
+            </div>
+            <div class="radio-pill">
+                <input type="radio" name="bloodType" id="bloodA" value="A">
+                <label for="bloodA">🔵 A</label>
+            </div>
+            <div class="radio-pill">
+                <input type="radio" name="bloodType" id="bloodB" value="B">
+                <label for="bloodB">🟡 B</label>
+            </div>
+            <div class="radio-pill">
+                <input type="radio" name="bloodType" id="bloodAB" value="AB">
+                <label for="bloodAB">🟣 AB</label>
+            </div>
+        </div>
+
+        <button class="btn-primary" id="submitBtn" onclick="submitForm()">
+            ✦ วิเคราะห์เลย — ฟรี 👁️ ดูก่อนได้!
+        </button>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+        <div class="feature-item">
+            <div class="icon">🧭</div>
+            ค้นพบตัวตน<br>7 มิติ
+        </div>
+        <div class="feature-item">
+            <div class="icon">🔁</div>
+            กระจกตัวตน™<br>6 ชั้น
+        </div>
+        <div class="feature-item">
+            <div class="icon">🎯</div>
+            ตัดสินใจ<br>แม่นยำขึ้น
+        </div>
+        <div class="feature-item">
+            <div class="icon">🌱</div>
+            วงจร<br>การเติบโต
+        </div>
+    </div>
+
+    <p style="text-align:center;font-size:12px;color:var(--tx2);margin-bottom:24px;">
+        🔁 กระจกตัวตน™ สะท้อนความคิดด้วยโมเดล 6 ชั้น<br>
+        🎯 Life Decision Tracker บันทึก ติดตาม เรียนรู้ พัฒนา<br>
+        🌱 วงจรการเติบโต เติบโตจากบทเรียนชีวิต
+    </p>
+
+    <!-- Footer -->
+    <div class="footer">
+        ASTROVERA © 2024 · Data Life Intelligence<br>
+        มากกว่าการดูดวง — เพราะประสบการณ์คือกระจกสะท้อนชีวิต
+    </div>
+
+</div>
+
+<!-- Analyzing Modal -->
+<div class="modal-overlay" id="analyzingModal">
+    <div class="modal">
+        <div class="loader"></div>
+        <h3>กำลังวิเคราะห์...</h3>
+        <p id="modalStatus">ค้นหา ผลวิเคราะห์ตัวตน ของคุณ</p>
+        <p style="font-size:11px;color:var(--tx2);margin-top:8px;">
+            วิเคราะห์ผ่าน 6 ชั้นเฉพาะทาง
+        </p>
+    </div>
+</div>
+
+<script>
+// --- State ---
+let selectedLens = 'auto';
+
+// --- Static Stars Generation ---
+(function generateStaticStars() {
+    const container = document.querySelector('.stars-container');
+    for (let i = 0; i < 30; i++) {
+        const star = document.createElement('div');
+        star.className = 'static-star';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        star.style.width = (1 + Math.random() * 2) + 'px';
+        star.style.height = star.style.width;
+        container.appendChild(star);
+    }
+})();
+
+// --- AI Selection ---
+function selectAI(lens) {
+    selectedLens = lens;
+    document.querySelectorAll('.ai-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`btn-${lens}`).classList.add('active');
+}
+
+// --- Form Validation ---
+function validateForm() {
+    const dateInput = document.getElementById('birthDate');
+    const submitBtn = document.getElementById('submitBtn');
+    if (dateInput.value) {
+        submitBtn.disabled = false;
+    }
+}
+
+// --- Submit ---
+function submitForm() {
+    const name = document.getElementById('name').value.trim();
+    const birthDate = document.getElementById('birthDate').value;
+    const birthTime = document.getElementById('birthTime').value;
+    const birthPlace = document.getElementById('birthPlace').value;
+    
+    const yearSystem = document.querySelector('input[name="yearSystem"]:checked')?.value || 'BE';
+    const bloodType = document.querySelector('input[name="bloodType"]:checked')?.value || '';
+    
+    if (!birthDate) {
+        alert('⚠️ กรุณากรอกวันเกิดให้ถูกต้อง');
+        return;
+    }
+    
+    const userData = {
+        name: name || 'ไม่ระบุ',
+        birth_date: birthDate,
+        birth_time: birthTime || null,
+        birth_place: birthPlace || 'ไม่ระบุ',
+        blood_type: bloodType || null,
+        year_system: yearSystem,
+        lens: selectedLens
+    };
+    
+    const modal = document.getElementById('analyzingModal');
+    modal.classList.add('active');
+    
+    const statusEl = document.getElementById('modalStatus');
+    const steps = [
+        'ค้นหา ผลวิเคราะห์ตัวตน ของคุณ',
+        'วิเคราะห์ผ่าน 6 ชั้นเฉพาะทาง',
+        'สร้าง การสังเคราะห์ ASTROVERA',
+        'สร้าง กระจกตัวตน™ ส่วนตัว'
+    ];
+    let step = 0;
+    const stepInterval = setInterval(() => {
+        step++;
+        if (step < steps.length) {
+            statusEl.textContent = steps[step];
+        } else {
+            clearInterval(stepInterval);
+        }
+    }, 800);
+    
+    setTimeout(() => {
+        localStorage.setItem('astrovera_user_data', JSON.stringify(userData));
+        localStorage.setItem('astrovera_selected_lens', selectedLens);
+        window.location.href = 'analysis.html';
+    }, 3500);
+}
+
+// --- Init ---
+document.addEventListener('DOMContentLoaded', () => {
+    const dateInput = document.getElementById('birthDate');
+    const today = new Date();
+    const maxDate = today.toISOString().split('T')[0];
+    const minDate = new Date(today.getFullYear() - 100, 0, 1).toISOString().split('T')[0];
+    dateInput.setAttribute('max', maxDate);
+    dateInput.setAttribute('min', minDate);
+    
+    const saved = localStorage.getItem('astrovera_user_data');
+    if (saved) {
+        const data = JSON.parse(saved);
+        document.getElementById('name').value = data.name || '';
+        document.getElementById('birthDate').value = data.birth_date || '';
+        document.getElementById('birthTime').value = data.birth_time || '';
+        document.getElementById('birthPlace').value = data.birth_place || '';
+        if (data.blood_type) {
+            const bloodRadio = document.querySelector(`input[name="bloodType"][value="${data.blood_type}"]`);
+            if (bloodRadio) bloodRadio.checked = true;
+        }
+        if (data.lens) {
+            selectAI(data.lens);
+        }
+    }
+});
+</script>
+
 </body>
 </html>
