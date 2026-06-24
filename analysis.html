@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="css/responsive.css" />
 </head>
 <body>
-
-    <!-- ===== HEADER ===== -->
     <header>
         <div class="logo">ASTROVERA</div>
         <nav>
@@ -18,42 +16,33 @@
         </nav>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
     <main class="analysis-container">
-
         <h1>🧠 ผลวิเคราะห์ตัวตนของคุณ</h1>
 
-        <!-- ===== LENS SELECTOR ===== -->
         <div class="lens-selector">
             <span>เลือก AI:</span>
-            <button class="lens-btn active" data-lens="Vellani">🌿 เว็ลลานี่ · ตัวตน,ปัจจุบัน</button>
-            <button class="lens-btn" data-lens="Vera">🌟 เวร่า · อนาคต,แนวโน้ม</button>
+            <button class="lens-btn active" data-lens="vela">🌿 เวล่า · ตัวตน</button>
+            <button class="lens-btn" data-lens="wellani">🌟 เว็ลลานี่ · แนวโน้ม</button>
         </div>
 
-        <!-- ===== RESULT DISPLAY ===== -->
         <div id="result" class="result-box">
             <p>⏳ กำลังวิเคราะห์... กรุณารอสักครู่</p>
         </div>
 
-        <!-- ===== VOICE CONTROLS ===== -->
         <div class="voice-controls">
             <button id="playVoiceBtn">▶ ฟังเสียงสรุป</button>
             <button id="stopVoiceBtn">⏹ หยุด</button>
             <label>ความเร็ว: <input type="range" id="rateControl" min="0.5" max="2" step="0.1" value="0.9" /></label>
         </div>
 
-        <!-- ===== CONTINUE CHAT ===== -->
         <div class="ask-more">
             <textarea id="followUpQuestion" placeholder="พิมพ์คำถามเพิ่มเติม..."></textarea>
             <button id="askBtn">ส่งคำถาม</button>
         </div>
 
-        <!-- ===== SAVE TO SUPABASE ===== -->
         <button id="saveBtn" class="btn-secondary">💾 บันทึกผลวิเคราะห์</button>
-
     </main>
 
-    <!-- ===== FOOTER ===== -->
     <footer>
         <p>© 2026 ASTROVERA — DATA LIFE INTELLIGENCE</p>
     </footer>
