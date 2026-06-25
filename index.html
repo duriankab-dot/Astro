@@ -4,17 +4,286 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ASTROVERA — ปัญญาชีวิต</title>
+    
+    <!-- ===== CSS หลัก ===== -->
     <link rel="stylesheet" href="style.css" />
+    
+    <!-- ===== PWA Manifest ===== -->
     <link rel="manifest" href="manifest.json" />
+    
+    <!-- ===== ธีมพื้นหลังและดาวตก (เพิ่มให้แน่ใจว่ามี) ===== -->
+    <style>
+        /* พื้นหลังและดาวตก (ถ้า style.css ไม่มี) */
+        body {
+            background: #0a0a1a;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(72, 49, 212, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(108, 99, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(0, 200, 255, 0.05) 0%, transparent 40%);
+            z-index: -2;
+            pointer-events: none;
+        }
+        .shooting-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(108, 99, 255, 0.3);
+            animation: shoot linear infinite;
+        }
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+            transform: translateY(-50%);
+        }
+        @keyframes shoot {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translate(-600px, 600px) rotate(20deg); opacity: 0; }
+        }
+        .shooting-star:nth-child(1) { top: 10%; left: 20%; animation-duration: 6s; animation-delay: 0s; }
+        .shooting-star:nth-child(2) { top: 30%; left: 60%; animation-duration: 8s; animation-delay: 2s; }
+        .shooting-star:nth-child(3) { top: 50%; left: 10%; animation-duration: 7s; animation-delay: 4s; }
+        .shooting-star:nth-child(4) { top: 70%; left: 80%; animation-duration: 9s; animation-delay: 1s; }
+        .shooting-star:nth-child(5) { top: 90%; left: 40%; animation-duration: 5s; animation-delay: 3s; }
+        .shooting-star:nth-child(6) { top: 20%; left: 90%; animation-duration: 7.5s; animation-delay: 5s; }
+        .shooting-star:nth-child(7) { top: 45%; left: 50%; animation-duration: 6.5s; animation-delay: 2.5s; }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Card Styles */
+        .card, .section, .hero, .analysis-placeholder, .vera-result {
+            background: rgba(255, 255, 255, 0.03) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 16px 0;
+        }
+        
+        /* Hero Grid */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .hero-item {
+            background: rgba(255,255,255,0.05);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        /* VERA Styles */
+        .quick-modes {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .vera-mode-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 15px;
+        }
+        .vera-mode-btn:hover {
+            background: rgba(108, 99, 255, 0.2);
+            border-color: #6c63ff;
+            transform: translateY(-2px);
+        }
+        .vera-mode-btn small {
+            display: block;
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .vera-form {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .vera-form .form-row {
+            margin-bottom: 12px;
+        }
+        .vera-form .mode-select,
+        .vera-form .message-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .vera-form .mode-select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .vera-form .message-input {
+            resize: vertical;
+        }
+        .vera-form .message-input:focus,
+        .vera-form .mode-select:focus {
+            outline: none;
+            border-color: #6c63ff;
+            box-shadow: 0 0 20px rgba(108, 99, 255, 0.1);
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6c63ff, #4a3fcf);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
+        }
+        .vera-result {
+            margin-top: 24px;
+            min-height: 80px;
+            padding: 20px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section-header h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .section-header p {
+            color: #aaa;
+            font-size: 16px;
+        }
+        h1, h2, h3, h4 {
+            color: #ffffff;
+        }
+        p, li, .text-muted {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Notification */
+        #notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 400px;
+        }
+        #notification.success { background: #4caf50; }
+        #notification.error { background: #f44336; }
+        #notification.info { background: #2196f3; }
+        
+        /* Loading */
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            color: #aaa;
+        }
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(108, 99, 255, 0.2);
+            border-top: 3px solid #6c63ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .quick-modes { flex-direction: column; }
+            .hero-grid { grid-template-columns: 1fr 1fr; }
+            .container { padding: 12px; }
+        }
+    </style>
 </head>
 <body>
+
+    <!-- ===== ดาวตก ===== -->
+    <div class="shooting-stars">
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+    </div>
 
     <!-- ============================================================
     HERO SECTION
     ============================================================ -->
     <header class="hero">
         <div class="container">
-            <h1>เริ่มเข้าใจตัวเองใน 2 นาที</h1>
+            <h1 style="text-align:center; font-size:2.5rem;">เริ่มเข้าใจตัวเองใน 2 นาที</h1>
             <div class="hero-grid">
                 <div class="hero-item">🩸 กรุ๊ปเลือดของคุณ</div>
                 <div class="hero-item">🧭 การค้นพบตัวตน</div>
@@ -26,15 +295,15 @@
     </header>
 
     <!-- ============================================================
-    ANALYSIS SECTION (ฟังก์ชันเก่า)
+    ANALYSIS SECTION
     ============================================================ -->
     <section id="analysis-section" class="section">
         <div class="container">
-            <h2>วิเคราะห์ผ่าน เครื่องมือวิเคราะห์ ASTROVERA</h2>
-            <p>6 ชั้นการวิเคราะห์เฉพาะทาง ที่ไม่มีที่ใดเหมือน</p>
-            <div class="analysis-placeholder">
-                <p>🔮 กำลังวิเคราะห์...</p>
-                <button class="btn-primary" onclick="showNotification('info', 'ฟังก์ชันนี้กำลังพัฒนา')">
+            <h2 style="text-align:center;">วิเคราะห์ผ่าน เครื่องมือวิเคราะห์ ASTROVERA</h2>
+            <p style="text-align:center; color:#aaa;">6 ชั้นการวิเคราะห์เฉพาะทาง ที่ไม่มีที่ใดเหมือน</p>
+            <div class="analysis-placeholder" style="text-align:center; padding:40px;">
+                <p style="font-size:18px;">🔮 กำลังวิเคราะห์...</p>
+                <button class="btn-primary" style="max-width:300px; margin:20px auto;" onclick="showNotification('info', 'ฟังก์ชันนี้กำลังพัฒนา')">
                     ค้นหา ผลวิเคราะห์ตัวตน ของคุณ
                 </button>
             </div>
@@ -42,7 +311,7 @@
     </section>
 
     <!-- ============================================================
-    🧠 VERA SECTION - ผู้ช่วยชีวิต AI ตัวเดียว (แทนที่ AI ทั้งหมด)
+    🧠 VERA SECTION - AI ตัวเดียวแทนที่ทั้งหมด
     ============================================================ -->
     <section id="vera-section" class="section">
         <div class="container">
@@ -90,22 +359,21 @@
     </section>
 
     <!-- ============================================================
-    OTHER FUNCTIONS (Decision Tracker, Journal ฯลฯ - ซ่อนไว้)
+    ฟังก์ชันอื่นๆ (ซ่อนไว้)
     ============================================================ -->
     <section id="other-functions" style="display:none;">
-        <!-- ฟอร์ม Decision Tracker, Journal, Daily Sync, Weekly Evolution -->
-        <!-- ยังคงไว้เผื่อต้องการใช้ แต่ซ่อนไม่ให้แสดง -->
+        <!-- Decision Tracker, Journal, Daily Sync, Weekly Evolution -->
     </section>
-
-    <!-- ============================================================
-    SCRIPTS
-    ============================================================ -->
-    <script src="script.js"></script>
 
     <!-- ============================================================
     NOTIFICATION
     ============================================================ -->
     <div id="notification"></div>
+
+    <!-- ============================================================
+    SCRIPTS
+    ============================================================ -->
+    <script src="script.js"></script>
 
 </body>
 </html>
