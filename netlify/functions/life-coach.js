@@ -1,7 +1,5 @@
 // netlify/functions/life-coach.js
-// สร้างรายงานไลฟ์โค้ชส่วนตัวด้วย AI
-
-const fetch = require('node-fetch');
+// สร้างรายงานไลฟ์โค้ชส่วนตัวด้วย DeepSeek
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -10,9 +8,9 @@ exports.handler = async (event) => {
 
   try {
     const payload = JSON.parse(event.body);
-    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+    const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 
-    if (!OPENAI_API_KEY) {
+    if (!DEEPSEEK_API_KEY) {
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'API key not configured' })
@@ -21,14 +19,14 @@ exports.handler = async (event) => {
 
     const systemPrompt = buildCoachPrompt(payload);
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`
+        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'deepseek-chat',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: 'สร้างรายงานไลฟ์โค้ชส่วนตัวให้ฉัน' }
@@ -41,7 +39,7 @@ exports.handler = async (event) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('❌ OpenAI API error:', errorText);
+      console.error('❌ DeepSeek API error:', errorText);
       return {
         statusCode: response.status,
         body: JSON.stringify({ error: 'AI service error' })
