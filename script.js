@@ -568,4 +568,150 @@ function addLifeMapDescriptions() {
 }
 
 // ============================================================
-// เริ่มต้น
+// เริ่มต้นใช้งาน
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 ASTROVERA Loaded');
+  
+  // ตั้งค่า UI
+  setupTimeInput();
+  addLifeMapDescriptions();
+  
+  // โหลดข้อมูลจาก Local Storage
+  loadUserData();
+  updateDecisionStats();
+  updateJournalStats();
+  
+  // โหลด Dashboard Stats
+  loadDashboardStats();
+  
+  // ตั้งค่า Event Listeners
+  setupEventListeners();
+});
+
+function loadUserData() {
+  const saved = localStorage.getItem('astrovera_user_data');
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      displayUserData(data);
+    } catch (e) {
+      console.error('Error loading user data:', e);
+    }
+  }
+}
+
+function displayUserData(data) {
+  // แสดงข้อมูลผู้ใช้ใน UI
+  const userTypeEl = document.getElementById('user-type');
+  if (userTypeEl) userTypeEl.textContent = data.userType || 'Visionary Builder';
+  
+  const descriptionEl = document.getElementById('user-description');
+  if (descriptionEl) descriptionEl.textContent = data.description || '';
+}
+
+function setupEventListeners() {
+  // AI Advisor
+  const aiForm = document.getElementById('ai-advisor-form');
+  if (aiForm) {
+    aiForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const question = document.getElementById('ai-question').value;
+      if (question) {
+        askAIAdivsor(question);
+      }
+    });
+  }
+  
+  // VERA Chat
+  const veraForm = document.getElementById('vera-chat-form');
+  if (veraForm) {
+    veraForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('vera-input');
+      const question = input.value.trim();
+      if (question) {
+        addVERAMessage(question, 'user');
+        askVERA(question);
+        input.value = '';
+      }
+    });
+  }
+  
+  // Decision Form
+  const decisionForm = document.getElementById('decision-form');
+  if (decisionForm) {
+    decisionForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const decisionData = {
+        title: document.getElementById('decision-title').value,
+        description: document.getElementById('decision-description').value,
+        category: document.getElementById('decision-category').value,
+        confidence: parseInt(document.getElementById('decision-confidence').value) || 5
+      };
+      if (decisionData.title) {
+        saveDecision(decisionData);
+        this.reset();
+      }
+    });
+  }
+  
+  // Journal Form
+  const journalForm = document.getElementById('journal-form');
+  if (journalForm) {
+    journalForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const journalData = {
+        content: document.getElementById('journal-content').value,
+        mood: document.getElementById('journal-mood').value || 'neutral',
+        tags: document.getElementById('journal-tags').value.split(',').map(t => t.trim()).filter(Boolean)
+      };
+      if (journalData.content) {
+        saveJournal(journalData);
+        this.reset();
+      }
+    });
+  }
+  
+  // Daily Sync
+  const syncForm = document.getElementById('daily-sync-form');
+  if (syncForm) {
+    syncForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const syncData = {
+        energy: parseInt(document.getElementById('sync-energy').value) || 5,
+        mood: document.getElementById('sync-mood').value || 'neutral',
+        focus: document.getElementById('sync-focus').value || ''
+      };
+      saveDailySync(syncData);
+    });
+  }
+  
+  // Weekly Evolution
+  const weeklyForm = document.getElementById('weekly-evolution-form');
+  if (weeklyForm) {
+    weeklyForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const weeklyData = {
+        proud: document.getElementById('weekly-proud').value,
+        challenge: document.getElementById('weekly-challenge').value,
+        lesson: document.getElementById('weekly-lesson').value,
+        focus: document.getElementById('weekly-focus').value
+      };
+      saveWeeklyEvolution(weeklyData);
+    });
+  }
+}
+
+// Export functions for use in HTML
+window.askAIAdivsor = askAIAdivsor;
+window.analyzeScenario = analyzeScenario;
+window.askVERA = askVERA;
+window.saveDecision = saveDecision;
+window.saveJournal = saveJournal;
+window.saveDailySync = saveDailySync;
+window.saveWeeklyEvolution = saveWeeklyEvolution;
+window.loadDashboardStats = loadDashboardStats;
+
+console.log('✅ ASTROVERA Script Loaded Successfully');
