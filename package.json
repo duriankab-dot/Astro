@@ -2,7 +2,7 @@
   "name": "astro-natal-chart",
   "version": "1.0.0",
   "description": "Natal chart API with Netlify Functions",
-  "type": "module",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -11,5 +11,7 @@
   "keywords": ["astrology", "natal-chart", "netlify"],
   "author": "",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  }
 }
