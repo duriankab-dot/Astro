@@ -1,38 +1,47 @@
-async function fetchNatalChart(force) {
-  const p = lsG(LSP) || {};
-  if (!p.dob) { toast('กรุณากรอกวันเกิดในโปรไฟล์ก่อน'); return; }
+// netlify/functions/natal-chart.js
+// คำนวณดวงจริง (ใช้ API ภายนอก)
+// ถ้าไม่มี API จริง ก็ตอบข้อมูล mock หรือใช้บริการอื่น
 
-  const cached = lsG(LSN);
-  if (!force && cached && cached.dob === p.dob && cached.time === (p.time || '') && cached.place === (p.place || '')) {
-    rNatal(cached);
-    return;
+const fetch = require('node-fetch');
+
+exports.handler = async (event) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
-
-  // แสดง loading state
-  const idle = document.getElementById('natal-idle');
-  const loading = document.getElementById('natal-loading');
-  const errEl = document.getElementById('natal-error');
-  const content = document.getElementById('natal-content');
-
-  if (idle) idle.style.display = 'none';
-  if (errEl) errEl.style.display = 'none';
-  if (content) content.style.display = 'none';
-  if (loading) loading.style.display = 'block';
 
   try {
-    const data = await fetchNatalChart(p.dob, p.time || '', p.place || '');
-    data.dob = p.dob;
-    data.time = p.time || '';
-    data.place = p.place || '';
-    data.fetchedAt = new Date().toISOString();
-    lsS(LSN, data);
-    rNatal(data);
-  } catch (e) {
-    if (loading) loading.style.display = 'none';
-    if (errEl) {
-      errEl.style.display = 'block';
-      errEl.textContent = 'ไม่สามารถคำนวณดวงได้: ' + e.message;
-    }
-    if (idle) idle.style.display = 'block';
+    const { dob, time, place } = JSON.parse(event.body);
+
+    // 🔮 เปลี่ยนเป็น API ดวงจริงที่คุณใช้
+    // ตัวอย่าง: ใช้ astrology API หรือ mock data
+    const data = {
+      planets: {
+        Sun: { sign: 'Aries' },
+        Moon: { sign: 'Cancer' },
+        Mercury: { sign: 'Taurus' },
+        Venus: { sign: 'Gemini' },
+        Mars: { sign: 'Leo' },
+        Jupiter: { sign: 'Sagittarius' },
+        Saturn: { sign: 'Capricorn' },
+        Uranus: { sign: 'Aquarius' },
+        Neptune: { sign: 'Pisces' },
+        Pluto: { sign: 'Scorpio' },
+        Ascendant: { sign: 'Libra' }
+      },
+      timeKnown: !!time
+    };
+
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    };
+
+  } catch (error) {
+    console.error('❌ Natal chart error:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Internal server error' })
+    };
   }
-}
+};
