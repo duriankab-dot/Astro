@@ -1,0 +1,15 @@
+{
+  "name": "astro-natal-chart",
+  "version": "1.0.0",
+  "description": "Natal chart API with Netlify Functions",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["astrology", "natal-chart", "netlify"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}

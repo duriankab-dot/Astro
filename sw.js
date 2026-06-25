@@ -13,7 +13,6 @@ const OFFLINE_URL = './offline.html';
 const STATIC_ASSETS = [
   './',
   './index.html',
-  './analysis.html',
   './offline.html',
   './manifest.json',
   './favicon.ico',

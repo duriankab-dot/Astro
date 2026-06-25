@@ -1,70 +1,86 @@
-// api.js — Client-side API caller
-// ใช้ DeepSeek API แทน OpenAI
-
+// ===== CONFIG =====
 const API_BASE = '/.netlify/functions';
 
-// ============ Life Copilot ============
-async function callLifeCopilot(message, history, profile) {
-  try {
-    const response = await fetch(`${API_BASE}/life-copilot`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, history, profile })
+// ===== ANALYZE WITH DEEPSEEK =====
+window.analyzeWithDeepseek = async function (lens = 'vela') {
+    const payload = {
+        user_id: 'demo-user',
+        name: 'ธีรชัย พรั่งยืน',
+        gender: 'ชาย',
+        birth_date: '1981-07-30',
+        birth_time: '10:24',
+        birth_place: 'กรุงเทพฯ, ไทย',
+        blood_type: 'O',
+        events: {
+            start_work_year: 2009,
+            job_change_year: 2011,
+            business_peak_year: 2022,
+            best_finance_year: 2022,
+            worst_finance_year: 2024,
+            lost_family_year: 2024,
+            major_issues: 'ย้ายประเทศไปมา 2 ปี'
+        },
+        question: 'เน้นอาชีพ การเงิน ความรัก แนวโน้ม 5 ปี',
+        lens: lens
+    };
+
+    const response = await fetch(`${API_BASE}/analyze`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'API error');
+        const errText = await response.text();
+        throw new Error(`API error (${response.status}): ${errText}`);
     }
 
-    const data = await response.json();
-    return data.reply;
-  } catch (error) {
-    console.error('❌ Life Copilot API error:', error);
-    throw error;
-  }
-}
+    const result = await response.json();
+    return result.data || 'ไม่ได้รับข้อมูลจาก Deepseek';
+};
 
-// ============ Life Coach Report ============
-async function generateLifeCoachReport(profile) {
-  try {
-    const response = await fetch(`${API_BASE}/life-coach`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(profile)
+// ===== ASK FOLLOW-UP =====
+window.askFollowUp = async function (question, lens = 'vela') {
+    const payload = {
+        user_id: 'demo-user',
+        question: question,
+        lens: lens,
+        context: 'follow-up'
+    };
+
+    const response = await fetch(`${API_BASE}/analyze`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'API error');
+        throw new Error('ไม่สามารถส่งคำถามได้');
     }
 
-    const data = await response.json();
-    return data.script;
-  } catch (error) {
-    console.error('❌ Life Coach API error:', error);
-    throw error;
-  }
-}
+    const result = await response.json();
+    return result.data || 'ไม่ได้รับคำตอบ';
+};
 
-// ============ Natal Chart ============
-async function fetchNatalChart(dob, time, place) {
-  try {
-    const response = await fetch(`${API_BASE}/natal-chart`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dob, time, place })
+// ===== SAVE TO SUPABASE =====
+window.saveToSupabase = async function (content) {
+    const payload = {
+        user_id: 'demo-user',
+        content: content,
+        lens: document.querySelector('.lens-btn.active')?.dataset.lens || 'unknown',
+        created_at: new Date().toISOString()
+    };
+
+    const response = await fetch(`${API_BASE}/save-data`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Natal chart API error');
+        const err = await response.text();
+        throw new Error(err);
     }
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('❌ Natal chart API error:', error);
-    throw error;
-  }
-}
+    return await response.json();
+};
