@@ -37,8 +37,6 @@ export const handler = async (event, context) => {
       method: event.httpMethod || 'GET',
       headers: {
         'Content-Type': 'application/json',
-        // ถ้าต้องการ Authorization
-        // 'Authorization': `Bearer ${process.env.API_KEY}`
       }
     };
 
