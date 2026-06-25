@@ -6,9 +6,9 @@
     <title>ASTROVERA — ปัญญาชีวิต</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="manifest" href="manifest.json" />
-    
+
     <style>
-        /* ===== พื้นหลังและธีม ===== */
+        /* ===== พื้นหลังและธีม (จากของเก่า) ===== */
         body {
             background: #0a0a1a;
             color: #ffffff;
@@ -24,14 +24,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(72, 49, 212, 0.15) 0%, transparent 60%),
+            background: radial-gradient(ellipse at 20% 50%, rgba(72, 49, 212, 0.15) 0%, transparent 60%),
                 radial-gradient(ellipse at 80% 20%, rgba(108, 99, 255, 0.1) 0%, transparent 50%),
                 radial-gradient(ellipse at 50% 80%, rgba(0, 200, 255, 0.05) 0%, transparent 40%);
             z-index: -2;
             pointer-events: none;
         }
-        
+
         /* ===== ดาวตก ===== */
         .shooting-stars {
             position: fixed;
@@ -59,22 +58,45 @@
             right: 0;
             width: 80px;
             height: 1px;
-            background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+            background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
             transform: translateY(-50%);
         }
         @keyframes shoot {
-            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            0% { transform: translate(0, 0) rotate(0deg);
+                opacity: 1; }
             70% { opacity: 1; }
-            100% { transform: translate(-600px, 600px) rotate(20deg); opacity: 0; }
+            100% { transform: translate(-600px, 600px) rotate(20deg);
+                opacity: 0; }
         }
-        .shooting-star:nth-child(1) { top: 10%; left: 20%; animation-duration: 6s; animation-delay: 0s; }
-        .shooting-star:nth-child(2) { top: 30%; left: 60%; animation-duration: 8s; animation-delay: 2s; }
-        .shooting-star:nth-child(3) { top: 50%; left: 10%; animation-duration: 7s; animation-delay: 4s; }
-        .shooting-star:nth-child(4) { top: 70%; left: 80%; animation-duration: 9s; animation-delay: 1s; }
-        .shooting-star:nth-child(5) { top: 90%; left: 40%; animation-duration: 5s; animation-delay: 3s; }
-        .shooting-star:nth-child(6) { top: 20%; left: 90%; animation-duration: 7.5s; animation-delay: 5s; }
-        .shooting-star:nth-child(7) { top: 45%; left: 50%; animation-duration: 6.5s; animation-delay: 2.5s; }
-        
+        .shooting-star:nth-child(1) { top: 10%;
+            left: 20%;
+            animation-duration: 6s;
+            animation-delay: 0s; }
+        .shooting-star:nth-child(2) { top: 30%;
+            left: 60%;
+            animation-duration: 8s;
+            animation-delay: 2s; }
+        .shooting-star:nth-child(3) { top: 50%;
+            left: 10%;
+            animation-duration: 7s;
+            animation-delay: 4s; }
+        .shooting-star:nth-child(4) { top: 70%;
+            left: 80%;
+            animation-duration: 9s;
+            animation-delay: 1s; }
+        .shooting-star:nth-child(5) { top: 90%;
+            left: 40%;
+            animation-duration: 5s;
+            animation-delay: 3s; }
+        .shooting-star:nth-child(6) { top: 20%;
+            left: 90%;
+            animation-duration: 7.5s;
+            animation-delay: 5s; }
+        .shooting-star:nth-child(7) { top: 45%;
+            left: 50%;
+            animation-duration: 6.5s;
+            animation-delay: 2.5s; }
+
         /* ===== Container ===== */
         .container {
             max-width: 1200px;
@@ -83,37 +105,86 @@
             position: relative;
             z-index: 1;
         }
-        
-        /* ===== Card ===== */
-        .card, .section, .hero, .form-box, .vera-result {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 24px;
-            margin: 16px 0;
+
+        /* ===== หัวข้อและแบรนด์ ===== */
+        .brand {
+            text-align: center;
+            padding: 20px 0;
         }
-        
-        /* ===== Hero ===== */
+        .brand h1 {
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(135deg, #6c63ff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .brand .tagline {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-top: 8px;
+            letter-spacing: 2px;
+        }
+
+        /* ===== Hero Grid (ของเก่า) ===== */
         .hero-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
         }
         .hero-item {
-            background: rgba(255,255,255,0.05);
-            padding: 16px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
             text-align: center;
-            font-size: 14px;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s;
         }
-        h1, h2, h3, h4 { color: #ffffff; }
-        p, label, .text-muted { color: rgba(255, 255, 255, 0.8); }
-        
-        /* ===== ฟอร์มกรอกข้อมูล ===== */
+        .hero-item:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(108, 99, 255, 0.3);
+        }
+        .hero-item .icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .hero-item .title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+        .hero-item .desc {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* ===== ส่วนวิเคราะห์ (ของเก่า) ===== */
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin: 40px 0 20px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .analysis-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
         .form-group {
             margin-bottom: 16px;
         }
@@ -122,18 +193,21 @@
             margin-bottom: 6px;
             font-weight: 500;
             font-size: 14px;
+            color: #ccc;
         }
-        .form-group input, .form-group select {
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 12px 16px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             color: #fff;
             font-size: 14px;
             box-sizing: border-box;
         }
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #6c63ff;
             box-shadow: 0 0 20px rgba(108, 99, 255, 0.1);
@@ -147,8 +221,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
-        
-        /* ===== ปุ่ม ===== */
+
         .btn-primary {
             padding: 14px 32px;
             background: linear-gradient(135deg, #6c63ff, #4a3fcf);
@@ -165,31 +238,23 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
         }
-        .btn-secondary {
-            padding: 14px 32px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
+
+        /* ===== VERA (ใหม่) ===== */
+        .vera-section {
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 40px;
         }
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        /* ===== VERA ===== */
         .quick-modes {
             display: flex;
             gap: 12px;
             margin: 20px 0;
             flex-wrap: wrap;
+            justify-content: center;
         }
         .vera-mode-btn {
             flex: 1;
-            min-width: 100px;
+            min-width: 120px;
             padding: 14px 20px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -211,6 +276,7 @@
             color: #888;
             margin-top: 4px;
         }
+
         .vera-form {
             max-width: 700px;
             margin: 0 auto;
@@ -222,8 +288,8 @@
         .vera-form .message-input {
             width: 100%;
             padding: 12px 16px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             color: #fff;
             font-size: 14px;
@@ -247,20 +313,11 @@
             margin-top: 24px;
             min-height: 80px;
             padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
-        .section-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .section-header h2 {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-        .section-header p {
-            color: #aaa;
-            font-size: 16px;
-        }
-        
+
         /* ===== Notification ===== */
         #notification {
             position: fixed;
@@ -272,13 +329,13 @@
             font-weight: 500;
             z-index: 10000;
             display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             max-width: 400px;
         }
         #notification.success { background: #4caf50; }
         #notification.error { background: #f44336; }
         #notification.info { background: #2196f3; }
-        
+
         /* ===== Loading ===== */
         .loading-spinner {
             display: flex;
@@ -298,13 +355,14 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
+
         /* ===== Responsive ===== */
         @media (max-width: 768px) {
             .quick-modes { flex-direction: column; }
             .hero-grid { grid-template-columns: 1fr 1fr; }
             .container { padding: 12px; }
             .form-row { grid-template-columns: 1fr; }
+            .brand h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -322,116 +380,128 @@
     </div>
 
     <!-- ============================================================
-    HERO SECTION
+    BRAND / LOGO (ของเก่า)
     ============================================================ -->
-    <header class="hero">
+    <div class="brand">
         <div class="container">
-            <h1 style="text-align:center; font-size:2.5rem;">เริ่มเข้าใจตัวเองใน 2 นาที</h1>
-            <div class="hero-grid">
-                <div class="hero-item">🩸 กรุ๊ปเลือดของคุณ</div>
-                <div class="hero-item">🧭 การค้นพบตัวตน</div>
-                <div class="hero-item">🔁 กระจกตัวตน™</div>
-                <div class="hero-item">🎯 Life Decision Tracker</div>
-                <div class="hero-item">🌱 วงจรการเติบโต</div>
-            </div>
+            <h1>✦ ASTROVERA</h1>
+            <p class="tagline">ปัญญาชีวิต · เริ่มเข้าใจตัวเองใน 2 นาที</p>
         </div>
-    </header>
+    </div>
 
     <!-- ============================================================
-    🔮 ฟอร์มวิเคราะห์ตัวตน (หน้าหลัก - ลูกค้ากรอกข้อมูล)
+    HERO GRID (ของเก่า - เอาเฉพาะที่ใช้ได้)
     ============================================================ -->
-    <section id="analysis-section" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2>🔮 วิเคราะห์ตัวตนของคุณ</h2>
-                <p>กรอกข้อมูลด้านล่างเพื่อเริ่มต้นการวิเคราะห์</p>
+    <section class="container">
+        <div class="hero-grid">
+            <div class="hero-item">
+                <span class="icon">🩸</span>
+                <div class="title">กรุ๊ปเลือดของคุณ</div>
+                <div class="desc">เพิ่มความแม่นยำการวิเคราะห์มิติพลังงาน</div>
             </div>
-
-            <div class="form-box" style="max-width:600px; margin:0 auto;">
-                <form id="analysis-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="birth-date">📅 วันเกิด</label>
-                            <input type="date" id="birth-date" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="birth-time">⏰ เวลาเกิด</label>
-                            <input type="time" id="birth-time" required />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="birth-place">📍 สถานที่เกิด</label>
-                        <input type="text" id="birth-place" placeholder="กรุงเทพฯ, ไทย" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="blood-type">🩸 กรุ๊ปเลือด</label>
-                        <select id="blood-type">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="AB">AB</option>
-                            <option value="O" selected>O</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn-primary">
-                        ✨ วิเคราะห์ตัวตน
-                    </button>
-                </form>
-
-                <!-- พื้นที่แสดงผลการวิเคราะห์ -->
-                <div id="analysis-result" style="margin-top:20px;"></div>
+            <div class="hero-item">
+                <span class="icon">🧭</span>
+                <div class="title">การค้นพบตัวตน</div>
+                <div class="desc">ดวงดาว มิติพลังงาน เลขศาสตร์ + จิตวิทยา ในที่เดียว</div>
+            </div>
+            <div class="hero-item">
+                <span class="icon">🔁</span>
+                <div class="title">กระจกตัวตน™</div>
+                <div class="desc">สะท้อนความคิดด้วยโมเดล 6 ชั้น</div>
+            </div>
+            <div class="hero-item">
+                <span class="icon">🎯</span>
+                <div class="title">Life Decision Tracker</div>
+                <div class="desc">บันทึก ติดตาม เรียนรู้ พัฒนา</div>
+            </div>
+            <div class="hero-item">
+                <span class="icon">🌱</span>
+                <div class="title">วงจรการเติบโต</div>
+                <div class="desc">เติบโตจากบทเรียนชีวิต</div>
             </div>
         </div>
     </section>
 
     <!-- ============================================================
-    🧠 VERA SECTION - ผู้ช่วยชีวิต AI (เพิ่มเข้ามา)
+    ฟอร์มวิเคราะห์ตัวตน (ของเก่า - ใช้ได้)
     ============================================================ -->
-    <section id="vera-section" class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2>💬 VERA ผู้ช่วยชีวิต</h2>
-                <p>AI ผู้ช่วยส่วนตัวของคุณ พร้อมให้คำปรึกษาทุกสถานการณ์</p>
-            </div>
+    <section class="container">
+        <h2 class="section-title">🔮 วิเคราะห์ตัวตนของคุณ</h2>
+        <p class="section-subtitle">6 ชั้นการวิเคราะห์เฉพาะทาง ที่ไม่มีที่ใดเหมือน</p>
 
-            <!-- ปุ่มเลือกโหมดด่วน -->
-            <div class="quick-modes">
-                <button class="vera-mode-btn" data-mode="chat" data-preset-message="สวัสดี">
-                    💬 แชท
-                    <small>พูดคุยให้คำปรึกษา</small>
-                </button>
-                <button class="vera-mode-btn" data-mode="analyze" data-preset-message="วิเคราะห์สถานการณ์การงาน">
-                    🧠 วิเคราะห์
-                    <small>วิเคราะห์สถานการณ์เชิงลึก</small>
-                </button>
-                <button class="vera-mode-btn" data-mode="track" data-preset-message="สรุปความก้าวหน้าของฉัน">
-                    📊 ติดตาม
-                    <small>ติดตามและสรุปผล</small>
-                </button>
-            </div>
-
-            <!-- ฟอร์มหลักของ VERA -->
-            <form id="vera-form" class="vera-form">
+        <div class="analysis-box">
+            <form id="analysis-form">
                 <div class="form-row">
-                    <select id="vera-mode" class="mode-select">
-                        <option value="chat">💬 โหมดแชท - พูดคุยทั่วไป</option>
-                        <option value="analyze">🧠 โหมดวิเคราะห์ - วิเคราะห์สถานการณ์</option>
-                        <option value="track">📊 โหมดติดตาม - สรุปและติดตาม</option>
+                    <div class="form-group">
+                        <label for="birth-date">📅 วันเกิด</label>
+                        <input type="date" id="birth-date" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="birth-time">⏰ เวลาเกิด</label>
+                        <input type="time" id="birth-time" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="birth-place">📍 สถานที่เกิด</label>
+                    <input type="text" id="birth-place" placeholder="กรุงเทพฯ, ไทย" />
+                </div>
+
+                <div class="form-group">
+                    <label for="blood-type">🩸 กรุ๊ปเลือด</label>
+                    <select id="blood-type">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="O" selected>O</option>
                     </select>
                 </div>
-                <div class="form-row">
-                    <textarea id="vera-message" class="message-input" rows="3" placeholder="พิมพ์ข้อความหรือคำถามของคุณ..."></textarea>
-                </div>
-                <div class="form-row">
-                    <button type="submit" class="btn-primary">ส่งข้อความ ✨</button>
-                </div>
+
+                <button type="submit" class="btn-primary">
+                    ✨ วิเคราะห์ตัวตน
+                </button>
             </form>
 
-            <!-- พื้นที่แสดงผลลัพธ์ -->
-            <div id="vera-result" class="vera-result"></div>
+            <div id="analysis-result" style="margin-top:20px;"></div>
         </div>
+    </section>
+
+    <!-- ============================================================
+    🧠 VERA - แทนที่ AI ตัวอื่นๆ ทั้งหมด
+    ============================================================ -->
+    <section class="container vera-section">
+        <h2 class="section-title">💬 VERA ผู้ช่วยชีวิต</h2>
+        <p class="section-subtitle">AI ผู้ช่วยส่วนตัวของคุณ พร้อมให้คำปรึกษาทุกสถานการณ์</p>
+
+        <div class="quick-modes">
+            <button class="vera-mode-btn" data-mode="chat" data-preset-message="สวัสดี">
+                💬 แชท <small>พูดคุยให้คำปรึกษา</small>
+            </button>
+            <button class="vera-mode-btn" data-mode="analyze" data-preset-message="วิเคราะห์สถานการณ์การงาน">
+                🧠 วิเคราะห์ <small>วิเคราะห์สถานการณ์เชิงลึก</small>
+            </button>
+            <button class="vera-mode-btn" data-mode="track" data-preset-message="สรุปความก้าวหน้าของฉัน">
+                📊 ติดตาม <small>ติดตามและสรุปผล</small>
+            </button>
+        </div>
+
+        <form id="vera-form" class="vera-form">
+            <div class="form-row">
+                <select id="vera-mode" class="mode-select">
+                    <option value="chat">💬 โหมดแชท - พูดคุยทั่วไป</option>
+                    <option value="analyze">🧠 โหมดวิเคราะห์ - วิเคราะห์สถานการณ์</option>
+                    <option value="track">📊 โหมดติดตาม - สรุปและติดตาม</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <textarea id="vera-message" class="message-input" rows="3" placeholder="พิมพ์ข้อความหรือคำถามของคุณ..."></textarea>
+            </div>
+            <div class="form-row">
+                <button type="submit" class="btn-primary">ส่งข้อความ ✨</button>
+            </div>
+        </form>
+
+        <div id="vera-result" class="vera-result"></div>
     </section>
 
     <!-- ============================================================
