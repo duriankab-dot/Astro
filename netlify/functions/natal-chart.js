@@ -84,7 +84,7 @@ exports.handler = async (event, context) => {
 };
 
 // ============================================================
-// 🔴 ฟังก์ชันหลัก (ร้ายแรง)
+// 🔴 ฟังก์ชันหลัก
 // ============================================================
 
 // 1. AI ที่ปรึกษาชีวิต + Scenario Intelligence
@@ -92,7 +92,6 @@ async function handleAIScenario(data) {
   try {
     const { question, options, userType, lifePhase, context } = data;
     
-    // วิเคราะห์สถานการณ์
     const analysis = {
       summary: `วิเคราะห์สถานการณ์: ${question || 'การตัดสินใจสำคัญ'}`,
       userProfile: userType || 'Visionary Builder',
@@ -171,28 +170,21 @@ async function handleVERAChat(data) {
   try {
     const { question, userId, history } = data;
     
-    // Mock responses สำหรับ VERA
     const responses = {
       'สวัสดี': 'สวัสดีครับ/ค่ะ ฉันคือ VERA ผู้ช่วยชีวิตของคุณ พร้อมให้คำปรึกษาและช่วยเหลือคุณเสมอ 😊',
       'ช่วยอะไร': 'ฉันสามารถช่วยคุณได้หลายด้าน เช่น วิเคราะห์สถานการณ์ แนะนำการตัดสินใจ ตั้งเป้าหมาย หรือแค่รับฟังคุณ',
       'ควรโฟกัสอะไร': 'จากข้อมูลของคุณ ช่วงนี้ควรโฟกัสที่การสร้างรากฐานที่แข็งแกร่ง และไม่ลืมที่จะดูแลตัวเองด้วยนะครับ',
-      'เหนื่อย': 'เข้าใจเลยครับ การพักผ่อนเป็นสิ่งสำคัญ ลองหยุดหายใจลึกๆ สัก 3 ครั้ง แล้วบอกตัวเองว่า \"ฉันทำดีที่สุดแล้ว\"',
-      'อนาคต': 'อนาคตเป็นสิ่งที่เราสร้างขึ้นจากปัจจุบัน ลองถามตัวเองว่า \"วันนี้ฉันทำอะไรให้อนาคตที่ดีที่สุดบ้าง?\"',
+      'เหนื่อย': 'เข้าใจเลยครับ การพักผ่อนเป็นสิ่งสำคัญ ลองหยุดหายใจลึกๆ สัก 3 ครั้ง แล้วบอกตัวเองว่า "ฉันทำดีที่สุดแล้ว"',
+      'อนาคต': 'อนาคตเป็นสิ่งที่เราสร้างขึ้นจากปัจจุบัน ลองถามตัวเองว่า "วันนี้ฉันทำอะไรให้อนาคตที่ดีที่สุดบ้าง?"',
       'default': 'ขอบคุณที่แชร์เรื่องนี้กับ VERA นะครับ ฉันกำลังเรียนรู้ที่จะเข้าใจคุณมากขึ้น อยากคุยเรื่องอะไรเพิ่มเติมไหม?'
     };
 
-    // หาคำตอบที่เหมาะสม
     let answer = responses['default'];
     for (const [key, value] of Object.entries(responses)) {
       if (question && question.includes(key)) {
         answer = value;
         break;
       }
-    }
-
-    // ถ้ามีประวัติการสนทนาให้ตอบแบบมีบริบท
-    if (history && history.length > 0) {
-      answer += `\n\nจากที่คุยกันก่อนหน้านี้ ฉันเห็นว่าคุณกำลังให้ความสำคัญกับ ${history[history.length - 1]?.topic || 'การเติบโต'} อยากพูดถึงเรื่องนี้เพิ่มไหม?`;
     }
 
     return {
@@ -220,7 +212,6 @@ async function handleSaveDecision(data) {
   try {
     const { decisionData, userId } = data;
     
-    // ตรวจสอบข้อมูลที่จำเป็น
     if (!decisionData || !decisionData.title) {
       return {
         success: false,
@@ -228,7 +219,6 @@ async function handleSaveDecision(data) {
       };
     }
 
-    // บันทึกข้อมูล (จำลอง)
     const saved = {
       id: Date.now().toString(),
       userId: userId || 'guest',
@@ -306,7 +296,7 @@ async function handleAnalyze(data) {
 }
 
 // ============================================================
-// 🟡 ฟังก์ชันรอง (ปานกลาง)
+// 🟡 ฟังก์ชันรอง
 // ============================================================
 
 // 5. บันทึก Journal
@@ -387,7 +377,6 @@ async function handleGetStats(data) {
   try {
     const { userId } = data;
 
-    // Mock statistics
     const stats = {
       overview: {
         totalDecisions: 12,
