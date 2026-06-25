@@ -1,100 +1,86 @@
 // netlify/functions/natal-chart.js
-// คำนวณดวงจริง (ใช้ API ภายนอก หรือ mock)
-// ถ้าไม่มี API ดวงจริง ก็ใช้ DeepSeek ช่วยวิเคราะห์
+// ใช้ fetch แบบ Built-in ของ Node.js (ไม่ต้องใช้ node-fetch)
 
-const fetch = require('node-fetch');
+export const handler = async (event, context) => {
+  // ตั้งค่า CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Content-Type': 'application/json'
+  };
 
-exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+  // จัดการ OPTIONS request (preflight)
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 204,
+      headers
+    };
   }
 
   try {
-    const { dob, time, place } = JSON.parse(event.body);
-
-    // 🔮 ตัวเลือก 1: ใช้ API ดวงจริง (ถ้ามี)
-    // 🔮 ตัวเลือก 2: ใช้ DeepSeek ช่วยวิเคราะห์
-    // 🔮 ตัวเลือก 3: Mock data (ตามด้านล่าง)
-
-    // --- ตัวอย่าง: ใช้ DeepSeek วิเคราะห์จากวันเกิด ---
-    const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
-    if (DEEPSEEK_API_KEY) {
-      const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: 'deepseek-chat',
-          messages: [
-            { role: 'system', content: 'คุณเป็นนักโหราศาสตร์ผู้เชี่ยวชาญ วิเคราะห์ดวงจากวันเกิด' },
-            { role: 'user', content: `วิเคราะห์ดวงชะตาจากวันเกิด ${dob} เวลา ${time || 'ไม่ระบุ'} สถานที่ ${place || 'ไม่ระบุ'} ให้เป็นภาษาไทย เน้นจุดแข็ง จุดอ่อน และแนวโน้มชีวิต` }
-          ],
-          temperature: 0.7,
-          max_tokens: 600,
-          stream: false
-        })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const analysis = data.choices?.[0]?.message?.content || '';
-
-        return {
-          statusCode: 200,
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            planets: {
-              Sun: { sign: 'Aries' },
-              Moon: { sign: 'Cancer' },
-              Mercury: { sign: 'Taurus' },
-              Venus: { sign: 'Gemini' },
-              Mars: { sign: 'Leo' },
-              Jupiter: { sign: 'Sagittarius' },
-              Saturn: { sign: 'Capricorn' },
-              Uranus: { sign: 'Aquarius' },
-              Neptune: { sign: 'Pisces' },
-              Pluto: { sign: 'Scorpio' },
-              Ascendant: { sign: 'Libra' }
-            },
-            analysis: analysis,
-            timeKnown: !!time
-          })
-        };
-      }
+    // รับข้อมูลจาก request body (ถ้าเป็น POST)
+    let requestData = {};
+    if (event.httpMethod === 'POST' && event.body) {
+      requestData = JSON.parse(event.body);
     }
 
-    // --- Fallback: Mock data ---
-    const data = {
-      planets: {
-        Sun: { sign: 'Aries' },
-        Moon: { sign: 'Cancer' },
-        Mercury: { sign: 'Taurus' },
-        Venus: { sign: 'Gemini' },
-        Mars: { sign: 'Leo' },
-        Jupiter: { sign: 'Sagittarius' },
-        Saturn: { sign: 'Capricorn' },
-        Uranus: { sign: 'Aquarius' },
-        Neptune: { sign: 'Pisces' },
-        Pluto: { sign: 'Scorpio' },
-        Ascendant: { sign: 'Libra' }
-      },
-      timeKnown: !!time,
-      note: 'ใช้ข้อมูลจำลอง (Mock data) — เปลี่ยนเป็น API ดวงจริงเมื่อพร้อม'
+    // รับ query parameters (ถ้าเป็น GET)
+    const queryParams = event.queryStringParameters || {};
+
+    // ตัวอย่างการเรียก API ภายนอก
+    // เปลี่ยน URL เป็น API ที่คุณต้องการเรียก
+    const apiUrl = 'https://api.example.com/natal-chart';
+    
+    // สร้าง options สำหรับ fetch
+    const fetchOptions = {
+      method: event.httpMethod || 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // ถ้าต้องการ Authorization
+        // 'Authorization': `Bearer ${process.env.API_KEY}`
+      }
     };
 
+    // ถ้าเป็น POST หรือ PUT ให้ส่ง body
+    if (event.httpMethod === 'POST' || event.httpMethod === 'PUT') {
+      fetchOptions.body = JSON.stringify(requestData);
+    }
+
+    // เรียก API
+    const response = await fetch(apiUrl, fetchOptions);
+
+    // ตรวจสอบสถานะ
+    if (!response.ok) {
+      throw new Error(`API responded with status: ${response.status}`);
+    }
+
+    // แปลงข้อมูลเป็น JSON
+    const data = await response.json();
+
+    // ส่ง response กลับ
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      headers,
+      body: JSON.stringify({
+        success: true,
+        data: data,
+        message: 'Natal chart generated successfully'
+      })
     };
 
   } catch (error) {
-    console.error('❌ Natal chart error:', error);
+    console.error('Error in natal-chart function:', error);
+
+    // ส่ง error response
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Internal server error' })
+      headers,
+      body: JSON.stringify({
+        success: false,
+        error: error.message,
+        message: 'Failed to generate natal chart'
+      })
     };
   }
 };
