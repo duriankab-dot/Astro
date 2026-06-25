@@ -1,14 +1,7 @@
 // netlify/functions/natal-chart.js
-// ใช้ CommonJS แทน ESM (ใช้ require และ exports)
+// ใช้ CommonJS (require + exports)
 
-// ตั้งค่า Environment Variables
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
-const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
-const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
-
-// ใช้ exports.handler แทน export const handler
-exports.handler = async function(event, context) {
+exports.handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -53,7 +46,7 @@ exports.handler = async function(event, context) {
         result = await handleSavePushSubscription(requestData);
         break;
       default:
-        result = { success: false, message: 'Unknown action' };
+        result = { success: false, message: 'Unknown action: ' + action };
     }
 
     return {
@@ -76,32 +69,27 @@ exports.handler = async function(event, context) {
   }
 };
 
-// ============ ฟังก์ชันหลัก (Mock) ============
+// ============ Mock Functions ============
 
-// 1. วิเคราะห์ข้อมูล
 async function handleAnalyze(data) {
   try {
     const { birthDate, birthTime, birthPlace, bloodType } = data;
 
-    const result = {
-      userType: 'The Visionary Builder',
-      description: 'ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง',
-      lifePhase: 'ช่วงสร้าง · Building Phase',
-      strengths: ['มองการณ์ไกล', 'คิดสร้างสรรค์', 'ลงมือทำ'],
-      weaknesses: ['ใจร้อน', 'ละเลยรายละเอียด'],
-      advice: 'ลองโฟกัสที่กระบวนการมากกว่าผลลัพธ์',
-      reflectionQuestions: [
-        'อะไรคือสิ่งที่คุณกลัวที่สุดในตอนนี้?',
-        'ถ้ารู้ว่าคำตอบอยู่แล้ว คุณกำลังรออะไร?',
-        'อะไรคือก้าวเล็กๆ ที่ทำได้วันนี้?'
-      ],
-      journalPrompt: 'เขียนถึงตัวเองในอนาคต 1 ปีข้างหน้า'
-    };
-
     return {
       success: true,
       data: {
-        ...result,
+        userType: 'The Visionary Builder',
+        description: 'ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง',
+        lifePhase: 'ช่วงสร้าง · Building Phase',
+        strengths: ['มองการณ์ไกล', 'คิดสร้างสรรค์', 'ลงมือทำ'],
+        weaknesses: ['ใจร้อน', 'ละเลยรายละเอียด'],
+        advice: 'ลองโฟกัสที่กระบวนการมากกว่าผลลัพธ์',
+        reflectionQuestions: [
+          'อะไรคือสิ่งที่คุณกลัวที่สุดในตอนนี้?',
+          'ถ้ารู้ว่าคำตอบอยู่แล้ว คุณกำลังรออะไร?',
+          'อะไรคือก้าวเล็กๆ ที่ทำได้วันนี้?'
+        ],
+        journalPrompt: 'เขียนถึงตัวเองในอนาคต 1 ปีข้างหน้า',
         birthInfo: { birthDate, birthTime, birthPlace, bloodType },
         timestamp: new Date().toISOString()
       },
@@ -109,18 +97,13 @@ async function handleAnalyze(data) {
     };
 
   } catch (error) {
-    return {
-      success: false,
-      message: error.message || 'Analysis failed'
-    };
+    return { success: false, message: error.message || 'Analysis failed' };
   }
 }
 
-// 2. บันทึกการตัดสินใจ
 async function handleSaveDecision(data) {
   try {
     const { decisionData } = data;
-    
     return {
       success: true,
       data: {
@@ -130,20 +113,14 @@ async function handleSaveDecision(data) {
       },
       message: 'บันทึกการตัดสินใจสำเร็จ'
     };
-
   } catch (error) {
-    return {
-      success: false,
-      message: error.message || 'Failed to save decision'
-    };
+    return { success: false, message: error.message || 'Failed to save decision' };
   }
 }
 
-// 3. บันทึก Journal
 async function handleSaveJournal(data) {
   try {
     const { journalData } = data;
-    
     return {
       success: true,
       data: {
@@ -153,20 +130,14 @@ async function handleSaveJournal(data) {
       },
       message: 'บันทึก Journal สำเร็จ'
     };
-
   } catch (error) {
-    return {
-      success: false,
-      message: error.message || 'Failed to save journal'
-    };
+    return { success: false, message: error.message || 'Failed to save journal' };
   }
 }
 
-// 4. บันทึกการติดตามผล
 async function handleSaveFollowUp(data) {
   try {
     const { followUpData } = data;
-    
     return {
       success: true,
       data: {
@@ -182,49 +153,34 @@ async function handleSaveFollowUp(data) {
       },
       message: 'บันทึกการติดตามผลสำเร็จ'
     };
-
   } catch (error) {
-    return {
-      success: false,
-      message: error.message || 'Failed to save follow-up'
-    };
+    return { success: false, message: error.message || 'Failed to save follow-up' };
   }
 }
 
-// 5. VERA AI Chat
 async function handleAskVERA(data) {
   try {
     const { question } = data;
-    
     const responses = {
       'สวัสดี': 'สวัสดีครับ/ค่ะ ฉันคือ VERA ผู้ช่วยชีวิตของคุณ มีอะไรให้ช่วยไหม?',
       'ควรโฟกัสอะไร': 'จากข้อมูลของคุณ ช่วงนี้ควรโฟกัสที่การสร้างรากฐานที่แข็งแกร่ง',
       'วันนี้รู้สึกเหนื่อย': 'เข้าใจค่ะ ลองพักผ่อนสัก 5 นาที แล้วกลับมาใหม่นะคะ',
-      'default': 'ขอบคุณสำหรับคำถามครับ/ค่ะ ฉันกำลังเรียนรู้ที่จะตอบคำถามนี้ให้ดีขึ้น'
     };
-
-    const answer = responses[question] || responses.default;
-
+    const answer = responses[question] || 'ขอบคุณสำหรับคำถามครับ/ค่ะ ฉันกำลังเรียนรู้ที่จะตอบคำถามนี้ให้ดีขึ้น';
     return {
       success: true,
       answer: answer,
       question: question,
       timestamp: new Date().toISOString()
     };
-
   } catch (error) {
-    return {
-      success: false,
-      message: error.message || 'Failed to process question'
-    };
+    return { success: false, message: error.message || 'Failed to process question' };
   }
 }
 
-// 6. ซิงค์ข้อมูล
 async function handleSyncDecisions(data) {
   try {
     const { decisions } = data;
-    
     return {
       success: true,
       data: {
@@ -233,20 +189,14 @@ async function handleSyncDecisions(data) {
       },
       message: 'ซิงค์ข้อมูลสำเร็จ'
     };
-
   } catch (error) {
-    return {
-      success: false,
-      message: error.message || 'Failed to sync decisions'
-    };
+    return { success: false, message: error.message || 'Failed to sync decisions' };
   }
 }
 
-// 7. บันทึก Push Subscription
 async function handleSavePushSubscription(data) {
   try {
     const { subscription } = data;
-    
     return {
       success: true,
       data: {
@@ -255,11 +205,7 @@ async function handleSavePushSubscription(data) {
       },
       message: 'บันทึก Push Subscription สำเร็จ'
     };
-
   } catch (error) {
-    return {
-      success: false,
-      message: error.message || 'Failed to save push subscription'
-    };
+    return { success: false, message: error.message || 'Failed to save push subscription' };
   }
 }
