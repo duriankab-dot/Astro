@@ -1,354 +1,571 @@
-// script.js - เชื่อมต่อหน้าเว็บกับ Netlify Function API
+// script.js
+// แก้ไขระบบบันทึกข้อมูลและแสดงผล
 
-// ตั้งค่า API URL
 const API_URL = '/.netlify/functions/natal-chart';
 
-// ฟังก์ชันหลักสำหรับเรียก API
-async function callNatalChartAPI(data) {
-    try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
+// ============================================================
+// 🔴 ฟังก์ชันหลัก
+// ============================================================
 
-        if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
-        }
-
-        const result = await response.json();
-        return result;
-    } catch (error) {
-        console.error('Error calling API:', error);
-        throw error;
-    }
-}
-
-// ฟังก์ชันสำหรับโหลดข้อมูลเมื่อหน้าเว็บโหลดเสร็จ
-document.addEventListener('DOMContentLoaded', function() {
-    // แสดงสถานะโหลด
-    showLoadingState();
+// 1. AI ที่ปรึกษาชีวิต
+async function askAIAdivsor(question, context = {}) {
+  try {
+    showLoading('ai-advisor');
     
-    // ดึงข้อมูลจาก Local Storage หรือ API
-    loadUserData();
-    
-    // ตั้งค่า Event Listeners
-    setupEventListeners();
-});
-
-// แสดงสถานะกำลังโหลด
-function showLoadingState() {
-    const loadingElements = document.querySelectorAll('.loading-placeholder');
-    loadingElements.forEach(el => {
-        el.innerHTML = `
-            <div class="loading-spinner">
-                <div class="spinner"></div>
-                <p>กำลังวิเคราะห์ข้อมูล...</p>
-            </div>
-        `;
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'ai_advisor',
+        question: question,
+        userType: localStorage.getItem('userType') || 'Visionary Builder',
+        lifePhase: localStorage.getItem('lifePhase') || 'Building Phase',
+        context: context
+      })
     });
+
+    const result = await response.json();
+    hideLoading('ai-advisor');
+
+    if (result.success) {
+      displayAIAdvisorResult(result.data);
+      showNotification('success', 'วิเคราะห์สถานการณ์สำเร็จ');
+      return result.data;
+    } else {
+      showNotification('error', result.message || 'ไม่สามารถวิเคราะห์ได้');
+      return null;
+    }
+  } catch (error) {
+    console.error('AI Advisor Error:', error);
+    hideLoading('ai-advisor');
+    showNotification('error', 'เกิดข้อผิดพลาด กรุณาลองใหม่');
+    return null;
+  }
 }
 
-// โหลดข้อมูลผู้ใช้
-async function loadUserData() {
-    // ตรวจสอบว่ามีข้อมูลใน Local Storage หรือไม่
-    const savedData = localStorage.getItem('astrovera_user_data');
+// 2. Scenario Intelligence
+async function analyzeScenario(options, context = {}) {
+  try {
+    showLoading('scenario');
     
-    if (savedData) {
-        try {
-            const userData = JSON.parse(savedData);
-            displayUserData(userData);
-            return;
-        } catch (e) {
-            console.error('Error parsing saved data:', e);
-        }
-    }
-    
-    // ถ้าไม่มีข้อมูลใน Local Storage ให้เรียก API
-    try {
-        // ใช้ข้อมูลตัวอย่างสำหรับการทดสอบ
-        const sampleData = {
-            birthDate: '1990-01-01',
-            birthTime: '12:00',
-            birthPlace: 'Bangkok',
-            bloodType: 'O'
-        };
-        
-        const result = await callNatalChartAPI(sampleData);
-        
-        if (result.success) {
-            displayUserData(result.data);
-            // บันทึกข้อมูลใน Local Storage
-            localStorage.setItem('astrovera_user_data', JSON.stringify(result.data));
-        } else {
-            showError('ไม่สามารถโหลดข้อมูลได้ กรุณาลองใหม่');
-        }
-    } catch (error) {
-        showError('เกิดข้อผิดพลาดในการเชื่อมต่อ');
-    }
-}
-
-// แสดงข้อมูลผู้ใช้
-function displayUserData(data) {
-    // อัปเดตองค์ประกอบต่างๆ ในหน้า
-    const userTypeElement = document.querySelector('.user-type');
-    if (userTypeElement) {
-        userTypeElement.textContent = data.userType || 'Visionary Builder';
-    }
-    
-    const userTypeDescription = document.querySelector('.user-type-description');
-    if (userTypeDescription) {
-        userTypeDescription.textContent = data.description || 'ผู้นำแห่งการเปลี่ยนแปลง';
-    }
-    
-    // อัปเดตชั้นการวิเคราะห์
-    updateAnalysisLayers(data);
-    
-    // อัปเดตจังหวะชีวิต
-    updateLifePhase(data);
-    
-    // ซ่อนสถานะโหลด
-    hideLoadingState();
-}
-
-// อัปเดตชั้นการวิเคราะห์
-function updateAnalysisLayers(data) {
-    const layers = data.analysisLayers || {};
-    
-    // อัปเดตแต่ละชั้น
-    const layerElements = document.querySelectorAll('.analysis-layer');
-    layerElements.forEach((el, index) => {
-        const layerKey = ['meaning', 'feeling', 'question', 'action', 'journal'][index];
-        if (layers[layerKey]) {
-            el.innerHTML = layers[layerKey];
-        }
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'scenario',
+        options: options,
+        userType: localStorage.getItem('userType') || 'Visionary Builder',
+        context: context
+      })
     });
-}
 
-// อัปเดตจังหวะชีวิต
-function updateLifePhase(data) {
-    const phaseElement = document.querySelector('.life-phase');
-    if (phaseElement && data.lifePhase) {
-        phaseElement.textContent = data.lifePhase;
+    const result = await response.json();
+    hideLoading('scenario');
+
+    if (result.success) {
+      displayScenarioResult(result.data);
+      showNotification('success', 'วิเคราะห์สถานการณ์สำเร็จ');
+      return result.data;
+    } else {
+      showNotification('error', result.message || 'ไม่สามารถวิเคราะห์ได้');
+      return null;
     }
+  } catch (error) {
+    console.error('Scenario Error:', error);
+    hideLoading('scenario');
+    showNotification('error', 'เกิดข้อผิดพลาด กรุณาลองใหม่');
+    return null;
+  }
 }
 
-// แสดงข้อผิดพลาด
-function showError(message) {
-    const errorContainer = document.querySelector('.error-container');
-    if (errorContainer) {
-        errorContainer.innerHTML = `
-            <div class="error-message">
-                <span class="error-icon">⚠️</span>
-                <p>${message}</p>
-                <button onclick="retryLoad()" class="retry-btn">ลองใหม่</button>
-            </div>
-        `;
-    }
-}
-
-// ฟังก์ชันลองใหม่
-window.retryLoad = function() {
-    location.reload();
-};
-
-// ซ่อนสถานะโหลด
-function hideLoadingState() {
-    const loadingElements = document.querySelectorAll('.loading-placeholder');
-    loadingElements.forEach(el => {
-        el.classList.remove('loading-placeholder');
-        el.classList.add('loaded');
+// 3. VERA Chat
+async function askVERA(question, history = []) {
+  try {
+    showLoading('vera-chat');
+    
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'vera_chat',
+        question: question,
+        userId: localStorage.getItem('userId') || null,
+        history: history
+      })
     });
-}
 
-// ตั้งค่า Event Listeners
-function setupEventListeners() {
-    // ปุ่มสำหรับบันทึกข้อมูล
-    const saveButton = document.querySelector('.save-data-btn');
-    if (saveButton) {
-        saveButton.addEventListener('click', saveUserData);
+    const result = await response.json();
+    hideLoading('vera-chat');
+
+    if (result.success) {
+      addVERAMessage(result.data.answer, 'bot');
+      showNotification('success', 'ได้รับคำตอบแล้ว');
+      return result.data;
+    } else {
+      showNotification('error', result.message || 'ไม่สามารถตอบได้');
+      return null;
     }
-    
-    // ปุ่มสำหรับอัปเดตข้อมูล
-    const updateButton = document.querySelector('.update-data-btn');
-    if (updateButton) {
-        updateButton.addEventListener('click', updateUserData);
-    }
-    
-    // ฟอร์มสำหรับกรอกข้อมูล
-    const dataForm = document.querySelector('.user-data-form');
-    if (dataForm) {
-        dataForm.addEventListener('submit', handleFormSubmit);
-    }
+  } catch (error) {
+    console.error('VERA Chat Error:', error);
+    hideLoading('vera-chat');
+    showNotification('error', 'เกิดข้อผิดพลาด กรุณาลองใหม่');
+    return null;
+  }
 }
 
-// บันทึกข้อมูลผู้ใช้
-async function saveUserData() {
-    const formData = collectFormData();
-    
-    if (!validateFormData(formData)) {
-        showError('กรุณากรอกข้อมูลให้ครบถ้วน');
-        return;
-    }
-    
-    try {
-        const result = await callNatalChartAPI(formData);
-        
-        if (result.success) {
-            localStorage.setItem('astrovera_user_data', JSON.stringify(result.data));
-            displayUserData(result.data);
-            showSuccess('บันทึกข้อมูลสำเร็จ');
-        } else {
-            showError('ไม่สามารถบันทึกข้อมูลได้');
-        }
-    } catch (error) {
-        showError('เกิดข้อผิดพลาดในการบันทึก');
-    }
-}
-
-// อัปเดตข้อมูลผู้ใช้
-async function updateUserData() {
-    await saveUserData();
-}
-
-// เก็บข้อมูลจากฟอร์ม
-function collectFormData() {
-    return {
-        birthDate: document.querySelector('#birth-date')?.value || '',
-        birthTime: document.querySelector('#birth-time')?.value || '',
-        birthPlace: document.querySelector('#birth-place')?.value || '',
-        bloodType: document.querySelector('#blood-type')?.value || ''
-    };
-}
-
-// ตรวจสอบข้อมูลฟอร์ม
-function validateFormData(data) {
-    return data.birthDate && data.birthTime && data.birthPlace;
-}
-
-// แสดงข้อความสำเร็จ
-function showSuccess(message) {
-    const notification = document.querySelector('.notification');
-    if (notification) {
-        notification.innerHTML = `
-            <div class="success-message">
-                <span class="success-icon">✅</span>
-                <p>${message}</p>
-            </div>
-        `;
-        setTimeout(() => {
-            notification.innerHTML = '';
-        }, 3000);
-    }
-}
-
-// จัดการการส่งฟอร์ม
-async function handleFormSubmit(event) {
-    event.preventDefault();
-    await saveUserData();
-}
-
-// ฟังก์ชันสำหรับ Life Decision Tracker
+// 4. Decision Tracker
 async function saveDecision(decisionData) {
-    try {
-        const result = await callNatalChartAPI({
-            action: 'save_decision',
-            data: decisionData
-        });
-        
-        if (result.success) {
-            // บันทึกการตัดสินใจใน Local Storage
-            const decisions = JSON.parse(localStorage.getItem('astrovera_decisions') || '[]');
-            decisions.push({
-                ...decisionData,
-                timestamp: new Date().toISOString(),
-                id: Date.now()
-            });
-            localStorage.setItem('astrovera_decisions', JSON.stringify(decisions));
-            return true;
-        }
-        return false;
-    } catch (error) {
-        console.error('Error saving decision:', error);
-        return false;
+  try {
+    showLoading('decision-tracker');
+    
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'save_decision',
+        decisionData: decisionData,
+        userId: localStorage.getItem('userId') || 'guest'
+      })
+    });
+
+    const result = await response.json();
+    hideLoading('decision-tracker');
+
+    if (result.success) {
+      // บันทึกใน Local Storage
+      const decisions = JSON.parse(localStorage.getItem('astrovera_decisions') || '[]');
+      decisions.push(result.data);
+      localStorage.setItem('astrovera_decisions', JSON.stringify(decisions));
+      
+      showNotification('success', '🎯 บันทึกการตัดสินใจสำเร็จ!');
+      updateDecisionStats();
+      return result.data;
+    } else {
+      showNotification('error', result.message || 'ไม่สามารถบันทึกได้');
+      return null;
     }
+  } catch (error) {
+    console.error('Save Decision Error:', error);
+    hideLoading('decision-tracker');
+    showNotification('error', 'เกิดข้อผิดพลาด กรุณาลองใหม่');
+    return null;
+  }
 }
 
-// ฟังก์ชันสำหรับบันทึก Journal
-async function saveJournalEntry(entry) {
-    try {
-        const result = await callNatalChartAPI({
-            action: 'save_journal',
-            data: entry
-        });
-        
-        if (result.success) {
-            const entries = JSON.parse(localStorage.getItem('astrovera_journal') || '[]');
-            entries.push({
-                ...entry,
-                timestamp: new Date().toISOString(),
-                id: Date.now()
-            });
-            localStorage.setItem('astrovera_journal', JSON.stringify(entries));
-            return true;
-        }
-        return false;
-    } catch (error) {
-        console.error('Error saving journal:', error);
-        return false;
+// ============================================================
+// 🟡 ฟังก์ชันรอง (ปานกลาง)
+// ============================================================
+
+// 5. บันทึก Journal
+async function saveJournal(journalData) {
+  try {
+    showLoading('journal');
+    
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'save_journal',
+        journalData: journalData,
+        userId: localStorage.getItem('userId') || 'guest'
+      })
+    });
+
+    const result = await response.json();
+    hideLoading('journal');
+
+    if (result.success) {
+      const journals = JSON.parse(localStorage.getItem('astrovera_journals') || '[]');
+      journals.push(result.data);
+      localStorage.setItem('astrovera_journals', JSON.stringify(journals));
+      
+      showNotification('success', '📝 บันทึก Journal สำเร็จ!');
+      updateJournalStats();
+      return result.data;
+    } else {
+      showNotification('error', result.message || 'ไม่สามารถบันทึกได้');
+      return null;
     }
+  } catch (error) {
+    console.error('Save Journal Error:', error);
+    hideLoading('journal');
+    showNotification('error', 'เกิดข้อผิดพลาด กรุณาลองใหม่');
+    return null;
+  }
 }
 
-// ฟังก์ชันสำหรับบันทึกการติดตามผล
-async function saveFollowUp(followUpData) {
-    try {
-        const result = await callNatalChartAPI({
-            action: 'save_followup',
-            data: followUpData
-        });
-        
-        if (result.success) {
-            const followUps = JSON.parse(localStorage.getItem('astrovera_followups') || '[]');
-            followUps.push({
-                ...followUpData,
-                timestamp: new Date().toISOString(),
-                id: Date.now()
-            });
-            localStorage.setItem('astrovera_followups', JSON.stringify(followUps));
-            return true;
-        }
-        return false;
-    } catch (error) {
-        console.error('Error saving follow-up:', error);
-        return false;
+// 6. Daily Inner Sync
+async function saveDailySync(syncData) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'sync',
+        data: {
+          type: 'daily_sync',
+          ...syncData,
+          date: new Date().toISOString().split('T')[0]
+        },
+        userId: localStorage.getItem('userId') || 'guest'
+      })
+    });
+
+    const result = await response.json();
+    
+    if (result.success) {
+      localStorage.setItem('lastDailySync', JSON.stringify({
+        date: new Date().toISOString().split('T')[0],
+        data: syncData
+      }));
+      
+      showNotification('success', '🌅 บันทึก Daily Sync สำเร็จ!');
+      return result.data;
+    } else {
+      showNotification('error', result.message || 'ไม่สามารถบันทึกได้');
+      return null;
     }
+  } catch (error) {
+    console.error('Save Daily Sync Error:', error);
+    showNotification('error', 'เกิดข้อผิดพลาด กรุณาลองใหม่');
+    return null;
+  }
 }
 
-// ฟังก์ชันสำหรับ VERA AI Chat
-async function askVERA(question) {
-    try {
-        const result = await callNatalChartAPI({
-            action: 'ask_vera',
-            question: question
-        });
-        
-        if (result.success) {
-            return result.answer;
-        }
-        return 'ขออภัย ไม่สามารถตอบคำถามได้ในตอนนี้';
-    } catch (error) {
-        console.error('Error asking VERA:', error);
-        return 'เกิดข้อผิดพลาดในการเชื่อมต่อกับ VERA';
+// 7. Weekly Evolution
+async function saveWeeklyEvolution(weeklyData) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'sync',
+        data: {
+          type: 'weekly_evolution',
+          ...weeklyData,
+          week: getWeekNumber(),
+          year: new Date().getFullYear()
+        },
+        userId: localStorage.getItem('userId') || 'guest'
+      })
+    });
+
+    const result = await response.json();
+    
+    if (result.success) {
+      localStorage.setItem('lastWeeklyEvolution', JSON.stringify({
+        week: getWeekNumber(),
+        year: new Date().getFullYear(),
+        data: weeklyData
+      }));
+      
+      showNotification('success', '🌱 บันทึก Weekly Evolution สำเร็จ!');
+      return result.data;
+    } else {
+      showNotification('error', result.message || 'ไม่สามารถบันทึกได้');
+      return null;
     }
+  } catch (error) {
+    console.error('Save Weekly Evolution Error:', error);
+    showNotification('error', 'เกิดข้อผิดพลาด กรุณาลองใหม่');
+    return null;
+  }
 }
 
-// ส่งออกฟังก์ชันสำหรับใช้ในส่วนอื่น
-export {
-    callNatalChartAPI,
-    saveDecision,
-    saveJournalEntry,
-    saveFollowUp,
-    askVERA
-};
+// 8. โหลดสถิติ Dashboard
+async function loadDashboardStats() {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'get_stats',
+        userId: localStorage.getItem('userId') || 'guest'
+      })
+    });
+
+    const result = await response.json();
+    
+    if (result.success) {
+      displayDashboardStats(result.data);
+      return result.data;
+    } else {
+      showNotification('error', result.message || 'ไม่สามารถโหลดสถิติได้');
+      return null;
+    }
+  } catch (error) {
+    console.error('Load Stats Error:', error);
+    showNotification('error', 'เกิดข้อผิดพลาด กรุณาลองใหม่');
+    return null;
+  }
+}
+
+// ============================================================
+// 🟢 ฟังก์ชัน UI และ Utility (เล็กน้อย)
+// ============================================================
+
+// แสดง Notification
+function showNotification(type, message) {
+  const notification = document.getElementById('notification');
+  if (!notification) {
+    // สร้าง notification element ถ้ายังไม่มี
+    const newNotification = document.createElement('div');
+    newNotification.id = 'notification';
+    newNotification.className = 'notification';
+    document.body.appendChild(newNotification);
+  }
+  
+  const el = document.getElementById('notification');
+  el.className = `notification ${type}`;
+  el.textContent = message;
+  el.style.display = 'block';
+  
+  setTimeout(() => {
+    el.style.display = 'none';
+  }, 3000);
+}
+
+// แสดง Loading
+function showLoading(elementId) {
+  const el = document.getElementById(elementId);
+  if (el) {
+    el.innerHTML = '<div class="loading-spinner"><span class="spinner"></span> กำลังประมวลผล...</div>';
+  }
+}
+
+function hideLoading(elementId) {
+  const el = document.getElementById(elementId);
+  if (el) {
+    el.innerHTML = '';
+  }
+}
+
+// แสดงผลลัพธ์ AI Advisor
+function displayAIAdvisorResult(data) {
+  const container = document.getElementById('ai-advisor-result');
+  if (!container) return;
+  
+  container.innerHTML = `
+    <div class="ai-result">
+      <h3>${data.summary || 'ผลการวิเคราะห์'}</h3>
+      <div class="user-profile">
+        <span class="badge">${data.userProfile}</span>
+        <span class="badge phase">${data.currentPhase}</span>
+      </div>
+      <div class="recommendations">
+        <h4>คำแนะนำ</h4>
+        <ul>${data.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
+      </div>
+      <div class="scenarios">
+        <h4>สถานการณ์จำลอง</h4>
+        ${data.scenarios.map(s => `
+          <div class="scenario-card">
+            <h5>${s.name}</h5>
+            <p>${s.description}</p>
+            <div class="pros-cons">
+              <div class="pros">✅ ${s.pros.join(', ')}</div>
+              <div class="cons">❌ ${s.cons.join(', ')}</div>
+            </div>
+            <div class="success-rate">โอกาสสำเร็จ: ${s.successRate}%</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="decision-factors">
+        <h4>ปัจจัยการตัดสินใจ</h4>
+        <ul>
+          <li>ความเสี่ยง: ${data.decisionFactors.risk}</li>
+          <li>ผลตอบแทน: ${data.decisionFactors.reward}</li>
+          <li>ระยะเวลา: ${data.decisionFactors.timeframe}</li>
+          <li>ความสอดคล้อง: ${data.decisionFactors.alignment}</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// แสดงผลลัพธ์ Scenario
+function displayScenarioResult(data) {
+  const container = document.getElementById('scenario-result');
+  if (!container) return;
+  
+  container.innerHTML = `
+    <div class="scenario-result">
+      <h3>📊 ผลการจำลองสถานการณ์</h3>
+      <div class="scenario-grid">
+        ${data.scenarios.map(s => `
+          <div class="scenario-card ${s.successRate > 70 ? 'high' : s.successRate > 50 ? 'medium' : 'low'}">
+            <h4>${s.name}</h4>
+            <p>${s.description}</p>
+            <div class="rate">${s.successRate}%</div>
+            <div class="details">
+              <div class="pros">✅ ${s.pros.join(' · ')}</div>
+              <div class="cons">❌ ${s.cons.join(' · ')}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// แสดงข้อความ VERA
+function addVERAMessage(text, sender) {
+  const container = document.getElementById('vera-chat-messages');
+  if (!container) return;
+  
+  const message = document.createElement('div');
+  message.className = `vera-message ${sender}`;
+  message.innerHTML = `
+    <div class="avatar">${sender === 'bot' ? '🤖' : '👤'}</div>
+    <div class="message-content">${text}</div>
+  `;
+  container.appendChild(message);
+  container.scrollTop = container.scrollHeight;
+}
+
+// อัปเดตสถิติ Decision
+function updateDecisionStats() {
+  const decisions = JSON.parse(localStorage.getItem('astrovera_decisions') || '[]');
+  const statsEl = document.getElementById('decision-stats');
+  if (statsEl) {
+    statsEl.innerHTML = `
+      <div class="stat-item">📊 ทั้งหมด: ${decisions.length}</div>
+      <div class="stat-item">✅ สำเร็จ: ${decisions.filter(d => d.status === 'completed').length}</div>
+      <div class="stat-item">⏳ กำลังดำเนินการ: ${decisions.filter(d => d.status === 'active').length}</div>
+    `;
+  }
+}
+
+// อัปเดตสถิติ Journal
+function updateJournalStats() {
+  const journals = JSON.parse(localStorage.getItem('astrovera_journals') || '[]');
+  const statsEl = document.getElementById('journal-stats');
+  if (statsEl) {
+    statsEl.innerHTML = `
+      <div class="stat-item">📝 ทั้งหมด: ${journals.length}</div>
+      <div class="stat-item">📆 7 วันล่าสุด: ${journals.filter(j => {
+        const d = new Date(j.createdAt);
+        const weekAgo = new Date();
+        weekAgo.setDate(weekAgo.getDate() - 7);
+        return d > weekAgo;
+      }).length}</div>
+    `;
+  }
+}
+
+// แสดง Dashboard Stats
+function displayDashboardStats(data) {
+  const container = document.getElementById('dashboard-stats');
+  if (!container) return;
+  
+  container.innerHTML = `
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h4>📊 ภาพรวม</h4>
+        <div class="stat-value">${data.overview.totalDecisions} ตัดสินใจ</div>
+        <div class="stat-value">${data.overview.totalJournals} Journal</div>
+        <div class="stat-value">อัตราสำเร็จ ${data.overview.completionRate}%</div>
+      </div>
+      <div class="stat-card">
+        <h4>📈 รูปแบบ</h4>
+        <div class="stat-value">หมวดหมู่หลัก: ${data.patterns.topCategories.join(', ')}</div>
+        <div class="stat-value">เวลาที่ดีที่สุด: ${data.patterns.bestTime}</div>
+        <div class="stat-value">แนวโน้ม: ${data.patterns.confidenceTrend}</div>
+      </div>
+      <div class="stat-card">
+        <h4>🌱 การเติบโต</h4>
+        <div class="stat-value">💡 Insight: ${data.growth.insights}</div>
+        <div class="stat-value">📚 บทเรียน: ${data.growth.lessons}</div>
+        <div class="stat-value">🏆 Milestone: ${data.growth.milestones}</div>
+      </div>
+      <div class="stat-card">
+        <h4>📅 กิจกรรมล่าสุด</h4>
+        ${data.recentActivity.map(a => `
+          <div class="activity-item">
+            <span class="activity-type">${a.type === 'decision' ? '🎯' : '📝'}</span>
+            <span>${a.title}</span>
+            <span class="activity-date">${a.date}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// Utility: หาสัปดาห์ปัจจุบัน
+function getWeekNumber() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+  const week1 = new Date(d.getFullYear(), 0, 4);
+  return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+}
+
+// ============================================================
+// 🟢 ฟังก์ชัน UI เพิ่มเติม (เล็กน้อย)
+// ============================================================
+
+// จัดการฟอร์มเวลาเกิด (AM/PM)
+function setupTimeInput() {
+  const timeInput = document.getElementById('birth-time');
+  if (!timeInput) return;
+  
+  // เพิ่มปุ่ม toggle AM/PM
+  const wrapper = document.createElement('div');
+  wrapper.className = 'time-input-wrapper';
+  wrapper.style.display = 'flex';
+  wrapper.style.alignItems = 'center';
+  wrapper.style.gap = '8px';
+  
+  const toggleBtn = document.createElement('button');
+  toggleBtn.type = 'button';
+  toggleBtn.textContent = 'AM';
+  toggleBtn.className = 'ampm-toggle';
+  toggleBtn.style.padding = '4px 12px';
+  toggleBtn.style.borderRadius = '4px';
+  toggleBtn.style.border = '1px solid #ccc';
+  toggleBtn.style.cursor = 'pointer';
+  
+  let isAM = true;
+  toggleBtn.addEventListener('click', function() {
+    isAM = !isAM;
+    this.textContent = isAM ? 'AM' : 'PM';
+    this.style.backgroundColor = isAM ? '#e8f5e9' : '#fff3e0';
+  });
+  
+  timeInput.parentNode.insertBefore(wrapper, timeInput);
+  wrapper.appendChild(timeInput);
+  wrapper.appendChild(toggleBtn);
+}
+
+// เพิ่มคำอธิบายในแผนที่ชีวิต
+function addLifeMapDescriptions() {
+  const lifeMap = document.querySelector('.life-map');
+  if (!lifeMap) return;
+  
+  const descriptions = {
+    health: '❤️ สุขภาพ: พลังงานและความแข็งแรงของร่างกาย',
+    finance: '💰 การเงิน: ความมั่นคงและการเติบโตทางการเงิน',
+    career: '💼 งาน: เส้นทางอาชีพและความสำเร็จ',
+    business: '🚀 ธุรกิจ: โอกาสและการเติบโตทางธุรกิจ',
+    relationship: '💞 ความสัมพันธ์: ความรักและความผูกพัน',
+    growth: '🌱 การเติบโต: พัฒนาตนเองและจิตวิญญาณ'
+  };
+  
+  // เพิ่ม tooltip หรือคำอธิบายใต้แต่ละส่วน
+  document.querySelectorAll('.life-map-item').forEach(item => {
+    const key = item.dataset.key;
+    if (key && descriptions[key]) {
+      const desc = document.createElement('div');
+      desc.className = 'life-map-description';
+      desc.textContent = descriptions[key];
+      desc.style.fontSize = '12px';
+      desc.style.color = '#666';
+      desc.style.marginTop = '4px';
+      item.appendChild(desc);
+    }
+  });
+}
+
+// ============================================================
+// เริ่มต้น
