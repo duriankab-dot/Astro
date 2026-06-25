@@ -2879,31 +2879,41 @@ function setPfBlood(type,btn){
   rSelf(); // อัปเดต self intelligence ทันที
 }
 
-async function fetchNatalChart(force){
-  var p=lsG(LSP)||{};
-  if(!p.dob){toast('กรุณากรอกวันเกิดในโปรไฟล์ก่อน');return;}
-  var cached=lsG(LSN);
-  if(!force&&cached&&cached.dob===p.dob&&cached.time===(p.time||'')&&cached.place===(p.place||'')){
-    rNatal(cached);return;
+async function fetchNatalChart(force) {
+  const p = lsG(LSP) || {};
+  if (!p.dob) { toast('กรุณากรอกวันเกิดในโปรไฟล์ก่อน'); return; }
+
+  const cached = lsG(LSN);
+  if (!force && cached && cached.dob === p.dob && cached.time === (p.time || '') && cached.place === (p.place || '')) {
+    rNatal(cached);
+    return;
   }
-  var idle=document.getElementById('natal-idle'),loading=document.getElementById('natal-loading'),
-      errEl=document.getElementById('natal-error'),content=document.getElementById('natal-content');
-  idle.style.display='none';errEl.style.display='none';content.style.display='none';loading.style.display='block';
-  try{
-    var res=await fetch('/.netlify/functions/natal-chart',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({dob:p.dob,time:p.time||'',place:p.place||''})
-    });
-    var data=await res.json();
-    if(!res.ok)throw new Error(data.error||'เกิดข้อผิดพลาด');
-    data.dob=p.dob;data.time=p.time||'';data.place=p.place||'';data.fetchedAt=new Date().toISOString();
-    lsS(LSN,data);
+
+  const idle = document.getElementById('natal-idle');
+  const loading = document.getElementById('natal-loading');
+  const errEl = document.getElementById('natal-error');
+  const content = document.getElementById('natal-content');
+
+  if (idle) idle.style.display = 'none';
+  if (errEl) errEl.style.display = 'none';
+  if (content) content.style.display = 'none';
+  if (loading) loading.style.display = 'block';
+
+  try {
+    const data = await fetchNatalChart(p.dob, p.time || '', p.place || '');
+    data.dob = p.dob;
+    data.time = p.time || '';
+    data.place = p.place || '';
+    data.fetchedAt = new Date().toISOString();
+    lsS(LSN, data);
     rNatal(data);
-  }catch(e){
-    loading.style.display='none';
-    errEl.style.display='block';
-    errEl.textContent='ดึงดวงจริงไม่สำเร็จ: '+e.message+' — ถ้าเพิ่งตั้งค่าระบบนี้ ตรวจสอบว่าใส่ ASTROLOGY_API_KEY ใน Netlify แล้วหรือยัง';
-    idle.style.display='block';
+  } catch (e) {
+    if (loading) loading.style.display = 'none';
+    if (errEl) {
+      errEl.style.display = 'block';
+      errEl.textContent = 'ไม่สามารถคำนวณดวงได้: ' + e.message;
+    }
+    if (idle) idle.style.display = 'block';
   }
 }
 function rNatal(data){
@@ -4016,67 +4026,62 @@ function buildAutoSummary(){
 }
 
 var _lcAbort=null;
-async function loadLifeCoach(){
-  var p=lsG(LSP)||{};
-  if(!p.name){showLcError('กรอกชื่อในโปรไฟล์ก่อนนะครับ');return;}
-  ['lc-loading'].forEach(function(id){document.getElementById(id).style.display='flex';});
-  ['lc-content','lc-controls','lc-error'].forEach(function(id){document.getElementById(id).style.display='none';});
-  document.getElementById('lc-status').textContent='กำลังสร้างรายงาน AI...';
+async function loadLifeCoach() {
+  const p = lsG(LSP) || {};
+  if (!p.name) { showLcError('กรอกชื่อในโปรไฟล์ก่อนนะครับ'); return; }
 
-  // ─── ตัวเลือก: ใช้สรุปอัตโนมัติก่อน (เร็วทันที) ───
-  var autoText=buildAutoSummary();
-  // แสดง auto summary ก่อนระหว่างรอ AI
-  var preScript='[รายงานอัตโนมัติ — กำลังปรับปรุงด้วย AI...]\n\n'+autoText;
-  showScriptSilent(preScript);
-  document.getElementById('lc-status').textContent='กำลังปรับปรุงด้วย AI (รอได้ หรือกดปิดเพื่อใช้รายงานอัตโนมัติ)...';
+  document.getElementById('lc-loading').style.display = 'flex';
+  document.getElementById('lc-content').style.display = 'none';
+  document.getElementById('lc-controls').style.display = 'none';
+  document.getElementById('lc-error').style.display = 'none';
+  document.getElementById('lc-status').textContent = 'กำลังสร้างรายงาน AI...';
 
-  var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
-  var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
-  var bz=p.dob?calcBaZi(p.dob,p.time):null;
-  var lp=p.dob?lifePathNumber(p.dob):null;
-  var natal=lsG(LSN);
-  var payload={
-    name:p.name,archetype:arch.name,archetypeTh:arch.trait,archetypeDesc:arch.core,
-    phase:phase.label,phaseDesc:phase.insight,lifePathNum:lp,
-    lifePathMeaning:lp?LIFE_PATH_MEANING[lp]:'',
-    baziDayMaster:bz?bz.dayMaster:'',baziDesc:bz?BZ_DAYMASTER_MEANING[bz.dayMaster]:'',
-    sunSign:natal&&natal.planets?SIGN_TH[(Object.values(natal.planets).find(function(x){return x&&x.sign;})||{}).sign]||'':'',
-    moonSign:'',strengths:arch.strengths||[],blindspot:arch.blinds||[],
-    dominantEl:bz?bz.dominant:'',missingEl:bz?bz.missing:[]
-  };
+  // แสดง Auto Summary ระหว่างรอ
+  const autoText = buildAutoSummary();
+  showScriptSilent(autoText);
+  document.getElementById('lc-status').textContent = 'กำลังปรับปรุงด้วย AI...';
 
-  // AbortController — timeout 35 วินาที
-  _lcAbort=new AbortController();
-  var timeoutId=setTimeout(function(){
-    if(_lcAbort)_lcAbort.abort();
-  },35000);
+  try {
+    const arch = ARCHETYPES[p.archKey] || ARCHETYPES.d;
+    const phase = LIFE_PHASES[p.phaseKey] || LIFE_PHASES.a;
+    const bz = p.dob ? calcBaZi(p.dob, p.time) : null;
+    const lp = p.dob ? lifePathNumber(p.dob) : null;
 
-  try{
-    var res=await fetch('/.netlify/functions/life-coach',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload),
-      signal:_lcAbort.signal
+    const profile = {
+      name: p.name || 'คุณ',
+      archetype: arch.name,
+      archetypeDesc: arch.core || arch.trait,
+      phase: phase.label,
+      lifePathNum: lp || '',
+      strengths: arch.strengths ? arch.strengths.map(s => s.t || s) : [],
+      blindspot: arch.blinds || []
+    };
+
+    const script = await generateLifeCoachReport(profile);
+
+    // เก็บ cache
+    lsS(LSC_SCRIPT, {
+      script: script,
+      profileKey: _lcProfileKey(p),
+      name: p.name,
+      date: new Date().toLocaleDateString('th-TH')
     });
-    clearTimeout(timeoutId);
-    var data=await res.json();
-    if(!res.ok)throw new Error(data.error||'เกิดข้อผิดพลาด');
-    lsS(LSC_SCRIPT,{script:data.script,profileKey:_lcProfileKey(p),name:p.name,date:new Date().toLocaleDateString('th-TH')});
-    showScript(data.script,false);
-  }catch(e){
-    clearTimeout(timeoutId);
-    if(e.name==='AbortError'){
-      // Timeout → ใช้ auto summary แทน
-      lsS(LSC_SCRIPT,{script:autoText,profileKey:_lcProfileKey(p),name:p.name,date:new Date().toLocaleDateString('th-TH')});
-      showScript(autoText,false);
-      document.getElementById('lc-status').textContent='ใช้รายงานอัตโนมัติ (AI ไม่ตอบในเวลา) — กด ▶ ฟังได้เลย';
-    } else {
-      // error อื่น → ยังใช้ auto summary ได้
-      lsS(LSC_SCRIPT,{script:autoText,profileKey:_lcProfileKey(p),name:p.name,date:new Date().toLocaleDateString('th-TH')});
-      showScript(autoText,false);
-      document.getElementById('lc-status').textContent='ใช้รายงานอัตโนมัติแทน ('+e.message+')';
-    }
+
+    showScript(script, false);
+
+  } catch (e) {
+    console.error('❌ Life Coach error:', e);
+    // ใช้ Auto Summary แทน
+    const autoText = buildAutoSummary();
+    lsS(LSC_SCRIPT, {
+      script: autoText,
+      profileKey: _lcProfileKey(p),
+      name: p.name,
+      date: new Date().toLocaleDateString('th-TH')
+    });
+    showScript(autoText, false);
+    document.getElementById('lc-status').textContent = 'ใช้รายงานอัตโนมัติ (' + e.message + ')';
   }
-  _lcAbort=null;
 }
 
 function showScriptSilent(script){
@@ -5014,31 +5019,45 @@ function renderCopThread(thread){
   el.scrollTop=el.scrollHeight;
 }
 
-function sendCopilot(text){
-  var thread=lsG(LSC)||[];
-  thread.push({role:'user',text:text});
-  // แสดง typing indicator
-  var withTyping=thread.concat([{role:'typing'}]);
-  renderCopThread(withTyping);
-  lsS(LSC,thread);
-  // disable input ระหว่างรอ
-  var inp=document.getElementById('cop-input');
-  var btn=document.querySelector('#sc-copilot button[onclick*="sendCopilot"]');
-  if(inp)inp.disabled=true;
-  if(btn)btn.disabled=true;
-  genCopilotReply(text,thread).then(function(reply){
-    thread.push({role:'ai',text:reply});
-    lsS(LSC,thread);
-    renderCopThread(thread);
-    if(inp){inp.disabled=false;inp.focus();}
-    if(btn)btn.disabled=false;
-  }).catch(function(e){
-    thread.push({role:'ai',text:'ขอโทษครับ ตอบไม่ได้ตอนนี้ ('+e.message+') ลองใหม่อีกครั้งนะครับ'});
-    lsS(LSC,thread);
-    renderCopThread(thread);
-    if(inp){inp.disabled=false;}
-    if(btn)btn.disabled=false;
-  });
+// ============ LIFE COPILOT — ใช้ DeepSeek ผ่าน API ============
+async function genCopilotReply(msg, thread) {
+  // ใช้ cache ถ้ามี
+  const cacheKey = 'copilot_' + msg.substring(0, 50);
+  const cached = lsG(cacheKey);
+  if (cached && Date.now() - cached.ts < 3600000) { // cache 1 ชั่วโมง
+    return cached.reply;
+  }
+
+  try {
+    const p = lsG(LSP) || {};
+    const arch = ARCHETYPES[p.archKey] || ARCHETYPES.d;
+    const phase = LIFE_PHASES[p.phaseKey] || LIFE_PHASES.a;
+    const bz = p.dob ? calcBaZi(p.dob, p.time) : null;
+    const lp = p.dob ? lifePathNumber(p.dob) : null;
+
+    const profile = {
+      name: p.name || 'คุณ',
+      archetype: arch.name,
+      archetypeDesc: arch.core || arch.trait,
+      phase: phase.label,
+      baziDayMaster: bz ? bz.dayMaster : '',
+      lifePathNum: lp || '',
+      strengths: arch.strengths ? arch.strengths.map(s => s.t || s) : [],
+      blindspot: arch.blinds || []
+    };
+
+    const reply = await callLifeCopilot(msg, thread, profile);
+
+    // เก็บ cache
+    lsS(cacheKey, { reply, ts: Date.now() });
+
+    return reply;
+
+  } catch (error) {
+    console.error('❌ Life Copilot error:', error);
+    // Fallback response
+    return 'ขอโทษครับ ตอนนี้ระบบไม่พร้อม ลองใหม่อีกครั้งนะครับ 🙏';
+  }
 }
 
 function sendCopilotInput(){
