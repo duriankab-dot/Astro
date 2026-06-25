@@ -1,8 +1,13 @@
 // netlify/functions/natal-chart.js
-// รองรับการทำงานครบวงจรสำหรับ ASTROVERA
+// เชื่อมต่อกับ Supabase และ DeepSeek API
+
+// ตั้งค่า Environment Variables
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
+const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
 
 export const handler = async (event, context) => {
-  // ตั้งค่า CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -10,59 +15,44 @@ export const handler = async (event, context) => {
     'Content-Type': 'application/json'
   };
 
-  // จัดการ OPTIONS request (preflight)
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 204,
-      headers
-    };
+    return { statusCode: 204, headers };
   }
 
   try {
-    // รับข้อมูลจาก request
     let requestData = {};
-    let action = 'analyze'; // default action
+    let action = 'analyze';
     
     if (event.httpMethod === 'POST' && event.body) {
       requestData = JSON.parse(event.body);
       action = requestData.action || 'analyze';
     }
 
-    // รับ query parameters (ถ้าเป็น GET)
-    const queryParams = event.queryStringParameters || {};
-    if (event.httpMethod === 'GET' && queryParams.action) {
-      action = queryParams.action;
-    }
-
-    // จัดการตาม action
     let result;
     switch (action) {
       case 'analyze':
-        result = await handleAnalyze(requestData);
+        result = await handleAnalyzeWithDeepSeek(requestData);
         break;
       case 'save_decision':
-        result = await handleSaveDecision(requestData);
+        result = await handleSaveDecisionToSupabase(requestData);
         break;
       case 'save_journal':
-        result = await handleSaveJournal(requestData);
+        result = await handleSaveJournalToSupabase(requestData);
         break;
       case 'save_followup':
-        result = await handleSaveFollowUp(requestData);
+        result = await handleSaveFollowUpToSupabase(requestData);
         break;
       case 'ask_vera':
-        result = await handleAskVERA(requestData);
+        result = await handleAskVERAWithDeepSeek(requestData);
         break;
       case 'sync_decisions':
-        result = await handleSyncDecisions(requestData);
+        result = await handleSyncDecisionsToSupabase(requestData);
         break;
       case 'save_push_subscription':
-        result = await handleSavePushSubscription(requestData);
+        result = await handleSavePushSubscriptionToSupabase(requestData);
         break;
       default:
-        result = {
-          success: false,
-          message: 'Unknown action'
-        };
+        result = { success: false, message: 'Unknown action' };
     }
 
     return {
@@ -72,8 +62,7 @@ export const handler = async (event, context) => {
     };
 
   } catch (error) {
-    console.error('Error in natal-chart function:', error);
-
+    console.error('Error:', error);
     return {
       statusCode: 500,
       headers,
@@ -86,76 +75,193 @@ export const handler = async (event, context) => {
   }
 };
 
-// ฟังก์ชันวิเคราะห์ตัวตน
-async function handleAnalyze(data) {
+// ============ ฟังก์ชันเชื่อมต่อ Supabase ============
+
+async function getSupabaseClient() {
+  // ใช้ Supabase client แบบ REST (ไม่ต้องติดตั้ง library)
+  const { createClient } = await import('@supabase/supabase-js');
+  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+// ============ ฟังก์ชันเชื่อมต่อ DeepSeek ============
+
+async function callDeepSeekAPI(prompt, systemPrompt = '') {
+  const response = await fetch(DEEPSEEK_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: 'deepseek-chat',
+      messages: [
+        {
+          role: 'system',
+          content: systemPrompt || 'คุณคือผู้เชี่ยวชาญด้านโหราศาสตร์ จิตวิทยา และการพัฒนาตนเอง'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 2000
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`DeepSeek API error: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
+
+// ============ ฟังก์ชันหลัก ============
+
+// 1. วิเคราะห์ด้วย DeepSeek + Supabase
+async function handleAnalyzeWithDeepSeek(data) {
   try {
-    // จำลองการวิเคราะห์ (ในระบบจริงจะเชื่อมต่อกับ API ภายนอก)
-    const birthDate = data.birthDate || '1990-01-01';
-    const birthTime = data.birthTime || '12:00';
-    const birthPlace = data.birthPlace || 'Bangkok';
-    const bloodType = data.bloodType || 'O';
+    const { birthDate, birthTime, birthPlace, bloodType, userId } = data;
 
-    // ข้อมูลตัวอย่าง (ในระบบจริงจะคำนวณจากข้อมูล)
-    const analysisResult = {
-      success: true,
-      data: {
-        userType: 'The Visionary Builder',
-        description: 'ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง',
-        lifePhase: 'ช่วงสร้าง · Building Phase',
-        analysisLayers: {
-          meaning: 'คุณมีพลังงานของนักสร้างที่มีวิสัยทัศน์ ผสมผสานความสามารถในการมองภาพใหญ่กับการลงมือทำ',
-          feeling: 'ลึกลงไป คุณอาจกำลังมองหาความหมายในสิ่งที่ทำ',
-          question: 'ถ้าคุณรู้อยู่แล้วว่าคำตอบคืออะไร คุณกำลังรอสิ่งใดอยู่?',
-          action: 'เลือกโปรเจกต์ที่ใช้ทั้งวิสัยทัศน์และการลงมือทำภายในเดือนนี้',
-          journal: 'เขียนถึงเวอร์ชั่นของตัวเองในอีก 1 ปี'
-        },
-        birthInfo: {
-          date: birthDate,
-          time: birthTime,
-          place: birthPlace,
-          bloodType: bloodType
-        },
-        timestamp: new Date().toISOString()
+    // 1. ดึงข้อมูลผู้ใช้จาก Supabase (ถ้ามี)
+    let userData = null;
+    if (userId) {
+      const supabase = await getSupabaseClient();
+      const { data: existingUser, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      
+      if (!error && existingUser) {
+        userData = existingUser;
       }
-    };
-
-    // ถ้ามี Premium ให้เพิ่มข้อมูลเพิ่มเติม
-    if (data.premium) {
-      analysisResult.data.premiumLayers = {
-        layer3: 'ข้อมูลชั้นที่ 3 สำหรับพรีเมียม',
-        layer4: 'ข้อมูลชั้นที่ 4 สำหรับพรีเมียม',
-        layer5: 'ข้อมูลชั้นที่ 5 สำหรับพรีเมียม',
-        layer6: 'ข้อมูลชั้นที่ 6 สำหรับพรีเมียม'
-      };
     }
 
-    return analysisResult;
+    // 2. สร้าง Prompt สำหรับ DeepSeek
+    const prompt = `
+      วิเคราะห์ชะตาชีวิตจากข้อมูลต่อไปนี้:
+      - วันเกิด: ${birthDate}
+      - เวลาเกิด: ${birthTime}
+      - สถานที่เกิด: ${birthPlace}
+      - กรุ๊ปเลือด: ${bloodType}
+      ${userData ? `- ข้อมูลเพิ่มเติม: ${JSON.stringify(userData)}` : ''}
+
+      กรุณาวิเคราะห์ตามหัวข้อ:
+      1. ประเภทบุคลิกภาพ (Visionary Builder, Strategic Thinker, Creative Innovator, หรืออื่นๆ)
+      2. จุดแข็งและจุดอ่อน
+      3. จังหวะชีวิตในปัจจุบัน
+      4. คำแนะนำในการพัฒนา
+      5. คำถามชวนคิด 3 ข้อ
+      6. Journal Prompt 1 ข้อ
+
+      ตอบในรูปแบบ JSON เท่านั้น
+    `;
+
+    const systemPrompt = `
+      คุณคือ ASTROVERA ผู้เชี่ยวชาญด้านการวิเคราะห์ชีวิตด้วยศาสตร์แห่งดวงดาว มิติพลังงาน และจิตวิทยา
+      ตอบในรูปแบบ JSON ที่มี key ดังนี้:
+      {
+        "userType": "ชื่อประเภทบุคลิกภาพ",
+        "description": "คำอธิบายสั้น",
+        "lifePhase": "จังหวะชีวิตปัจจุบัน",
+        "strengths": ["จุดแข็ง 1", "จุดแข็ง 2", "จุดแข็ง 3"],
+        "weaknesses": ["จุดอ่อน 1", "จุดอ่อน 2"],
+        "advice": "คำแนะนำ",
+        "reflectionQuestions": ["คำถาม 1", "คำถาม 2", "คำถาม 3"],
+        "journalPrompt": "หัวข้อ Journal"
+      }
+    `;
+
+    // 3. เรียก DeepSeek API
+    const analysisResult = await callDeepSeekAPI(prompt, systemPrompt);
+    const parsedResult = JSON.parse(analysisResult);
+
+    // 4. บันทึกผลลัพธ์ลง Supabase
+    const supabase = await getSupabaseClient();
+    const { data: savedAnalysis, error: saveError } = await supabase
+      .from('analyses')
+      .insert({
+        user_id: userId || null,
+        birth_date: birthDate,
+        birth_time: birthTime,
+        birth_place: birthPlace,
+        blood_type: bloodType,
+        result: parsedResult,
+        created_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+
+    if (saveError) {
+      console.error('Error saving to Supabase:', saveError);
+    }
+
+    // 5. ส่งผลลัพธ์กลับ
+    return {
+      success: true,
+      data: {
+        ...parsedResult,
+        userId: userId || null,
+        analysisId: savedAnalysis?.id || null,
+        timestamp: new Date().toISOString()
+      },
+      message: 'วิเคราะห์สำเร็จ'
+    };
 
   } catch (error) {
-    console.error('Error in analyze:', error);
+    console.error('Error in analyze with DeepSeek:', error);
     return {
       success: false,
-      message: 'Analysis failed'
+      message: error.message || 'Analysis failed'
     };
   }
 }
 
-// ฟังก์ชันบันทึกการตัดสินใจ
-async function handleSaveDecision(data) {
+// 2. บันทึกการตัดสินใจลง Supabase
+async function handleSaveDecisionToSupabase(data) {
   try {
-    const decisionData = data.data || {};
-    
-    // บันทึกข้อมูล (ในระบบจริงจะบันทึกลง Database)
-    const savedDecision = {
-      id: Date.now(),
-      ...decisionData,
-      timestamp: new Date().toISOString(),
-      status: 'saved'
-    };
+    const { userId, decisionData } = data;
+    const supabase = await getSupabaseClient();
+
+    const { data: savedDecision, error } = await supabase
+      .from('decisions')
+      .insert({
+        user_id: userId || null,
+        title: decisionData.title,
+        description: decisionData.description,
+        category: decisionData.category || 'ทั่วไป',
+        confidence: decisionData.confidence || 5,
+        expected_outcome: decisionData.expectedOutcome,
+        created_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // ถ้ามีการวิเคราะห์เพิ่มเติมด้วย DeepSeek
+    let analysis = null;
+    if (decisionData.title) {
+      const prompt = `
+        วิเคราะห์การตัดสินใจนี้:
+        - หัวข้อ: ${decisionData.title}
+        - รายละเอียด: ${decisionData.description || 'ไม่มี'}
+        - หมวดหมู่: ${decisionData.category || 'ทั่วไป'}
+        - ความมั่นใจ: ${decisionData.confidence || 5}/10
+
+        ให้คำแนะนำและมุมมองในการตัดสินใจนี้
+      `;
+      analysis = await callDeepSeekAPI(prompt);
+    }
 
     return {
       success: true,
-      data: savedDecision,
+      data: {
+        ...savedDecision,
+        analysis: analysis
+      },
       message: 'บันทึกการตัดสินใจสำเร็จ'
     };
 
@@ -163,22 +269,30 @@ async function handleSaveDecision(data) {
     console.error('Error saving decision:', error);
     return {
       success: false,
-      message: 'Failed to save decision'
+      message: error.message || 'Failed to save decision'
     };
   }
 }
 
-// ฟังก์ชันบันทึก Journal
-async function handleSaveJournal(data) {
+// 3. บันทึก Journal ลง Supabase
+async function handleSaveJournalToSupabase(data) {
   try {
-    const journalData = data.data || {};
-    
-    const savedJournal = {
-      id: Date.now(),
-      ...journalData,
-      timestamp: new Date().toISOString(),
-      status: 'saved'
-    };
+    const { userId, journalData } = data;
+    const supabase = await getSupabaseClient();
+
+    const { data: savedJournal, error } = await supabase
+      .from('journals')
+      .insert({
+        user_id: userId || null,
+        content: journalData.content,
+        mood: journalData.mood || 'neutral',
+        tags: journalData.tags || [],
+        created_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
 
     return {
       success: true,
@@ -190,63 +304,89 @@ async function handleSaveJournal(data) {
     console.error('Error saving journal:', error);
     return {
       success: false,
-      message: 'Failed to save journal'
+      message: error.message || 'Failed to save journal'
     };
   }
 }
 
-// ฟังก์ชันบันทึกการติดตามผล
-async function handleSaveFollowUp(data) {
+// 4. บันทึกการติดตามผล
+async function handleSaveFollowUpToSupabase(data) {
   try {
-    const followUpData = data.data || {};
-    
-    const savedFollowUp = {
-      id: Date.now(),
-      ...followUpData,
-      timestamp: new Date().toISOString(),
-      status: 'saved'
-    };
+    const { userId, followUpData } = data;
+    const supabase = await getSupabaseClient();
+
+    const { data: savedFollowUp, error } = await supabase
+      .from('followups')
+      .insert({
+        user_id: userId || null,
+        decision_id: followUpData.decisionId,
+        status: followUpData.status || 'pending',
+        result: followUpData.result || null,
+        reflection: followUpData.reflection || null,
+        scheduled_at: followUpData.scheduledAt || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        created_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
 
     return {
       success: true,
       data: savedFollowUp,
-      message: 'บันทึกการติดตามผลสำเร็จ',
-      followUpSchedule: {
-        day30: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        day90: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
-        day180: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
-        day365: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
-      }
+      message: 'บันทึกการติดตามผลสำเร็จ'
     };
 
   } catch (error) {
     console.error('Error saving follow-up:', error);
     return {
       success: false,
-      message: 'Failed to save follow-up'
+      message: error.message || 'Failed to save follow-up'
     };
   }
 }
 
-// ฟังก์ชัน VERA AI Chat
-async function handleAskVERA(data) {
+// 5. VERA AI Chat ด้วย DeepSeek
+async function handleAskVERAWithDeepSeek(data) {
   try {
-    const question = data.question || 'สวัสดี';
-    
-    // จำลองการตอบ (ในระบบจริงจะใช้ AI)
-    const responses = {
-      'สวัสดี': 'สวัสดีครับ/ค่ะ ฉันคือ VERA ผู้ช่วยชีวิตของคุณ มีอะไรให้ช่วยไหม?',
-      'ควรโฟกัสอะไร': 'จากข้อมูลของคุณ ช่วงนี้ควรโฟกัสที่การสร้างรากฐานที่แข็งแกร่ง และอย่าลืมดูแลสุขภาพกายและใจไปด้วย',
-      'วันนี้รู้สึกเหนื่อย': 'เข้าใจค่ะ การพักผ่อนเป็นสิ่งสำคัญ ลองทำสมาธิสัก 5 นาที หรือเดินเล่นสูดอากาศบริสุทธิ์ดูนะคะ',
-      'default': 'ขอบคุณสำหรับคำถามครับ/ค่ะ ฉันกำลังเรียนรู้ที่จะตอบคำถามนี้ให้ดีขึ้น'
-    };
+    const { userId, question } = data;
 
-    const answer = responses[question] || responses.default;
+    // ดึงข้อมูลผู้ใช้จาก Supabase เพื่อใช้เป็น Context
+    let userContext = '';
+    if (userId) {
+      const supabase = await getSupabaseClient();
+      const { data: userData } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      
+      if (userData) {
+        userContext = `ข้อมูลผู้ใช้: ${JSON.stringify(userData)}`;
+      }
+    }
+
+    const prompt = `
+      ${userContext}
+      
+      คำถาม: ${question}
+
+      กรุณาตอบในฐานะ VERA ผู้ช่วยชีวิตที่เข้าใจผู้ใช้และให้คำแนะนำที่มีประโยชน์
+    `;
+
+    const systemPrompt = `
+      คุณคือ VERA ผู้ช่วยชีวิตของ ASTROVERA
+      มีบุคลิกที่อบอุ่น เข้าใจผู้อื่น ให้คำแนะนำที่มีประโยชน์และสร้างแรงบันดาลใจ
+      ตอบด้วยภาษาไทยที่เป็นธรรมชาติ
+    `;
+
+    const answer = await callDeepSeekAPI(prompt, systemPrompt);
 
     return {
       success: true,
       answer: answer,
       question: question,
+      userId: userId || null,
       timestamp: new Date().toISOString()
     };
 
@@ -254,25 +394,44 @@ async function handleAskVERA(data) {
     console.error('Error in VERA chat:', error);
     return {
       success: false,
-      message: 'Failed to process question'
+      message: error.message || 'Failed to process question'
     };
   }
 }
 
-// ฟังก์ชันซิงค์ข้อมูล
-async function handleSyncDecisions(data) {
+// 6. ซิงค์ข้อมูลขึ้น Supabase
+async function handleSyncDecisionsToSupabase(data) {
   try {
-    const decisions = data.data || [];
-    
-    // ในระบบจริงจะบันทึกลง Database
-    const syncResult = {
-      synced: decisions.length,
-      timestamp: new Date().toISOString()
-    };
+    const { userId, decisions } = data;
+    const supabase = await getSupabaseClient();
+
+    const results = [];
+    for (const decision of decisions) {
+      const { data: saved, error } = await supabase
+        .from('decisions')
+        .insert({
+          user_id: userId || null,
+          title: decision.title,
+          description: decision.description,
+          category: decision.category || 'ทั่วไป',
+          confidence: decision.confidence || 5,
+          expected_outcome: decision.expectedOutcome,
+          created_at: decision.timestamp || new Date().toISOString()
+        })
+        .select()
+        .single();
+
+      if (!error) {
+        results.push(saved);
+      }
+    }
 
     return {
       success: true,
-      data: syncResult,
+      data: {
+        synced: results.length,
+        total: decisions.length
+      },
       message: 'ซิงค์ข้อมูลสำเร็จ'
     };
 
@@ -280,21 +439,28 @@ async function handleSyncDecisions(data) {
     console.error('Error syncing decisions:', error);
     return {
       success: false,
-      message: 'Failed to sync decisions'
+      message: error.message || 'Failed to sync decisions'
     };
   }
 }
 
-// ฟังก์ชันบันทึก Push Subscription
-async function handleSavePushSubscription(data) {
+// 7. บันทึก Push Subscription
+async function handleSavePushSubscriptionToSupabase(data) {
   try {
-    const subscription = data.data || {};
-    
-    // ในระบบจริงจะบันทึก Subscription ลง Database
-    const savedSubscription = {
-      ...subscription,
-      savedAt: new Date().toISOString()
-    };
+    const { userId, subscription } = data;
+    const supabase = await getSupabaseClient();
+
+    const { data: savedSubscription, error } = await supabase
+      .from('push_subscriptions')
+      .upsert({
+        user_id: userId || null,
+        subscription: subscription,
+        updated_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
 
     return {
       success: true,
@@ -306,7 +472,7 @@ async function handleSavePushSubscription(data) {
     console.error('Error saving push subscription:', error);
     return {
       success: false,
-      message: 'Failed to save push subscription'
+      message: error.message || 'Failed to save push subscription'
     };
   }
 }
