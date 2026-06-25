@@ -1,7 +1,5 @@
 // netlify/functions/life-copilot.js
-// Life Copilot API — ใช้ AI ภายนอก (OpenAI) ตอบคำถาม
-
-const fetch = require('node-fetch');
+// Life Copilot — ใช้ DeepSeek API
 
 exports.handler = async (event) => {
   // อนุญาตเฉพาะ POST
@@ -10,12 +8,12 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { message, history, profile, isPremium } = JSON.parse(event.body);
+    const { message, history, profile } = JSON.parse(event.body);
 
-    // ใช้ OpenAI API Key จาก Environment Variable
-    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-    if (!OPENAI_API_KEY) {
-      console.error('❌ Missing OPENAI_API_KEY environment variable');
+    // ใช้ DeepSeek API Key จาก Environment Variable
+    const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
+    if (!DEEPSEEK_API_KEY) {
+      console.error('❌ Missing DEEPSEEK_API_KEY environment variable');
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'API key not configured' })
@@ -23,7 +21,7 @@ exports.handler = async (event) => {
     }
 
     // สร้าง system prompt จาก profile ของผู้ใช้
-    const systemPrompt = buildSystemPrompt(profile, isPremium);
+    const systemPrompt = buildSystemPrompt(profile);
 
     // สร้าง messages array
     const messages = [
@@ -32,15 +30,15 @@ exports.handler = async (event) => {
       { role: 'user', content: message }
     ];
 
-    // เรียก OpenAI API
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    // เรียก DeepSeek API
+    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`
+        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
       },
       body: JSON.stringify({
-        model: isPremium ? 'gpt-4' : 'gpt-3.5-turbo',
+        model: 'deepseek-chat',
         messages: messages,
         temperature: 0.7,
         max_tokens: 800,
@@ -50,7 +48,7 @@ exports.handler = async (event) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('❌ OpenAI API error:', errorText);
+      console.error('❌ DeepSeek API error:', errorText);
       return {
         statusCode: response.status,
         body: JSON.stringify({ error: 'AI service error' })
@@ -75,7 +73,7 @@ exports.handler = async (event) => {
   }
 };
 
-function buildSystemPrompt(profile, isPremium) {
+function buildSystemPrompt(profile) {
   const { name, archetype, archetypeDesc, phase, baziDayMaster, lifePathNum, strengths, blindspot } = profile || {};
 
   let prompt = `คุณคือ VERA ผู้ช่วยชีวิตส่วนตัวของ ${name || 'ผู้ใช้'} คุณเป็นผู้ช่วยที่อบอุ่น ฉลาด และเข้าใจมนุษย์อย่างลึกซึ้ง
@@ -88,14 +86,13 @@ ${lifePathNum ? `- เลขชีวิต: ${lifePathNum}` : ''}
 ${strengths?.length ? `- จุดแข็ง: ${strengths.join(', ')}` : ''}
 ${blindspot?.length ? `- จุดที่ควรระวัง: ${blindspot.map(b => b.t).join(', ')}` : ''}
 
-${isPremium ? 'คุณสามารถให้คำแนะนำที่ลึกซึ้งและเฉพาะตัวมากขึ้น' : 'คุณให้คำแนะนำทั่วไปตามข้อมูลที่มี'}
-
 กฎการตอบ:
 1. ตอบเป็นภาษาไทย
 2. ใช้คำพูดที่อบอุ่นและเข้าใจ
 3. อ้างอิงข้อมูลของผู้ใช้เมื่อเกี่ยวข้อง
 4. ถ้าคำถามอยู่นอกขอบเขต ให้ตอบอย่างสุภาพว่าช่วยไม่ได้
-5. ตอบสั้นกระชับ แต่มีประโยชน์`;
+5. ตอบสั้นกระชับ แต่มีประโยชน์
+6. ถ้าผู้ใช้ดูเศร้าหรือเครียด ให้กำลังใจอย่างเหมาะสม`;
 
   return prompt;
 }
