@@ -6,16 +6,16 @@
     <title>ASTROVERA — ปัญญาชีวิต</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="manifest" href="manifest.json" />
-
+    
     <style>
-        /* ===== พื้นหลังและธีม (จากของเก่า) ===== */
+        /* ===== พื้นฐาน ===== */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background: #0a0a1a;
             color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
+            padding: 20px;
         }
         body::before {
             content: '';
@@ -24,13 +24,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at 20% 50%, rgba(72, 49, 212, 0.15) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(108, 99, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(0, 200, 255, 0.05) 0%, transparent 40%);
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(72, 49, 212, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(108, 99, 255, 0.1) 0%, transparent 50%);
             z-index: -2;
             pointer-events: none;
         }
-
+        
         /* ===== ดาวตก ===== */
         .shooting-stars {
             position: fixed;
@@ -58,45 +58,22 @@
             right: 0;
             width: 80px;
             height: 1px;
-            background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
+            background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
             transform: translateY(-50%);
         }
         @keyframes shoot {
-            0% { transform: translate(0, 0) rotate(0deg);
-                opacity: 1; }
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
             70% { opacity: 1; }
-            100% { transform: translate(-600px, 600px) rotate(20deg);
-                opacity: 0; }
+            100% { transform: translate(-600px, 600px) rotate(20deg); opacity: 0; }
         }
-        .shooting-star:nth-child(1) { top: 10%;
-            left: 20%;
-            animation-duration: 6s;
-            animation-delay: 0s; }
-        .shooting-star:nth-child(2) { top: 30%;
-            left: 60%;
-            animation-duration: 8s;
-            animation-delay: 2s; }
-        .shooting-star:nth-child(3) { top: 50%;
-            left: 10%;
-            animation-duration: 7s;
-            animation-delay: 4s; }
-        .shooting-star:nth-child(4) { top: 70%;
-            left: 80%;
-            animation-duration: 9s;
-            animation-delay: 1s; }
-        .shooting-star:nth-child(5) { top: 90%;
-            left: 40%;
-            animation-duration: 5s;
-            animation-delay: 3s; }
-        .shooting-star:nth-child(6) { top: 20%;
-            left: 90%;
-            animation-duration: 7.5s;
-            animation-delay: 5s; }
-        .shooting-star:nth-child(7) { top: 45%;
-            left: 50%;
-            animation-duration: 6.5s;
-            animation-delay: 2.5s; }
-
+        .shooting-star:nth-child(1) { top: 10%; left: 20%; animation-duration: 6s; animation-delay: 0s; }
+        .shooting-star:nth-child(2) { top: 30%; left: 60%; animation-duration: 8s; animation-delay: 2s; }
+        .shooting-star:nth-child(3) { top: 50%; left: 10%; animation-duration: 7s; animation-delay: 4s; }
+        .shooting-star:nth-child(4) { top: 70%; left: 80%; animation-duration: 9s; animation-delay: 1s; }
+        .shooting-star:nth-child(5) { top: 90%; left: 40%; animation-duration: 5s; animation-delay: 3s; }
+        .shooting-star:nth-child(6) { top: 20%; left: 90%; animation-duration: 7.5s; animation-delay: 5s; }
+        .shooting-star:nth-child(7) { top: 45%; left: 50%; animation-duration: 6.5s; animation-delay: 2.5s; }
+        
         /* ===== Container ===== */
         .container {
             max-width: 1200px;
@@ -105,11 +82,11 @@
             position: relative;
             z-index: 1;
         }
-
-        /* ===== หัวข้อและแบรนด์ ===== */
+        
+        /* ===== Brand (ด้านบน) ===== */
         .brand {
             text-align: center;
-            padding: 20px 0;
+            padding: 20px 0 30px;
         }
         .brand h1 {
             font-size: 3rem;
@@ -123,50 +100,13 @@
             font-size: 1.2rem;
             color: #aaa;
             margin-top: 8px;
-            letter-spacing: 2px;
         }
-
-        /* ===== Hero Grid (ของเก่า) ===== */
-        .hero-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .hero-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 16px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.3s;
-        }
-        .hero-item:hover {
-            transform: translateY(-4px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(108, 99, 255, 0.3);
-        }
-        .hero-item .icon {
-            font-size: 2.5rem;
-            display: block;
-            margin-bottom: 10px;
-        }
-        .hero-item .title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #fff;
-        }
-        .hero-item .desc {
-            font-size: 0.85rem;
-            color: #888;
-            margin-top: 4px;
-        }
-
-        /* ===== ส่วนวิเคราะห์ (ของเก่า) ===== */
+        
+        /* ===== ฟอร์มวิเคราะห์ (อยู่กลาง) ===== */
         .section-title {
             text-align: center;
             font-size: 2rem;
-            margin: 40px 0 20px;
+            margin: 40px 0 10px;
         }
         .section-subtitle {
             text-align: center;
@@ -174,7 +114,6 @@
             margin-bottom: 30px;
             font-size: 1.1rem;
         }
-
         .analysis-box {
             max-width: 700px;
             margin: 0 auto;
@@ -184,10 +123,7 @@
             border-radius: 16px;
             padding: 30px;
         }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
+        .form-group { margin-bottom: 16px; }
         .form-group label {
             display: block;
             margin-bottom: 6px;
@@ -195,8 +131,7 @@
             font-size: 14px;
             color: #ccc;
         }
-        .form-group input,
-        .form-group select {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px 16px;
             background: rgba(255, 255, 255, 0.05);
@@ -206,22 +141,14 @@
             font-size: 14px;
             box-sizing: border-box;
         }
-        .form-group input:focus,
-        .form-group select:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: #6c63ff;
             box-shadow: 0 0 20px rgba(108, 99, 255, 0.1);
         }
-        .form-group select option {
-            background: #1a1a2e;
-            color: #fff;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
+        .form-group select option { background: #1a1a2e; color: #fff; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        
         .btn-primary {
             padding: 14px 32px;
             background: linear-gradient(135deg, #6c63ff, #4a3fcf);
@@ -238,12 +165,61 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
         }
-
-        /* ===== VERA (ใหม่) ===== */
-        .vera-section {
+        #analysis-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            min-height: 60px;
+        }
+        
+        /* ===== 5 อย่าง (อยู่ด้านล่าง - เด่นขึ้น) ===== */
+        .features-section {
             margin-top: 50px;
+            padding: 40px 0;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .features-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+        .features-title span {
+            background: linear-gradient(135deg, #6c63ff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .feature-item {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 24px 20px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s;
+        }
+        .feature-item:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(108, 99, 255, 0.4);
+            box-shadow: 0 12px 40px rgba(108, 99, 255, 0.1);
+        }
+        .feature-item .icon { font-size: 2.8rem; display: block; margin-bottom: 12px; }
+        .feature-item .title { font-weight: 700; font-size: 1.1rem; color: #fff; margin-bottom: 6px; }
+        .feature-item .desc { font-size: 0.85rem; color: #aaa; line-height: 1.4; }
+        
+        /* ===== VERA (อยู่ด้านล่างสุด) ===== */
+        .vera-section {
+            margin-top: 40px;
             padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
         .quick-modes {
             display: flex;
@@ -276,14 +252,8 @@
             color: #888;
             margin-top: 4px;
         }
-
-        .vera-form {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        .vera-form .form-row {
-            margin-bottom: 12px;
-        }
+        .vera-form { max-width: 700px; margin: 0 auto; }
+        .vera-form .form-row { margin-bottom: 12px; }
         .vera-form .mode-select,
         .vera-form .message-input {
             width: 100%;
@@ -296,20 +266,15 @@
             box-sizing: border-box;
             font-family: inherit;
         }
-        .vera-form .mode-select option {
-            background: #1a1a2e;
-            color: #fff;
-        }
-        .vera-form .message-input {
-            resize: vertical;
-        }
+        .vera-form .mode-select option { background: #1a1a2e; color: #fff; }
+        .vera-form .message-input { resize: vertical; }
         .vera-form .message-input:focus,
         .vera-form .mode-select:focus {
             outline: none;
             border-color: #6c63ff;
             box-shadow: 0 0 20px rgba(108, 99, 255, 0.1);
         }
-        .vera-result {
+        #vera-result {
             margin-top: 24px;
             min-height: 80px;
             padding: 20px;
@@ -317,7 +282,7 @@
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
-
+        
         /* ===== Notification ===== */
         #notification {
             position: fixed;
@@ -329,13 +294,13 @@
             font-weight: 500;
             z-index: 10000;
             display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             max-width: 400px;
         }
         #notification.success { background: #4caf50; }
         #notification.error { background: #f44336; }
         #notification.info { background: #2196f3; }
-
+        
         /* ===== Loading ===== */
         .loading-spinner {
             display: flex;
@@ -352,14 +317,12 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
         /* ===== Responsive ===== */
         @media (max-width: 768px) {
             .quick-modes { flex-direction: column; }
-            .hero-grid { grid-template-columns: 1fr 1fr; }
+            .features-grid { grid-template-columns: 1fr 1fr; }
             .container { padding: 12px; }
             .form-row { grid-template-columns: 1fr; }
             .brand h1 { font-size: 2.2rem; }
@@ -380,7 +343,7 @@
     </div>
 
     <!-- ============================================================
-    BRAND / LOGO (ของเก่า)
+    BRAND (ด้านบน)
     ============================================================ -->
     <div class="brand">
         <div class="container">
@@ -390,40 +353,7 @@
     </div>
 
     <!-- ============================================================
-    HERO GRID (ของเก่า - เอาเฉพาะที่ใช้ได้)
-    ============================================================ -->
-    <section class="container">
-        <div class="hero-grid">
-            <div class="hero-item">
-                <span class="icon">🩸</span>
-                <div class="title">กรุ๊ปเลือดของคุณ</div>
-                <div class="desc">เพิ่มความแม่นยำการวิเคราะห์มิติพลังงาน</div>
-            </div>
-            <div class="hero-item">
-                <span class="icon">🧭</span>
-                <div class="title">การค้นพบตัวตน</div>
-                <div class="desc">ดวงดาว มิติพลังงาน เลขศาสตร์ + จิตวิทยา ในที่เดียว</div>
-            </div>
-            <div class="hero-item">
-                <span class="icon">🔁</span>
-                <div class="title">กระจกตัวตน™</div>
-                <div class="desc">สะท้อนความคิดด้วยโมเดล 6 ชั้น</div>
-            </div>
-            <div class="hero-item">
-                <span class="icon">🎯</span>
-                <div class="title">Life Decision Tracker</div>
-                <div class="desc">บันทึก ติดตาม เรียนรู้ พัฒนา</div>
-            </div>
-            <div class="hero-item">
-                <span class="icon">🌱</span>
-                <div class="title">วงจรการเติบโต</div>
-                <div class="desc">เติบโตจากบทเรียนชีวิต</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================
-    ฟอร์มวิเคราะห์ตัวตน (ของเก่า - ใช้ได้)
+    ฟอร์มวิเคราะห์ตัวตน (ตรงกลาง)
     ============================================================ -->
     <section class="container">
         <h2 class="section-title">🔮 วิเคราะห์ตัวตนของคุณ</h2>
@@ -441,12 +371,10 @@
                         <input type="time" id="birth-time" required />
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="birth-place">📍 สถานที่เกิด</label>
                     <input type="text" id="birth-place" placeholder="กรุงเทพฯ, ไทย" />
                 </div>
-
                 <div class="form-group">
                     <label for="blood-type">🩸 กรุ๊ปเลือด</label>
                     <select id="blood-type">
@@ -456,22 +384,54 @@
                         <option value="O" selected>O</option>
                     </select>
                 </div>
-
-                <button type="submit" class="btn-primary">
-                    ✨ วิเคราะห์ตัวตน
-                </button>
+                <button type="submit" class="btn-primary">✨ วิเคราะห์ตัวตน</button>
             </form>
-
-            <div id="analysis-result" style="margin-top:20px;"></div>
+            <div id="analysis-result"></div>
         </div>
     </section>
 
     <!-- ============================================================
-    🧠 VERA - แทนที่ AI ตัวอื่นๆ ทั้งหมด
+    5 อย่าง (🩸🧭🔁🎯🌱) - อยู่ด้านล่าง เด่นขึ้น
+    ============================================================ -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="features-title">✦ <span>เครื่องมือวิเคราะห์ ASTROVERA</span></h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="icon">🩸</span>
+                    <div class="title">กรุ๊ปเลือดของคุณ</div>
+                    <div class="desc">เพิ่มความแม่นยำการวิเคราะห์มิติพลังงาน</div>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🧭</span>
+                    <div class="title">การค้นพบตัวตน</div>
+                    <div class="desc">ดวงดาว มิติพลังงาน เลขศาสตร์ + จิตวิทยา ในที่เดียว</div>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🔁</span>
+                    <div class="title">กระจกตัวตน™</div>
+                    <div class="desc">สะท้อนความคิดด้วยโมเดล 6 ชั้น</div>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🎯</span>
+                    <div class="title">Life Decision Tracker</div>
+                    <div class="desc">บันทึก ติดตาม เรียนรู้ พัฒนา</div>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🌱</span>
+                    <div class="title">วงจรการเติบโต</div>
+                    <div class="desc">เติบโตจากบทเรียนชีวิต</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    🧠 VERA (ด้านล่างสุด)
     ============================================================ -->
     <section class="container vera-section">
-        <h2 class="section-title">💬 VERA ผู้ช่วยชีวิต</h2>
-        <p class="section-subtitle">AI ผู้ช่วยส่วนตัวของคุณ พร้อมให้คำปรึกษาทุกสถานการณ์</p>
+        <h2 style="text-align:center; font-size:1.8rem;">💬 VERA ผู้ช่วยชีวิต</h2>
+        <p style="text-align:center; color:#aaa; font-size:0.95rem;">AI ผู้ช่วยส่วนตัวของคุณ พร้อมให้คำปรึกษาทุกสถานการณ์</p>
 
         <div class="quick-modes">
             <button class="vera-mode-btn" data-mode="chat" data-preset-message="สวัสดี">
@@ -501,7 +461,7 @@
             </div>
         </form>
 
-        <div id="vera-result" class="vera-result"></div>
+        <div id="vera-result"></div>
     </section>
 
     <!-- ============================================================
