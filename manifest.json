@@ -1,46 +1,100 @@
 {
-  "name": "ASTROVERA — Personal Life Intelligence",
+  "name": "ASTROVERA - ปัญญาชีวิต",
   "short_name": "ASTROVERA",
-  "description": "วิเคราะห์ชีวิต พัฒนาความคิด ช่วยตัดสินใจ — ไม่ใช่การดูดวง",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "แพลตฟอร์มวิเคราะห์ชีวิตด้วยดวงดาว มิติพลังงาน และจิตวิทยา",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#082B24",
-  "theme_color": "#163528",
+  "background_color": "#0a0a1a",
+  "theme_color": "#6c63ff",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "./android-chrome-192x192.png",
+      "src": "/assets/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./android-chrome-512x512.png",
-      "sizes": "512x512",
+      "src": "/assets/icons/icon-384x384.png",
+      "sizes": "384x384",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./apple-touch-icon.png",
-      "sizes": "180x180",
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./favicon-32x32.png",
-      "sizes": "32x32",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./favicon-16x16.png",
-      "sizes": "16x16",
-      "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ],
-  "categories": ["lifestyle", "productivity", "personalization"],
+  "shortcuts": [
+    {
+      "name": "วิเคราะห์ตัวตน",
+      "short_name": "วิเคราะห์",
+      "description": "เริ่มการวิเคราะห์ตัวตน",
+      "url": "/?action=analyze",
+      "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Life Decision Tracker",
+      "short_name": "Decision Tracker",
+      "description": "บันทึกการตัดสินใจ",
+      "url": "/?action=decision",
+      "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Journal",
+      "short_name": "Journal",
+      "description": "บันทึกความคิด",
+      "url": "/?action=journal",
+      "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/home.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/screenshots/analysis.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "categories": ["lifestyle", "health", "productivity"],
   "lang": "th",
   "dir": "ltr"
 }
