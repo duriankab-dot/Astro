@@ -1,5 +1,5 @@
 // netlify/functions/natal-chart.js
-// ใช้ export แบบ ES Module
+// ใช้ CommonJS แทน ESM (ใช้ require และ exports)
 
 // ตั้งค่า Environment Variables
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -7,8 +7,8 @@ const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
 
-// ใช้ export แทน exports
-export const handler = async (event, context) => {
+// ใช้ exports.handler แทน export const handler
+exports.handler = async function(event, context) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -76,14 +76,13 @@ export const handler = async (event, context) => {
   }
 };
 
-// ============ ฟังก์ชันหลัก (mock version - ไม่ต้องใช้ Supabase/DeepSeek จริง) ============
+// ============ ฟังก์ชันหลัก (Mock) ============
 
-// 1. วิเคราะห์ข้อมูล (Mock)
+// 1. วิเคราะห์ข้อมูล
 async function handleAnalyze(data) {
   try {
     const { birthDate, birthTime, birthPlace, bloodType } = data;
 
-    // Mock result (สำหรับทดสอบ)
     const result = {
       userType: 'The Visionary Builder',
       description: 'ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง',
@@ -117,7 +116,7 @@ async function handleAnalyze(data) {
   }
 }
 
-// 2. บันทึกการตัดสินใจ (Mock)
+// 2. บันทึกการตัดสินใจ
 async function handleSaveDecision(data) {
   try {
     const { decisionData } = data;
@@ -140,7 +139,7 @@ async function handleSaveDecision(data) {
   }
 }
 
-// 3. บันทึก Journal (Mock)
+// 3. บันทึก Journal
 async function handleSaveJournal(data) {
   try {
     const { journalData } = data;
@@ -163,7 +162,7 @@ async function handleSaveJournal(data) {
   }
 }
 
-// 4. บันทึกการติดตามผล (Mock)
+// 4. บันทึกการติดตามผล
 async function handleSaveFollowUp(data) {
   try {
     const { followUpData } = data;
@@ -192,7 +191,7 @@ async function handleSaveFollowUp(data) {
   }
 }
 
-// 5. VERA AI Chat (Mock)
+// 5. VERA AI Chat
 async function handleAskVERA(data) {
   try {
     const { question } = data;
@@ -221,7 +220,7 @@ async function handleAskVERA(data) {
   }
 }
 
-// 6. ซิงค์ข้อมูล (Mock)
+// 6. ซิงค์ข้อมูล
 async function handleSyncDecisions(data) {
   try {
     const { decisions } = data;
@@ -243,7 +242,7 @@ async function handleSyncDecisions(data) {
   }
 }
 
-// 7. บันทึก Push Subscription (Mock)
+// 7. บันทึก Push Subscription
 async function handleSavePushSubscription(data) {
   try {
     const { subscription } = data;
