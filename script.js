@@ -153,7 +153,7 @@ async function saveDecision(decisionData) {
 }
 
 // ============================================================
-// 🟡 ฟังก์ชันรอง (ปานกลาง)
+// 🟡 ฟังก์ชันรอง
 // ============================================================
 
 // 5. บันทึก Journal
@@ -301,27 +301,44 @@ async function loadDashboardStats() {
 }
 
 // ============================================================
-// 🟢 ฟังก์ชัน UI และ Utility (เล็กน้อย)
+// 🟢 ฟังก์ชัน UI และ Utility
 // ============================================================
 
 // แสดง Notification
 function showNotification(type, message) {
-  const notification = document.getElementById('notification');
+  let notification = document.getElementById('notification');
   if (!notification) {
-    // สร้าง notification element ถ้ายังไม่มี
-    const newNotification = document.createElement('div');
-    newNotification.id = 'notification';
-    newNotification.className = 'notification';
-    document.body.appendChild(newNotification);
+    notification = document.createElement('div');
+    notification.id = 'notification';
+    notification.className = 'notification';
+    document.body.appendChild(notification);
   }
   
-  const el = document.getElementById('notification');
-  el.className = `notification ${type}`;
-  el.textContent = message;
-  el.style.display = 'block';
+  notification.className = `notification ${type}`;
+  notification.textContent = message;
+  notification.style.display = 'block';
+  notification.style.position = 'fixed';
+  notification.style.top = '20px';
+  notification.style.right = '20px';
+  notification.style.padding = '16px 24px';
+  notification.style.borderRadius = '8px';
+  notification.style.color = 'white';
+  notification.style.fontWeight = '500';
+  notification.style.zIndex = '10000';
+  notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+  notification.style.maxWidth = '400px';
+  notification.style.animation = 'slideIn 0.3s ease';
+  
+  if (type === 'success') {
+    notification.style.background = '#4caf50';
+  } else if (type === 'error') {
+    notification.style.background = '#f44336';
+  } else {
+    notification.style.background = '#2196f3';
+  }
   
   setTimeout(() => {
-    el.style.display = 'none';
+    notification.style.display = 'none';
   }, 3000);
 }
 
@@ -502,81 +519,11 @@ function getWeekNumber() {
 }
 
 // ============================================================
-// 🟢 ฟังก์ชัน UI เพิ่มเติม (เล็กน้อย)
-// ============================================================
-
-// จัดการฟอร์มเวลาเกิด (AM/PM)
-function setupTimeInput() {
-  const timeInput = document.getElementById('birth-time');
-  if (!timeInput) return;
-  
-  // เพิ่มปุ่ม toggle AM/PM
-  const wrapper = document.createElement('div');
-  wrapper.className = 'time-input-wrapper';
-  wrapper.style.display = 'flex';
-  wrapper.style.alignItems = 'center';
-  wrapper.style.gap = '8px';
-  
-  const toggleBtn = document.createElement('button');
-  toggleBtn.type = 'button';
-  toggleBtn.textContent = 'AM';
-  toggleBtn.className = 'ampm-toggle';
-  toggleBtn.style.padding = '4px 12px';
-  toggleBtn.style.borderRadius = '4px';
-  toggleBtn.style.border = '1px solid #ccc';
-  toggleBtn.style.cursor = 'pointer';
-  
-  let isAM = true;
-  toggleBtn.addEventListener('click', function() {
-    isAM = !isAM;
-    this.textContent = isAM ? 'AM' : 'PM';
-    this.style.backgroundColor = isAM ? '#e8f5e9' : '#fff3e0';
-  });
-  
-  timeInput.parentNode.insertBefore(wrapper, timeInput);
-  wrapper.appendChild(timeInput);
-  wrapper.appendChild(toggleBtn);
-}
-
-// เพิ่มคำอธิบายในแผนที่ชีวิต
-function addLifeMapDescriptions() {
-  const lifeMap = document.querySelector('.life-map');
-  if (!lifeMap) return;
-  
-  const descriptions = {
-    health: '❤️ สุขภาพ: พลังงานและความแข็งแรงของร่างกาย',
-    finance: '💰 การเงิน: ความมั่นคงและการเติบโตทางการเงิน',
-    career: '💼 งาน: เส้นทางอาชีพและความสำเร็จ',
-    business: '🚀 ธุรกิจ: โอกาสและการเติบโตทางธุรกิจ',
-    relationship: '💞 ความสัมพันธ์: ความรักและความผูกพัน',
-    growth: '🌱 การเติบโต: พัฒนาตนเองและจิตวิญญาณ'
-  };
-  
-  // เพิ่ม tooltip หรือคำอธิบายใต้แต่ละส่วน
-  document.querySelectorAll('.life-map-item').forEach(item => {
-    const key = item.dataset.key;
-    if (key && descriptions[key]) {
-      const desc = document.createElement('div');
-      desc.className = 'life-map-description';
-      desc.textContent = descriptions[key];
-      desc.style.fontSize = '12px';
-      desc.style.color = '#666';
-      desc.style.marginTop = '4px';
-      item.appendChild(desc);
-    }
-  });
-}
-
-// ============================================================
 // เริ่มต้นใช้งาน
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('🚀 ASTROVERA Loaded');
-  
-  // ตั้งค่า UI
-  setupTimeInput();
-  addLifeMapDescriptions();
   
   // โหลดข้อมูลจาก Local Storage
   loadUserData();
@@ -603,7 +550,6 @@ function loadUserData() {
 }
 
 function displayUserData(data) {
-  // แสดงข้อมูลผู้ใช้ใน UI
   const userTypeEl = document.getElementById('user-type');
   if (userTypeEl) userTypeEl.textContent = data.userType || 'Visionary Builder';
   
