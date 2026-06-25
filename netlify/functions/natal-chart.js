@@ -1,5 +1,7 @@
+// ============================================================
 // netlify/functions/natal-chart.js
-// แก้ไขฟังก์ชันหลักให้รองรับทุกการทำงาน
+// รวม AI ทั้งหมดเข้าเป็น VERA Ecosystem
+// ============================================================
 
 exports.handler = async (event, context) => {
   const headers = {
@@ -25,23 +27,22 @@ exports.handler = async (event, context) => {
 
     let result;
     switch (action) {
-      // ฟังก์ชันหลัก
+      // ============================================================
+      // ฟังก์ชันหลัก: VERA Ecosystem (รวมทุกอย่าง)
+      // ============================================================
+      case 'vera':
+        result = await handleVERA(requestData);
+        break;
+      
+      // ============================================================
+      // ฟังก์ชันรองที่ยังใช้งาน (อาจค่อยๆ ย้ายไป VERA)
+      // ============================================================
       case 'analyze':
         result = await handleAnalyze(requestData);
-        break;
-      case 'ai_advisor':
-      case 'scenario':
-        result = await handleAIScenario(requestData);
-        break;
-      case 'vera_chat':
-      case 'ask_vera':
-        result = await handleVERAChat(requestData);
         break;
       case 'save_decision':
         result = await handleSaveDecision(requestData);
         break;
-      
-      // ฟังก์ชันรอง
       case 'save_journal':
         result = await handleSaveJournal(requestData);
         break;
@@ -55,11 +56,21 @@ exports.handler = async (event, context) => {
         result = await handleSync(requestData);
         break;
       
+      // ============================================================
+      // ฟังก์ชันเก่า (DEPRECATED) - จะค่อยๆ เลิกใช้
+      // ============================================================
+      case 'ai_advisor':
+      case 'scenario':
+      case 'vera_chat':
+      case 'ask_vera':
+        result = await handleDeprecatedAction(action, requestData);
+        break;
+      
       default:
         result = { 
           success: false, 
           message: 'ไม่รู้จักคำสั่ง: ' + action,
-          availableActions: ['analyze', 'ai_advisor', 'scenario', 'vera_chat', 'save_decision', 'save_journal', 'save_followup', 'get_stats', 'sync']
+          availableActions: ['vera', 'analyze', 'save_decision', 'save_journal', 'save_followup', 'get_stats', 'sync']
         };
     }
 
@@ -84,63 +95,85 @@ exports.handler = async (event, context) => {
 };
 
 // ============================================================
-// 🔴 ฟังก์ชันหลัก
+// 🧠 VERA Ecosystem - ฟังก์ชันหลัก
 // ============================================================
 
-// 1. AI ที่ปรึกษาชีวิต + Scenario Intelligence
-async function handleAIScenario(data) {
+async function handleVERA(data) {
   try {
-    const { question, options, userType, lifePhase, context } = data;
+    const { mode, message, context = {} } = data;
     
-    const analysis = {
-      summary: `วิเคราะห์สถานการณ์: ${question || 'การตัดสินใจสำคัญ'}`,
-      userProfile: userType || 'Visionary Builder',
-      currentPhase: lifePhase || 'Building Phase',
-      recommendations: [
-        'พิจารณาทางเลือกที่สอดคล้องกับวิสัยทัศน์ระยะยาว',
-        'ประเมินความเสี่ยงและผลตอบแทนของแต่ละทางเลือก',
-        'ปรึกษาผู้มีประสบการณ์ในด้านนี้'
-      ],
-      scenarios: options ? generateScenarios(options) : generateDefaultScenarios(),
-      decisionFactors: {
-        risk: 'ปานกลาง',
-        reward: 'สูง',
-        timeframe: '3-6 เดือน',
-        alignment: 'สอดคล้องกับเป้าหมายชีวิต'
-      }
+    // ดึงข้อมูลผู้ใช้จาก Local Storage ที่ส่งมา
+    const userContext = {
+      userType: context.userType || 'Visionary Builder',
+      lifePhase: context.lifePhase || 'Building Phase',
+      recentDecisions: context.recentDecisions || [],
+      stats: context.stats || {}
     };
+
+    let response = {};
+
+    switch (mode) {
+      case 'chat':
+        response = await handleVERAChat(message, userContext);
+        break;
+      case 'analyze':
+        response = await handleVERAAnalyze(message, userContext);
+        break;
+      case 'track':
+        response = await handleVERATrack(message, userContext);
+        break;
+      default:
+        response = {
+          reply: 'สวัสดีครับ/ค่ะ ฉัน VERA ผู้ช่วยชีวิตของคุณ 🧠\n\nเลือกโหมดที่ต้องการ:\n• 💬 แชท - พูดคุยให้คำปรึกษาทั่วไป\n• 🧠 วิเคราะห์ - วิเคราะห์สถานการณ์เชิงลึก\n• 📊 ติดตาม - สรุปและติดตามความก้าวหน้า',
+          mode: 'info'
+        };
+    }
 
     return {
       success: true,
-      data: analysis,
-      message: 'วิเคราะห์สถานการณ์สำเร็จ'
+      data: response,
+      message: 'VERA ตอบกลับแล้ว'
     };
 
   } catch (error) {
-    console.error('❌ AI Scenario Error:', error);
+    console.error('❌ VERA Error:', error);
     return {
       success: false,
-      message: 'ไม่สามารถวิเคราะห์สถานการณ์ได้'
+      message: error.message || 'VERA ไม่สามารถตอบกลับได้'
     };
   }
 }
 
-// สร้างสถานการณ์จำลอง
-function generateScenarios(options) {
-  if (!options || options.length === 0) {
-    return generateDefaultScenarios();
+// --- โหมดแชท ---
+async function handleVERAChat(message, context) {
+  const responses = {
+    'สวัสดี': 'สวัสดีครับ/ค่ะ ฉัน VERA ผู้ช่วยชีวิตของคุณ พร้อมให้คำปรึกษาและช่วยเหลือคุณเสมอ 😊\n\nวันนี้มีอะไรให้ฉันช่วยไหม?',
+    'ช่วยอะไร': 'ฉันสามารถช่วยคุณได้หลายด้าน:\n• ให้คำปรึกษาเรื่องชีวิตและการงาน\n• วิเคราะห์สถานการณ์และทางเลือก\n• ติดตามความก้าวหน้าและเป้าหมาย\n• รับฟังและสะท้อนความคิด\n\nคุณอยากเริ่มเรื่องอะไรดี?',
+    'ควรโฟกัสอะไร': `จากข้อมูลของคุณ (${context.userType}) ช่วงนี้ควรโฟกัสที่การสร้างรากฐานที่แข็งแกร่ง\n\n🎯 3 สิ่งที่แนะนำ:\n1. ตั้งเป้าหมายที่ชัดเจนและวัดผลได้\n2. สร้างระบบการทำงานที่มีประสิทธิภาพ\n3. อย่าลืมดูแลสุขภาพกายและใจ`,
+    'เหนื่อย': 'เข้าใจเลยครับ/ค่ะ การพักผ่อนเป็นสิ่งสำคัญ 😌\n\nลองทำตามนี้ดูนะ:\n1. หยุดหายใจลึกๆ 5 ครั้ง\n2. บอกตัวเองว่า "ฉันทำดีที่สุดแล้ว"\n3. หาเวลาพัก 10 นาทีทำสิ่งที่ชอบ\n\nคุณสำคัญมาก อย่าลืมดูแลตัวเองนะครับ/ค่ะ',
+    'อนาคต': 'อนาคตเป็นสิ่งที่เราสร้างขึ้นจากปัจจุบัน 🌟\n\nลองถามตัวเองว่า:\n• วันนี้ฉันทำอะไรให้อนาคตที่ดีที่สุดบ้าง?\n• อะไรคือสิ่งที่ฉันอยากให้อนาคตฉันเป็น?\n• ก้าวเล็กๆ ที่ฉันทำได้วันนี้คืออะไร?',
+    'default': `ขอบคุณที่แชร์เรื่องนี้กับ VERA นะครับ/ค่ะ 🤗\n\nฉันพร้อมรับฟังและช่วยเหลือคุณเสมอ\n\n${context.userType} อย่างคุณมีจุดแข็งที่ยอดเยี่ยม ลองใช้มันเพื่อสร้างสิ่งที่คุณต้องการดูไหม?`
+  };
+
+  let reply = responses['default'];
+  for (const [key, value] of Object.entries(responses)) {
+    if (message && message.includes(key)) {
+      reply = value;
+      break;
+    }
   }
-  return options.map((opt, i) => ({
-    name: opt.name || `ทางเลือก ${i + 1}`,
-    description: opt.description || 'ไม่มีคำอธิบาย',
-    pros: opt.pros || ['ข้อดี'],
-    cons: opt.cons || ['ข้อเสีย'],
-    successRate: opt.successRate || 50 + Math.floor(Math.random() * 30)
-  }));
+
+  return {
+    reply: reply,
+    mode: 'chat',
+    timestamp: new Date().toISOString()
+  };
 }
 
-function generateDefaultScenarios() {
-  return [
+// --- โหมดวิเคราะห์เชิงลึก ---
+async function handleVERAAnalyze(message, context) {
+  // สร้างสถานการณ์จำลองตามบริบท
+  const scenarios = [
     {
       name: 'ทางเลือก A: ใช้เส้นทางปัจจุบัน',
       description: 'ดำเนินการต่อตามแผนที่มีอยู่',
@@ -149,65 +182,110 @@ function generateDefaultScenarios() {
       successRate: 75
     },
     {
-      name: 'ทางเลือก B: เปลี่ยนกลยุทธ์',
+      name: 'ทางเลือก B: ปรับเปลี่ยนกลยุทธ์',
       description: 'ปรับแผนใหม่ให้ทันสมัย',
-      pros: ['โอกาสสูง', 'สร้างความแตกต่าง'],
-      cons: ['ต้องเรียนรู้ใหม่', 'เสี่ยงสูง'],
+      pros: ['โอกาสสูง', 'สร้างความแตกต่าง', 'สอดคล้องกับวิสัยทัศน์'],
+      cons: ['ต้องเรียนรู้ใหม่', 'เสี่ยงสูงกว่า'],
       successRate: 55
     },
     {
-      name: 'ทางเลือก C: รอจังหวะ',
-      description: 'รอเวลาที่เหมาะสม',
-      pros: ['ปลอดภัย', 'มีเวลาเตรียมตัว'],
-      cons: ['เสียเวลา', 'พลาดจังหวะ'],
+      name: 'ทางเลือก C: รอจังหวะที่เหมาะสม',
+      description: 'รอเวลาที่เหมาะสมก่อนตัดสินใจ',
+      pros: ['ปลอดภัย', 'มีเวลาเตรียมตัว', 'ได้ข้อมูลเพิ่ม'],
+      cons: ['เสียเวลา', 'อาจพลาดจังหวะ'],
       successRate: 40
     }
   ];
+
+  // วิเคราะห์ตามประเภทผู้ใช้
+  let analysis = '';
+  if (context.userType === 'Visionary Builder') {
+    analysis = 'คุณเป็น Visionary Builder มีจุดแข็งในการมองภาพใหญ่และลงมือทำ ทางเลือก B อาจตอบโจทย์คุณที่สุด เพราะสอดคล้องกับธรรมชาติของการสร้างสิ่งใหม่';
+  } else {
+    analysis = 'จากข้อมูลของคุณ การตัดสินใจควรพิจารณาทั้งความเสี่ยงและผลตอบแทน ทางเลือก A เป็นตัวเลือกที่ปลอดภัย แต่ B อาจให้ผลลัพธ์ที่มากกว่า';
+  }
+
+  return {
+    reply: `🧠 วิเคราะห์สถานการณ์: "${message || 'การตัดสินใจสำคัญ'}"\n\n${analysis}\n\n📊 สถานการณ์จำลอง:`,
+    mode: 'analyze',
+    scenarios: scenarios,
+    recommendation: 'ลองเริ่มด้วยการทดลองทางเลือก B ในระยะสั้น แล้วประเมินผลก่อนตัดสินใจเต็มรูปแบบ',
+    timestamp: new Date().toISOString()
+  };
 }
 
-// 2. VERA Chat
-async function handleVERAChat(data) {
-  try {
-    const { question, userId, history } = data;
-    
-    const responses = {
-      'สวัสดี': 'สวัสดีครับ/ค่ะ ฉันคือ VERA ผู้ช่วยชีวิตของคุณ พร้อมให้คำปรึกษาและช่วยเหลือคุณเสมอ 😊',
-      'ช่วยอะไร': 'ฉันสามารถช่วยคุณได้หลายด้าน เช่น วิเคราะห์สถานการณ์ แนะนำการตัดสินใจ ตั้งเป้าหมาย หรือแค่รับฟังคุณ',
-      'ควรโฟกัสอะไร': 'จากข้อมูลของคุณ ช่วงนี้ควรโฟกัสที่การสร้างรากฐานที่แข็งแกร่ง และไม่ลืมที่จะดูแลตัวเองด้วยนะครับ',
-      'เหนื่อย': 'เข้าใจเลยครับ การพักผ่อนเป็นสิ่งสำคัญ ลองหยุดหายใจลึกๆ สัก 3 ครั้ง แล้วบอกตัวเองว่า "ฉันทำดีที่สุดแล้ว"',
-      'อนาคต': 'อนาคตเป็นสิ่งที่เราสร้างขึ้นจากปัจจุบัน ลองถามตัวเองว่า "วันนี้ฉันทำอะไรให้อนาคตที่ดีที่สุดบ้าง?"',
-      'default': 'ขอบคุณที่แชร์เรื่องนี้กับ VERA นะครับ ฉันกำลังเรียนรู้ที่จะเข้าใจคุณมากขึ้น อยากคุยเรื่องอะไรเพิ่มเติมไหม?'
-    };
+// --- โหมดติดตาม ---
+async function handleVERATrack(message, context) {
+  const stats = context.stats || {};
+  const decisions = context.recentDecisions || [];
+  
+  let progress = 'คุณยังไม่มีข้อมูลการติดตาม';
+  let nextSteps = ['เริ่มบันทึกการตัดสินใจ', 'ตั้งเป้าหมายแรกของคุณ', 'ติดตามผลทุก 30 วัน'];
+  
+  if (decisions.length > 0) {
+    progress = `คุณมี ${decisions.length} การตัดสินใจที่บันทึกไว้`;
+    nextSteps = [
+      'ติดตามผลการตัดสินใจล่าสุด',
+      'บันทึกการเรียนรู้จากผลลัพธ์',
+      `ครบ 30 วัน: ${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}`
+    ];
+  }
 
-    let answer = responses['default'];
-    for (const [key, value] of Object.entries(responses)) {
-      if (question && question.includes(key)) {
-        answer = value;
-        break;
-      }
-    }
+  return {
+    reply: `📊 สรุปความก้าวหน้า\n\n${progress}\n\n🎯 ขั้นตอนต่อไป:`,
+    mode: 'track',
+    progress: {
+      totalDecisions: decisions.length,
+      completionRate: stats.completionRate || 0,
+      insights: stats.insights || 0
+    },
+    nextSteps: nextSteps,
+    timestamp: new Date().toISOString()
+  };
+}
+
+// ============================================================
+// 🟡 ฟังก์ชันรอง (ยังใช้งาน)
+// ============================================================
+
+// วิเคราะห์ตัวตน
+async function handleAnalyze(data) {
+  try {
+    const { birthDate, birthTime, birthPlace, bloodType } = data;
+
+    const result = {
+      userType: 'The Visionary Builder',
+      description: 'ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง',
+      lifePhase: 'ช่วงสร้าง · Building Phase',
+      strengths: ['มองการณ์ไกล', 'คิดสร้างสรรค์', 'ลงมือทำ', 'สร้างแรงบันดาลใจ'],
+      weaknesses: ['ใจร้อน', 'ละเลยรายละเอียด', 'ชอบควบคุม'],
+      advice: 'ลองโฟกัสที่กระบวนการมากกว่าผลลัพธ์ และเปิดใจรับฟังความคิดเห็นอื่นๆ',
+      reflectionQuestions: [
+        'อะไรคือสิ่งที่คุณกลัวที่สุดในตอนนี้?',
+        'ถ้ารู้ว่าคำตอบอยู่แล้ว คุณกำลังรออะไร?',
+        'อะไรคือก้าวเล็กๆ ที่ทำได้วันนี้?'
+      ],
+      journalPrompt: 'เขียนถึงตัวเองในอนาคต 1 ปีข้างหน้า ตอนนี้คุณเป็นอย่างไร?',
+      birthInfo: { birthDate, birthTime, birthPlace, bloodType },
+      timestamp: new Date().toISOString()
+    };
 
     return {
       success: true,
-      data: {
-        answer: answer,
-        question: question,
-        timestamp: new Date().toISOString(),
-        sessionId: Date.now().toString()
-      },
-      message: 'ตอบกลับสำเร็จ'
+      data: result,
+      message: 'วิเคราะห์ตัวตนสำเร็จ! 🌟'
     };
 
   } catch (error) {
-    console.error('❌ VERA Chat Error:', error);
+    console.error('❌ Analyze Error:', error);
     return {
       success: false,
-      message: 'ไม่สามารถประมวลผลข้อความได้'
+      message: 'ไม่สามารถวิเคราะห์ข้อมูลได้'
     };
   }
 }
 
-// 3. Decision Tracker
+// บันทึกการตัดสินใจ
 async function handleSaveDecision(data) {
   try {
     const { decisionData, userId } = data;
@@ -251,55 +329,7 @@ async function handleSaveDecision(data) {
   }
 }
 
-// 4. ฟังก์ชันวิเคราะห์หลัก
-async function handleAnalyze(data) {
-  try {
-    const { birthDate, birthTime, birthPlace, bloodType, userId } = data;
-
-    const result = {
-      userType: 'The Visionary Builder',
-      description: 'ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง',
-      lifePhase: 'ช่วงสร้าง · Building Phase',
-      elements: {
-        fire: 70,
-        earth: 50,
-        air: 45,
-        water: 35
-      },
-      strengths: ['มองการณ์ไกล', 'คิดสร้างสรรค์', 'ลงมือทำ', 'สร้างแรงบันดาลใจ'],
-      weaknesses: ['ใจร้อน', 'ละเลยรายละเอียด', 'ชอบควบคุม'],
-      advice: 'ลองโฟกัสที่กระบวนการมากกว่าผลลัพธ์ และเปิดใจรับฟังความคิดเห็นอื่นๆ',
-      reflectionQuestions: [
-        'อะไรคือสิ่งที่คุณกลัวที่สุดในตอนนี้?',
-        'ถ้ารู้ว่าคำตอบอยู่แล้ว คุณกำลังรออะไร?',
-        'อะไรคือก้าวเล็กๆ ที่ทำได้วันนี้?',
-        'ใครคือคนที่คุณควรขอบคุณ?'
-      ],
-      journalPrompt: 'เขียนถึงตัวเองในอนาคต 1 ปีข้างหน้า ตอนนี้คุณเป็นอย่างไร?',
-      birthInfo: { birthDate, birthTime, birthPlace, bloodType },
-      timestamp: new Date().toISOString()
-    };
-
-    return {
-      success: true,
-      data: result,
-      message: 'วิเคราะห์ตัวตนสำเร็จ! 🌟'
-    };
-
-  } catch (error) {
-    console.error('❌ Analyze Error:', error);
-    return {
-      success: false,
-      message: 'ไม่สามารถวิเคราะห์ข้อมูลได้'
-    };
-  }
-}
-
-// ============================================================
-// 🟡 ฟังก์ชันรอง
-// ============================================================
-
-// 5. บันทึก Journal
+// บันทึก Journal
 async function handleSaveJournal(data) {
   try {
     const { journalData, userId } = data;
@@ -335,7 +365,7 @@ async function handleSaveJournal(data) {
   }
 }
 
-// 6. บันทึก Follow-up
+// บันทึก Follow-up
 async function handleSaveFollowUp(data) {
   try {
     const { followUpData, userId } = data;
@@ -372,11 +402,9 @@ async function handleSaveFollowUp(data) {
   }
 }
 
-// 7. สถิติ Dashboard
+// สถิติ Dashboard
 async function handleGetStats(data) {
   try {
-    const { userId } = data;
-
     const stats = {
       overview: {
         totalDecisions: 12,
@@ -416,7 +444,7 @@ async function handleGetStats(data) {
   }
 }
 
-// 8. ซิงค์ข้อมูล
+// ซิงค์ข้อมูล
 async function handleSync(data) {
   try {
     const { userId, data: syncData } = data;
@@ -444,4 +472,29 @@ async function handleSync(data) {
       message: 'ไม่สามารถซิงค์ข้อมูลได้'
     };
   }
+}
+
+// ============================================================
+// ⚠️ ฟังก์ชันเก่า (Deprecated) - แนะนำให้ใช้ VERA แทน
+// ============================================================
+
+async function handleDeprecatedAction(action, data) {
+  console.warn(`⚠️ Deprecated action: ${action} - กรุณาใช้ VERA แทน`);
+  
+  // แปลงเป็นรูปแบบ VERA
+  let mode = 'chat';
+  let message = data.question || data.message || 'สวัสดี';
+  
+  if (action === 'ai_advisor' || action === 'scenario') {
+    mode = 'analyze';
+  }
+  
+  // เรียก VERA แทน
+  const result = await handleVERA({
+    mode: mode,
+    message: message,
+    context: data
+  });
+  
+  return result;
 }
