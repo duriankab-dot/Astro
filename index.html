@@ -7062,5 +7062,57 @@ function loadDemo(){
     <div id="sync-body"></div>
   </div>
 </div>
+    <!-- ============================================================
+    🧠 VERA SECTION - ผู้ช่วยชีวิต AI ตัวใหม่
+    ============================================================ -->
+    <section id="vera-section" style="padding: 40px 20px; max-width: 800px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h2 style="color: #fff; font-size: 28px; margin-bottom: 8px;">💬 VERA ผู้ช่วยชีวิต</h2>
+        <p style="color: #aaa; font-size: 16px;">AI ผู้ช่วยส่วนตัวของคุณ พร้อมให้คำปรึกษาทุกสถานการณ์</p>
+      </div>
+
+      <!-- ปุ่มเลือกโหมดด่วน -->
+      <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center;">
+        <button class="vera-mode-btn" data-mode="chat" data-preset-message="สวัสดี" style="flex: 1; min-width: 100px; padding: 14px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; cursor: pointer; transition: all 0.3s; text-align: center; font-size: 15px;">
+          💬 แชท
+          <small style="display: block; font-size: 11px; color: #888; margin-top: 4px;">พูดคุยให้คำปรึกษา</small>
+        </button>
+        <button class="vera-mode-btn" data-mode="analyze" data-preset-message="วิเคราะห์สถานการณ์การงาน" style="flex: 1; min-width: 100px; padding: 14px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; cursor: pointer; transition: all 0.3s; text-align: center; font-size: 15px;">
+          🧠 วิเคราะห์
+          <small style="display: block; font-size: 11px; color: #888; margin-top: 4px;">วิเคราะห์สถานการณ์เชิงลึก</small>
+        </button>
+        <button class="vera-mode-btn" data-mode="track" data-preset-message="สรุปความก้าวหน้าของฉัน" style="flex: 1; min-width: 100px; padding: 14px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; cursor: pointer; transition: all 0.3s; text-align: center; font-size: 15px;">
+          📊 ติดตาม
+          <small style="display: block; font-size: 11px; color: #888; margin-top: 4px;">ติดตามและสรุปผล</small>
+        </button>
+      </div>
+
+      <!-- ฟอร์มหลักของ VERA -->
+      <form id="vera-form" style="max-width: 700px; margin: 0 auto;">
+        <div style="margin-bottom: 12px;">
+          <select id="vera-mode" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 14px; cursor: pointer;">
+            <option value="chat">💬 โหมดแชท - พูดคุยทั่วไป</option>
+            <option value="analyze">🧠 โหมดวิเคราะห์ - วิเคราะห์สถานการณ์</option>
+            <option value="track">📊 โหมดติดตาม - สรุปและติดตาม</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 12px;">
+          <textarea id="vera-message" rows="3" placeholder="พิมพ์ข้อความหรือคำถามของคุณ..." style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-size: 14px; resize: vertical; font-family: inherit; box-sizing: border-box;"></textarea>
+        </div>
+        <div>
+          <button type="submit" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #6c63ff, #4a3fcf); border: none; border-radius: 8px; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s;">ส่งข้อความ ✨</button>
+        </div>
+      </form>
+
+      <!-- พื้นที่แสดงผลลัพธ์ -->
+      <div id="vera-result" style="margin-top: 24px; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); min-height: 80px;"></div>
+    </section>
+
+    <!-- ============================================================
+    สคริปต์ (ต้องมีอยู่แล้ว ถ้ามีแล้วไม่ต้องเพิ่ม)
+    ============================================================ -->
+    <script src="script.js"></script>
+  </body>
+</html>
 </body>
 </html>
