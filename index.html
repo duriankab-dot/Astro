@@ -162,7 +162,7 @@ body{min-height:100vh;background:var(--bg);font-family:var(--fn);color:var(--tx)
 .bsm{padding:10px 18px;font-size:14px;width:auto;border-radius:var(--r2)}
 .ig{margin-bottom:14px}
 .il{font-size:13px;font-weight:500;color:var(--tx2);margin-bottom:7px;display:block}
-.if{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:var(--r2);font-size:16px;color:var(--tx);background:rgba(28,0,64,.6);outline:none;font-family:var(--fn);transition:border-color .15s}
+.if{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:var(--r2);font-size:16px;color:var(--tx);background:rgba(28,0,64,.6);outline:none;font-family:var(--fn);transition:border-color .15s;box-sizing:border-box;max-width:100%}
 .if:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(176,64,255,.1)}
 .if::placeholder{color:var(--tx3)}
 textarea.if{resize:none}
@@ -498,7 +498,7 @@ textarea.if{resize:none}
         </div>
         <div style="margin-top:16px;display:flex;gap:8px">
   <button class="btn bg" id="land-cta" onclick="startAnalysis()" style="flex:2">✦ วิเคราะห์เลย — ฟรี</button>
-  <button class="btn bgh" onclick="window.location.href='./analysis.html'" style="flex:1;font-size:13px;animation:glow-pulse 2s ease-in-out infinite">
+  <button class="btn bgh" onclick="startAnalysis()" style="flex:1;font-size:13px;animation:glow-pulse 2s ease-in-out infinite">
     🔮 ไปวิเคราะห์
   </button>
 </div>
@@ -785,7 +785,7 @@ textarea.if{resize:none}
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">
   
   <!-- การ์ดใหม่: วิเคราะห์ด้วย AI (วางไว้ข้างหน้า) -->
-  <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="window.location.href='./analysis.html'">
+  <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-land')">
     <div style="font-size:21px;margin-bottom:7px">🔮</div>
     <div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">วิเคราะห์ด้วย AI</div>
     <div style="font-size:11px;color:var(--tx3)">เวล่า / เว็ลลานี่</div>
@@ -824,7 +824,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -912,7 +912,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -945,7 +945,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1011,7 +1011,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1190,7 +1190,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1219,7 +1219,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1237,7 +1237,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1281,7 +1281,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1337,7 +1337,7 @@ textarea.if{resize:none}
   </div>
  <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1359,7 +1359,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1395,7 +1395,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1412,7 +1412,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1442,7 +1442,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1498,7 +1498,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1567,7 +1567,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="window.location.href='./analysis.html'"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -3335,7 +3335,16 @@ function initPlaceDropdown(savedPlace){
 
 function startAnalysis(){
   var dob=document.getElementById('inp-dob').value;
-  if(!dob){toast('กรุณากรอกวันเกิดก่อน');return;}
+  if(!dob){
+    toast('⚠️ กรุณากรอกวันเกิดก่อนนะครับ');
+    var dobD=document.getElementById('inp-dob-d');
+    if(dobD){
+      dobD.style.borderColor='var(--rose)';
+      dobD.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(function(){dobD.style.borderColor='';},2000);
+    }
+    return;
+  }
   var name=(document.getElementById('inp-name')||{}).value||'';
   var time=(document.getElementById('inp-time')||{}).value||'';
   var place=(document.getElementById('inp-place')||{}).value||'';
