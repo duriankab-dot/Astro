@@ -1379,10 +1379,10 @@ textarea.if{resize:none}
 <div class="sc" id="sc-scenario-result">
   <div class="tb"><button class="bk-btn" onclick="go('sc-scenario-new')">←</button><div class="tb-t" id="scnr-tbar">ผลการจำลอง</div></div>
   <div class="sb" style="padding:18px">
-    <div id="scnr-opts"></div>
-    <div class="card cg" style="margin-bottom:13px">
+    <div id="scnr-opts"><div class="card" style="text-align:center;padding:24px;color:var(--tx3);font-size:13px">กรอกข้อมูลและกด "จำลองทางเลือก" เพื่อดูผล</div></div>
+    <div class="card cg" style="margin-bottom:13px" id="scnr-summary-card">
       <div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:6px">📌 สรุป</div>
-      <div style="font-size:14px;color:var(--tx);line-height:1.6" id="scnr-summary">—</div>
+      <div style="font-size:14px;color:var(--tx);line-height:1.6" id="scnr-summary"></div>
     </div>
     <div style="font-size:11px;color:var(--tx3);line-height:1.6;text-align:center;margin-bottom:14px">นี่คือกรอบความคิดเพื่อช่วยเปรียบเทียบมุมมอง ไม่ใช่คำทำนายหรือคำตอบสำเร็จรูป</div>
     <button class="btn bg" id="scnr-savebtn" onclick="saveScenario()">บันทึกสถานการณ์นี้ ✓</button>
@@ -4707,6 +4707,8 @@ function rScenarioResult(data){
       +'<div style="font-size:12px;color:var(--tx3);text-align:right">โอกาสสำเร็จโดยประมาณ '+o.success+'%</div></div>';
   }).join('');
   document.getElementById('scnr-summary').textContent=data.summary;
+  var sc=document.getElementById('scnr-summary-card');
+  if(sc)sc.style.display=data.summary?'block':'none';
   var btn=document.getElementById('scnr-savebtn');
   if(data.saved){btn.textContent='บันทึกแล้ว ✓';btn.disabled=true;btn.style.opacity='.6';}
   else{btn.textContent='บันทึกสถานการณ์นี้ ✓';btn.disabled=false;btn.style.opacity='1';}
