@@ -1801,6 +1801,10 @@ var SYNC_QS=[
 var _syncAnswers=[],_syncQ=0;
 function openDailySync(){
   _syncAnswers=[];_syncQ=0;
+  // reset intro card
+  var ic=document.getElementById('sync-intro-card');if(ic)ic.style.display='block';
+  var pb=document.getElementById('sync-progress-bar');if(pb)pb.style.width='0%';
+  var ctr=document.getElementById('sync-ctr');if(ctr)ctr.textContent='1 / '+SYNC_QS.length;
   rSyncQ();go('sc-daily-sync');
 }
 function rSyncQ(){
@@ -1866,7 +1870,7 @@ function showSyncSignalCard(card,arch,name){
     +'<div style="font-size:11px;color:var(--tx3);margin-bottom:16px">'+arch.icon+' '+arch.name+' · '+(name||'')+'</div>'
     +'<div style="display:flex;gap:8px">'
     +'<button class="btn bg" style="flex:1;font-size:13px" onclick="shareSignalCard()">📤 แชร์</button>'
-    +'<button class="btn bgh" style="flex:1;font-size:13px" onclick="bk()">ปิด</button>'
+    +'<button class="btn bgh" style="flex:1;font-size:13px" onclick="go(\'sc-dash\')">กลับแผนที่ชีวิต</button>'
     +'</div>'
     +'</div>';
   window._lastSyncCard=card;
@@ -3053,20 +3057,31 @@ async function fetchNatalChart(force){
   var idle=document.getElementById('natal-idle'),loading=document.getElementById('natal-loading'),
       errEl=document.getElementById('natal-error'),content=document.getElementById('natal-content');
   idle.style.display='none';errEl.style.display='none';content.style.display='none';loading.style.display='block';
+  // Timeout 20 วินาที
+  var controller=new AbortController();
+  var timeoutId=setTimeout(function(){controller.abort();},20000);
   try{
     var res=await fetch('/.netlify/functions/natal-chart',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({dob:p.dob,time:p.time||'',place:p.place||''})
+      body:JSON.stringify({dob:p.dob,time:p.time||'',place:p.place||''}),
+      signal:controller.signal
     });
+    clearTimeout(timeoutId);
+    var contentType=res.headers.get('content-type')||'';
+    if(!contentType.includes('application/json'))throw new Error('API ไม่พร้อมใช้งาน กรุณาลองใหม่');
     var data=await res.json();
     if(!res.ok)throw new Error(data.error||'เกิดข้อผิดพลาด');
     data.dob=p.dob;data.time=p.time||'';data.place=p.place||'';data.fetchedAt=new Date().toISOString();
     lsS(LSN,data);
     rNatal(data);
   }catch(e){
+    clearTimeout(timeoutId);
     loading.style.display='none';
     errEl.style.display='block';
-    errEl.textContent='ดึงดวงจริงไม่สำเร็จ: '+e.message+' — ถ้าเพิ่งตั้งค่าระบบนี้ ตรวจสอบว่าใส่ ASTROLOGY_API_KEY ใน Netlify แล้วหรือยัง';
+    var msg=e.name==='AbortError'?'หมดเวลาการคำนวณ (20 วินาที) — ลองใหม่อีกครั้ง':
+      'ดึงดวงจริงไม่สำเร็จ: '+e.message;
+    if(!p.time)msg+=' (เคล็ดลับ: ใส่เวลาเกิดเพื่อความแม่นยำสูงสุด)';
+    errEl.textContent=msg;
     idle.style.display='block';
   }
 }
@@ -3570,12 +3585,14 @@ function selQ(qn,ans,el){
 }
 function nQ(qn){
   if(qn<5){
-    document.getElementById('q'+qn).style.display='none';
-    document.getElementById('q'+(qn+1)).style.display='block';
+    var cur=document.getElementById('q'+qn);
+    var nxt=document.getElementById('q'+(qn+1));
+    if(cur)cur.style.display='none';
+    if(nxt)nxt.style.display='block';
     _qn=qn+1;
-    document.getElementById('qctr').textContent=_qn+' / 5';
+    var qctr=document.getElementById('qctr');if(qctr)qctr.textContent=_qn+' / 5';
     ['q-s1','q-s2','q-s3','q-s4','q-s5'].forEach(function(id,i){
-      var d=document.getElementById(id);d.className='sdot';
+      var d=document.getElementById(id);if(!d)return;d.className='sdot';
       if(i+1<_qn)d.classList.add('dn');
       else if(i+1===_qn)d.classList.add('on');
     });
@@ -4259,14 +4276,13 @@ async function loadLifeCoach(){
 }
 
 function showScriptSilent(script){
-  // แสดง script โดยไม่ซ่อน loading
   _lcScript=script;
-  document.getElementById('lc-content').style.display='block';
-  document.getElementById('lc-controls').style.display='block';
+  var lcc=document.getElementById('lc-content');if(lcc)lcc.style.display='block';
+  var lcctl=document.getElementById('lc-controls');if(lcctl)lcctl.style.display='block';
   var html=script.split(/\n\n+/).map(function(para){
     return '<p style="margin-bottom:14px">'+para.replace(/\n/g,'<br>')+'</p>';
   }).join('');
-  document.getElementById('lc-script').innerHTML=html;
+  var lcs=document.getElementById('lc-script');if(lcs)lcs.innerHTML=html;
   var rateSlider=document.getElementById('lc-rate');
   var rateLabel=document.getElementById('lc-rate-label');
   if(rateSlider&&rateLabel)rateSlider.oninput=function(){rateLabel.textContent=this.value+'x';};
@@ -4274,17 +4290,18 @@ function showScriptSilent(script){
 
 function showScript(script,autoPlay){
   _lcScript=script;
-  document.getElementById('lc-loading').style.display='none';
-  document.getElementById('lc-error').style.display='none';
-  document.getElementById('lc-content').style.display='block';
-  document.getElementById('lc-controls').style.display='block';
-  if(!document.getElementById('lc-status').textContent.includes('อัตโนมัติ')){
-    document.getElementById('lc-status').textContent='รายงานพร้อมแล้ว — กด ▶ ฟัง หรือ ดาวน์โหลด';
+  var lcl=document.getElementById('lc-loading');if(lcl)lcl.style.display='none';
+  var lce=document.getElementById('lc-error');if(lce)lce.style.display='none';
+  var lcc=document.getElementById('lc-content');if(lcc)lcc.style.display='block';
+  var lcctl=document.getElementById('lc-controls');if(lcctl)lcctl.style.display='block';
+  var lcst=document.getElementById('lc-status');
+  if(lcst&&!lcst.textContent.includes('อัตโนมัติ')){
+    lcst.textContent='รายงานพร้อมแล้ว — กด ▶ ฟัง หรือ ดาวน์โหลด';
   }
   var html=script.split(/\n\n+/).map(function(para){
     return '<p style="margin-bottom:16px">'+para.replace(/\n/g,'<br>')+'</p>';
   }).join('');
-  document.getElementById('lc-script').innerHTML=html;
+  var lcs=document.getElementById('lc-script');if(lcs)lcs.innerHTML=html;
   var rateSlider=document.getElementById('lc-rate');
   var rateLabel=document.getElementById('lc-rate-label');
   if(rateSlider&&rateLabel)rateSlider.oninput=function(){rateLabel.textContent=this.value+'x';};
@@ -4327,12 +4344,11 @@ function lcDownloadPDF(){
 }
 
 function showLcError(msg){
-  document.getElementById('lc-loading').style.display='none';
-  document.getElementById('lc-content').style.display='none';
-  document.getElementById('lc-controls').style.display='none';
-  document.getElementById('lc-error').style.display='flex';
-  document.getElementById('lc-error-msg').textContent=msg;
-  document.getElementById('lc-status').textContent='เกิดข้อผิดพลาด';
+  var ids=['lc-loading','lc-content','lc-controls'];
+  ids.forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+  var lce=document.getElementById('lc-error');if(lce)lce.style.display='flex';
+  var lcem=document.getElementById('lc-error-msg');if(lcem)lcem.textContent=msg;
+  var lcst=document.getElementById('lc-status');if(lcst)lcst.textContent='เกิดข้อผิดพลาด';
 }
 
 function lcPlay(){
