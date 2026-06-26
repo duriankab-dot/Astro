@@ -624,14 +624,14 @@ textarea.if{resize:none}
       <!-- Lock overlay -->
       <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(to bottom,rgba(10,1,24,0) 0%,rgba(10,1,24,.85) 30%)">
         <div style="font-size:20px">🔒</div>
-        <div style="font-size:13px;font-weight:700;color:var(--tx);text-align:center">ปลดล็อก 4 ชั้นที่เหลือ</div>
-        <div style="font-size:11px;color:var(--tx3);text-align:center">ด้วย รายงานวิเคราะห์ชีวิตเชิงลึก 399 บาท</div>
+        <div style="font-size:13px;font-weight:700;color:var(--tx);text-align:center">ปลดล็อกชั้นที่เหลือ</div>
+        <div style="font-size:11px;color:var(--tx3);text-align:center">ทดลองใช้ฟรี 7 วัน สำหรับคนลงทะเบียน</div>
         <button class="btn bg bsm" onclick="go('sc-upgrade')" style="margin-top:4px">ดูแพ็คเกจ →</button>
       </div>
     </div>
     <div style="text-align:center;padding:8px;margin-bottom:12px">
       <div style="height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:8px"></div>
-      <div style="font-size:11px;color:var(--tx3)">🔓 ปลดล็อก 4 ชั้นที่เหลือด้วย Report 399 บาท</div>
+      <div style="font-size:11px;color:var(--tx3)">🔓 ปลดล็อกชั้นที่เหลือ — ทดลองฟรี 7 วัน</div>
     </div>
     <button class="btn bg" onclick="goToDash()" style="margin-bottom:9px" data-i18n="insight.dash">เข้าสู่แผนที่ชีวิตของฉัน →</button>
     <button class="btn bgh" style="margin-bottom:9px;width:100%" onclick="openShareModal()" data-i18n="btn.share">📤 แชร์ผลลัพธ์</button>
@@ -4170,7 +4170,7 @@ function showLcError(msg){
 }
 
 function lcPlay(){
-  if(!_lcScript){toast('ไม่มี script — กดสร้างรายงานก่อน');return;}
+  if(!_lcScript){toast('กรุณากด "📄 สร้างรายงาน" ก่อนฟังเสียง');return;}
   // ถ้า paused อยู่ ให้ resume แทน
   if(window.speechSynthesis.paused){
     window.speechSynthesis.resume();
@@ -6871,7 +6871,7 @@ function clearProfileAndReset(){
     <div id="lc-mascot-slot"><!-- mascot สามารถวางรูปที่นี่ได้ --></div>
     <div style="flex:1">
       <div style="font-size:16px;font-weight:700;color:var(--tx)">🎙️ ไลฟ์โค้ชส่วนตัว</div>
-      <div style="font-size:11px;color:var(--tx3)" id="lc-status">กำลังสร้าง script...</div>
+      <div style="font-size:11px;color:var(--tx3)" id="lc-status">กด สร้างรายงาน เพื่อเริ่มต้น</div>
     </div>
     <button onclick="closeLifeCoach()" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer">✕</button>
   </div>
