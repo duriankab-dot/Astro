@@ -1,95 +1,55 @@
-// ===== DOM READY =====
-document.addEventListener('DOMContentLoaded', () => {
+// api.js — Client-side API caller
+// เปลี่ยนจากส่ง request ตรงไป Netlify Functions ผ่าน API route
 
-    // ---- LENS SELECTOR ----
-    const lensBtns = document.querySelectorAll('.lens-btn');
-    const resultBox = document.getElementById('result');
+const API_BASE = '/.netlify/functions';
 
-    if (lensBtns.length) {
-        lensBtns.forEach(btn => {
-            btn.addEventListener('click', async function () {
-                // update active state
-                lensBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
+// ============ Life Copilot ============
+async function callLifeCopilot(message, history, profile) {
+  const response = await fetch(`${API_BASE}/life-copilot`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, history, profile })
+  });
 
-                const lens = this.dataset.lens;
-                resultBox.innerHTML = '⏳ กำลังโหลดผลวิเคราะห์...';
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'API error');
+  }
 
-                try {
-                    const data = await window.analyzeWithDeepseek(lens);
-                    resultBox.innerHTML = data;
-                } catch (err) {
-                    resultBox.innerHTML = '❌ เกิดข้อผิดพลาด: ' + err.message;
-                }
-            });
-        });
-    }
+  const data = await response.json();
+  return data.reply;
+}
 
-    // ---- VOICE CONTROLS ----
-    const playBtn = document.getElementById('playVoiceBtn');
-    const stopBtn = document.getElementById('stopVoiceBtn');
-    const rateControl = document.getElementById('rateControl');
+// ============ Life Coach Report ============
+async function generateLifeCoachReport(profile) {
+  const response = await fetch(`${API_BASE}/life-coach`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(profile)
+  });
 
-    if (playBtn && window.speakText) {
-        playBtn.addEventListener('click', () => {
-            const text = resultBox ? resultBox.innerText : '';
-            if (text && text !== '⏳ กำลังโหลดผลวิเคราะห์...') {
-                const rate = parseFloat(rateControl?.value || 0.9);
-                window.speakText(text, rate);
-            } else {
-                alert('ยังไม่มีข้อความให้อ่าน กรุณาวิเคราะห์ก่อน');
-            }
-        });
-    }
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'API error');
+  }
 
-    if (stopBtn && window.stopSpeaking) {
-        stopBtn.addEventListener('click', () => {
-            window.stopSpeaking();
-        });
-    }
+  const data = await response.json();
+  return data.script;
+}
 
-    // ---- FOLLOW-UP QUESTION ----
-    const askBtn = document.getElementById('askBtn');
-    const questionInput = document.getElementById('followUpQuestion');
+// ============ Natal Chart (ถ้ายังใช้ API ภายนอก) ============
+async function fetchNatalChart(dob, time, place) {
+  const response = await fetch(`${API_BASE}/natal-chart`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ dob, time, place })
+  });
 
-    if (askBtn && questionInput) {
-        askBtn.addEventListener('click', async () => {
-            const q = questionInput.value.trim();
-            if (!q) return alert('กรุณาพิมพ์คำถาม');
-            const activeLens = document.querySelector('.lens-btn.active');
-            const lens = activeLens ? activeLens.dataset.lens : 'vela';
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Natal chart API error');
+  }
 
-            resultBox.innerHTML = '⏳ กำลังคิดคำตอบ...';
-            try {
-                const answer = await window.askFollowUp(q, lens);
-                resultBox.innerHTML = answer;
-                questionInput.value = '';
-            } catch (err) {
-                resultBox.innerHTML = '❌ ' + err.message;
-            }
-        });
-    }
-
-    // ---- SAVE TO SUPABASE ----
-    const saveBtn = document.getElementById('saveBtn');
-    if (saveBtn) {
-        saveBtn.addEventListener('click', async () => {
-            const text = resultBox ? resultBox.innerText : '';
-            if (!text || text === '⏳ กำลังโหลดผลวิเคราะห์...') {
-                return alert('ยังไม่มีข้อมูลให้บันทึก');
-            }
-            try {
-                await window.saveToSupabase(text);
-                alert('✅ บันทึกสำเร็จ!');
-            } catch (err) {
-                alert('❌ บันทึกไม่สำเร็จ: ' + err.message);
-            }
-        });
-    }
-
-    // ---- AUTO-LOAD DEFAULT LENS ----
-    const defaultLens = document.querySelector('.lens-btn.active') || document.querySelector('.lens-btn');
-    if (defaultLens) {
-        defaultLens.click();
-    }
-});
+  const data = await response.json();
+  return data;
+}
