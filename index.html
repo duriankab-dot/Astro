@@ -616,13 +616,13 @@ textarea.if{resize:none}
     <!-- กระจกตัวตน™ Preview — ฟรีดู 2 ชั้น, 4 ชั้นเบลอ -->
     <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">✦ ✦ มุมมองของ ASTROVERA ต่อคุณ</div><div class="rlt" id="fi-ins">—</div></div>
     <div class="rl rl-m rlm" style="margin-bottom:6px"><div class="rll">◈ ความหมาย</div><div class="rlt" id="fi-mng">—</div></div>
-    <!-- 4 ชั้นที่เหลือ — เบลอ + ล็อก -->
+      <!-- 4 ชั้นที่เหลือ — เบลอ + ล็อก -->
     <div style="position:relative;margin-bottom:4px">
       <div style="filter:blur(4px);pointer-events:none;user-select:none">
-        <div class="rl rle" style="margin-bottom:5px"><div class="rll">🔮 ◉ ความรู้สึกที่ซ่อนอยู่</div><div class="rlt">มีความรู้สึกบางอย่างที่คุณยังไม่ได้พูดออกมา สิ่งที่ถูกเก็บไว้ภายในมีผลต่อการตัดสินใจของคุณ...</div></div>
-        <div class="rl rlq" style="margin-bottom:5px"><div class="rll">🔮 💬 คำถามชวนคิด</div><div class="rlt">ถ้าคุณรู้อยู่แล้วว่าคำตอบคืออะไร คุณกำลังรอสิ่งใดอยู่? สิ่งที่คุณกลัวที่สุดในตอนนี้คืออะไร...</div></div>
-        <div class="rl rla" style="margin-bottom:5px"><div class="rll">🔮 → ลงมือทำ</div><div class="rlt">ขั้นตอนเล็กที่สุดที่คุณทำได้ภายใน 24 ชั่วโมงเพื่อเคลื่อนไปข้างหน้า คือการ...</div></div>
-        <div class="rl rlj" style="margin-bottom:5px"><div class="rll">🔮 📝 Journal Prompt</div><div class="rlt">เขียนถึงเวอร์ชั่นของตัวเองในอีก 1 ปี บอกว่าตอนนี้คุณกำลังเผชิญกับอะไร และสิ่งที่คุณ...</div></div>
+        <div class="rl rle" style="margin-bottom:5px"><div class="rll">🔮 ◉ ชั้น III — ความรู้สึกที่ซ่อนอยู่</div><div class="rlt">มีพลังงานบางอย่างที่คุณกำลังเก็บกดไว้ ความรู้สึกนี้ส่งผลต่อการตัดสินใจโดยที่คุณอาจไม่รู้ตัว สิ่งที่ซ่อนอยู่ลึกๆ คือ...</div></div>
+        <div class="rl rlq" style="margin-bottom:5px"><div class="rll">🔮 💬 ชั้น IV — คำถามเปลี่ยนชีวิต</div><div class="rlt">มีคำถามหนึ่งที่ถ้าคุณตอบได้จริงๆ ชีวิตจะเปลี่ยนทันที ASTROVERA เห็นว่าคุณกำลังหลีกเลี่ยงสิ่งที่...</div></div>
+        <div class="rl rla" style="margin-bottom:5px"><div class="rll">🔮 → ชั้น V — Action Blueprint</div><div class="rlt">จากรูปแบบพลังงานของคุณ มีขั้นตอนที่ชัดเจน 3 อย่างที่คุณทำได้ภายใน 7 วันนี้เพื่อสร้างการเปลี่ยนแปลงจริง ขั้นแรกคือ...</div></div>
+        <div class="rl rlj" style="margin-bottom:5px"><div class="rll">🔮 📝 ชั้น VI — Journal ส่วนตัว</div><div class="rlt">คำถามที่ ASTROVERA ออกแบบเฉพาะสำหรับตัวตนของคุณ เพื่อปลดล็อกความเข้าใจที่ลึกที่สุดเกี่ยวกับ...</div></div>
       </div>
       <!-- Lock overlay -->
       <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(to bottom,rgba(10,1,24,0) 0%,rgba(10,1,24,.85) 30%)">
@@ -1496,7 +1496,7 @@ textarea.if{resize:none}
     </div>
     <div style="display:flex;gap:8px">
       <input id="cop-input" class="if" type="text" placeholder="พิมพ์ข้อความ..." style="flex:1" onkeydown="if(event.key==='Enter')sendCopilotInput()">
-      <button class="btn bg bsm" style="width:auto;padding:0 18px" onclick="sendCopilotInput()">ส่ง</button>
+      <button id="cop-send-btn" class="btn bg bsm" style="width:auto;padding:0 18px" onclick="sendCopilotInput()">ส่ง</button>
     </div>
   </div>
   <nav class="bnav">
@@ -5079,21 +5079,21 @@ function sendCopilot(text){
   lsS(LSC,thread);
   // disable input ระหว่างรอ
   var inp=document.getElementById('cop-input');
-  var btn=document.querySelector('#sc-copilot button[onclick*="sendCopilot"]');
+  var btn=document.getElementById('cop-send-btn');
   if(inp)inp.disabled=true;
-  if(btn)btn.disabled=true;
+  if(btn){btn.disabled=true;btn.textContent='⏳';}
   genCopilotReply(text,thread).then(function(reply){
     thread.push({role:'ai',text:reply});
     lsS(LSC,thread);
     renderCopThread(thread);
     if(inp){inp.disabled=false;inp.focus();}
-    if(btn)btn.disabled=false;
+    if(btn){btn.disabled=false;btn.textContent='ส่ง';}
   }).catch(function(e){
     thread.push({role:'ai',text:'ขอโทษครับ ตอบไม่ได้ตอนนี้ ('+e.message+') ลองใหม่อีกครั้งนะครับ'});
     lsS(LSC,thread);
     renderCopThread(thread);
     if(inp){inp.disabled=false;}
-    if(btn)btn.disabled=false;
+    if(btn){btn.disabled=false;btn.textContent='ส่ง';}
   });
 }
 
