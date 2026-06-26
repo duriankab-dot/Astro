@@ -1,134 +1,68 @@
-// ═══════════════════════════════════════════════════════════
-// ASTROVERA — Netlify Function: life-coach
-// สร้างรายงานวิเคราะห์ชีวิตส่วนตัว (Life Coach Script)
-// ใช้โดย: ปุ่ม "สร้างรายงาน" ใน Life Coach screen
-// ENV: ANTHROPIC_API_KEY
-// ═══════════════════════════════════════════════════════════
+// netlify/functions/life-coach.js
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Content-Type': 'application/json'
+};
 
-exports.handler = async function (event) {
-  // ─── CORS ───
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Content-Type': 'application/json',
-  };
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
-
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
-  }
+exports.handler = async function(event) {
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS };
+  if (event.httpMethod !== 'POST') return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: 'POST only' }) };
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }) };
-  }
+  if (!apiKey) return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: 'ANTHROPIC_API_KEY not set' }) };
 
   let payload;
-  try {
-    payload = JSON.parse(event.body || '{}');
-  } catch {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
+  try { payload = JSON.parse(event.body || '{}'); } catch(e) {
+    return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const {
-    name = 'คุณ',
-    archetype = '',
-    archetypeTh = '',
-    archetypeDesc = '',
-    phase = '',
-    phaseDesc = '',
-    lifePathNum = '',
-    lifePathMeaning = '',
-    baziDayMaster = '',
-    baziDesc = '',
-    sunSign = '',
-    moonSign = '',
-    strengths = [],
-    blindspot = [],
-    dominantEl = '',
-    missingEl = [],
-  } = payload;
+  const { name, archetype, archetypeDesc, phase, phaseDesc, bloodType, lifePathNum, lifePathMeaning, baziDayMaster, baziDesc, sunSign, strengths = [], blindspot = [] } = payload;
 
-  const strengthsText = strengths.map(s => `• ${s.t}: ${s.d}`).join('\n');
-  const blindsText = blindspot.map(b => `• ${b.i} ${b.t}: ${b.d}`).join('\n');
-  const missingText = missingEl.length ? missingEl.join(', ') : 'ไม่มี';
+  const prompt = `คุณคือ ASTROVERA Life Coach AI ผู้เชี่ยวชาญด้านปัญญาชีวิต
 
-  const systemPrompt = `คุณคือ ASTROVERA Life Intelligence Engine — นักวิเคราะห์ชีวิตเชิงลึกที่ผสมผสาน โหราศาสตร์ จิตวิทยา และการพัฒนาตนเอง
+ข้อมูลผู้ใช้:
+- ชื่อ: ${name || 'คุณ'}
+- ตัวตน (Archetype): ${archetype || '-'} — ${archetypeDesc || '-'}
+- ช่วงชีวิต: ${phase || '-'} — ${phaseDesc || '-'}
+- กรุ๊ปเลือด: ${bloodType || 'ไม่ระบุ'}
+- เลขชีวิต: ${lifePathNum || '-'} — ${lifePathMeaning || '-'}
+- BaZi Day Master: ${baziDayMaster || '-'} — ${baziDesc || '-'}
+- ราศีดวงอาทิตย์: ${sunSign || '-'}
+- จุดแข็ง: ${strengths.join(', ') || '-'}
+- จุดระวัง: ${blindspot.join(', ') || '-'}
 
-สไตล์การเขียน:
-- ใช้ภาษาไทยที่อบอุ่น ฉลาด ลึกซึ้ง — ไม่ใช่ภาษาดูดวงทั่วไป
-- พูดตรงถึงผู้อ่าน ใช้ "คุณ" เสมอ
-- ไม่ใช้คำว่า "จะ" หรือ "ต้อง" แบบทำนาย — ใช้ "มีแนวโน้ม" "มักจะ" "น่าสนใจที่"
-- เขียนแบบโค้ชส่วนตัวที่รู้จักคุณจริงๆ ไม่ใช่ template
-- ความยาว 400-600 คำ แบ่งเป็นย่อหน้าสั้นๆ 4-5 ย่อหน้า อ่านง่ายเมื่อฟังเป็นเสียง`;
+สร้างรายงานไลฟ์โค้ชส่วนตัวเป็นภาษาไทย ความยาว 400-600 คำ แบ่งเป็น 4 ส่วน:
 
-  const userPrompt = `สร้างรายงานวิเคราะห์ชีวิตส่วนตัวสำหรับ ${name}
+1. **ภาพรวมตัวตนของคุณตอนนี้** — สังเคราะห์จากข้อมูลทั้งหมดว่าช่วงนี้คุณเป็นใคร
+2. **สิ่งที่ระบบเห็นว่าคุณกำลังเผชิญ** — pattern และความท้าทายที่ซ่อนอยู่
+3. **3 สิ่งที่ควรทำใน 30 วันนี้** — เฉพาะเจาะจง ลงมือได้จริง
+4. **คำถามสำคัญสำหรับคุณ** — 1 คำถามที่ถ้าตอบได้จะเปลี่ยนชีวิต
 
-ข้อมูลที่วิเคราะห์ได้:
-- ลักษณะตัวตน (Archetype): ${archetype} / ${archetypeTh}
-  → ${archetypeDesc}
-- ช่วงชีวิตปัจจุบัน: ${phase}
-  → ${phaseDesc}
-${lifePathNum ? `- เลขชีวิต (Life Path): ${lifePathNum} — ${lifePathMeaning}` : ''}
-${baziDayMaster ? `- Day Master ปาจื้อ: ${baziDayMaster} — ${baziDesc}` : ''}
-${sunSign ? `- ราศีดวงอาทิตย์: ${sunSign}` : ''}
-${moonSign ? `- ราศีดวงจันทร์: ${moonSign}` : ''}
-${dominantEl ? `- ธาตุเด่น: ${dominantEl}` : ''}
-${missingEl.length ? `- ธาตุที่ขาด: ${missingText}` : ''}
-
-จุดแข็ง:
-${strengthsText || '• ยืดหยุ่นและปรับตัวได้ดี'}
-
-จุดที่ควรระวัง:
-${blindsText || '• ระวังการผัดวันประกันพรุ่ง'}
-
-โครงสร้างรายงาน (เขียนเป็นร้อยแก้วต่อเนื่อง ไม่ใช่หัวข้อ):
-1. ย่อหน้าเปิด — สะท้อนตัวตนที่แท้จริงของ ${name} ให้รู้สึกว่า "นี่คือฉันจริงๆ"
-2. ช่วงชีวิตและพลังงานตอนนี้ — อธิบายว่าตอนนี้กำลังอยู่ในจังหวะไหนและมันหมายความว่าอะไร
-3. จุดแข็งที่ควรใช้ให้เต็มที่ตอนนี้ — เชื่อมกับช่วงชีวิตปัจจุบัน
-4. สิ่งที่ควรระวังและวิธีรับมือ — ให้เหตุผลและแนวทางปฏิบัติ
-5. ย่อหน้าปิด — ประโยคกำลังใจที่จริงใจและเฉพาะเจาะจง ไม่ใช่คำพูดทั่วไป
-
-ห้ามใช้หัวข้อ bullet หรือ markdown — เขียนเป็นร้อยแก้วที่ฟังแล้วไหลลื่น`;
+เขียนเป็นกันเอง อบอุ่น ตรงไปตรงมา ไม่ใช้ศัพท์เทคนิคมากเกินไป`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
+        'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'claude-sonnet-4-6',
         max_tokens: 1024,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }],
-      }),
+        messages: [{ role: 'user', content: prompt }]
+      })
     });
 
-    if (!response.ok) {
-      const err = await response.text();
-      return { statusCode: 502, headers, body: JSON.stringify({ error: 'Anthropic API error: ' + err }) };
-    }
-
-    const data = await response.json();
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'Anthropic API error');
     const script = data.content?.[0]?.text || '';
-
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({ script }),
-    };
-  } catch (err) {
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: err.message }),
-    };
+    return { statusCode: 200, headers: CORS, body: JSON.stringify({ script }) };
+  } catch(e) {
+    console.error('life-coach error:', e.message);
+    return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: e.message }) };
   }
 };
