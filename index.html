@@ -278,7 +278,8 @@ textarea.if{resize:none}
 .card:nth-child(even){--star-dur:11s;--star-del:4s}
 .card:nth-child(3n){--star-dur:7s;--star-del:2s}
 
-.skel{background:rgba(176,64,255,.12);border-radius:var(--r1);animation:pulse 1.5s infinite}
+.skel{background:linear-gradient(90deg,rgba(176,64,255,.08) 25%,rgba(176,64,255,.18) 50%,rgba(176,64,255,.08) 75%);background-size:200% 100%;border-radius:var(--r1);animation:shimmer 1.6s infinite linear}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 /* ═══ SHOOTING STARS BACKGROUND ═══ */
 #star-field{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 @keyframes shoot-star{
@@ -727,7 +728,7 @@ textarea.if{resize:none}
           <div style="font-size:10px;color:var(--gold);letter-spacing:1px">✦ สัญญาณชีวิตวันนี้</div>
           <div style="font-size:10px;color:var(--tx3)" id="d-horo-date"></div>
         </div>
-        <div style="font-size:13px;color:var(--tx);line-height:1.6;margin-top:5px" id="d-horo-msg">กำลังโหลด...</div>
+        <div style="font-size:13px;color:var(--tx);line-height:1.6;margin-top:5px" id="d-horo-msg"><div class="skel" style="height:14px;width:90%;margin-bottom:6px"></div><div class="skel" style="height:14px;width:70%"></div></div>
       </div>
       <div style="background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(99,102,241,.08));border:1px solid rgba(201,169,110,.2);border-radius:var(--r2);padding:13px 15px">
         <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;margin-bottom:4px">ช่วงชีวิตตอนนี้</div>
@@ -741,7 +742,7 @@ textarea.if{resize:none}
       </div>
       <!-- Life OS -->
       <div class="sh"><div class="sht">🗺️ แผนที่ชีวิต</div></div>
-      <div class="card" style="margin-bottom:13px" id="d-lifeos"></div>
+      <div class="card" style="margin-bottom:13px" id="d-lifeos"><div class="skel" style="height:16px;width:60%;margin-bottom:10px"></div><div class="skel" style="height:12px;width:80%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:75%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:65%"></div></div>
       <!-- Daily Inner Sync -->
       <div class="sh"><div class="sht">Daily Inner Sync</div></div>
       <div class="card cp" style="margin-bottom:13px">
@@ -753,7 +754,7 @@ textarea.if{resize:none}
             <button onclick="cycleDailyQ('monthly')" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);font-size:10px;padding:2px 8px;border-radius:10px;cursor:pointer">เดือน</button>
           </div>
         </div>
-        <div style="font-size:15px;font-weight:600;color:var(--tx);line-height:1.5;margin-bottom:12px" id="d-daily-q"></div>
+        <div style="font-size:15px;font-weight:600;color:var(--tx);line-height:1.5;margin-bottom:12px" id="d-daily-q"><div class="skel" style="height:16px;width:85%;margin-bottom:7px"></div><div class="skel" style="height:16px;width:65%"></div></div>
         <div style="display:flex;gap:9px;margin-bottom:9px">
           <button class="btn bt bsm" style="flex:1" onclick="openMicro()">📝 บันทึกความคิด</button>
           <button class="btn" style="flex:1;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--pur2);font-size:13px;font-weight:600;border-radius:var(--r2);padding:10px;cursor:pointer" onclick="openEmo()">❤️ Check-in</button>
