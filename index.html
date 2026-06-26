@@ -1236,8 +1236,8 @@ textarea.if{resize:none}
       <div style="font-size:11px;color:var(--pur2);font-weight:700;letter-spacing:1.5px;margin-bottom:7px">⟳ วงจรการเติบโต · เรียนรู้จากผลลัพธ์</div>
       <div style="font-size:13px;color:var(--tx2);line-height:1.6">คำตอบของคุณจะสร้าง Decision Pattern ที่ใช้วิเคราะห์การตัดสินใจในอนาคต ยิ่งตอบตามความจริง ยิ่งเห็นภาพที่แม่นยำขึ้น</div>
     </div>
-    <div class="ig"><label class="il">เกิดอะไรขึ้น? <span style="color:var(--rose)">*</span></label><textarea id="rv-out" class="if" rows="4" placeholder="เล่าให้ฟังว่าผลลัพธ์จริงเป็นอย่างไร..."></textarea></div>
-    <div class="ig"><label class="il">มีอะไรที่น่าแปลกใจ?</label><textarea id="rv-sup" class="if" rows="2" placeholder="สิ่งที่ไม่ได้คาดคิดมาก่อน..."></textarea></div>
+    <div class="ig"><label class="il">เกิดอะไรขึ้น? <span style="color:var(--rose)">*</span></label><div style="position:relative"><textarea id="rv-out" class="if" rows="4" placeholder="เล่าให้ฟังว่าผลลัพธ์จริงเป็นอย่างไร..." style="padding-right:44px"></textarea><button onclick="startVoice('rv-out',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
+    <div class="ig"><label class="il">มีอะไรที่น่าแปลกใจ?</label><div style="position:relative"><textarea id="rv-sup" class="if" rows="2" placeholder="สิ่งที่ไม่ได้คาดคิดมาก่อน..." style="padding-right:44px"></textarea><button onclick="startVoice('rv-sup',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
     <div class="ig">
       <label class="il">ถ้าย้อนเวลากลับไป จะตัดสินใจเหมือนเดิมไหม?</label>
       <div class="chips" id="rv-redo">
@@ -1246,7 +1246,7 @@ textarea.if{resize:none}
         <div class="chip" onclick="selRedo(this,'no')" style="font-size:13px">❌<br><span style="font-size:10px">ไม่เหมือนเดิม</span></div>
       </div>
     </div>
-    <div class="ig"><label class="il">บทเรียน (Lesson Learned)</label><textarea id="rv-les" class="if" rows="3" placeholder="คุณเรียนรู้อะไรจากประสบการณ์นี้?"></textarea></div>
+    <div class="ig"><label class="il">บทเรียน (Lesson Learned)</label><div style="position:relative"><textarea id="rv-les" class="if" rows="3" placeholder="คุณเรียนรู้อะไรจากประสบการณ์นี้?" style="padding-right:44px"></textarea><button onclick="startVoice('rv-les',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
   </div>
 </div>
 
@@ -1259,10 +1259,10 @@ textarea.if{resize:none}
       <div style="font-size:15px;font-weight:600;color:var(--tx);margin-bottom:5px">สะท้อนตัวเองประจำสัปดาห์</div>
       <div style="font-size:13px;color:var(--tx2)">ใช้เวลา 60 วินาที · สร้าง ความทรงจำการเติบโต</div>
     </div>
-    <div class="wq"><div class="wql">1. สิ่งที่ภูมิใจที่สุดสัปดาห์นี้?</div><textarea id="wq1" class="if" rows="3" placeholder="ไม่ต้องเป็นเรื่องใหญ่ เรื่องเล็กๆ ก็มีความหมาย..."></textarea></div>
-    <div class="wq"><div class="wql">2. อะไรที่ท้าทายคุณที่สุด?</div><textarea id="wq2" class="if" rows="3" placeholder="สิ่งที่รู้สึกยากหรือไม่สบายใจ..."></textarea></div>
-    <div class="wq"><div class="wql">3. คุณเรียนรู้อะไรจากสัปดาห์นี้?</div><textarea id="wq3" class="if" rows="3" placeholder="บทเรียน สิ่งที่เข้าใจใหม่ หรือมุมมองที่เปลี่ยนไป..."></textarea></div>
-    <div class="wq"><div class="wql">4. สัปดาห์หน้าอยากโฟกัสเรื่องอะไร?</div><textarea id="wq4" class="if" rows="2" placeholder="เป้าหมายหรือสิ่งที่อยากทำให้ดีขึ้น..."></textarea></div>
+    <div class="wq"><div class="wql">1. สิ่งที่ภูมิใจที่สุดสัปดาห์นี้?</div><div style="position:relative"><textarea id="wq1" class="if" rows="3" placeholder="ไม่ต้องเป็นเรื่องใหญ่ เรื่องเล็กๆ ก็มีความหมาย..." style="padding-right:44px"></textarea><button onclick="startVoice('wq1',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
+    <div class="wq"><div class="wql">2. อะไรที่ท้าทายคุณที่สุด?</div><div style="position:relative"><textarea id="wq2" class="if" rows="3" placeholder="สิ่งที่รู้สึกยากหรือไม่สบายใจ..." style="padding-right:44px"></textarea><button onclick="startVoice('wq2',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
+    <div class="wq"><div class="wql">3. คุณเรียนรู้อะไรจากสัปดาห์นี้?</div><div style="position:relative"><textarea id="wq3" class="if" rows="3" placeholder="บทเรียน สิ่งที่เข้าใจใหม่ หรือมุมมองที่เปลี่ยนไป..." style="padding-right:44px"></textarea><button onclick="startVoice('wq3',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
+    <div class="wq"><div class="wql">4. สัปดาห์หน้าอยากโฟกัสเรื่องอะไร?</div><div style="position:relative"><textarea id="wq4" class="if" rows="2" placeholder="เป้าหมายหรือสิ่งที่อยากทำให้ดีขึ้น..." style="padding-right:44px"></textarea><button onclick="startVoice('wq4',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
     <div style="background:var(--bg4);border-radius:var(--r1);padding:11px;font-size:12px;color:var(--tx3);text-align:center;line-height:1.6">Reflection นี้จะถูกนำไปวิเคราะห์ใน ภาพรวมชีวิตทุก 90 วัน<br>เพื่อช่วยให้คุณเห็น Pattern ของชีวิต</div>
   </div>
 </div>
@@ -1367,10 +1367,10 @@ textarea.if{resize:none}
 <div class="sc" id="sc-scenario-new">
   <div class="tb"><button class="bk-btn" onclick="go('sc-scenario')">←</button><div class="tb-t">จำลองสถานการณ์</div></div>
   <div class="sb" style="padding:18px">
-    <div class="ig"><label class="il">เรื่องที่กำลังตัดสินใจ <span style="color:var(--rose)">*</span></label><input id="scn-ttl" class="if" type="text" placeholder="เช่น เปิดสาขาใหม่, ลงทุนเพิ่ม..."></div>
-    <div class="ig"><label class="il">เป้าหมาย</label><textarea id="scn-goal" class="if" rows="2" placeholder="ต้องการอะไรจากการตัดสินใจนี้?"></textarea></div>
-    <div class="ig"><label class="il">ความกังวล</label><textarea id="scn-con" class="if" rows="2" placeholder="สิ่งที่กังวลหรือไม่แน่ใจ..."></textarea></div>
-    <div class="ig"><label class="il">ทรัพยากรที่มี</label><textarea id="scn-res" class="if" rows="2" placeholder="เงินทุน เวลา ทีมงาน ที่มีตอนนี้..."></textarea></div>
+    <div class="ig"><label class="il">เรื่องที่กำลังตัดสินใจ <span style="color:var(--rose)">*</span></label><div style="display:flex;gap:8px;align-items:center"><input id="scn-ttl" class="if" type="text" placeholder="เช่น เปิดสาขาใหม่, ลงทุนเพิ่ม..." style="flex:1"><button onclick="startVoice('scn-ttl',this)" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:40px;height:40px;border-radius:10px;cursor:pointer;font-size:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
+    <div class="ig"><label class="il">เป้าหมาย</label><div style="position:relative"><textarea id="scn-goal" class="if" rows="2" placeholder="ต้องการอะไรจากการตัดสินใจนี้?" style="padding-right:44px"></textarea><button onclick="startVoice('scn-goal',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
+    <div class="ig"><label class="il">ความกังวล</label><div style="position:relative"><textarea id="scn-con" class="if" rows="2" placeholder="สิ่งที่กังวลหรือไม่แน่ใจ..." style="padding-right:44px"></textarea><button onclick="startVoice('scn-con',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
+    <div class="ig"><label class="il">ทรัพยากรที่มี</label><div style="position:relative"><textarea id="scn-res" class="if" rows="2" placeholder="เงินทุน เวลา ทีมงาน ที่มีตอนนี้..." style="padding-right:44px"></textarea><button onclick="startVoice('scn-res',this)" style="position:absolute;right:8px;top:8px;background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">🎤</button></div></div>
     <button class="btn bi" onclick="genScenario()">🧪 จำลองทางเลือก</button>
   </div>
 </div>
