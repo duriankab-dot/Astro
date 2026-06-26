@@ -945,7 +945,7 @@ textarea.if{resize:none}
           </div>
           <button class="btn" style="width:100%;background:linear-gradient(135deg,rgba(176,64,255,.3),rgba(129,140,248,.2));border:1px solid rgba(176,64,255,.5);color:var(--gold2);font-size:13px;font-weight:700;border-radius:var(--r1);padding:9px;cursor:pointer" onclick="openDailySync()">เริ่มสแกนพลังงาน (30 วินาที) →</button>
         </div>
-        <button class="btn bg" style="width:100%;font-size:14px" onclick="openConvergence()">✦ ดู ภาพรวมการวิเคราะห์ทั้งหมด ทั้งหมด →</button>
+        <button class="btn bg" style="width:100%;font-size:14px" onclick="openConvergence()">✦ ดู ภาพรวมการวิเคราะห์ทั้งหมด →</button>
       </div>
       <!-- Stats -->
       <div class="stat-row">
@@ -1043,9 +1043,9 @@ textarea.if{resize:none}
       </div>
       <div style="display:flex;gap:8px">
         <button class="btn bg" style="flex:1;font-size:13px" onclick="openLifeCoach('report')">📄 สร้างรายงาน</button>
-        <button class="btn bgh" style="flex:1;font-size:13px" onclick="openLifeCoach('audio')">▶ ฟังเสียง</button>
+        <button class="btn bgh" id="lc-audio-dash-btn" style="flex:1;font-size:13px;opacity:.4;cursor:not-allowed" onclick="openLifeCoach('audio')" disabled>▶ ฟังเสียง</button>
       </div>
-      <div style="font-size:11px;color:var(--tx3);margin-top:8px;text-align:center">สร้างรายงานครั้งแรก → ฟังเสียงได้ทันที + ดาวน์โหลด PDF</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:8px;text-align:center" id="lc-dash-hint">สร้างรายงานก่อน → ฟังเสียงได้ทันที + ดาวน์โหลด PDF</div>
     </div>
     <div class="card" id="natal-card" style="margin-bottom:13px">
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🪐 มิติจักรวาลของคุณ</div>
@@ -4503,6 +4503,17 @@ function rDash(){
   var lastNotifDay=localStorage.getItem('av_last_notif_day');
   if(lastNotifDay!==todayStr){_notifShown=false;localStorage.setItem('av_last_notif_day',todayStr);}
   var p=lsG(LSP)||{};
+  // enable/disable audio button based on LC script cache
+  var lcCache=lsG(LSC_SCRIPT);
+  var audioBtn=document.getElementById('lc-audio-dash-btn');
+  var lcHint=document.getElementById('lc-dash-hint');
+  if(audioBtn){
+    var hasScript=!!(lcCache&&lcCache.script);
+    audioBtn.disabled=!hasScript;
+    audioBtn.style.opacity=hasScript?'1':'0.4';
+    audioBtn.style.cursor=hasScript?'pointer':'not-allowed';
+    if(lcHint)lcHint.textContent=hasScript?'รายงานพร้อมแล้ว — กด ▶ ฟังได้เลย':'สร้างรายงานก่อน → ฟังเสียงได้ทันที';
+  }
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
   var phase=LIFE_PHASES[p.phaseKey]||LIFE_PHASES.a;
   var ne=document.getElementById('d-name');if(ne)ne.textContent=p.name||'คุณ';
@@ -4943,7 +4954,7 @@ function rRelationship(){
   var saved=lsG(LSR);
   var quizEl=document.getElementById('rel-quiz'),resultEl=document.getElementById('rel-result');
   if(!quizEl||!resultEl)return;
-  if(!saved||!saved.result){quizEl.style.display='block';resultEl.style.display='none';return;}
+  if(!saved||!saved.result||!saved.result.archName){quizEl.style.display='block';resultEl.style.display='none';return;}
   quizEl.style.display='none';resultEl.style.display='block';
   var r=saved.result;
   // ป้องกัน undefined — fallback ทุก field
