@@ -324,7 +324,9 @@ textarea.if{resize:none}
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 -->
+<link rel="stylesheet" href="./fix.css">
 </head>
+<script src="./fix.js"></script>
 <body>
 <div id="app">
 <div id="star-field" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden"></div>
@@ -428,9 +430,9 @@ textarea.if{resize:none}
         <div class="ig" style="margin-bottom:11px"><label class="il" data-i18n="inp.name">ชื่อของคุณ</label><input id="inp-name" class="if" type="text" placeholder="ชื่อ หรือชื่อเล่น" data-i18n="inp.name.ph"></div>
         <div class="ig" style="margin-bottom:11px">
           <label class="il" data-i18n="inp.dob">วันเกิด <span style="color:var(--rose)">*</span></label>
-          <div style="display:grid;grid-template-columns:1fr 2fr 1.5fr;gap:7px">
-            <input id="inp-dob-d" class="if" type="number" placeholder="วัน" min="1" max="31" style="text-align:center;font-size:16px" oninput="syncDob()">
-            <select id="inp-dob-m" class="if" style="font-size:14px" onchange="syncDob()">
+          <div style="display:grid;grid-template-columns:64px 1fr 80px;gap:6px;width:100%;box-sizing:border-box;overflow:hidden">
+            <input id="inp-dob-d" class="if" type="number" placeholder="วัน" min="1" max="31" style="text-align:center;font-size:15px;padding:13px 6px;min-width:0;box-sizing:border-box" oninput="syncDob()">
+            <select id="inp-dob-m" class="if" style="font-size:13px;padding:13px 8px;min-width:0;box-sizing:border-box;overflow:hidden;text-overflow:ellipsis" onchange="syncDob()">
               <option value="">— เดือน —</option>
               <option value="01">มกราคม</option><option value="02">กุมภาพันธ์</option>
               <option value="03">มีนาคม</option><option value="04">เมษายน</option>
@@ -439,7 +441,7 @@ textarea.if{resize:none}
               <option value="09">กันยายน</option><option value="10">ตุลาคม</option>
               <option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option>
             </select>
-            <input id="inp-dob-y" class="if" type="number" placeholder="ปี" min="1483" max="2553" style="text-align:center;font-size:16px" oninput="syncDob()">
+            <input id="inp-dob-y" class="if" type="number" placeholder="ปี" min="1483" max="2553" style="text-align:center;font-size:15px;padding:13px 6px;min-width:0;box-sizing:border-box" oninput="syncDob()">
           </div>
           <div style="display:flex;align-items:center;gap:10px;margin-top:7px">
             <div style="font-size:11px;color:var(--tx3)">ระบบปี:</div>
@@ -454,7 +456,7 @@ textarea.if{resize:none}
           <div id="dob-err" style="font-size:11px;color:var(--rose);margin-top:5px;display:none">⚠️ กรุณากรอกวันเกิดให้ถูกต้อง</div>
           <input id="inp-dob" type="hidden">
         </div>
-        <div class="ig" style="margin-bottom:11px"><label class="il" data-i18n="inp.time">เวลาเกิด (ถ้าทราบ)</label><input id="inp-time" class="if" type="time"></div>
+        <div class="ig" style="margin-bottom:11px"><label class="il" data-i18n="inp.time">เวลาเกิด (ถ้าทราบ)</label><input id="inp-time" class="if" type="time" style="width:100%;max-width:100%;box-sizing:border-box"></div>
         <div class="ig" style="margin-bottom:0">
           <label class="il" data-i18n="inp.place">สถานที่เกิด</label>
           <select id="inp-country" class="if" style="margin-bottom:7px" onchange="onCountryChange()">
@@ -500,6 +502,12 @@ textarea.if{resize:none}
     🔮 ไปวิเคราะห์
   </button>
 </div>
+        <!-- ปุ่มล้างข้อมูลเก่า — แสดงเฉพาะเมื่อมีข้อมูลค้างอยู่ -->
+        <div id="reset-bar" style="display:none;margin-top:10px">
+          <button onclick="clearProfileAndReset()" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(176,64,255,.25);border-radius:12px;color:rgba(200,150,255,.7);font-size:13px;cursor:pointer;font-family:var(--fn)">
+            🔄 ล้างข้อมูลเก่า · เริ่มกรอกใหม่
+          </button>
+        </div>
         <div id="quick-preview" style="display:none"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
@@ -6820,6 +6828,8 @@ function loadDemo(){
     if(p.dob)loadDobFields(p.dob); // โหลด DOB กลับเข้า 3 ช่อง
     var ti=document.getElementById('inp-time');if(ti&&p.time)ti.value=p.time;
     initPlaceDropdown(p.place||'');
+    // แสดงปุ่ม reset เพราะมีข้อมูลเก่า
+    var rb=document.getElementById('reset-bar');if(rb)rb.style.display='block';
     rSelf();
     rTiming();
     rDash();go('sc-dash');checkShowTour();
@@ -6829,6 +6839,30 @@ function loadDemo(){
     rDash();
   }
 })();
+
+// ── ล้างข้อมูล profile และ reset หน้า landing ──
+function clearProfileAndReset(){
+  if(!confirm('ล้างข้อมูลโปรไฟล์เดิมและเริ่มกรอกใหม่?'))return;
+  // ลบเฉพาะ profile + session (ไม่ลบ journal และ settings)
+  ['av_p','av_natal','av_sum','av_vera','av_lc_script','av_quiz','av_phase'].forEach(function(k){
+    localStorage.removeItem(k);
+  });
+  // clear form fields
+  ['inp-name','inp-dob-d','inp-dob-y','inp-time'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.value='';
+  });
+  var m=document.getElementById('inp-dob-m');if(m)m.value='';
+  var h=document.getElementById('inp-dob');if(h)h.value='';
+  var prev=document.getElementById('dob-preview');if(prev)prev.textContent='';
+  // reset blood type
+  document.querySelectorAll('.blood-btn').forEach(function(b){b.style.borderColor='';b.style.opacity='';});
+  var bi=document.getElementById('inp-blood');if(bi)bi.value='';
+  var bp=document.getElementById('blood-preview');if(bp)bp.style.display='none';
+  // ซ่อนปุ่ม reset แล้ว go landing
+  var rb=document.getElementById('reset-bar');if(rb)rb.style.display='none';
+  go('sc-land');
+  toast('ล้างข้อมูลแล้ว กรอกใหม่ได้เลยครับ');
+}
 </script>
 <!-- ─── LIFE COACH MODAL ─── -->
 <div id="lc-modal" style="display:none;position:absolute;inset:0;z-index:999;background:rgba(10,1,24,0.97);flex-direction:column;padding:24px 20px 32px">
