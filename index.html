@@ -476,11 +476,11 @@ textarea.if{resize:none}
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
               <span style="font-size:20px">🩸</span>
               <div>
-                <div style="font-size:14px;font-weight:700;color:var(--tx)">กรุ๊ปเลือดของคุณ</div>
-                <div style="font-size:11px;color:var(--tx3)">เพิ่มความแม่นยำการวิเคราะห์มิติพลังงาน</div>
+                <div style="font-size:14px;font-weight:700;color:var(--tx)">กรุ๊ปเลือด <span style="font-size:11px;font-weight:400;color:var(--tx3)">(ไม่บังคับ — เพื่อเพิ่มความแม่นยำ)</span></div>
+                <div style="font-size:11px;color:var(--tx3)">ข้ามได้ หรือเลือกทีหลังในหน้าโปรไฟล์</div>
               </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px;margin-top:10px">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;gap:6px;margin-top:10px">
               <button type="button" class="blood-btn" data-bt="O" onclick="selBlood('O',this)" style="background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.25);color:var(--tx2);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
                 <span>🔴</span><span style="font-size:13px">O</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักสู้</span>
               </button>
@@ -495,6 +495,9 @@ textarea.if{resize:none}
               </button>
               <button type="button" class="blood-btn" data-bt="Rh-" onclick="selBlood('Rh-',this)" style="background:rgba(148,163,184,.1);border:2px solid rgba(148,163,184,.25);color:var(--tx2);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
                 <span>⚪</span><span style="font-size:13px">Rh-</span><span style="font-size:9px;color:var(--tx3);font-weight:400">หายาก</span>
+              </button>
+              <button type="button" class="blood-btn" data-bt="" onclick="selBlood('',this)" style="background:rgba(100,100,100,.08);border:2px solid rgba(100,100,100,.2);color:var(--tx3);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+                <span>❓</span><span style="font-size:11px">ไม่</span><span style="font-size:9px;color:var(--tx3);font-weight:400">ทราบ</span>
               </button>
             </div>
             <div id="blood-preview" style="display:none;margin-top:10px;padding:8px 12px;background:rgba(176,64,255,.12);border-radius:10px;font-size:12px;color:var(--gold2);text-align:center"></div>
@@ -1526,7 +1529,7 @@ textarea.if{resize:none}
       <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:7px"><span style="color:var(--tx2)">สถานที่เกิด</span><span style="color:var(--tx)" id="pf-place">—</span></div>
       <!-- Blood Type — prominent in Profile -->
       <div style="margin-bottom:11px">
-        <div style="font-size:12px;color:var(--tx3);margin-bottom:8px;letter-spacing:.5px">🩸 กรุ๊ปเลือด — มิติพลังงานชีวภาพ</div>
+        <div style="font-size:12px;color:var(--tx3);margin-bottom:8px;letter-spacing:.5px">🩸 กรุ๊ปเลือด <span style="font-weight:400">(ไม่บังคับ — เพื่อเพิ่มความแม่นยำ)</span></div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;gap:6px" id="pf-blood-btns">
           <button type="button" class="pf-blood" data-bt="O" onclick="setPfBlood('O',this)" style="background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🔴</span><span style="font-size:12px">O</span></button>
           <button type="button" class="pf-blood" data-bt="A" onclick="setPfBlood('A',this)" style="background:rgba(59,130,246,.1);border:2px solid rgba(59,130,246,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🔵</span><span style="font-size:12px">A</span></button>
@@ -4333,9 +4336,30 @@ function rDash(){
   var micros=lsG(LSM)||[];
 
   // stats
-  var jce=document.getElementById('d-jcount');if(jce)jce.textContent=journals.length;
-  var wce=document.getElementById('d-wcount');if(wce)wce.textContent=weekly.length;
-  var ece=document.getElementById('d-ecount');if(ece)ece.textContent=emos.length;
+  var jce=document.getElementById('d-jcount');
+  if(jce){
+    if(journals.length===0){
+      jce.innerHTML='<span style="font-size:10px;color:var(--pur2);cursor:pointer;font-weight:600" onclick="go(\'sc-jnew\')">+ เริ่ม</span>';
+    } else {
+      jce.textContent=journals.length;
+    }
+  }
+  var wce=document.getElementById('d-wcount');
+  if(wce){
+    if(weekly.length===0){
+      wce.innerHTML='<span style="font-size:10px;color:var(--pur2);cursor:pointer;font-weight:600" onclick="go(\'sc-weekly\')">+ เริ่ม</span>';
+    } else {
+      wce.textContent=weekly.length;
+    }
+  }
+  var ece=document.getElementById('d-ecount');
+  if(ece){
+    if(emos.length===0){
+      ece.innerHTML='<span style="font-size:10px;color:var(--pur2);cursor:pointer;font-weight:600" onclick="openEmo()">+ เริ่ม</span>';
+    } else {
+      ece.textContent=emos.length;
+    }
+  }
 
   // due alert
   var dueCount=0;
@@ -4353,11 +4377,11 @@ function rDash(){
   var prev=document.getElementById('d-jpreview');
   if(!prev)return;
   if(journals.length===0){
-    prev.innerHTML='<div class="card ci" style="cursor:pointer;margin-bottom:13px" onclick="go(\'sc-jnew\')">'
-      +'<div style="display:flex;gap:13px;align-items:center"><div style="font-size:30px">📝</div>'
-      +'<div><div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px">บันทึกการตัดสินใจแรก</div>'
-      +'<div style="font-size:13px;color:var(--tx2)">เริ่มต้น วงจรการเติบโต ของคุณ</div></div></div>'
-      +'<div style="margin-top:11px"><button class="btn bi bsm" style="width:auto">+ เพิ่ม Journal</button></div></div>';
+    prev.innerHTML='<div class="card" style="cursor:pointer;margin-bottom:13px;background:linear-gradient(135deg,rgba(176,64,255,.1),rgba(99,102,241,.06));border:1px solid rgba(176,64,255,.25);text-align:center;padding:20px" onclick="go(\'sc-jnew\')">'
+      +'<div style="font-size:32px;margin-bottom:10px">📝</div>'
+      +'<div style="font-size:15px;font-weight:700;color:var(--tx);margin-bottom:6px">เริ่มบันทึกการตัดสินใจครั้งแรก</div>'
+      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:14px;line-height:1.6">ยิ่งบันทึกมาก AI ยิ่งเข้าใจคุณลึกขึ้น<br>และช่วยตัดสินใจได้แม่นยำขึ้น</div>'
+      +'<button class="btn bg bsm" style="width:auto;padding:8px 24px">+ เริ่มบันทึกเลย</button></div>';
     return;
   }
   var html=journals.slice(0,2).map(function(j){
