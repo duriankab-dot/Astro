@@ -1052,10 +1052,15 @@ textarea.if{resize:none}
       <div style="font-size:14px;font-weight:600;color:var(--tx);margin-bottom:4px">🪐 มิติจักรวาลของคุณ</div>
       <div style="font-size:11px;color:var(--tx3);margin-bottom:13px" id="natal-sub">คำนวณจากตำแหน่งดาวจริงตามวัน-เวลา-สถานที่เกิด (เครื่องมือวิเคราะห์ ASTROVERA)</div>
       <div id="natal-idle">
+        <div style="font-size:11px;color:var(--tx3);margin-bottom:10px;line-height:1.6">ต้องการวันเกิด + สถานที่เกิด · ใส่เวลาเกิดเพื่อความแม่นยำสูงสุด</div>
         <button class="btn bi bsm" style="width:100%;margin-bottom:6px" onclick="fetchNatalChart()">✦ คำนวณดวงจริง</button>
         <button class="btn bgh bsm" style="width:100%;font-size:13px" onclick="fetchVedicNakshatra()">🌙 คำนวณ Nakshatra (มิติจักรวาลชั้นลึก)</button>
       </div>
-      <div id="natal-loading" style="display:none;text-align:center;padding:14px 0;color:var(--tx2);font-size:13px">🪐 กำลังคำนวณตำแหน่งดาว...</div>
+      <div id="natal-loading" style="display:none;text-align:center;padding:14px 0">
+        <div style="font-size:13px;color:var(--tx2);margin-bottom:10px">🪐 กำลังคำนวณตำแหน่งดาว...</div>
+        <div style="font-size:11px;color:var(--tx3);margin-bottom:10px">ใช้เวลาประมาณ 5-20 วินาที</div>
+        <button onclick="rNatalIdleCheck()" style="background:none;border:1px solid var(--border);color:var(--tx3);font-size:11px;padding:4px 12px;border-radius:8px;cursor:pointer">ยกเลิก</button>
+      </div>
       <div id="natal-error" style="display:none;color:#FB7185;font-size:12px;line-height:1.6"></div>
       <div id="natal-content" style="display:none"></div>
     </div>
@@ -2029,10 +2034,26 @@ function showTourStep(step){
 }
 function tourNext(){
   var s=TOUR_STEPS[_tourStep];
+  var isLast=(_tourStep>=TOUR_STEPS.length-1);
+  if(isLast){
+    // step สุดท้าย — navigate แล้วจบ
+    hideTour();
+    localStorage.setItem('av_tour','1');_tourDone=true;
+    if(s&&s.action)setTimeout(function(){eval(s.action);},200);
+    return;
+  }
+  // ไม่ใช่ step สุดท้าย — navigate ก่อน แล้วค่อยแสดง step ถัดไป
+  var nextStep=_tourStep+1;
   hideTour();
-  if(s&&s.action)setTimeout(function(){eval(s.action);},200);
-  if(_tourStep<TOUR_STEPS.length-1){setTimeout(function(){showTourStep(_tourStep+1);},600);}
-  else{localStorage.setItem('av_tour','1');_tourDone=true;}
+  if(s&&s.action){
+    setTimeout(function(){
+      eval(s.action);
+      // รอให้ navigation เสร็จก่อนแสดง step ถัดไป
+      setTimeout(function(){showTourStep(nextStep);},500);
+    },200);
+  } else {
+    setTimeout(function(){showTourStep(nextStep);},400);
+  }
 }
 function hideTour(){
   var modal=document.getElementById('tour-modal');if(modal)modal.style.display='none';
@@ -3296,12 +3317,19 @@ function rNatal(data){
 function rNatalIdleCheck(){
   var p=lsG(LSP)||{};
   var cached=lsG(LSN);
+  // safety reset — ถ้า loading ค้างอยู่ให้ reset ก่อนเสมอ
+  var idle=document.getElementById('natal-idle'),content=document.getElementById('natal-content'),
+      loading=document.getElementById('natal-loading'),errEl=document.getElementById('natal-error');
+  if(loading&&loading.style.display==='block'){
+    // loading ค้าง — reset ไปที่ idle
+    if(idle)idle.style.display='block';
+    if(loading)loading.style.display='none';
+    if(errEl)errEl.style.display='none';
+  }
   if(cached&&p.dob&&cached.dob===p.dob&&cached.time===(p.time||'')&&cached.place===(p.place||'')){
     rNatal(cached);
   } else {
-    var idle=document.getElementById('natal-idle'),content=document.getElementById('natal-content'),
-        loading=document.getElementById('natal-loading'),errEl=document.getElementById('natal-error');
-    if(idle){idle.style.display='block';content.style.display='none';loading.style.display='none';errEl.style.display='none';}
+    if(idle){idle.style.display='block';if(content)content.style.display='none';if(loading)loading.style.display='none';if(errEl)errEl.style.display='none';}
   }
 }
 
