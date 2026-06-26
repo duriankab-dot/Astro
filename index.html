@@ -467,7 +467,60 @@ textarea.if{resize:none}
           <select id="inp-province" class="if" style="margin-bottom:7px">
             <option value="">— เลือกจังหวัด —</option>
           </select>
-          <input id="inp-place-other" class="if" type="text" placeholder="พิมพ์ชื่อจังหวัด/เมือง/ประเทศ" style="display:none">
+          <div id="inp-place-wrap" style="display:none">
+            <input id="inp-place-other" class="if" type="text" placeholder="พิมพ์ชื่อประเทศ/เมือง..." list="country-list" autocomplete="off">
+            <datalist id="country-list">
+              <option value="สหรัฐอเมริกา (USA)">
+              <option value="จีน (China)">
+              <option value="ญี่ปุ่น (Japan)">
+              <option value="เกาหลีใต้ (South Korea)">
+              <option value="สิงคโปร์ (Singapore)">
+              <option value="มาเลเซีย (Malaysia)">
+              <option value="อินโดนีเซีย (Indonesia)">
+              <option value="เวียดนาม (Vietnam)">
+              <option value="ฟิลิปปินส์ (Philippines)">
+              <option value="เมียนมา (Myanmar)">
+              <option value="กัมพูชา (Cambodia)">
+              <option value="ลาว (Laos)">
+              <option value="อินเดีย (India)">
+              <option value="ปากีสถาน (Pakistan)">
+              <option value="บังกลาเทศ (Bangladesh)">
+              <option value="ศรีลังกา (Sri Lanka)">
+              <option value="ฮ่องกง (Hong Kong)">
+              <option value="ไต้หวัน (Taiwan)">
+              <option value="สหราชอาณาจักร (UK)">
+              <option value="เยอรมนี (Germany)">
+              <option value="ฝรั่งเศส (France)">
+              <option value="อิตาลี (Italy)">
+              <option value="สเปน (Spain)">
+              <option value="เนเธอร์แลนด์ (Netherlands)">
+              <option value="สวีเดน (Sweden)">
+              <option value="นอร์เวย์ (Norway)">
+              <option value="เดนมาร์ก (Denmark)">
+              <option value="สวิตเซอร์แลนด์ (Switzerland)">
+              <option value="ออสเตรเลีย (Australia)">
+              <option value="นิวซีแลนด์ (New Zealand)">
+              <option value="แคนาดา (Canada)">
+              <option value="บราซิล (Brazil)">
+              <option value="อาร์เจนตินา (Argentina)">
+              <option value="เม็กซิโก (Mexico)">
+              <option value="ซาอุดีอาระเบีย (Saudi Arabia)">
+              <option value="สหรัฐอาหรับเอมิเรตส์ (UAE)">
+              <option value="อิสราเอล (Israel)">
+              <option value="อิหร่าน (Iran)">
+              <option value="ตุรกี (Turkey)">
+              <option value="รัสเซีย (Russia)">
+              <option value="โปแลนด์ (Poland)">
+              <option value="เช็กเกีย (Czech Republic)">
+              <option value="ฮังการี (Hungary)">
+              <option value="กรีซ (Greece)">
+              <option value="โปรตุเกส (Portugal)">
+              <option value="แอฟริกาใต้ (South Africa)">
+              <option value="อียิปต์ (Egypt)">
+              <option value="ไนจีเรีย (Nigeria)">
+              <option value="เคนยา (Kenya)">
+            </datalist>
+          </div>
           <input id="inp-place" type="hidden">
           <script>
           // Populate จังหวัดทันทีที่ DOM พร้อม โดยไม่รอ JS หลัก
@@ -3469,7 +3522,8 @@ function onCountryChange(){
     provSel.onchange=function(){if(placeHidden)placeHidden.value=this.value+', ประเทศไทย';};
   } else {
     provSel.style.display='none';
-    placeOther.style.display='block';
+    var wrap=document.getElementById('inp-place-wrap');
+    if(wrap)wrap.style.display='block';
     placeOther.oninput=function(){if(placeHidden)placeHidden.value=this.value;};
   }
 }
@@ -3491,6 +3545,8 @@ function initPlaceDropdown(savedPlace){
   } else {
     document.getElementById('inp-country').value='OTHER';
     onCountryChange();
+    var wrap=document.getElementById('inp-place-wrap');
+    if(wrap)wrap.style.display='block';
     if(placeOther)placeOther.value=savedPlace;
     if(placeHidden)placeHidden.value=savedPlace;
   }
