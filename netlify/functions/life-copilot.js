@@ -1,136 +1,129 @@
-// netlify/functions/life-copilot.js
-// Life Copilot — AI จริงด้วย Claude Haiku
-// รับ: ข้อความผู้ใช้ + ประวัติการสนทนา + ข้อมูลชีวิตจริงทั้งหมด
-// ส่งคืน: คำตอบ AI ที่ personalized + soft upsell เมื่อจำเป็น
-// ใช้ ANTHROPIC_API_KEY เดียวกับ life-coach.js
+// ═══════════════════════════════════════════════════════════
+// ASTROVERA — Netlify Function: life-copilot
+// VERA AI Chat Assistant — ตอบคำถามชีวิตส่วนตัว
+// ใช้โดย: VERA chat screen / AI Advisor
+// ENV: ANTHROPIC_API_KEY
+// ═══════════════════════════════════════════════════════════
 
-exports.handler = async function(event) {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'POST only' }) };
+exports.handler = async function (event) {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Content-Type': 'application/json',
+  };
+
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
   }
 
-  let body;
-  try { body = JSON.parse(event.body || '{}'); }
-  catch(e) { return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) }; }
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+  }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return { statusCode: 500, body: JSON.stringify({
-      error: 'ยังไม่ได้ตั้งค่า ANTHROPIC_API_KEY ใน Netlify'
-    })};
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }) };
+  }
+
+  let payload;
+  try {
+    payload = JSON.parse(event.body || '{}');
+  } catch {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
   const {
-    message,      // ข้อความล่าสุดจากผู้ใช้
-    history,      // [{role:"user"|"assistant", content:"..."}] ประวัติการสนทนา
-    profile,      // ข้อมูล profile ทั้งหมด
-    isPremium     // boolean
-  } = body;
+    message = '',
+    history = [],
+    profile = {},
+  } = payload;
 
-  if (!message) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'ต้องระบุ message' }) };
+  if (!message.trim()) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Message is required' }) };
   }
 
-  // ─── สร้าง System Prompt ที่รู้จักผู้ใช้จริง ───
-  const p = profile || {};
-  const journals = p.journals || [];
-  const emotions = p.emotions || [];
-  const weekly = p.weekly || [];
-  const opps = p.opportunities || [];
-  const hasJournals = journals.length > 0;
-  const hasEmotions = emotions.length > 0;
-  const hasOpps = opps.length > 0;
+  // ─── Build profile context ───
+  const p = profile;
+  const profileContext = [
+    p.name ? `ชื่อ: ${p.name}` : '',
+    p.archetype ? `ลักษณะตัวตน: ${p.archetype}` : '',
+    p.archetypeDesc ? `→ ${p.archetypeDesc}` : '',
+    p.phase ? `ช่วงชีวิตปัจจุบัน: ${p.phase}` : '',
+    p.phaseDesc ? `→ ${p.phaseDesc}` : '',
+    p.lifePathNum ? `เลขชีวิต: ${p.lifePathNum} (${p.lifePathMeaning || ''})` : '',
+    p.baziDayMaster ? `Day Master ปาจื้อ: ${p.baziDayMaster} — ${p.baziDesc || ''}` : '',
+    p.sunSign ? `ราศีดวงอาทิตย์: ${p.sunSign}` : '',
+    p.moonSign ? `ราศีดวงจันทร์: ${p.moonSign}` : '',
+    p.strengths?.length ? `จุดแข็ง: ${p.strengths.map(s => s.t).join(', ')}` : '',
+    p.blindspot?.length ? `จุดระวัง: ${p.blindspot.map(b => b.t).join(', ')}` : '',
+    p.missingEl?.length ? `ธาตุที่ขาด: ${p.missingEl.join(', ')}` : '',
+    p.journals?.length ? `บันทึกล่าสุด: ${p.journals.map(j => j.title || j.type).join(', ')}` : '',
+    p.emotions?.length ? `อารมณ์ล่าสุด: ${p.emotions.map(e => e.label).join(', ')}` : '',
+    p.opportunities?.length
+      ? `โอกาสที่กำลังติดตาม: ${p.opportunities.map(o => o.name).join(', ')}`
+      : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
 
-  // สรุปข้อมูล Journal เป็น context
-  const journalSummary = journals.length > 0
-    ? journals.slice(0,5).map(j =>
-        `• [${j.type||'ทั่วไป'}] ${j.title||''} (${j.date||''}) — มั่นใจ ${j.confidence||0}/5`
-      ).join('\n')
-    : 'ยังไม่มี Journal';
+  const systemPrompt = `คุณคือ VERA — AI ผู้ช่วยชีวิตส่วนตัวของ ASTROVERA
 
-  // recent emotions
-  const emotionSummary = emotions.slice(0,3).map(e => e.emoji+' '+e.label).join(', ') || 'ยังไม่มี check-in';
+บุคลิก:
+- ฉลาด อบอุ่น ตรงไปตรงมา เหมือนเพื่อนสนิทที่ฉลาดมาก
+- ใช้ภาษาไทยปกติ ไม่เป็นทางการมากเกินไป ไม่ใช้ภาษาดูดวง
+- ตอบตรงประเด็น ไม่อ้อมค้อม ไม่พูดซ้ำ
+- ไม่ทำนายอนาคตแบบตายตัว — ใช้มุมมองช่วยคิด ไม่ใช่คำสั่ง
+- ถามกลับ 1 คำถามเมื่อต้องการข้อมูลเพิ่ม อย่าถามหลายคำถามพร้อมกัน
 
-  // top opportunity
-  const topOpp = opps.length > 0 ? opps[0].name : null;
+ข้อมูลผู้ใช้ที่รู้:
+${profileContext || 'ยังไม่มีข้อมูลโปรไฟล์ — ถามชื่อและสิ่งที่อยากรู้ก่อน'}
 
-  // premium features ที่ผู้ใช้ยังไม่มีสิทธิ์ (free tier)
-  const lockedFeatures = !isPremium
-    ? ['PDF Report', 'Memory Engine', 'AI Strategic Advisor เต็มรูปแบบ', 'Pattern Mining เชิงลึก']
-    : [];
+ความยาวคำตอบ: 2-4 ประโยค สั้นและตรงจุด ยกเว้นถ้าถามเรื่องซับซ้อนให้ขยายได้ถึง 6 ประโยค`;
 
-  const systemPrompt = `คุณคือ Life Copilot ของ ASTROVERA — AI ผู้ช่วยส่วนตัวที่รู้จักข้อมูลชีวิตของผู้ใช้จริงๆ
-
-== ข้อมูลผู้ใช้ ==
-ชื่อ: ${p.name || 'ผู้ใช้'}
-Archetype: ${p.archetype || ''} — ${p.archetypeDesc || ''}
-ช่วงชีวิตตอนนี้: ${p.phase || ''} — ${p.phaseDesc || ''}
-Day Master (ปาจื้อ): ธาตุ${p.baziDayMaster || ''} — ${p.baziDesc || ''}
-เลขชีวิต: ${p.lifePathNum || ''} — ${p.lifePathMeaning || ''}
-ดาวอาทิตย์: ${p.sunSign || ''}, ดาวจันทร์: ${p.moonSign || ''}
-จุดแข็ง: ${(p.strengths||[]).join(', ')}
-สิ่งที่ควรระวัง: ${(p.blindspot||[]).join(', ')}
-ธาตุที่ขาด: ${(p.missingEl||[]).join(', ') || 'ไม่มี'}
-
-== ข้อมูลที่บันทึกไว้ ==
-Journal (${journals.length} รายการ):
-${journalSummary}
-Emotion Check-in ล่าสุด: ${emotionSummary}
-Weekly Reflection: ${weekly.length} ครั้ง
-Opportunity Radar: ${opps.length} รายการ${topOpp ? ' (อันดับ 1: '+topOpp+')' : ''}
-สถานะ: ${isPremium ? 'Premium' : 'Free'}
-${!isPremium ? 'ฟีเจอร์ที่ยังไม่ได้ใช้: '+lockedFeatures.join(', ') : ''}
-
-== วิธีตอบ ==
-- ตอบภาษาไทยเป็นธรรมชาติ เหมือนเพื่อนที่รู้จักผู้ใช้ดี ไม่ใช่ bot
-- ดึงข้อมูลจริงมาใช้ในการตอบเสมอ ไม่ตอบแบบกว้างๆ
-- ความยาวตอบพอดี — สั้นถ้าถามง่าย ยาวขึ้นถ้าต้องการรายละเอียด
-- ถ้าผู้ใช้ถามเรื่องที่ไม่มีข้อมูลพอ บอกตรงๆ ว่าต้องบันทึกเพิ่ม
-
-== Soft Upsell (ใช้เมื่อเหมาะสมเท่านั้น) ==
-${!isPremium ? `ถ้าผู้ใช้ถามเรื่องที่ Premium เท่านั้นที่ทำได้ ให้ตอบให้ประโยชน์ก่อน แล้วจึงพูดถึงความเป็นไปได้เพิ่มเติมแบบนุ่มนวล เช่น:
-"...ถ้าอยากเห็นภาพรวมลึกกว่านี้ Self Intelligence Report (399 บาท) มีวิเคราะห์ครบ Pattern ระยะยาวของคุณด้วยครับ"
-- ห้าม upsell ทุกข้อความ — เฉพาะตอนที่ผู้ใช้ถามเรื่องที่เกี่ยวข้องจริงๆ เท่านั้น
-- ห้ามกดดัน พูดแค่ครั้งเดียวต่อการสนทนา แล้วไม่พูดอีก
-- ถ้า upsell แล้วผู้ใช้ไม่สนใจ ให้ drop เรื่องนี้ทันที` : 'ผู้ใช้เป็น Premium แล้ว ไม่ต้อง upsell'}`;
-
-  // สร้าง messages array สำหรับ API (รวม history)
+  // ─── Build message history ───
   const messages = [
-    ...((history || []).slice(-8)), // เก็บแค่ 8 รอบล่าสุด ป้องกัน context ยาวเกิน
-    { role: 'user', content: message }
+    ...history
+      .filter(h => h.role && h.content)
+      .slice(-10) // เก็บแค่ 10 ข้อความล่าสุดเพื่อประหยัด tokens
+      .map(h => ({ role: h.role, content: h.content })),
+    { role: 'user', content: message },
   ];
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
+        'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 512,
         system: systemPrompt,
-        messages
-      })
+        messages,
+      }),
     });
 
-    if (!res.ok) {
-      const err = await res.text();
-      return { statusCode: 502, body: JSON.stringify({ error: 'Claude API error: ' + err }) };
+    if (!response.ok) {
+      const err = await response.text();
+      return { statusCode: 502, headers, body: JSON.stringify({ error: 'Anthropic API error: ' + err }) };
     }
 
-    const data = await res.json();
-    const reply = data.content && data.content[0] && data.content[0].text;
-    if (!reply) throw new Error('No content');
+    const data = await response.json();
+    const reply = data.content?.[0]?.text || 'ขอโทษ ไม่สามารถตอบได้ตอนนี้';
 
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ reply })
+      headers,
+      body: JSON.stringify({ reply }),
     };
-  } catch(e) {
-    return { statusCode: 502, body: JSON.stringify({ error: 'ตอบไม่ได้: ' + e.message }) };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: err.message }),
+    };
   }
 };

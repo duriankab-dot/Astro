@@ -1,27 +1,13 @@
 [build]
   publish = "."
+  functions = "netlify/functions"
 
 [functions]
-  node_bundler = "zisi"
+  node_bundler = "esbuild"
 
-[functions."natal-chart"]
-  node_bundler = "zisi"
-
-[functions."human-design"]
-  node_bundler = "zisi"
-
-[functions."life-coach"]
-  node_bundler = "zisi"
-
-[functions."life-copilot"]
-  node_bundler = "zisi"
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

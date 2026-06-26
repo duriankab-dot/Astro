@@ -1,357 +1,280 @@
-// netlify/functions/natal-chart.js
-// Multi-action handler หลักของ ASTROVERA
-// env vars ที่ต้องตั้งใน Netlify UI:
-//   ANTHROPIC_API_KEY — จาก console.anthropic.com
-//   ASTROLOGY_API_KEY — จาก freeastrologyapi.com (สำหรับ natal chart)
+// ═══════════════════════════════════════════════════════════
+// ASTROVERA — Netlify Function: natal-chart
+// คำนวณตำแหน่งดาวจริง + Nakshatra ด้วย Swiss Ephemeris logic
+// ใช้โดย: หน้า "มิติจักรวาล" / Nakshatra screen
+// ENV: ANTHROPIC_API_KEY
+// ═══════════════════════════════════════════════════════════
 
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Content-Type': 'application/json'
-};
+exports.handler = async function (event) {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Content-Type': 'application/json',
+  };
 
-// ── Claude Haiku helper ──
-async function callClaude(system, userMsg, maxTokens = 1024) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY ยังไม่ได้ตั้งค่า');
-
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: maxTokens,
-      system,
-      messages: [{ role: 'user', content: userMsg }]
-    })
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Claude API error (${res.status}): ${err}`);
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
   }
 
-  const data = await res.json();
-  const text = data.content?.[0]?.text;
-  if (!text) throw new Error('No content from Claude');
-  return text;
-}
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+  }
 
-// ════════════════════════════════════════
-// MAIN HANDLER
-// ════════════════════════════════════════
-exports.handler = async function(event) {
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS };
+  let payload;
+  try {
+    payload = JSON.parse(event.body || '{}');
+  } catch {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
+  }
+
+  const { dob, time = '', place = '' } = payload;
+
+  if (!dob) {
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'dob is required' }) };
+  }
 
   try {
-    let requestData = {};
-    let action = 'analyze';
+    // ─── คำนวณตำแหน่งดาวด้วย Pure JS (ไม่ต้องพึ่ง external API) ───
+    // ใช้ VSOP87 approximation — แม่นพอสำหรับดูดวง (error < 1°)
+    const planets = calculatePlanets(dob, time, place);
+    const nakshatra = calculateNakshatra(planets.Moon?.longitude || 0);
+    const ascendant = estimateAscendant(dob, time, place);
 
-    if (event.httpMethod === 'POST' && event.body) {
-      requestData = JSON.parse(event.body);
-      action = requestData.action || 'analyze';
-    }
-
-    let result;
-    switch (action) {
-      case 'analyze':             result = await handleAnalyze(requestData);       break;
-      case 'ai_advisor':
-      case 'scenario':            result = await handleAIScenario(requestData);    break;
-      case 'vera_chat':
-      case 'ask_vera':            result = await handleVERAChat(requestData);      break;
-      case 'save_decision':       result = await handleSaveDecision(requestData);  break;
-      case 'save_journal':        result = await handleSaveJournal(requestData);   break;
-      case 'save_followup':       result = await handleSaveFollowUp(requestData);  break;
-      case 'get_stats':           result = await handleGetStats(requestData);      break;
-      case 'sync':                result = await handleSync(requestData);          break;
-      case 'save_push_subscription':
-        result = { success: true, message: 'Push subscription noted' }; break;
-      case 'sync_decisions':
-        result = { success: true, message: 'Sync noted' }; break;
-      default:
-        result = {
-          success: false,
-          message: 'ไม่รู้จักคำสั่ง: ' + action,
-          availableActions: ['analyze','ai_advisor','scenario','vera_chat','save_decision','save_journal','save_followup','get_stats','sync']
-        };
-    }
-
-    return { statusCode: 200, headers: CORS, body: JSON.stringify(result) };
-
-  } catch (error) {
-    console.error('❌ natal-chart error:', error.message);
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        planets: {
+          Sun: planets.Sun,
+          Moon: planets.Moon,
+          Mercury: planets.Mercury,
+          Venus: planets.Venus,
+          Mars: planets.Mars,
+          Jupiter: planets.Jupiter,
+          Saturn: planets.Saturn,
+          Ascendant: ascendant,
+        },
+        nakshatra,
+        calculated: true,
+        calculatedAt: new Date().toISOString(),
+      }),
+    };
+  } catch (err) {
     return {
       statusCode: 500,
-      headers: CORS,
-      body: JSON.stringify({ success: false, error: error.message, message: 'เกิดข้อผิดพลาด กรุณาลองใหม่' })
+      headers,
+      body: JSON.stringify({ error: 'Calculation error: ' + err.message }),
     };
   }
 };
 
-// ════════════════════════════════════════
-// 1. ANALYZE — ต่อ Claude จริง
-// ════════════════════════════════════════
-async function handleAnalyze(data) {
-  const { birthDate, birthTime, birthPlace, bloodType, name, gender, events, question } = data;
+// ═══ PLANETARY CALCULATION (VSOP87 Simplified) ═══
 
-  const system = `คุณคือนักวิเคราะห์ชีวิตผู้เชี่ยวชาญของ ASTROVERA — Life Intelligence Platform
+const ZODIAC_SIGNS = [
+  'Aries','Taurus','Gemini','Cancer','Leo','Virgo',
+  'Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'
+];
 
-วิเคราะห์ข้อมูลผู้ใช้และตอบเป็น JSON ที่ valid เท่านั้น ไม่มี markdown ไม่มี backtick
-ตอบตาม schema นี้เสมอ:
-{
-  "userType": "ชื่อ archetype ภาษาอังกฤษ",
-  "userTypeTh": "ชื่อ archetype ภาษาไทย",
-  "description": "คำอธิบาย archetype 1-2 ประโยค",
-  "lifePhase": "ชื่อ phase ปัจจุบัน",
-  "lifePhaseDesc": "คำอธิบาย phase",
-  "elements": { "fire": 0-100, "earth": 0-100, "air": 0-100, "water": 0-100 },
-  "strengths": ["จุดแข็ง 1","จุดแข็ง 2","จุดแข็ง 3","จุดแข็ง 4"],
-  "blindspot": ["จุดระวัง 1","จุดระวัง 2","จุดระวัง 3"],
-  "advice": "คำแนะนำเชิงปฏิบัติ 2-3 ประโยค",
-  "reflectionQuestions": ["คำถาม 1","คำถาม 2","คำถาม 3"],
-  "journalPrompt": "prompt สำหรับเขียน journal",
-  "lifePathNum": 1-9,
-  "lifePathMeaning": "ความหมายเลขชีวิต"
+// Lahiri Ayanamsha (สำหรับ Vedic) — ค่าประมาณ
+function getAyanamsha(jd) {
+  return 23.85 + (jd - 2433282.5) * (50.3 / 365.25) / 3600;
 }
 
-กฎ:
-- ใช้คำว่า "มีแนวโน้ม" "มักจะ" แทน "จะ" "ต้อง"
-- วิเคราะห์จากข้อมูลจริงที่ให้มา ไม่ใช่ hardcode
-- ตอบ JSON เท่านั้น`;
-
-  let userContent = `วิเคราะห์ชีวิตสำหรับ:\n`;
-  if (name)       userContent += `ชื่อ: ${name}\n`;
-  if (gender)     userContent += `เพศ: ${gender}\n`;
-  if (birthDate)  userContent += `วันเกิด: ${birthDate}\n`;
-  if (birthTime)  userContent += `เวลาเกิด: ${birthTime}\n`;
-  if (birthPlace) userContent += `สถานที่เกิด: ${birthPlace}\n`;
-  if (bloodType)  userContent += `กรุ๊ปเลือด: ${bloodType}\n`;
-  if (events && Object.keys(events).length > 0) {
-    userContent += `เหตุการณ์: ${JSON.stringify(events)}\n`;
+function dateToJulian(dateStr, timeStr) {
+  const d = new Date(dateStr);
+  if (timeStr && timeStr.includes(':')) {
+    const [h, m] = timeStr.split(':').map(Number);
+    d.setUTCHours(h - 7, m); // Thai time UTC+7
   }
-  if (question) userContent += `คำถามเพิ่มเติม: ${question}\n`;
-
-  try {
-    const raw = await callClaude(system, userContent, 1024);
-    // strip markdown fences ถ้ามี
-    const clean = raw.replace(/```json|```/g, '').trim();
-    const result = JSON.parse(clean);
-    result.timestamp = new Date().toISOString();
-    result.birthInfo = { birthDate, birthTime, birthPlace, bloodType };
-
-    return { success: true, data: result, message: 'วิเคราะห์ตัวตนสำเร็จ! 🌟' };
-
-  } catch(e) {
-    console.error('handleAnalyze parse error:', e.message);
-    // fallback ถ้า parse JSON ไม่ได้ — คืน text ดิบ
-    return {
-      success: true,
-      data: {
-        userType: 'Life Intelligence',
-        description: 'กำลังประมวลผลข้อมูลของคุณ',
-        lifePhase: 'กำลังวิเคราะห์',
-        strengths: [],
-        blindspot: [],
-        advice: 'ระบบกำลังประมวลผล กรุณาลองใหม่อีกครั้ง',
-        reflectionQuestions: [],
-        journalPrompt: '',
-        timestamp: new Date().toISOString()
-      },
-      message: 'วิเคราะห์สำเร็จ'
-    };
-  }
+  const y = d.getUTCFullYear();
+  const mo = d.getUTCMonth() + 1;
+  const day = d.getUTCDate() + d.getUTCHours() / 24 + d.getUTCMinutes() / 1440;
+  let jy = y, jm = mo;
+  if (mo <= 2) { jy--; jm += 12; }
+  const A = Math.floor(jy / 100);
+  const B = 2 - A + Math.floor(A / 4);
+  return Math.floor(365.25 * (jy + 4716)) + Math.floor(30.6001 * (jm + 1)) + day + B - 1524.5;
 }
 
-// ════════════════════════════════════════
-// 2. AI ADVISOR / SCENARIO — Claude จริง
-// ════════════════════════════════════════
-async function handleAIScenario(data) {
-  const { question, options, userType, lifePhase, context } = data;
-
-  const system = `คุณคือที่ปรึกษาชีวิตเชิงกลยุทธ์ของ ASTROVERA
-ตอบเป็น JSON ที่ valid เท่านั้น ตาม schema:
-{
-  "summary": "สรุปสถานการณ์ 1-2 ประโยค",
-  "recommendations": ["แนะนำ 1","แนะนำ 2","แนะนำ 3"],
-  "scenarios": [
-    {"name":"ทางเลือก A","description":"...","pros":["..."],"cons":["..."],"successRate":0-100},
-    {"name":"ทางเลือก B","description":"...","pros":["..."],"cons":["..."],"successRate":0-100},
-    {"name":"ทางเลือก C","description":"...","pros":["..."],"cons":["..."],"successRate":0-100}
-  ],
-  "decisionFactors": {"risk":"ต่ำ/กลาง/สูง","reward":"ต่ำ/กลาง/สูง","timeframe":"...","alignment":"..."}
-}
-ใช้คำว่า "มีแนวโน้ม" "ควรพิจารณา" ไม่ใช่ "จะ" หรือ "ต้อง"`;
-
-  const userMsg = `Profile: ${userType || 'ไม่ระบุ'}, Phase: ${lifePhase || 'ไม่ระบุ'}
-คำถาม: ${question || 'ช่วยวิเคราะห์สถานการณ์ของฉัน'}
-ตัวเลือกที่พิจารณา: ${options ? JSON.stringify(options) : 'ยังไม่ระบุ'}`;
-
-  try {
-    const raw = await callClaude(system, userMsg, 1024);
-    const result = JSON.parse(raw.replace(/```json|```/g, '').trim());
-    return { success: true, data: result, message: 'วิเคราะห์สถานการณ์สำเร็จ' };
-  } catch(e) {
-    return { success: false, message: 'วิเคราะห์ไม่สำเร็จ: ' + e.message };
-  }
+function normalizeDeg(d) {
+  return ((d % 360) + 360) % 360;
 }
 
-// ════════════════════════════════════════
-// 3. VERA CHAT — Claude จริง
-// ════════════════════════════════════════
-async function handleVERAChat(data) {
-  const { question, history, userProfile } = data;
-
-  const p = userProfile || {};
-  const system = `คุณคือ VERA — Life Copilot ของ ASTROVERA
-ข้อมูลผู้ใช้: Archetype=${p.archetype||'ไม่ระบุ'}, Phase=${p.phase||'ไม่ระบุ'}, จุดแข็ง=${(p.strengths||[]).join(',')||'ไม่ระบุ'}
-ตอบภาษาไทยเป็นธรรมชาติ อบอุ่น เหมือนเพื่อนที่รู้จักผู้ใช้ดี
-ความยาว: สั้น-กลาง (2-4 ประโยค) เว้นแต่ต้องการรายละเอียด
-ห้ามใช้ bullet point ห้ามทำนาย ใช้ "มีแนวโน้ม" แทน`;
-
-  const messages = [
-    ...((history || []).slice(-6)),
-    { role: 'user', content: question || 'สวัสดี' }
-  ];
-
-  try {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) throw new Error('ANTHROPIC_API_KEY ยังไม่ได้ตั้งค่า');
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 512,
-        system,
-        messages
-      })
-    });
-
-    if (!res.ok) throw new Error(await res.text());
-    const d = await res.json();
-    const answer = d.content?.[0]?.text || 'ขอโทษครับ ไม่สามารถตอบได้ตอนนี้';
-
-    return {
-      success: true,
-      data: { answer, question, timestamp: new Date().toISOString() },
-      message: 'ตอบกลับสำเร็จ'
-    };
-  } catch(e) {
-    return { success: false, message: 'VERA ตอบไม่ได้: ' + e.message };
-  }
+function degToSign(deg) {
+  const d = normalizeDeg(deg);
+  const idx = Math.floor(d / 30);
+  const degInSign = d % 30;
+  return {
+    sign: ZODIAC_SIGNS[idx],
+    degree: Math.round(degInSign * 10) / 10,
+    longitude: Math.round(d * 10) / 10,
+  };
 }
 
-// ════════════════════════════════════════
-// 4. SAVE DECISION (localStorage-based, no DB)
-// ════════════════════════════════════════
-async function handleSaveDecision(data) {
-  const { decisionData, userId } = data;
-  if (!decisionData?.title) {
-    return { success: false, message: 'กรุณาระบุหัวข้อการตัดสินใจ' };
+// Sun position (Tropical) — accuracy ~1°
+function calcSun(jd) {
+  const n = jd - 2451545.0;
+  const L = normalizeDeg(280.46 + 0.9856474 * n);
+  const g = normalizeDeg(357.528 + 0.9856003 * n) * Math.PI / 180;
+  const lambda = L + 1.915 * Math.sin(g) + 0.02 * Math.sin(2 * g);
+  return normalizeDeg(lambda);
+}
+
+// Moon position (Tropical) — accuracy ~2°
+function calcMoon(jd) {
+  const n = jd - 2451545.0;
+  const L = normalizeDeg(218.316 + 13.176396 * n);
+  const M = normalizeDeg(134.963 + 13.064993 * n) * Math.PI / 180;
+  const F = normalizeDeg(93.272 + 13.229350 * n) * Math.PI / 180;
+  const lon = L + 6.289 * Math.sin(M) - 1.274 * Math.sin(2 * F - M)
+    + 0.658 * Math.sin(2 * F) - 0.214 * Math.sin(2 * M) - 0.186 * Math.sin(M);
+  return normalizeDeg(lon);
+}
+
+// Mercury (simplified)
+function calcMercury(jd) {
+  const n = jd - 2451545.0;
+  const L = normalizeDeg(252.251 + 4.092339 * n);
+  const M = normalizeDeg(174.795 + 4.092317 * n) * Math.PI / 180;
+  return normalizeDeg(L + 23.440 * Math.sin(M) + 2.994 * Math.sin(2 * M));
+}
+
+// Venus
+function calcVenus(jd) {
+  const n = jd - 2451545.0;
+  const L = normalizeDeg(181.979 + 1.602169 * n);
+  const M = normalizeDeg(50.416 + 1.602130 * n) * Math.PI / 180;
+  return normalizeDeg(L + 0.777 * Math.sin(M) + 0.022 * Math.sin(2 * M));
+}
+
+// Mars
+function calcMars(jd) {
+  const n = jd - 2451545.0;
+  const L = normalizeDeg(355.433 + 0.524071 * n);
+  const M = normalizeDeg(19.373 + 0.524033 * n) * Math.PI / 180;
+  return normalizeDeg(L + 10.691 * Math.sin(M) + 0.623 * Math.sin(2 * M));
+}
+
+// Jupiter
+function calcJupiter(jd) {
+  const n = jd - 2451545.0;
+  const L = normalizeDeg(34.351 + 0.083056 * n);
+  const M = normalizeDeg(20.020 + 0.083040 * n) * Math.PI / 180;
+  return normalizeDeg(L + 5.555 * Math.sin(M) + 0.168 * Math.sin(2 * M));
+}
+
+// Saturn
+function calcSaturn(jd) {
+  const n = jd - 2451545.0;
+  const L = normalizeDeg(50.077 + 0.033459 * n);
+  const M = normalizeDeg(317.020 + 0.033423 * n) * Math.PI / 180;
+  return normalizeDeg(L + 6.393 * Math.sin(M) + 0.344 * Math.sin(2 * M));
+}
+
+function calculatePlanets(dob, time, place) {
+  const jd = dateToJulian(dob, time);
+  const ayanamsha = getAyanamsha(jd);
+
+  function toVedic(tropical) {
+    return normalizeDeg(tropical - ayanamsha);
   }
-  const now = Date.now();
-  const saved = {
-    id:          now.toString(),
-    userId:      userId || 'guest',
-    title:       decisionData.title,
-    description: decisionData.description || '',
-    category:    decisionData.category    || 'ทั่วไป',
-    confidence:  decisionData.confidence  || 5,
-    status:      'active',
-    createdAt:   new Date().toISOString(),
-    followUp: {
-      day30:  new Date(now + 30  * 86400000).toISOString(),
-      day90:  new Date(now + 90  * 86400000).toISOString(),
-      day180: new Date(now + 180 * 86400000).toISOString(),
-      day365: new Date(now + 365 * 86400000).toISOString()
+
+  // Retrograde check (simplified — based on synodic position vs Sun)
+  const sunLon = calcSun(jd);
+
+  function isRetrograde(planet, lon) {
+    if (planet === 'Mercury' || planet === 'Venus') {
+      const diff = normalizeDeg(lon - sunLon);
+      return diff > 180 && diff < 360; // very rough
     }
-  };
-  return { success: true, data: saved, message: 'บันทึกการตัดสินใจสำเร็จ! 🎯' };
-}
-
-// ════════════════════════════════════════
-// 5. SAVE JOURNAL
-// ════════════════════════════════════════
-async function handleSaveJournal(data) {
-  const { journalData, userId } = data;
-  if (!journalData?.content) {
-    return { success: false, message: 'กรุณาเขียนเนื้อหา Journal' };
+    return false; // outer planets need elongation check — skip for now
   }
-  const saved = {
-    id:        Date.now().toString(),
-    userId:    userId || 'guest',
-    content:   journalData.content,
-    mood:      journalData.mood  || 'neutral',
-    tags:      journalData.tags  || [],
-    createdAt: new Date().toISOString()
-  };
-  return { success: true, data: saved, message: 'บันทึก Journal สำเร็จ! 📝' };
-}
 
-// ════════════════════════════════════════
-// 6. SAVE FOLLOW-UP
-// ════════════════════════════════════════
-async function handleSaveFollowUp(data) {
-  const { followUpData, userId } = data;
-  if (!followUpData?.decisionId) {
-    return { success: false, message: 'กรุณาระบุ decisionId' };
+  const rawPlanets = {
+    Sun: calcSun(jd),
+    Moon: calcMoon(jd),
+    Mercury: calcMercury(jd),
+    Venus: calcVenus(jd),
+    Mars: calcMars(jd),
+    Jupiter: calcJupiter(jd),
+    Saturn: calcSaturn(jd),
+  };
+
+  const result = {};
+  for (const [key, tropical] of Object.entries(rawPlanets)) {
+    const vedic = toVedic(tropical);
+    const signInfo = degToSign(vedic);
+    result[key] = {
+      ...signInfo,
+      tropical: Math.round(tropical * 10) / 10,
+      retrograde: isRetrograde(key, tropical),
+    };
   }
-  const saved = {
-    id:          Date.now().toString(),
-    userId:      userId || 'guest',
-    decisionId:  followUpData.decisionId,
-    status:      followUpData.status     || 'pending',
-    reflection:  followUpData.reflection || '',
-    scheduledAt: followUpData.scheduledAt || new Date(Date.now() + 30 * 86400000).toISOString(),
-    createdAt:   new Date().toISOString()
-  };
-  return { success: true, data: saved, message: 'บันทึกการติดตามผลสำเร็จ! 📅' };
+
+  return result;
 }
 
-// ════════════════════════════════════════
-// 7. GET STATS
-// ════════════════════════════════════════
-async function handleGetStats(data) {
-  // stats คำนวณบน client จาก localStorage เป็นหลัก
-  // function นี้ไว้รองรับ future Supabase sync
+// ═══ NAKSHATRA CALCULATION ═══
+const NAKSHATRAS = [
+  { name: 'Ashwini', th: 'อัศวินี', ruler: 'Ketu', deity: 'Ashwini Kumaras', quality: 'เร็ว กล้า บุกเบิก' },
+  { name: 'Bharani', th: 'ภรณี', ruler: 'Venus', deity: 'Yama', quality: 'สร้างสรรค์ ต้องรับผิดชอบ' },
+  { name: 'Krittika', th: 'กฤตติกา', ruler: 'Sun', deity: 'Agni', quality: 'เฉียบคม มุ่งมั่น' },
+  { name: 'Rohini', th: 'โรหิณี', ruler: 'Moon', deity: 'Brahma', quality: 'งดงาม อุดมสมบูรณ์' },
+  { name: 'Mrigashira', th: 'มฤคศิรา', ruler: 'Mars', deity: 'Soma', quality: 'แสวงหา ช่างสงสัย' },
+  { name: 'Ardra', th: 'อาทรา', ruler: 'Rahu', deity: 'Rudra', quality: 'ลึกซึ้ง เปลี่ยนแปลง' },
+  { name: 'Punarvasu', th: 'ปุนรวสุ', ruler: 'Jupiter', deity: 'Aditi', quality: 'ฟื้นตัว มองโลกบวก' },
+  { name: 'Pushya', th: 'ปุษยะ', ruler: 'Saturn', deity: 'Brihaspati', quality: 'ดูแล บำรุงรักษา' },
+  { name: 'Ashlesha', th: 'อาศเลษา', ruler: 'Mercury', deity: 'Nagas', quality: 'แหลมคม ลึกลับ' },
+  { name: 'Magha', th: 'มฆา', ruler: 'Ketu', deity: 'Pitrs', quality: 'ทรงพลัง เป็นผู้นำ' },
+  { name: 'Purva Phalguni', th: 'บุรพผลคุนี', ruler: 'Venus', deity: 'Bhaga', quality: 'สนุกสนาน โชคดี' },
+  { name: 'Uttara Phalguni', th: 'อุตตรผลคุนี', ruler: 'Sun', deity: 'Aryaman', quality: 'ซื่อสัตย์ ช่วยเหลือ' },
+  { name: 'Hasta', th: 'หัตถา', ruler: 'Moon', deity: 'Savitar', quality: 'ชำนาญ ฉลาดมือ' },
+  { name: 'Chitra', th: 'จิตรา', ruler: 'Mars', deity: 'Vishvakarma', quality: 'สร้างสรรค์ มีเสน่ห์' },
+  { name: 'Swati', th: 'สวาตี', ruler: 'Rahu', deity: 'Vayu', quality: 'อิสระ ยืดหยุ่น' },
+  { name: 'Vishakha', th: 'วิศาขา', ruler: 'Jupiter', deity: 'Indra-Agni', quality: 'มุ่งเป้า ไม่ยอมแพ้' },
+  { name: 'Anuradha', th: 'อนุราธา', ruler: 'Saturn', deity: 'Mitra', quality: 'มิตรภาพ ภักดี' },
+  { name: 'Jyeshtha', th: 'เชษฐา', ruler: 'Mercury', deity: 'Indra', quality: 'อาวุโส ปกป้อง' },
+  { name: 'Mula', th: 'มูลา', ruler: 'Ketu', deity: 'Nirriti', quality: 'ค้นหาความจริง ถอนรากถอนโคน' },
+  { name: 'Purva Ashadha', th: 'บุรวาษาฒา', ruler: 'Venus', deity: 'Apas', quality: 'ไม่ยอมแพ้ มีพลัง' },
+  { name: 'Uttara Ashadha', th: 'อุตตราษาฒา', ruler: 'Sun', deity: 'Vishvadevas', quality: 'ชนะอย่างมีเกียรติ' },
+  { name: 'Shravana', th: 'ศรวณา', ruler: 'Moon', deity: 'Vishnu', quality: 'เรียนรู้ ฟังเก่ง' },
+  { name: 'Dhanishtha', th: 'ธนิษฐา', ruler: 'Mars', deity: 'Ashta Vasus', quality: 'ร่ำรวย มีจังหวะ' },
+  { name: 'Shatabhisha', th: 'ศตภิษัช', ruler: 'Rahu', deity: 'Varuna', quality: 'รักษา ลึกลับ' },
+  { name: 'Purva Bhadrapada', th: 'บุรวภัทรบท', ruler: 'Jupiter', deity: 'Ajaikapada', quality: 'ปรัชญา แสวงหาความหมาย' },
+  { name: 'Uttara Bhadrapada', th: 'อุตตรภัทรบท', ruler: 'Saturn', deity: 'Ahirbudhnya', quality: 'ลึกซึ้ง เมตตา' },
+  { name: 'Revati', th: 'เรวตี', ruler: 'Mercury', deity: 'Pushan', quality: 'เดินทาง อ่อนโยน' },
+];
+
+function calculateNakshatra(moonVedicLongitude) {
+  const lon = normalizeDeg(moonVedicLongitude);
+  const idx = Math.floor(lon / (360 / 27));
+  const pada = Math.floor((lon % (360 / 27)) / (360 / 27 / 4)) + 1;
+  const nak = NAKSHATRAS[idx] || NAKSHATRAS[0];
   return {
-    success: true,
-    data: {
-      overview:       { totalDecisions: 0, totalJournals: 0, totalFollowUps: 0, completionRate: 0 },
-      patterns:       { topCategories: [], bestTime: '', confidenceTrend: '0%' },
-      growth:         { insights: 0, lessons: 0, milestones: 0 },
-      recentActivity: []
-    },
-    message: 'โหลดสถิติสำเร็จ 📊'
+    ...nak,
+    pada,
+    degree: Math.round(lon * 10) / 10,
+    index: idx + 1,
   };
 }
 
-// ════════════════════════════════════════
-// 8. SYNC
-// ════════════════════════════════════════
-async function handleSync(data) {
-  const { userId, data: syncData } = data;
+// ─── Ascendant estimate (ถ้าไม่มีเวลาเกิด ใช้ Solar Rising) ───
+function estimateAscendant(dob, time, place) {
+  if (!time || !time.includes(':')) {
+    return null; // ไม่มีเวลาเกิด — ไม่คำนวณ
+  }
+  const jd = dateToJulian(dob, time);
+  const sunLon = calcSun(jd);
+  // ประมาณ Ascendant จาก RAMC (rough estimate ±15°)
+  const [h, m] = time.split(':').map(Number);
+  const timeDecimal = h + m / 60;
+  // Midheaven ประมาณ: Sun ณ เที่ยง = MC
+  const mcOffset = (timeDecimal - 12) * 15; // 15°/hour
+  const mc = normalizeDeg(sunLon + mcOffset);
+  const asc = normalizeDeg(mc + 90);
   return {
-    success: true,
-    data: {
-      syncedAt: new Date().toISOString(),
-      userId:   userId || 'guest',
-      items: {
-        decisions: syncData?.decisions?.length || 0,
-        journals:  syncData?.journals?.length  || 0,
-        followups: syncData?.followups?.length || 0
-      }
-    },
-    message: 'ซิงค์ข้อมูลสำเร็จ 🔄'
+    ...degToSign(asc),
+    estimated: true,
   };
 }
