@@ -514,8 +514,10 @@ textarea.if{resize:none}
 </div>
 
 <!-- ─── LOADING ─── -->
-<div class="sc" id="sc-loading">
-  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center">
+<div class="sc" id="sc-loading" style="background:radial-gradient(ellipse at 70% 20%,rgba(99,102,241,.13) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(176,64,255,.1) 0%,transparent 50%),var(--bg)">
+  <div class="orb" style="width:220px;height:220px;background:rgba(176,64,255,.1);top:-80px;right:-80px;pointer-events:none"></div>
+  <div class="orb" style="width:160px;height:160px;background:rgba(124,0,212,.08);bottom:60px;left:-60px;pointer-events:none"></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;position:relative;z-index:1">
     <div style="position:relative;width:100px;height:100px;margin-bottom:32px">
       <svg viewBox="0 0 100 100" style="width:100%;height:100%;animation:spin 3s linear infinite">
         <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(201,169,110,.1)" stroke-width="2"/>
@@ -534,7 +536,8 @@ textarea.if{resize:none}
 </div>
 
 <!-- ─── QUIZ ─── -->
-<div class="sc" id="sc-quiz">
+<div class="sc" id="sc-quiz" style="background:radial-gradient(ellipse at 30% 15%,rgba(176,64,255,.12) 0%,transparent 50%),radial-gradient(ellipse at 80% 75%,rgba(99,102,241,.09) 0%,transparent 50%),var(--bg)">
+  <div class="orb" style="width:180px;height:180px;background:rgba(176,64,255,.09);top:-50px;left:-50px;pointer-events:none"></div>
   <div class="tb"><button class="bk-btn" onclick="go('sc-land')">←</button><div class="tb-t">ข้อมูลเพิ่มเติม</div><div style="font-size:13px;color:var(--tx3)" id="qctr">1 / 5</div></div>
   <div class="sb" style="padding:22px 18px">
     <div class="step-row"><div class="sdot on" id="q-s1"></div><div class="sdot" id="q-s2"></div><div class="sdot" id="q-s3"></div><div class="sdot" id="q-s4"></div><div class="sdot" id="q-s5"></div></div>
@@ -583,7 +586,9 @@ textarea.if{resize:none}
 </div>
 
 <!-- ─── FREE INSIGHT ─── -->
-<div class="sc" id="sc-insight">
+<div class="sc" id="sc-insight" style="background:radial-gradient(ellipse at 65% 10%,rgba(99,102,241,.14) 0%,transparent 50%),radial-gradient(ellipse at 15% 85%,rgba(176,64,255,.11) 0%,transparent 50%),var(--bg)">
+  <div class="orb" style="width:200px;height:200px;background:rgba(176,64,255,.1);top:-70px;right:-60px;pointer-events:none"></div>
+  <div class="orb" style="width:140px;height:140px;background:rgba(124,0,212,.07);bottom:80px;left:-50px;pointer-events:none"></div>
   <div class="tb"><button class="bk-btn" onclick="go('sc-land')">←</button><div class="tb-t">สิ่งที่ Astrovera เห็น</div><div class="mtag">✦ ฟรี</div></div>
   <div class="sb" style="padding:18px">
     <div class="card cg" style="margin-bottom:13px;text-align:center;padding:26px">
@@ -6804,6 +6809,11 @@ function loadDemo(){
 
 // ═══ INIT ═══
 (function(){
+  // ── Always init these regardless of login state ──
+  applyLang();
+  initStarField();
+  initJournalAutoSave();
+
   var p=lsG(LSP);
   if(p&&p.archKey){
     var ni=document.getElementById('inp-name');if(ni&&p.name)ni.value=p.name;
@@ -6816,9 +6826,6 @@ function loadDemo(){
   } else {
     // ผู้ใช้ใหม่หรือยังไม่ผ่าน onboarding — init dropdown เปล่าไว้รอกรอก
     initPlaceDropdown('');
-    applyLang();
-    initStarField();
-    initJournalAutoSave(); // journal auto-save system
     rDash();
   }
 })();
