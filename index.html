@@ -614,7 +614,7 @@ textarea.if{resize:none}
 <!-- ─── QUIZ ─── -->
 <div class="sc" id="sc-quiz" style="background:radial-gradient(ellipse at 30% 15%,rgba(176,64,255,.12) 0%,transparent 50%),radial-gradient(ellipse at 80% 75%,rgba(99,102,241,.09) 0%,transparent 50%),var(--bg)">
   <div class="orb" style="width:180px;height:180px;background:rgba(176,64,255,.09);top:-50px;left:-50px;pointer-events:none"></div>
-  <div class="tb"><button class="bk-btn" onclick="go('sc-land')">←</button><div class="tb-t">ข้อมูลเพิ่มเติม</div><div style="font-size:13px;color:var(--tx3)" id="qctr">1 / 5</div></div>
+  <div class="tb"><button class="bk-btn" onclick="prevQ()">←</button><div class="tb-t">ข้อมูลเพิ่มเติม</div><div style="font-size:13px;color:var(--tx3)" id="qctr">1 / 5</div></div>
   <div class="sb" style="padding:22px 18px">
     <div class="step-row"><div class="sdot on" id="q-s1"></div><div class="sdot" id="q-s2"></div><div class="sdot" id="q-s3"></div><div class="sdot" id="q-s4"></div><div class="sdot" id="q-s5"></div></div>
     <div id="q1">
@@ -729,7 +729,8 @@ textarea.if{resize:none}
     <div style="text-align:center;padding:4px;margin-bottom:12px">
       <div style="height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:8px"></div>
     </div>
-    <button class="btn bg" onclick="goToDash()" style="margin-bottom:9px" data-i18n="insight.dash">เข้าสู่แผนที่ชีวิตของฉัน →</button>
+    <button class="btn bg" onclick="goToDash()" style="margin-bottom:4px;width:100%">🗺️ เข้าสู่แผนที่ชีวิตของฉัน →</button>
+    <div style="font-size:11px;color:var(--tx3);text-align:center;margin-bottom:12px">ฟรี · ใช้งานได้ทันที · ไม่ต้องชำระเงิน</div>
     <button class="btn bgh" style="margin-bottom:9px;width:100%" onclick="openShareModal()" data-i18n="btn.share">📤 แชร์ผลลัพธ์</button>
   </div>
 </div>
@@ -3633,6 +3634,23 @@ function goToDash(){
 
 // ═══ QUIZ ═══
 var _qa={},_qn=1;
+function prevQ(){
+  if(_qn<=1){
+    // อยู่ข้อแรก — ออกจาก quiz กลับหน้า landing
+    if(confirm('ออกจากแบบสอบถาม? ความคืบหน้าจะหาย'))go('sc-land');
+    return;
+  }
+  // ย้อนกลับข้อก่อนหน้า
+  var cur=document.getElementById('q'+_qn);if(cur)cur.style.display='none';
+  _qn--;
+  var prev=document.getElementById('q'+_qn);if(prev)prev.style.display='block';
+  var qctr=document.getElementById('qctr');if(qctr)qctr.textContent=_qn+' / 5';
+  ['q-s1','q-s2','q-s3','q-s4','q-s5'].forEach(function(id,i){
+    var d=document.getElementById(id);if(!d)return;d.className='sdot';
+    if(i+1<_qn)d.classList.add('dn');
+    else if(i+1===_qn)d.classList.add('on');
+  });
+}
 function selQ(qn,ans,el){
   _qa[qn]=ans;
   document.getElementById('q'+qn).querySelectorAll('.qopt').forEach(function(o){o.classList.remove('sel');});
