@@ -6861,6 +6861,21 @@ function loadDemo(){
 
 // ═══ INIT ═══
 (function(){
+  // ── PDPA Consent check ──
+  if(!localStorage.getItem('av_pdpa')){
+    document.getElementById('pdpa-modal').style.display='flex';
+    return; // หยุดรอ user กด ยอมรับ ก่อน
+  }
+  startApp();
+})();
+
+function acceptPdpa(){
+  localStorage.setItem('av_pdpa','1');
+  document.getElementById('pdpa-modal').style.display='none';
+  startApp();
+}
+
+function startApp(){
   // ── Always init these regardless of login state ──
   applyLang();
   initStarField();
@@ -6882,7 +6897,7 @@ function loadDemo(){
     initPlaceDropdown('');
     rDash();
   }
-})();
+}
 
 // ── ล้างข้อมูล profile และ reset หน้า landing ──
 function clearProfileAndReset(){
@@ -7151,5 +7166,40 @@ function clearProfileAndReset(){
     <div id="sync-body"></div>
   </div>
 </div>
+<!-- ─── PDPA CONSENT MODAL ─── -->
+<div id="pdpa-modal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(10,1,24,0.97);align-items:flex-end;justify-content:center;font-family:var(--fn)">
+  <div style="background:var(--bg2);border-radius:24px 24px 0 0;padding:28px 22px 44px;width:100%;max-width:430px;border-top:1px solid rgba(176,64,255,.3)">
+    <!-- Logo + Title -->
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="width:52px;height:52px;margin:0 auto 12px;border-radius:50%;background:linear-gradient(135deg,rgba(176,64,255,.25),rgba(99,102,241,.15));border:1px solid rgba(176,64,255,.3);display:flex;align-items:center;justify-content:center">
+        <svg viewBox="0 0 200 200" style="width:26px;height:26px"><circle cx="100" cy="100" r="78" fill="none" stroke="#B040FF" stroke-width="8"/><circle cx="100" cy="100" r="62" fill="none" stroke="#B040FF" stroke-width="6"/><g stroke="#B040FF" stroke-width="8"><line x1="100" y1="30" x2="100" y2="170"/><line x1="30" y1="100" x2="170" y2="100"/><line x1="54" y1="54" x2="146" y2="146"/><line x1="146" y1="54" x2="54" y2="146"/></g></svg>
+      </div>
+      <div style="font-family:var(--fh);font-size:18px;color:var(--tx);margin-bottom:4px">ยินดีต้อนรับสู่ ASTROVERA</div>
+      <div style="font-size:12px;color:var(--tx3)">Personal Life Intelligence · ก่อนเริ่มใช้งาน โปรดอ่านและยอมรับ</div>
+    </div>
+    <!-- Privacy points -->
+    <div style="background:rgba(176,64,255,.06);border:1px solid rgba(176,64,255,.15);border-radius:14px;padding:16px;margin-bottom:18px">
+      <div style="font-size:13px;font-weight:600;color:var(--tx);margin-bottom:12px">🔒 ข้อมูลของคุณ — สิ่งที่เราทำและไม่ทำ</div>
+      <div style="font-size:12px;color:var(--tx2);line-height:1.9">
+        <div style="margin-bottom:6px">✓ &nbsp;ข้อมูลของคุณเก็บใน <strong>เครื่องคุณ</strong> เป็นหลัก (localStorage)</div>
+        <div style="margin-bottom:6px">✓ &nbsp;ข้อมูลที่ส่งให้ AI ใช้เพื่อ <strong>วิเคราะห์เท่านั้น</strong> ไม่นำไปขาย</div>
+        <div style="margin-bottom:6px">✓ &nbsp;ไม่มีการสร้างบัญชีหรือเก็บรหัสผ่าน</div>
+        <div>✓ &nbsp;คุณลบข้อมูลได้ทุกเมื่อจากหน้าโปรไฟล์</div>
+      </div>
+    </div>
+    <!-- What data we collect -->
+    <div style="font-size:11px;color:var(--tx3);line-height:1.8;margin-bottom:20px;padding:0 2px">
+      ข้อมูลที่เราเก็บ: วันเกิด, เวลาเกิด, สถานที่เกิด, กรุ๊ปเลือด และบันทึกที่คุณกรอกเอง เพื่อสร้างผลวิเคราะห์ส่วนตัว ตาม <span style="color:var(--pur2);text-decoration:underline;cursor:pointer" onclick="window.open('https://www.pdpc.or.th','_blank')">พ.ร.บ.คุ้มครองข้อมูลส่วนบุคคล (PDPA) พ.ศ. 2562</span>
+    </div>
+    <!-- Buttons -->
+    <button onclick="acceptPdpa()" class="btn bg" style="width:100%;margin-bottom:10px;font-size:15px;padding:14px">
+      ✦ ยอมรับและเริ่มใช้งาน
+    </button>
+    <div style="text-align:center;font-size:11px;color:var(--tx3)">
+      การกดยอมรับถือว่าคุณรับทราบนโยบายความเป็นส่วนตัวของ ASTROVERA
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
