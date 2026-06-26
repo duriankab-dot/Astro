@@ -618,28 +618,56 @@ textarea.if{resize:none}
       <div style="font-size:11px;color:var(--tx3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">การสังเคราะห์ ASTROVERA Engine™ · จุดที่ทุกชั้นชี้ตรงกัน</div>
       <div id="fi-themes"></div>
     </div>
-    <!-- กระจกตัวตน™ Preview — ฟรีดู 2 ชั้น, 4 ชั้นเบลอ -->
-    <div class="rl rl-i rli" style="margin-bottom:6px"><div class="rll">✦ ✦ มุมมองของ ASTROVERA ต่อคุณ</div><div class="rlt" id="fi-ins">—</div></div>
-    <div class="rl rl-m rlm" style="margin-bottom:6px"><div class="rll">◈ ความหมาย</div><div class="rlt" id="fi-mng">—</div></div>
-      <!-- 4 ชั้นที่เหลือ — เบลอ + ล็อก -->
-    <div style="position:relative;margin-bottom:4px">
-      <div style="filter:blur(4px);pointer-events:none;user-select:none">
-        <div class="rl rle" style="margin-bottom:5px"><div class="rll">🔮 ◉ ชั้น III — ความรู้สึกที่ซ่อนอยู่</div><div class="rlt">มีพลังงานบางอย่างที่คุณกำลังเก็บกดไว้ ความรู้สึกนี้ส่งผลต่อการตัดสินใจโดยที่คุณอาจไม่รู้ตัว สิ่งที่ซ่อนอยู่ลึกๆ คือ...</div></div>
-        <div class="rl rlq" style="margin-bottom:5px"><div class="rll">🔮 💬 ชั้น IV — คำถามเปลี่ยนชีวิต</div><div class="rlt">มีคำถามหนึ่งที่ถ้าคุณตอบได้จริงๆ ชีวิตจะเปลี่ยนทันที ASTROVERA เห็นว่าคุณกำลังหลีกเลี่ยงสิ่งที่...</div></div>
-        <div class="rl rla" style="margin-bottom:5px"><div class="rll">🔮 → ชั้น V — Action Blueprint</div><div class="rlt">จากรูปแบบพลังงานของคุณ มีขั้นตอนที่ชัดเจน 3 อย่างที่คุณทำได้ภายใน 7 วันนี้เพื่อสร้างการเปลี่ยนแปลงจริง ขั้นแรกคือ...</div></div>
-        <div class="rl rlj" style="margin-bottom:5px"><div class="rll">🔮 📝 ชั้น VI — Journal ส่วนตัว</div><div class="rlt">คำถามที่ ASTROVERA ออกแบบเฉพาะสำหรับตัวตนของคุณ เพื่อปลดล็อกความเข้าใจที่ลึกที่สุดเกี่ยวกับ...</div></div>
+    <!-- กระจกตัวตน™ — แสดงทั้ง 6 ชั้นแบบ Preview -->
+    <div style="margin-bottom:6px">
+      <div style="font-size:11px;color:var(--gold);letter-spacing:1px;font-weight:600;margin-bottom:10px;text-align:center">✦ กระจกตัวตน™ — 6 ชั้นการวิเคราะห์เฉพาะคุณ</div>
+
+      <!-- ชั้น I — ฟรี เต็ม -->
+      <div class="rl rl-i rli" style="margin-bottom:6px">
+        <div class="rll">✦ ชั้น I — มุมมองของ ASTROVERA ต่อคุณ <span style="background:rgba(45,212,191,.15);color:var(--teal);font-size:9px;padding:2px 7px;border-radius:8px;font-weight:600">ฟรี</span></div>
+        <div class="rlt" id="fi-ins">—</div>
       </div>
-      <!-- Lock overlay -->
-      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(to bottom,rgba(10,1,24,0) 0%,rgba(10,1,24,.85) 30%)">
-        <div style="font-size:20px">🔒</div>
-        <div style="font-size:13px;font-weight:700;color:var(--tx);text-align:center">ปลดล็อกชั้นที่เหลือ</div>
-        <div style="font-size:11px;color:var(--tx3);text-align:center">ทดลองใช้ฟรี 7 วัน สำหรับคนลงทะเบียน</div>
-        <button class="btn bg bsm" onclick="go('sc-upgrade')" style="margin-top:4px">ดูแพ็คเกจ →</button>
+
+      <!-- ชั้น II — ฟรี เต็ม -->
+      <div class="rl rl-m rlm" style="margin-bottom:6px">
+        <div class="rll">◈ ชั้น II — ความหมายเบื้องลึก <span style="background:rgba(45,212,191,.15);color:var(--teal);font-size:9px;padding:2px 7px;border-radius:8px;font-weight:600">ฟรี</span></div>
+        <div class="rlt" id="fi-mng">—</div>
+      </div>
+
+      <!-- ชั้น III–VI — teaser -->
+      <div style="background:linear-gradient(135deg,rgba(176,64,255,.06),rgba(99,102,241,.04));border:1px solid rgba(176,64,255,.2);border-radius:14px;padding:14px;margin-bottom:6px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:12px;font-weight:600;color:var(--pur2)">🔒 อีก 4 ชั้นรอคุณอยู่</div>
+          <div style="font-size:10px;color:var(--tx3)">ทดลองฟรี 7 วัน</div>
+        </div>
+        <div style="background:rgba(10,1,24,.4);border-radius:10px;padding:11px 13px;margin-bottom:8px;border-left:3px solid rgba(176,64,255,.5)">
+          <div style="font-size:11px;font-weight:700;color:var(--pur2);margin-bottom:4px">◉ ชั้น III — ความรู้สึกที่ซ่อนอยู่</div>
+          <div style="font-size:12px;color:var(--tx3);line-height:1.6">มีพลังงานบางอย่างที่คุณกำลังเก็บกดไว้ ส่งผลต่อการตัดสินใจโดยที่...</div>
+          <div style="margin-top:6px;font-size:11px;color:rgba(176,64,255,.6);font-style:italic">🔮 ปลดล็อกเพื่ออ่านสิ่งที่ ASTROVERA เห็นในชั้นนี้</div>
+        </div>
+        <div style="background:rgba(10,1,24,.4);border-radius:10px;padding:11px 13px;margin-bottom:8px;border-left:3px solid rgba(99,102,241,.5)">
+          <div style="font-size:11px;font-weight:700;color:var(--ind2);margin-bottom:4px">💬 ชั้น IV — คำถามเปลี่ยนชีวิต</div>
+          <div style="font-size:12px;color:var(--tx3);line-height:1.6">มีคำถามหนึ่งที่ถ้าคุณตอบได้จริงๆ ชีวิตจะเปลี่ยนทันที คุณกำลังหลีกเลี่ยง...</div>
+          <div style="margin-top:6px;font-size:11px;color:rgba(99,102,241,.6);font-style:italic">🔮 ปลดล็อกเพื่อเผชิญคำถามที่แท้จริง</div>
+        </div>
+        <div style="background:rgba(10,1,24,.4);border-radius:10px;padding:11px 13px;margin-bottom:8px;border-left:3px solid rgba(201,169,110,.5)">
+          <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:4px">→ ชั้น V — Action Blueprint เฉพาะคุณ</div>
+          <div style="font-size:12px;color:var(--tx3);line-height:1.6">3 ขั้นตอนที่ชัดเจนที่คุณทำได้ภายใน 7 วัน เพื่อสร้างการเปลี่ยนแปลงจริง...</div>
+          <div style="margin-top:6px;font-size:11px;color:rgba(201,169,110,.6);font-style:italic">🔮 ปลดล็อกเพื่อรับ Action Plan ส่วนตัว</div>
+        </div>
+        <div style="background:rgba(10,1,24,.4);border-radius:10px;padding:11px 13px;border-left:3px solid rgba(244,114,182,.5)">
+          <div style="font-size:11px;font-weight:700;color:#f472b6;margin-bottom:4px">📝 ชั้น VI — Journal Prompt เฉพาะคุณ</div>
+          <div style="font-size:12px;color:var(--tx3);line-height:1.6">คำถามที่ ASTROVERA ออกแบบเฉพาะตัวตนของคุณ เพื่อปลดล็อกความเข้าใจที่...</div>
+          <div style="margin-top:6px;font-size:11px;color:rgba(244,114,182,.6);font-style:italic">🔮 ปลดล็อกเพื่อเริ่ม Journal ที่ถูกจุด</div>
+        </div>
+        <div style="margin-top:14px;text-align:center">
+          <button class="btn bg" onclick="go('sc-upgrade')" style="width:100%;font-size:14px;padding:13px">✦ ปลดล็อกทั้ง 4 ชั้น — ทดลองฟรี 7 วัน</button>
+          <div style="font-size:11px;color:var(--tx3);margin-top:7px">ไม่ต้องใช้บัตรเครดิต · ยกเลิกได้ทุกเมื่อ</div>
+        </div>
       </div>
     </div>
-    <div style="text-align:center;padding:8px;margin-bottom:12px">
+    <div style="text-align:center;padding:4px;margin-bottom:12px">
       <div style="height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:8px"></div>
-      <div style="font-size:11px;color:var(--tx3)">🔓 ปลดล็อกชั้นที่เหลือ — ทดลองฟรี 7 วัน</div>
     </div>
     <button class="btn bg" onclick="goToDash()" style="margin-bottom:9px" data-i18n="insight.dash">เข้าสู่แผนที่ชีวิตของฉัน →</button>
     <button class="btn bgh" style="margin-bottom:9px;width:100%" onclick="openShareModal()" data-i18n="btn.share">📤 แชร์ผลลัพธ์</button>
