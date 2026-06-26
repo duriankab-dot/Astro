@@ -1042,6 +1042,7 @@ textarea.if{resize:none}
         <div class="chip" onclick="selType(this,'อาชีพ')">อาชีพ</div>
         <div class="chip" onclick="selType(this,'การเงิน')">การเงิน</div>
         <div class="chip" onclick="selType(this,'ความสัมพันธ์')">ความสัมพันธ์</div>
+        <div class="chip" onclick="selType(this,'สุขภาพ')">สุขภาพ</div>
         <div class="chip" onclick="selType(this,'ส่วนตัว')">ส่วนตัว</div>
       </div>
     </div>
@@ -3740,7 +3741,7 @@ function computeLifeOS(){
   var growthScore=(journals.length||weekly.length)?Math.min(96,50+doneFUAll*5+weekly.length*4):null;
   return [
     {icon:'🧭',name:'ตัวตน',score:selfScore,trend:weekly.length>=2?'ขึ้น':'คงที่'},
-    {icon:'❤️‍🩹',name:'สุขภาพ',score:null,trend:null},
+    {icon:'❤️‍🩹',name:'สุขภาพ',score:lifeosByType(journals,'สุขภาพ'),trend:lifeosTrend(journals,'สุขภาพ')},
     {icon:'💰',name:'การเงิน',score:lifeosByType(journals,'การเงิน'),trend:lifeosTrend(journals,'การเงิน')},
     {icon:'💼',name:'งาน',score:lifeosByType(journals,'อาชีพ'),trend:lifeosTrend(journals,'อาชีพ')},
     {icon:'🚀',name:'ธุรกิจ',score:lifeosByType(journals,'ธุรกิจ'),trend:lifeosTrend(journals,'ธุรกิจ')},
@@ -6994,7 +6995,7 @@ function clearProfileAndReset(){
     <div class="empty"><div class="emj">✦</div><div class="emt">กำลังวิเคราะห์ตัวตนของคุณ...</div></div>
   </div>
 </div>
-<div id="share-modal" style="display:none;position:absolute;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:flex-end;justify-content:center">
+<div id="share-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:flex-end;justify-content:center">
   <div style="background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:430px">
     <div style="text-align:center;margin-bottom:18px">
       <div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px" data-i18n="share.title">แชร์ผลลัพธ์ของคุณ</div>
@@ -7021,7 +7022,7 @@ function clearProfileAndReset(){
   </div>
 </div>
 <!-- ─── GUIDED TOUR MODAL ─── -->
-<div id="tour-modal" style="display:none;position:absolute;inset:0;z-index:1001;background:rgba(0,0,0,.85);align-items:flex-end;justify-content:center">
+<div id="tour-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);align-items:flex-end;justify-content:center">
   <div style="background:linear-gradient(135deg,#130028,#1C0040);border-radius:24px 24px 0 0;padding:28px 22px 42px;width:100%;max-width:430px;border:1px solid var(--border2);border-bottom:none">
     <!-- Progress dots -->
     <div id="tour-dots" style="display:flex;justify-content:center;gap:6px;margin-bottom:20px"></div>
