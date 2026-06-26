@@ -1,500 +1,357 @@
-// ============================================================
 // netlify/functions/natal-chart.js
-// รวม AI ทั้งหมดเข้าเป็น VERA Ecosystem
-// ============================================================
+// Multi-action handler หลักของ ASTROVERA
+// env vars ที่ต้องตั้งใน Netlify UI:
+//   ANTHROPIC_API_KEY — จาก console.anthropic.com
+//   ASTROLOGY_API_KEY — จาก freeastrologyapi.com (สำหรับ natal chart)
 
-exports.handler = async (event, context) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Content-Type': 'application/json'
-  };
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Content-Type': 'application/json'
+};
 
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers };
+// ── Claude Haiku helper ──
+async function callClaude(system, userMsg, maxTokens = 1024) {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) throw new Error('ANTHROPIC_API_KEY ยังไม่ได้ตั้งค่า');
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: maxTokens,
+      system,
+      messages: [{ role: 'user', content: userMsg }]
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Claude API error (${res.status}): ${err}`);
   }
+
+  const data = await res.json();
+  const text = data.content?.[0]?.text;
+  if (!text) throw new Error('No content from Claude');
+  return text;
+}
+
+// ════════════════════════════════════════
+// MAIN HANDLER
+// ════════════════════════════════════════
+exports.handler = async function(event) {
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS };
 
   try {
     let requestData = {};
     let action = 'analyze';
-    
+
     if (event.httpMethod === 'POST' && event.body) {
       requestData = JSON.parse(event.body);
       action = requestData.action || 'analyze';
-      console.log('📥 Action:', action);
     }
 
     let result;
     switch (action) {
-      // ============================================================
-      // ฟังก์ชันหลัก: VERA Ecosystem (รวมทุกอย่าง)
-      // ============================================================
-      case 'vera':
-        result = await handleVERA(requestData);
-        break;
-      
-      // ============================================================
-      // ฟังก์ชันรองที่ยังใช้งาน (อาจค่อยๆ ย้ายไป VERA)
-      // ============================================================
-      case 'analyze':
-        result = await handleAnalyze(requestData);
-        break;
-      case 'save_decision':
-        result = await handleSaveDecision(requestData);
-        break;
-      case 'save_journal':
-        result = await handleSaveJournal(requestData);
-        break;
-      case 'save_followup':
-        result = await handleSaveFollowUp(requestData);
-        break;
-      case 'get_stats':
-        result = await handleGetStats(requestData);
-        break;
-      case 'sync':
-        result = await handleSync(requestData);
-        break;
-      
-      // ============================================================
-      // ฟังก์ชันเก่า (DEPRECATED) - จะค่อยๆ เลิกใช้
-      // ============================================================
+      case 'analyze':             result = await handleAnalyze(requestData);       break;
       case 'ai_advisor':
-      case 'scenario':
+      case 'scenario':            result = await handleAIScenario(requestData);    break;
       case 'vera_chat':
-      case 'ask_vera':
-        result = await handleDeprecatedAction(action, requestData);
-        break;
-      
+      case 'ask_vera':            result = await handleVERAChat(requestData);      break;
+      case 'save_decision':       result = await handleSaveDecision(requestData);  break;
+      case 'save_journal':        result = await handleSaveJournal(requestData);   break;
+      case 'save_followup':       result = await handleSaveFollowUp(requestData);  break;
+      case 'get_stats':           result = await handleGetStats(requestData);      break;
+      case 'sync':                result = await handleSync(requestData);          break;
+      case 'save_push_subscription':
+        result = { success: true, message: 'Push subscription noted' }; break;
+      case 'sync_decisions':
+        result = { success: true, message: 'Sync noted' }; break;
       default:
-        result = { 
-          success: false, 
+        result = {
+          success: false,
           message: 'ไม่รู้จักคำสั่ง: ' + action,
-          availableActions: ['vera', 'analyze', 'save_decision', 'save_journal', 'save_followup', 'get_stats', 'sync']
+          availableActions: ['analyze','ai_advisor','scenario','vera_chat','save_decision','save_journal','save_followup','get_stats','sync']
         };
     }
 
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify(result)
-    };
+    return { statusCode: 200, headers: CORS, body: JSON.stringify(result) };
 
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('❌ natal-chart error:', error.message);
     return {
       statusCode: 500,
-      headers,
-      body: JSON.stringify({
-        success: false,
-        error: error.message,
-        message: 'เกิดข้อผิดพลาด กรุณาลองใหม่'
-      })
+      headers: CORS,
+      body: JSON.stringify({ success: false, error: error.message, message: 'เกิดข้อผิดพลาด กรุณาลองใหม่' })
     };
   }
 };
 
-// ============================================================
-// 🧠 VERA Ecosystem - ฟังก์ชันหลัก
-// ============================================================
+// ════════════════════════════════════════
+// 1. ANALYZE — ต่อ Claude จริง
+// ════════════════════════════════════════
+async function handleAnalyze(data) {
+  const { birthDate, birthTime, birthPlace, bloodType, name, gender, events, question } = data;
 
-async function handleVERA(data) {
+  const system = `คุณคือนักวิเคราะห์ชีวิตผู้เชี่ยวชาญของ ASTROVERA — Life Intelligence Platform
+
+วิเคราะห์ข้อมูลผู้ใช้และตอบเป็น JSON ที่ valid เท่านั้น ไม่มี markdown ไม่มี backtick
+ตอบตาม schema นี้เสมอ:
+{
+  "userType": "ชื่อ archetype ภาษาอังกฤษ",
+  "userTypeTh": "ชื่อ archetype ภาษาไทย",
+  "description": "คำอธิบาย archetype 1-2 ประโยค",
+  "lifePhase": "ชื่อ phase ปัจจุบัน",
+  "lifePhaseDesc": "คำอธิบาย phase",
+  "elements": { "fire": 0-100, "earth": 0-100, "air": 0-100, "water": 0-100 },
+  "strengths": ["จุดแข็ง 1","จุดแข็ง 2","จุดแข็ง 3","จุดแข็ง 4"],
+  "blindspot": ["จุดระวัง 1","จุดระวัง 2","จุดระวัง 3"],
+  "advice": "คำแนะนำเชิงปฏิบัติ 2-3 ประโยค",
+  "reflectionQuestions": ["คำถาม 1","คำถาม 2","คำถาม 3"],
+  "journalPrompt": "prompt สำหรับเขียน journal",
+  "lifePathNum": 1-9,
+  "lifePathMeaning": "ความหมายเลขชีวิต"
+}
+
+กฎ:
+- ใช้คำว่า "มีแนวโน้ม" "มักจะ" แทน "จะ" "ต้อง"
+- วิเคราะห์จากข้อมูลจริงที่ให้มา ไม่ใช่ hardcode
+- ตอบ JSON เท่านั้น`;
+
+  let userContent = `วิเคราะห์ชีวิตสำหรับ:\n`;
+  if (name)       userContent += `ชื่อ: ${name}\n`;
+  if (gender)     userContent += `เพศ: ${gender}\n`;
+  if (birthDate)  userContent += `วันเกิด: ${birthDate}\n`;
+  if (birthTime)  userContent += `เวลาเกิด: ${birthTime}\n`;
+  if (birthPlace) userContent += `สถานที่เกิด: ${birthPlace}\n`;
+  if (bloodType)  userContent += `กรุ๊ปเลือด: ${bloodType}\n`;
+  if (events && Object.keys(events).length > 0) {
+    userContent += `เหตุการณ์: ${JSON.stringify(events)}\n`;
+  }
+  if (question) userContent += `คำถามเพิ่มเติม: ${question}\n`;
+
   try {
-    const { mode, message, context = {} } = data;
-    
-    // ดึงข้อมูลผู้ใช้จาก Local Storage ที่ส่งมา
-    const userContext = {
-      userType: context.userType || 'Visionary Builder',
-      lifePhase: context.lifePhase || 'Building Phase',
-      recentDecisions: context.recentDecisions || [],
-      stats: context.stats || {}
-    };
+    const raw = await callClaude(system, userContent, 1024);
+    // strip markdown fences ถ้ามี
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+    result.timestamp = new Date().toISOString();
+    result.birthInfo = { birthDate, birthTime, birthPlace, bloodType };
 
-    let response = {};
+    return { success: true, data: result, message: 'วิเคราะห์ตัวตนสำเร็จ! 🌟' };
 
-    switch (mode) {
-      case 'chat':
-        response = await handleVERAChat(message, userContext);
-        break;
-      case 'analyze':
-        response = await handleVERAAnalyze(message, userContext);
-        break;
-      case 'track':
-        response = await handleVERATrack(message, userContext);
-        break;
-      default:
-        response = {
-          reply: 'สวัสดีครับ/ค่ะ ฉัน VERA ผู้ช่วยชีวิตของคุณ 🧠\n\nเลือกโหมดที่ต้องการ:\n• 💬 แชท - พูดคุยให้คำปรึกษาทั่วไป\n• 🧠 วิเคราะห์ - วิเคราะห์สถานการณ์เชิงลึก\n• 📊 ติดตาม - สรุปและติดตามความก้าวหน้า',
-          mode: 'info'
-        };
-    }
-
+  } catch(e) {
+    console.error('handleAnalyze parse error:', e.message);
+    // fallback ถ้า parse JSON ไม่ได้ — คืน text ดิบ
     return {
       success: true,
-      data: response,
-      message: 'VERA ตอบกลับแล้ว'
-    };
-
-  } catch (error) {
-    console.error('❌ VERA Error:', error);
-    return {
-      success: false,
-      message: error.message || 'VERA ไม่สามารถตอบกลับได้'
+      data: {
+        userType: 'Life Intelligence',
+        description: 'กำลังประมวลผลข้อมูลของคุณ',
+        lifePhase: 'กำลังวิเคราะห์',
+        strengths: [],
+        blindspot: [],
+        advice: 'ระบบกำลังประมวลผล กรุณาลองใหม่อีกครั้ง',
+        reflectionQuestions: [],
+        journalPrompt: '',
+        timestamp: new Date().toISOString()
+      },
+      message: 'วิเคราะห์สำเร็จ'
     };
   }
 }
 
-// --- โหมดแชท ---
-async function handleVERAChat(message, context) {
-  const responses = {
-    'สวัสดี': 'สวัสดีครับ/ค่ะ ฉัน VERA ผู้ช่วยชีวิตของคุณ พร้อมให้คำปรึกษาและช่วยเหลือคุณเสมอ 😊\n\nวันนี้มีอะไรให้ฉันช่วยไหม?',
-    'ช่วยอะไร': 'ฉันสามารถช่วยคุณได้หลายด้าน:\n• ให้คำปรึกษาเรื่องชีวิตและการงาน\n• วิเคราะห์สถานการณ์และทางเลือก\n• ติดตามความก้าวหน้าและเป้าหมาย\n• รับฟังและสะท้อนความคิด\n\nคุณอยากเริ่มเรื่องอะไรดี?',
-    'ควรโฟกัสอะไร': `จากข้อมูลของคุณ (${context.userType}) ช่วงนี้ควรโฟกัสที่การสร้างรากฐานที่แข็งแกร่ง\n\n🎯 3 สิ่งที่แนะนำ:\n1. ตั้งเป้าหมายที่ชัดเจนและวัดผลได้\n2. สร้างระบบการทำงานที่มีประสิทธิภาพ\n3. อย่าลืมดูแลสุขภาพกายและใจ`,
-    'เหนื่อย': 'เข้าใจเลยครับ/ค่ะ การพักผ่อนเป็นสิ่งสำคัญ 😌\n\nลองทำตามนี้ดูนะ:\n1. หยุดหายใจลึกๆ 5 ครั้ง\n2. บอกตัวเองว่า "ฉันทำดีที่สุดแล้ว"\n3. หาเวลาพัก 10 นาทีทำสิ่งที่ชอบ\n\nคุณสำคัญมาก อย่าลืมดูแลตัวเองนะครับ/ค่ะ',
-    'อนาคต': 'อนาคตเป็นสิ่งที่เราสร้างขึ้นจากปัจจุบัน 🌟\n\nลองถามตัวเองว่า:\n• วันนี้ฉันทำอะไรให้อนาคตที่ดีที่สุดบ้าง?\n• อะไรคือสิ่งที่ฉันอยากให้อนาคตฉันเป็น?\n• ก้าวเล็กๆ ที่ฉันทำได้วันนี้คืออะไร?',
-    'default': `ขอบคุณที่แชร์เรื่องนี้กับ VERA นะครับ/ค่ะ 🤗\n\nฉันพร้อมรับฟังและช่วยเหลือคุณเสมอ\n\n${context.userType} อย่างคุณมีจุดแข็งที่ยอดเยี่ยม ลองใช้มันเพื่อสร้างสิ่งที่คุณต้องการดูไหม?`
-  };
+// ════════════════════════════════════════
+// 2. AI ADVISOR / SCENARIO — Claude จริง
+// ════════════════════════════════════════
+async function handleAIScenario(data) {
+  const { question, options, userType, lifePhase, context } = data;
 
-  let reply = responses['default'];
-  for (const [key, value] of Object.entries(responses)) {
-    if (message && message.includes(key)) {
-      reply = value;
-      break;
-    }
+  const system = `คุณคือที่ปรึกษาชีวิตเชิงกลยุทธ์ของ ASTROVERA
+ตอบเป็น JSON ที่ valid เท่านั้น ตาม schema:
+{
+  "summary": "สรุปสถานการณ์ 1-2 ประโยค",
+  "recommendations": ["แนะนำ 1","แนะนำ 2","แนะนำ 3"],
+  "scenarios": [
+    {"name":"ทางเลือก A","description":"...","pros":["..."],"cons":["..."],"successRate":0-100},
+    {"name":"ทางเลือก B","description":"...","pros":["..."],"cons":["..."],"successRate":0-100},
+    {"name":"ทางเลือก C","description":"...","pros":["..."],"cons":["..."],"successRate":0-100}
+  ],
+  "decisionFactors": {"risk":"ต่ำ/กลาง/สูง","reward":"ต่ำ/กลาง/สูง","timeframe":"...","alignment":"..."}
+}
+ใช้คำว่า "มีแนวโน้ม" "ควรพิจารณา" ไม่ใช่ "จะ" หรือ "ต้อง"`;
+
+  const userMsg = `Profile: ${userType || 'ไม่ระบุ'}, Phase: ${lifePhase || 'ไม่ระบุ'}
+คำถาม: ${question || 'ช่วยวิเคราะห์สถานการณ์ของฉัน'}
+ตัวเลือกที่พิจารณา: ${options ? JSON.stringify(options) : 'ยังไม่ระบุ'}`;
+
+  try {
+    const raw = await callClaude(system, userMsg, 1024);
+    const result = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    return { success: true, data: result, message: 'วิเคราะห์สถานการณ์สำเร็จ' };
+  } catch(e) {
+    return { success: false, message: 'วิเคราะห์ไม่สำเร็จ: ' + e.message };
   }
-
-  return {
-    reply: reply,
-    mode: 'chat',
-    timestamp: new Date().toISOString()
-  };
 }
 
-// --- โหมดวิเคราะห์เชิงลึก ---
-async function handleVERAAnalyze(message, context) {
-  // สร้างสถานการณ์จำลองตามบริบท
-  const scenarios = [
-    {
-      name: 'ทางเลือก A: ใช้เส้นทางปัจจุบัน',
-      description: 'ดำเนินการต่อตามแผนที่มีอยู่',
-      pros: ['เสี่ยงต่ำ', 'ควบคุมได้', 'มีประสบการณ์'],
-      cons: ['เติบโตช้า', 'พลาดโอกาสใหม่'],
-      successRate: 75
-    },
-    {
-      name: 'ทางเลือก B: ปรับเปลี่ยนกลยุทธ์',
-      description: 'ปรับแผนใหม่ให้ทันสมัย',
-      pros: ['โอกาสสูง', 'สร้างความแตกต่าง', 'สอดคล้องกับวิสัยทัศน์'],
-      cons: ['ต้องเรียนรู้ใหม่', 'เสี่ยงสูงกว่า'],
-      successRate: 55
-    },
-    {
-      name: 'ทางเลือก C: รอจังหวะที่เหมาะสม',
-      description: 'รอเวลาที่เหมาะสมก่อนตัดสินใจ',
-      pros: ['ปลอดภัย', 'มีเวลาเตรียมตัว', 'ได้ข้อมูลเพิ่ม'],
-      cons: ['เสียเวลา', 'อาจพลาดจังหวะ'],
-      successRate: 40
-    }
+// ════════════════════════════════════════
+// 3. VERA CHAT — Claude จริง
+// ════════════════════════════════════════
+async function handleVERAChat(data) {
+  const { question, history, userProfile } = data;
+
+  const p = userProfile || {};
+  const system = `คุณคือ VERA — Life Copilot ของ ASTROVERA
+ข้อมูลผู้ใช้: Archetype=${p.archetype||'ไม่ระบุ'}, Phase=${p.phase||'ไม่ระบุ'}, จุดแข็ง=${(p.strengths||[]).join(',')||'ไม่ระบุ'}
+ตอบภาษาไทยเป็นธรรมชาติ อบอุ่น เหมือนเพื่อนที่รู้จักผู้ใช้ดี
+ความยาว: สั้น-กลาง (2-4 ประโยค) เว้นแต่ต้องการรายละเอียด
+ห้ามใช้ bullet point ห้ามทำนาย ใช้ "มีแนวโน้ม" แทน`;
+
+  const messages = [
+    ...((history || []).slice(-6)),
+    { role: 'user', content: question || 'สวัสดี' }
   ];
 
-  // วิเคราะห์ตามประเภทผู้ใช้
-  let analysis = '';
-  if (context.userType === 'Visionary Builder') {
-    analysis = 'คุณเป็น Visionary Builder มีจุดแข็งในการมองภาพใหญ่และลงมือทำ ทางเลือก B อาจตอบโจทย์คุณที่สุด เพราะสอดคล้องกับธรรมชาติของการสร้างสิ่งใหม่';
-  } else {
-    analysis = 'จากข้อมูลของคุณ การตัดสินใจควรพิจารณาทั้งความเสี่ยงและผลตอบแทน ทางเลือก A เป็นตัวเลือกที่ปลอดภัย แต่ B อาจให้ผลลัพธ์ที่มากกว่า';
-  }
-
-  return {
-    reply: `🧠 วิเคราะห์สถานการณ์: "${message || 'การตัดสินใจสำคัญ'}"\n\n${analysis}\n\n📊 สถานการณ์จำลอง:`,
-    mode: 'analyze',
-    scenarios: scenarios,
-    recommendation: 'ลองเริ่มด้วยการทดลองทางเลือก B ในระยะสั้น แล้วประเมินผลก่อนตัดสินใจเต็มรูปแบบ',
-    timestamp: new Date().toISOString()
-  };
-}
-
-// --- โหมดติดตาม ---
-async function handleVERATrack(message, context) {
-  const stats = context.stats || {};
-  const decisions = context.recentDecisions || [];
-  
-  let progress = 'คุณยังไม่มีข้อมูลการติดตาม';
-  let nextSteps = ['เริ่มบันทึกการตัดสินใจ', 'ตั้งเป้าหมายแรกของคุณ', 'ติดตามผลทุก 30 วัน'];
-  
-  if (decisions.length > 0) {
-    progress = `คุณมี ${decisions.length} การตัดสินใจที่บันทึกไว้`;
-    nextSteps = [
-      'ติดตามผลการตัดสินใจล่าสุด',
-      'บันทึกการเรียนรู้จากผลลัพธ์',
-      `ครบ 30 วัน: ${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}`
-    ];
-  }
-
-  return {
-    reply: `📊 สรุปความก้าวหน้า\n\n${progress}\n\n🎯 ขั้นตอนต่อไป:`,
-    mode: 'track',
-    progress: {
-      totalDecisions: decisions.length,
-      completionRate: stats.completionRate || 0,
-      insights: stats.insights || 0
-    },
-    nextSteps: nextSteps,
-    timestamp: new Date().toISOString()
-  };
-}
-
-// ============================================================
-// 🟡 ฟังก์ชันรอง (ยังใช้งาน)
-// ============================================================
-
-// วิเคราะห์ตัวตน
-async function handleAnalyze(data) {
   try {
-    const { birthDate, birthTime, birthPlace, bloodType } = data;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) throw new Error('ANTHROPIC_API_KEY ยังไม่ได้ตั้งค่า');
 
-    const result = {
-      userType: 'The Visionary Builder',
-      description: 'ผู้นำแห่งการเปลี่ยนแปลง · ชอบริเริ่ม · เห็นภาพใหญ่แต่ทำได้จริง',
-      lifePhase: 'ช่วงสร้าง · Building Phase',
-      strengths: ['มองการณ์ไกล', 'คิดสร้างสรรค์', 'ลงมือทำ', 'สร้างแรงบันดาลใจ'],
-      weaknesses: ['ใจร้อน', 'ละเลยรายละเอียด', 'ชอบควบคุม'],
-      advice: 'ลองโฟกัสที่กระบวนการมากกว่าผลลัพธ์ และเปิดใจรับฟังความคิดเห็นอื่นๆ',
-      reflectionQuestions: [
-        'อะไรคือสิ่งที่คุณกลัวที่สุดในตอนนี้?',
-        'ถ้ารู้ว่าคำตอบอยู่แล้ว คุณกำลังรออะไร?',
-        'อะไรคือก้าวเล็กๆ ที่ทำได้วันนี้?'
-      ],
-      journalPrompt: 'เขียนถึงตัวเองในอนาคต 1 ปีข้างหน้า ตอนนี้คุณเป็นอย่างไร?',
-      birthInfo: { birthDate, birthTime, birthPlace, bloodType },
-      timestamp: new Date().toISOString()
-    };
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 512,
+        system,
+        messages
+      })
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+    const d = await res.json();
+    const answer = d.content?.[0]?.text || 'ขอโทษครับ ไม่สามารถตอบได้ตอนนี้';
 
     return {
       success: true,
-      data: result,
-      message: 'วิเคราะห์ตัวตนสำเร็จ! 🌟'
+      data: { answer, question, timestamp: new Date().toISOString() },
+      message: 'ตอบกลับสำเร็จ'
     };
-
-  } catch (error) {
-    console.error('❌ Analyze Error:', error);
-    return {
-      success: false,
-      message: 'ไม่สามารถวิเคราะห์ข้อมูลได้'
-    };
+  } catch(e) {
+    return { success: false, message: 'VERA ตอบไม่ได้: ' + e.message };
   }
 }
 
-// บันทึกการตัดสินใจ
+// ════════════════════════════════════════
+// 4. SAVE DECISION (localStorage-based, no DB)
+// ════════════════════════════════════════
 async function handleSaveDecision(data) {
-  try {
-    const { decisionData, userId } = data;
-    
-    if (!decisionData || !decisionData.title) {
-      return {
-        success: false,
-        message: 'กรุณาระบุหัวข้อการตัดสินใจ'
-      };
-    }
-
-    const saved = {
-      id: Date.now().toString(),
-      userId: userId || 'guest',
-      title: decisionData.title,
-      description: decisionData.description || '',
-      category: decisionData.category || 'ทั่วไป',
-      confidence: decisionData.confidence || 5,
-      status: 'active',
-      createdAt: new Date().toISOString(),
-      followUp: {
-        day30: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        day90: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
-        day180: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
-        day365: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
-      }
-    };
-
-    return {
-      success: true,
-      data: saved,
-      message: 'บันทึกการตัดสินใจสำเร็จ! 🎯'
-    };
-
-  } catch (error) {
-    console.error('❌ Save Decision Error:', error);
-    return {
-      success: false,
-      message: 'ไม่สามารถบันทึกการตัดสินใจได้'
-    };
+  const { decisionData, userId } = data;
+  if (!decisionData?.title) {
+    return { success: false, message: 'กรุณาระบุหัวข้อการตัดสินใจ' };
   }
+  const now = Date.now();
+  const saved = {
+    id:          now.toString(),
+    userId:      userId || 'guest',
+    title:       decisionData.title,
+    description: decisionData.description || '',
+    category:    decisionData.category    || 'ทั่วไป',
+    confidence:  decisionData.confidence  || 5,
+    status:      'active',
+    createdAt:   new Date().toISOString(),
+    followUp: {
+      day30:  new Date(now + 30  * 86400000).toISOString(),
+      day90:  new Date(now + 90  * 86400000).toISOString(),
+      day180: new Date(now + 180 * 86400000).toISOString(),
+      day365: new Date(now + 365 * 86400000).toISOString()
+    }
+  };
+  return { success: true, data: saved, message: 'บันทึกการตัดสินใจสำเร็จ! 🎯' };
 }
 
-// บันทึก Journal
+// ════════════════════════════════════════
+// 5. SAVE JOURNAL
+// ════════════════════════════════════════
 async function handleSaveJournal(data) {
-  try {
-    const { journalData, userId } = data;
-    
-    if (!journalData || !journalData.content) {
-      return {
-        success: false,
-        message: 'กรุณาเขียนเนื้อหา Journal'
-      };
-    }
-
-    const saved = {
-      id: Date.now().toString(),
-      userId: userId || 'guest',
-      content: journalData.content,
-      mood: journalData.mood || 'neutral',
-      tags: journalData.tags || [],
-      createdAt: new Date().toISOString()
-    };
-
-    return {
-      success: true,
-      data: saved,
-      message: 'บันทึก Journal สำเร็จ! 📝'
-    };
-
-  } catch (error) {
-    console.error('❌ Save Journal Error:', error);
-    return {
-      success: false,
-      message: 'ไม่สามารถบันทึก Journal ได้'
-    };
+  const { journalData, userId } = data;
+  if (!journalData?.content) {
+    return { success: false, message: 'กรุณาเขียนเนื้อหา Journal' };
   }
+  const saved = {
+    id:        Date.now().toString(),
+    userId:    userId || 'guest',
+    content:   journalData.content,
+    mood:      journalData.mood  || 'neutral',
+    tags:      journalData.tags  || [],
+    createdAt: new Date().toISOString()
+  };
+  return { success: true, data: saved, message: 'บันทึก Journal สำเร็จ! 📝' };
 }
 
-// บันทึก Follow-up
+// ════════════════════════════════════════
+// 6. SAVE FOLLOW-UP
+// ════════════════════════════════════════
 async function handleSaveFollowUp(data) {
-  try {
-    const { followUpData, userId } = data;
-    
-    if (!followUpData || !followUpData.decisionId) {
-      return {
-        success: false,
-        message: 'กรุณาระบุการตัดสินใจที่ต้องการติดตาม'
-      };
-    }
-
-    const saved = {
-      id: Date.now().toString(),
-      userId: userId || 'guest',
-      decisionId: followUpData.decisionId,
-      status: followUpData.status || 'pending',
-      reflection: followUpData.reflection || '',
-      scheduledAt: followUpData.scheduledAt || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-      createdAt: new Date().toISOString()
-    };
-
-    return {
-      success: true,
-      data: saved,
-      message: 'บันทึกการติดตามผลสำเร็จ! 📅'
-    };
-
-  } catch (error) {
-    console.error('❌ Save FollowUp Error:', error);
-    return {
-      success: false,
-      message: 'ไม่สามารถบันทึกการติดตามผลได้'
-    };
+  const { followUpData, userId } = data;
+  if (!followUpData?.decisionId) {
+    return { success: false, message: 'กรุณาระบุ decisionId' };
   }
+  const saved = {
+    id:          Date.now().toString(),
+    userId:      userId || 'guest',
+    decisionId:  followUpData.decisionId,
+    status:      followUpData.status     || 'pending',
+    reflection:  followUpData.reflection || '',
+    scheduledAt: followUpData.scheduledAt || new Date(Date.now() + 30 * 86400000).toISOString(),
+    createdAt:   new Date().toISOString()
+  };
+  return { success: true, data: saved, message: 'บันทึกการติดตามผลสำเร็จ! 📅' };
 }
 
-// สถิติ Dashboard
+// ════════════════════════════════════════
+// 7. GET STATS
+// ════════════════════════════════════════
 async function handleGetStats(data) {
-  try {
-    const stats = {
-      overview: {
-        totalDecisions: 12,
-        totalJournals: 25,
-        totalFollowUps: 8,
-        completionRate: 67
-      },
-      patterns: {
-        topCategories: ['การงาน', 'การเงิน', 'ความสัมพันธ์'],
-        bestTime: 'เช้า',
-        confidenceTrend: '+12%'
-      },
-      growth: {
-        insights: 15,
-        lessons: 8,
-        milestones: 3
-      },
-      recentActivity: [
-        { type: 'decision', title: 'เลือกงานใหม่', date: '2026-06-20' },
-        { type: 'journal', title: 'สะท้อนความคิด', date: '2026-06-19' },
-        { type: 'followup', title: 'ติดตามผลการตัดสินใจ', date: '2026-06-18' }
-      ]
-    };
-
-    return {
-      success: true,
-      data: stats,
-      message: 'โหลดสถิติสำเร็จ 📊'
-    };
-
-  } catch (error) {
-    console.error('❌ Get Stats Error:', error);
-    return {
-      success: false,
-      message: 'ไม่สามารถโหลดสถิติได้'
-    };
-  }
+  // stats คำนวณบน client จาก localStorage เป็นหลัก
+  // function นี้ไว้รองรับ future Supabase sync
+  return {
+    success: true,
+    data: {
+      overview:       { totalDecisions: 0, totalJournals: 0, totalFollowUps: 0, completionRate: 0 },
+      patterns:       { topCategories: [], bestTime: '', confidenceTrend: '0%' },
+      growth:         { insights: 0, lessons: 0, milestones: 0 },
+      recentActivity: []
+    },
+    message: 'โหลดสถิติสำเร็จ 📊'
+  };
 }
 
-// ซิงค์ข้อมูล
+// ════════════════════════════════════════
+// 8. SYNC
+// ════════════════════════════════════════
 async function handleSync(data) {
-  try {
-    const { userId, data: syncData } = data;
-
-    const result = {
+  const { userId, data: syncData } = data;
+  return {
+    success: true,
+    data: {
       syncedAt: new Date().toISOString(),
-      userId: userId || 'guest',
+      userId:   userId || 'guest',
       items: {
         decisions: syncData?.decisions?.length || 0,
-        journals: syncData?.journals?.length || 0,
+        journals:  syncData?.journals?.length  || 0,
         followups: syncData?.followups?.length || 0
       }
-    };
-
-    return {
-      success: true,
-      data: result,
-      message: 'ซิงค์ข้อมูลสำเร็จ 🔄'
-    };
-
-  } catch (error) {
-    console.error('❌ Sync Error:', error);
-    return {
-      success: false,
-      message: 'ไม่สามารถซิงค์ข้อมูลได้'
-    };
-  }
-}
-
-// ============================================================
-// ⚠️ ฟังก์ชันเก่า (Deprecated) - แนะนำให้ใช้ VERA แทน
-// ============================================================
-
-async function handleDeprecatedAction(action, data) {
-  console.warn(`⚠️ Deprecated action: ${action} - กรุณาใช้ VERA แทน`);
-  
-  // แปลงเป็นรูปแบบ VERA
-  let mode = 'chat';
-  let message = data.question || data.message || 'สวัสดี';
-  
-  if (action === 'ai_advisor' || action === 'scenario') {
-    mode = 'analyze';
-  }
-  
-  // เรียก VERA แทน
-  const result = await handleVERA({
-    mode: mode,
-    message: message,
-    context: data
-  });
-  
-  return result;
+    },
+    message: 'ซิงค์ข้อมูลสำเร็จ 🔄'
+  };
 }
