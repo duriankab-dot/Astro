@@ -112,8 +112,8 @@ body{min-height:100vh;background:var(--bg);font-family:var(--fn);color:var(--tx)
   body{background:radial-gradient(ellipse at center,#1A0038 0%,#07001A 70%)}
   #app{width:420px!important;max-width:420px!important;height:95vh;max-height:900px;border-radius:24px;box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px rgba(176,64,255,.25),0 0 80px rgba(176,64,255,.15)}
 }
-.sc{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);visibility:hidden;opacity:0;transition:opacity .2s;overflow:hidden;z-index:1;max-width:100%}
-.sc.on{visibility:visible;opacity:1;z-index:2}
+.sc{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);visibility:hidden;opacity:0;transition:opacity .2s;overflow:hidden;z-index:1;max-width:100%;pointer-events:none}
+.sc.on{visibility:visible;opacity:1;z-index:2;pointer-events:all}
 .sb{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:90px}
 .sb::-webkit-scrollbar{display:none}
 .tb{display:flex;align-items:center;padding:14px 18px;background:rgba(19,0,40,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);gap:10px;min-height:56px;flex-shrink:0}
