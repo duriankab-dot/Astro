@@ -478,18 +478,24 @@ textarea.if{resize:none}
                 <div style="font-size:11px;color:var(--tx3)">เพิ่มความแม่นยำการวิเคราะห์มิติพลังงาน</div>
               </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:10px">
-              <button type="button" class="blood-btn" data-bt="O" onclick="selBlood('O',this)" style="background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.25);color:var(--tx2);padding:12px 6px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;gap:6px;margin-top:10px">
+              <button type="button" class="blood-btn" data-bt="O" onclick="selBlood('O',this)" style="background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.25);color:var(--tx2);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
                 <span>🔴</span><span style="font-size:13px">O</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักสู้</span>
               </button>
-              <button type="button" class="blood-btn" data-bt="A" onclick="selBlood('A',this)" style="background:rgba(59,130,246,.1);border:2px solid rgba(59,130,246,.25);color:var(--tx2);padding:12px 6px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+              <button type="button" class="blood-btn" data-bt="A" onclick="selBlood('A',this)" style="background:rgba(59,130,246,.1);border:2px solid rgba(59,130,246,.25);color:var(--tx2);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
                 <span>🔵</span><span style="font-size:13px">A</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักวางแผน</span>
               </button>
-              <button type="button" class="blood-btn" data-bt="B" onclick="selBlood('B',this)" style="background:rgba(234,179,8,.1);border:2px solid rgba(234,179,8,.25);color:var(--tx2);padding:12px 6px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
-                <span>🟡</span><span style="font-size:13px">B</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักสร้างสรรค์</span>
+              <button type="button" class="blood-btn" data-bt="B" onclick="selBlood('B',this)" style="background:rgba(234,179,8,.1);border:2px solid rgba(234,179,8,.25);color:var(--tx2);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+                <span>🟡</span><span style="font-size:13px">B</span><span style="font-size:9px;color:var(--tx3);font-weight:400">สร้างสรรค์</span>
               </button>
-              <button type="button" class="blood-btn" data-bt="AB" onclick="selBlood('AB',this)" style="background:rgba(168,85,247,.1);border:2px solid rgba(168,85,247,.25);color:var(--tx2);padding:12px 6px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+              <button type="button" class="blood-btn" data-bt="AB" onclick="selBlood('AB',this)" style="background:rgba(168,85,247,.1);border:2px solid rgba(168,85,247,.25);color:var(--tx2);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
                 <span>🟣</span><span style="font-size:13px">AB</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักปรับตัว</span>
+              </button>
+              <button type="button" class="blood-btn" data-bt="Rh-" onclick="selBlood('Rh-',this)" style="background:rgba(148,163,184,.1);border:2px solid rgba(148,163,184,.25);color:var(--tx2);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+                <span>⚪</span><span style="font-size:13px">Rh-</span><span style="font-size:9px;color:var(--tx3);font-weight:400">หายาก</span>
+              </button>
+              <button type="button" class="blood-btn" data-bt="" onclick="selBlood('',this)" style="background:rgba(100,100,100,.08);border:2px solid rgba(100,100,100,.2);color:var(--tx3);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
+                <span>❓</span><span style="font-size:11px">ไม่</span><span style="font-size:9px;color:var(--tx3);font-weight:400">ทราบ</span>
               </button>
             </div>
             <div id="blood-preview" style="display:none;margin-top:10px;padding:8px 12px;background:rgba(176,64,255,.12);border-radius:10px;font-size:12px;color:var(--gold2);text-align:center"></div>
@@ -3338,11 +3344,15 @@ function startAnalysis(){
   lsS('_av_tmp',{name:name.trim()||'คุณ',dob:dob,time:time,place:place.trim(),bloodType:blood});
   go('sc-loading');
   var steps=['วิเคราะห์ Layer I-IV...','คำนวณ Layer V-VI...','รวม Signature Convergence Engine™...','ค้นหา Life Signature...','สร้าง กระจกตัวตน™...','เสร็จแล้ว ✓'];
-  var i=0,lbl=document.getElementById('ld-step'),bar=document.getElementById('ld-bar');
+  var i=0;
+  var lbl=document.getElementById('ld-step');
+  var bar=document.getElementById('ld-bar');
+  // fallback ถ้า element ไม่พบ
+  if(!lbl||!bar){setTimeout(function(){go('sc-quiz');},500);return;}
   var iv=setInterval(function(){
     if(i<steps.length){
-      lbl.textContent=steps[i];
-      bar.style.width=((i+1)/steps.length*100)+'%';
+      if(lbl)lbl.textContent=steps[i];
+      if(bar)bar.style.width=((i+1)/steps.length*100)+'%';
       i++;
     } else {
       clearInterval(iv);
