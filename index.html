@@ -703,22 +703,18 @@ textarea.if{resize:none}
         <div style="background:rgba(10,1,24,.4);border-radius:10px;padding:11px 13px;margin-bottom:8px;border-left:3px solid rgba(176,64,255,.5)">
           <div style="font-size:11px;font-weight:700;color:var(--pur2);margin-bottom:4px">◉ ชั้น III — ความรู้สึกที่ซ่อนอยู่</div>
           <div style="font-size:12px;color:var(--tx3);line-height:1.6">มีพลังงานบางอย่างที่คุณกำลังเก็บกดไว้ ส่งผลต่อการตัดสินใจโดยที่...</div>
-          <div style="margin-top:6px;font-size:11px;color:rgba(176,64,255,.6);font-style:italic">🔮 ปลดล็อกเพื่ออ่านสิ่งที่ ASTROVERA เห็นในชั้นนี้</div>
         </div>
         <div style="background:rgba(10,1,24,.4);border-radius:10px;padding:11px 13px;margin-bottom:8px;border-left:3px solid rgba(99,102,241,.5)">
           <div style="font-size:11px;font-weight:700;color:var(--ind2);margin-bottom:4px">💬 ชั้น IV — คำถามเปลี่ยนชีวิต</div>
           <div style="font-size:12px;color:var(--tx3);line-height:1.6">มีคำถามหนึ่งที่ถ้าคุณตอบได้จริงๆ ชีวิตจะเปลี่ยนทันที คุณกำลังหลีกเลี่ยง...</div>
-          <div style="margin-top:6px;font-size:11px;color:rgba(99,102,241,.6);font-style:italic">🔮 ปลดล็อกเพื่อเผชิญคำถามที่แท้จริง</div>
         </div>
         <div style="background:rgba(10,1,24,.4);border-radius:10px;padding:11px 13px;margin-bottom:8px;border-left:3px solid rgba(201,169,110,.5)">
           <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:4px">→ ชั้น V — Action Blueprint เฉพาะคุณ</div>
           <div style="font-size:12px;color:var(--tx3);line-height:1.6">3 ขั้นตอนที่ชัดเจนที่คุณทำได้ภายใน 7 วัน เพื่อสร้างการเปลี่ยนแปลงจริง...</div>
-          <div style="margin-top:6px;font-size:11px;color:rgba(201,169,110,.6);font-style:italic">🔮 ปลดล็อกเพื่อรับ Action Plan ส่วนตัว</div>
         </div>
         <div style="background:rgba(10,1,24,.4);border-radius:10px;padding:11px 13px;border-left:3px solid rgba(244,114,182,.5)">
           <div style="font-size:11px;font-weight:700;color:#f472b6;margin-bottom:4px">📝 ชั้น VI — Journal Prompt เฉพาะคุณ</div>
           <div style="font-size:12px;color:var(--tx3);line-height:1.6">คำถามที่ ASTROVERA ออกแบบเฉพาะตัวตนของคุณ เพื่อปลดล็อกความเข้าใจที่...</div>
-          <div style="margin-top:6px;font-size:11px;color:rgba(244,114,182,.6);font-style:italic">🔮 ปลดล็อกเพื่อเริ่ม Journal ที่ถูกจุด</div>
         </div>
         <div style="margin-top:14px;text-align:center">
           <button class="btn bg" onclick="go('sc-upgrade')" style="width:100%;font-size:14px;padding:13px">✦ ปลดล็อกทั้ง 4 ชั้น — ทดลองฟรี 7 วัน</button>
@@ -3542,7 +3538,8 @@ function onCountryChange(){
   var placeHidden=document.getElementById('inp-place');
   if(country==='TH'){
     provSel.style.display='block';
-    placeOther.style.display='none';
+    var wrap=document.getElementById('inp-place-wrap');
+    if(wrap)wrap.style.display='none';
     provSel.innerHTML='<option value="">— เลือกจังหวัด —</option>';
     TH_PROVINCES.forEach(function(p){
       var opt=document.createElement('option');
