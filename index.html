@@ -257,9 +257,9 @@ textarea.if{resize:none}
 .stat-box{flex:1;background:rgba(28,0,64,.7);border:1px solid var(--border);border-radius:var(--r2);padding:14px;text-align:center}
 .stat-num{font-size:24px;font-weight:700;color:var(--gold);margin-bottom:3px;text-shadow:0 0 12px rgba(176,64,255,.4)}
 .stat-lbl{font-size:11px;color:var(--tx3)}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:50;display:flex;align-items:flex-end;opacity:0;visibility:hidden;transition:all .25s}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9000;display:flex;align-items:flex-end;opacity:0;visibility:hidden;transition:all .25s}
 .modal-overlay.open{opacity:1;visibility:visible}
-.modal-sheet{background:linear-gradient(135deg,#130028,#1C0040);border-radius:var(--r3) var(--r3) 0 0;padding:24px 20px;width:100%;max-width:430px;margin:0 auto;transform:translateY(30px);transition:transform .25s;border:1px solid var(--border);border-bottom:none}
+.modal-sheet{background:linear-gradient(135deg,#130028,#1C0040);border-radius:var(--r3) var(--r3) 0 0;padding:24px 20px;width:100%;max-width:430px;margin:0 auto;transform:translateY(30px);transition:transform .25s;border:1px solid rgba(176,64,255,.3);border-bottom:none;box-shadow:0 -8px 32px rgba(0,0,0,.6)}
 .modal-overlay.open .modal-sheet{transform:translateY(0)}
 
 /* ═══ STAR / METEOR ANIMATIONS ═══ */
@@ -717,7 +717,7 @@ textarea.if{resize:none}
           <div style="font-size:12px;color:var(--tx3);line-height:1.6">คำถามที่ ASTROVERA ออกแบบเฉพาะตัวตนของคุณ เพื่อปลดล็อกความเข้าใจที่...</div>
         </div>
         <div style="margin-top:14px;text-align:center">
-          <button class="btn bg" onclick="go('sc-quiz')" style="width:100%;font-size:14px;padding:13px">✦ ปลดล็อกทั้ง 4 ชั้น — ทดลองฟรี 7 วัน</button>
+          <button class="btn bg" onclick="go('sc-upgrade')" style="width:100%;font-size:14px;padding:13px">✦ ปลดล็อกทั้ง 4 ชั้น — ทดลองฟรี 7 วัน</button>
           <div style="font-size:11px;color:var(--tx3);margin-top:7px">ไม่ต้องใช้บัตรเครดิต · ยกเลิกได้ทุกเมื่อ</div>
         </div>
       </div>
@@ -844,7 +844,7 @@ textarea.if{resize:none}
       <div style="font-size:11px;color:var(--tx3);line-height:1.8">✦ ทุกอย่างในแพ็ครายเดือน &nbsp;·&nbsp; ✦ Founder Pulse Dashboard<br>✦ Team Dynamics &nbsp;·&nbsp; ✦ Priority Support</div>
     </div>
 
-    <button class="btn bg" onclick="go('sc-quiz')" style="width:100%;margin-bottom:8px;font-size:15px;padding:14px">เริ่มทดลองฟรี 7 วัน →</button>
+    <button class="btn bg" onclick="go('sc-self')" style="width:100%;margin-bottom:8px;font-size:15px;padding:14px">เริ่มทดลองฟรี 7 วัน →</button>
     <div style="text-align:center;font-size:11px;color:var(--tx3);padding-bottom:20px">รองรับ PromptPay · บัตรเครดิต · Apple Pay</div>
   </div>
 </div>
