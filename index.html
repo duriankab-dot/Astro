@@ -1491,7 +1491,8 @@ textarea.if{resize:none}
     </div>
     <div style="display:flex;gap:8px">
       <input id="cop-input" class="if" type="text" placeholder="พิมพ์ข้อความ..." style="flex:1" onkeydown="if(event.key==='Enter')sendCopilotInput()">
-      <button class="btn bg bsm" style="width:auto;padding:0 18px" onclick="sendCopilotInput()">ส่ง</button>
+      <button id="cop-cancel-btn" class="btn bsm" style="width:auto;padding:0 14px;display:none;background:rgba(255,80,80,.15);border:1px solid rgba(255,80,80,.4);color:#ff6b6b" onclick="cancelCopilot()">✕ ยกเลิก</button>
+      <button id="cop-send-btn" class="btn bg bsm" style="width:auto;padding:0 18px" onclick="sendCopilotInput()">ส่ง</button>
     </div>
   </div>
   <nav class="bnav">
@@ -4059,6 +4060,7 @@ function buildAutoSummary(){
 }
 
 var _lcAbort=null;
+var _copAbort=null;
 async function loadLifeCoach(){
   var p=lsG(LSP)||{};
   if(!p.name){showLcError('กรอกชื่อในโปรไฟล์ก่อนนะครับ');return;}
@@ -4980,6 +4982,14 @@ function rFounder(){
 
 // ═══ LIFE COPILOT — conversational, template replies grounded in real data ═══
 function rCopilot(){
+  // reset loading state ทุกครั้งที่เปิดหน้า
+  if(_copAbort){_copAbort.abort();_copAbort=null;}
+  var inp=document.getElementById('cop-input');
+  var sendBtn=document.getElementById('cop-send-btn');
+  var cancelBtn=document.getElementById('cop-cancel-btn');
+  if(inp)inp.disabled=false;
+  if(sendBtn){sendBtn.disabled=false;sendBtn.style.display='';}
+  if(cancelBtn)cancelBtn.style.display='none';
   // โหลด persona ที่บันทึกไว้
   _veraPersona=localStorage.getItem('av_vera')||'baby';
   var persona=VERA_PERSONAS[_veraPersona]||VERA_PERSONAS.baby;
@@ -5067,20 +5077,28 @@ function sendCopilot(text){
   // disable input ระหว่างรอ
   var inp=document.getElementById('cop-input');
   var btn=document.querySelector('#sc-copilot button[onclick*="sendCopilot"]');
+  var cancelBtn=document.getElementById('cop-cancel-btn');
+  var sendBtn=document.getElementById('cop-send-btn');
   if(inp)inp.disabled=true;
   if(btn)btn.disabled=true;
+  if(sendBtn){sendBtn.disabled=true;sendBtn.style.display='none';}
+  if(cancelBtn)cancelBtn.style.display='';
   genCopilotReply(text,thread).then(function(reply){
     thread.push({role:'ai',text:reply});
     lsS(LSC,thread);
     renderCopThread(thread);
     if(inp){inp.disabled=false;inp.focus();}
     if(btn)btn.disabled=false;
+    if(sendBtn){sendBtn.disabled=false;sendBtn.style.display='';}
+    if(cancelBtn)cancelBtn.style.display='none';
   }).catch(function(e){
     thread.push({role:'ai',text:'ขอโทษครับ ตอบไม่ได้ตอนนี้ ('+e.message+') ลองใหม่อีกครั้งนะครับ'});
     lsS(LSC,thread);
     renderCopThread(thread);
-    if(inp){inp.disabled=false;}
+    if(inp){inp.disabled=false;inp.focus();}
     if(btn)btn.disabled=false;
+    if(sendBtn){sendBtn.disabled=false;sendBtn.style.display='';}
+    if(cancelBtn)cancelBtn.style.display='none';
   });
 }
 
@@ -5090,6 +5108,20 @@ function sendCopilotInput(){
   if(!text||inp.disabled)return;
   inp.value='';
   sendCopilot(text);
+}
+
+function cancelCopilot(){
+  if(_copAbort){_copAbort.abort();_copAbort=null;}
+  var inp=document.getElementById('cop-input');
+  var sendBtn=document.getElementById('cop-send-btn');
+  var cancelBtn=document.getElementById('cop-cancel-btn');
+  if(inp){inp.disabled=false;inp.focus();}
+  if(sendBtn){sendBtn.disabled=false;sendBtn.style.display='';}
+  if(cancelBtn)cancelBtn.style.display='none';
+  // ลบ typing indicator ออก
+  var thread=lsG(LSC)||[];
+  var filtered=thread.filter(function(m){return m.role!=='typing';});
+  if(filtered.length<thread.length){lsS(LSC,filtered);renderCopThread(filtered);}
 }
 
 async function genCopilotReply(msg,thread){
@@ -5138,13 +5170,25 @@ async function genCopilotReply(msg,thread){
     }
   };
 
-  var res=await fetch('/.netlify/functions/life-copilot',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(payload)
-  });
-  var data=await res.json();
-  if(!res.ok)throw new Error(data.error||'API error');
-  return data.reply;
+  _copAbort=new AbortController();
+  var _copTimeout=setTimeout(function(){if(_copAbort)_copAbort.abort();},30000);
+  try{
+    var res=await fetch('/.netlify/functions/life-copilot',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload),
+      signal:_copAbort.signal
+    });
+    clearTimeout(_copTimeout);
+    _copAbort=null;
+    var data=await res.json();
+    if(!res.ok)throw new Error(data.error||'API error');
+    return data.reply;
+  }catch(e){
+    clearTimeout(_copTimeout);
+    _copAbort=null;
+    if(e.name==='AbortError')throw new Error('หมดเวลา — ลองใหม่อีกครั้งนะครับ');
+    throw e;
+  }
 }
 
 
