@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>ASTROVERA — ASTROVERA — Life Intelligence | วิเคราะห์ชีวิต พัฒนาความคิด</title><!-- ===== CSS & JS ===== -->
+<title>ASTROVERA — ปัญญาชีวิต | วิเคราะห์ชีวิต พัฒนาความคิด ช่วยตัดสินใจ</title><!-- ===== CSS & JS ===== -->
 <link rel="stylesheet" href="./style.css">
 <link rel="stylesheet" href="./responsive.css">
 <script src="./api.js"></script>
@@ -502,6 +502,12 @@ textarea.if{resize:none}
         <div style="margin-top:16px">
   <button class="btn bg" id="land-cta" onclick="startAnalysis()" style="width:100%;font-size:16px;padding:15px">✦ วิเคราะห์เลย — ฟรี</button>
 </div>
+        <div style="margin-top:12px;display:flex;align-items:flex-start;gap:9px;padding:10px 12px;background:rgba(176,64,255,.07);border-radius:10px;border:1px solid rgba(176,64,255,.18)">
+          <input type="checkbox" id="pdpa-consent" style="margin-top:2px;width:16px;height:16px;accent-color:#a855f7;flex-shrink:0;cursor:pointer">
+          <label for="pdpa-consent" style="font-size:11px;color:var(--tx3);line-height:1.55;cursor:pointer">
+            ฉันยินยอมให้ ASTROVERA เก็บและประมวลผลข้อมูลส่วนบุคคล (วันเกิด, เวลาเกิด, สถานที่เกิด, กรุ๊ปเลือด) เพื่อวัตถุประสงค์ในการวิเคราะห์ตัวตนเท่านั้น ข้อมูลถูกเก็บในอุปกรณ์ของคุณ (localStorage) ไม่ได้ส่งไปยังเซิร์ฟเวอร์ภายนอก — <span style="color:var(--gold2);text-decoration:underline;cursor:pointer" onclick="showPdpaDetail()">อ่านนโยบายความเป็นส่วนตัว</span>
+          </label>
+        </div>
         <!-- ปุ่มล้างข้อมูลเก่า — แสดงเฉพาะเมื่อมีข้อมูลค้างอยู่ -->
         <div id="reset-bar" style="display:none;margin-top:10px">
           <button onclick="clearProfileAndReset()" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(176,64,255,.25);border-radius:12px;color:rgba(200,150,255,.7);font-size:13px;cursor:pointer;font-family:var(--fn)">
@@ -2184,6 +2190,28 @@ function bk(){
   if(_stk.length>1){_stk.pop();var p=_stk[_stk.length-1];_stk.pop();go(p);}
 }
 
+// ═══ PDPA ═══
+function showPdpaDetail(){
+  var m=document.getElementById('pdpa-modal');
+  if(m){m.style.display='flex';return;}
+  var el=document.createElement('div');
+  el.id='pdpa-modal';
+  el.style.cssText='position:fixed;inset:0;z-index:9999;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6)';
+  el.innerHTML='<div style="background:var(--bg2);border-radius:18px 18px 0 0;padding:24px 20px 36px;max-width:430px;width:100%;max-height:80vh;overflow-y:auto">'
+    +'<div style="text-align:center;margin-bottom:16px"><div style="width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 14px"></div>'
+    +'<div style="font-size:16px;font-weight:700;color:var(--tx)">นโยบายความเป็นส่วนตัว</div></div>'
+    +'<div style="font-size:13px;color:var(--tx2);line-height:1.7">'
+    +'<b style="color:var(--tx)">ข้อมูลที่เก็บ</b><br>วันเกิด, เวลาเกิด, สถานที่เกิด, กรุ๊ปเลือด, คำตอบแบบสอบถาม และบันทึกการตัดสินใจ<br><br>'
+    +'<b style="color:var(--tx)">วัตถุประสงค์</b><br>ใช้เพื่อวิเคราะห์ตัวตนและสร้างผลลัพธ์ส่วนตัวเท่านั้น ไม่ใช้เพื่อโฆษณาหรือขายข้อมูล<br><br>'
+    +'<b style="color:var(--tx)">วิธีเก็บข้อมูล</b><br>ข้อมูลถูกเก็บใน localStorage ของอุปกรณ์คุณ ไม่ได้ส่งออกไปยังเซิร์ฟเวอร์ภายนอก ยกเว้นเมื่อใช้ฟีเจอร์ AI ที่ส่งข้อมูลผ่าน Claude API แบบเข้ารหัส<br><br>'
+    +'<b style="color:var(--tx)">สิทธิ์ของคุณ</b><br>คุณสามารถลบข้อมูลทั้งหมดได้ทุกเมื่อผ่านหน้าโปรไฟล์ → ล้างข้อมูลทั้งหมด<br><br>'
+    +'<b style="color:var(--tx)">ติดต่อ</b><br>หากมีคำถามเกี่ยวกับข้อมูลส่วนตัว ติดต่อได้ที่ astrovera.net</div>'
+    +'<button onclick="document.getElementById(\'pdpa-modal\').style.display=\'none\'" style="margin-top:20px;width:100%;padding:13px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--tx);font-size:14px;cursor:pointer;font-family:var(--fn)">รับทราบ ✓</button>'
+    +'</div>';
+  el.onclick=function(e){if(e.target===el)el.style.display='none';};
+  document.body.appendChild(el);
+}
+
 // ═══ TOAST ═══
 var _tt;
 function toast(msg){
@@ -3331,6 +3359,8 @@ function initPlaceDropdown(savedPlace){
 function startAnalysis(){
   var dob=document.getElementById('inp-dob').value;
   if(!dob){toast('กรุณากรอกวันเกิดก่อน');return;}
+  var consent=document.getElementById('pdpa-consent');
+  if(consent&&!consent.checked){toast('กรุณายินยอมนโยบายความเป็นส่วนตัวก่อนเริ่มวิเคราะห์');return;}
   var name=(document.getElementById('inp-name')||{}).value||'';
   var time=(document.getElementById('inp-time')||{}).value||'';
   var place=(document.getElementById('inp-place')||{}).value||'';
