@@ -2028,21 +2028,14 @@ function esc(s){
 // ═══ NAV ═══
 var _stk=['sc-land'];
 function go(id){
-  // hide all screens via both class and inline style
   document.querySelectorAll('.sc').forEach(function(s){
     s.classList.remove('on');
-    s.style.visibility='hidden';
-    s.style.opacity='0';
-    s.style.zIndex='1';
-    s.style.pointerEvents='none';
+    s.style.cssText='visibility:hidden;opacity:0;z-index:1;pointer-events:none';
   });
   var n=document.getElementById(id);
   if(!n)return;
   n.classList.add('on');
-  n.style.visibility='visible';
-  n.style.opacity='1';
-  n.style.zIndex='2';
-  n.style.pointerEvents='all';
+  n.style.cssText='visibility:visible;opacity:1;z-index:2;pointer-events:all';
   var sb=n.querySelector('.sb');
   if(sb)sb.scrollTop=0;
   _stk.push(id);
