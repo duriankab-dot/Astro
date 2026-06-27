@@ -3,10 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>ASTROVERA — ปัญญาชีวิต | วิเคราะห์ชีวิต พัฒนาความคิด ช่วยตัดสินใจ</title><!-- ===== CSS & JS ===== -->
-
-
-
+<title>ASTROVERA — ASTROVERA — Life Intelligence | วิเคราะห์ชีวิต พัฒนาความคิด</title><!-- ===== CSS & JS ===== -->
 
 <!-- ===== SEO ===== -->
 <meta name="description" content="ASTROVERA มากกว่าการดูดวง — วิเคราะห์ชีวิต 8 ศาสตร์ เข้าใจตัวเองลึกขึ้น ฟรี ไม่ต้องสมัคร">
@@ -52,10 +49,13 @@
      so this silently no-ops while you're previewing the file locally and
      activates once it's actually served (Netlify, your own domain, etc). -->
 <script>
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(s){s.unregister();});});
-  caches.keys().then(function(k){k.forEach(function(c){caches.delete(c);});});
-}
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((reg) => console.log('✅ Service Worker registered:', reg.scope))
+        .catch((err) => console.error('❌ Service Worker registration failed:', err));
+    });
+  }
 </script>
 <style>
 :root{
@@ -86,7 +86,7 @@ body.light-mode .tb{background:rgba(237,230,255,.95)}
 body.light-mode .bnav{background:rgba(244,240,255,.95)}
 body.light-mode .sb::-webkit-scrollbar-thumb{background:rgba(120,40,200,.25)}
 body.light-mode .btn.bg{box-shadow:0 4px 24px rgba(120,40,200,.3)}
-body.light-mode /* .sc defined below */
+body.light-mode .sc{background:var(--bg)}
 body.light-mode .modal-sheet{background:linear-gradient(135deg,#EDE6FF,#E2D9FF)}
 body.light-mode #star-field{opacity:.3}
 body.light-mode input,body.light-mode select,body.light-mode textarea{background:rgba(200,180,255,.3) !important;color:var(--tx) !important}
@@ -158,7 +158,7 @@ body{min-height:100vh;background:var(--bg);font-family:var(--fn);color:var(--tx)
 .bsm{padding:10px 18px;font-size:14px;width:auto;border-radius:var(--r2)}
 .ig{margin-bottom:14px}
 .il{font-size:13px;font-weight:500;color:var(--tx2);margin-bottom:7px;display:block}
-.if{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:var(--r2);font-size:16px;color:var(--tx);background:rgba(28,0,64,.6);outline:none;font-family:var(--fn);transition:border-color .15s}
+.if{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:var(--r2);font-size:16px;color:var(--tx);background:rgba(28,0,64,.6);outline:none;font-family:var(--fn);transition:border-color .15s;box-sizing:border-box;max-width:100%}
 .if:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(176,64,255,.1)}
 .if::placeholder{color:var(--tx3)}
 textarea.if{resize:none}
@@ -320,8 +320,9 @@ textarea.if{resize:none}
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 -->
-
+<link rel="stylesheet" href="./fix.css">
 </head>
+<script src="./fix.js"></script>
 <body>
 <div id="app">
 <div id="star-field" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden"></div>
@@ -473,7 +474,7 @@ textarea.if{resize:none}
                 <div style="font-size:11px;color:var(--tx3)">เพิ่มความแม่นยำการวิเคราะห์มิติพลังงาน</div>
               </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;gap:6px;margin-top:10px">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px;margin-top:10px">
               <button type="button" class="blood-btn" data-bt="O" onclick="selBlood('O',this)" style="background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.25);color:var(--tx2);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
                 <span>🔴</span><span style="font-size:13px">O</span><span style="font-size:9px;color:var(--tx3);font-weight:400">นักสู้</span>
               </button>
@@ -489,23 +490,17 @@ textarea.if{resize:none}
               <button type="button" class="blood-btn" data-bt="Rh-" onclick="selBlood('Rh-',this)" style="background:rgba(148,163,184,.1);border:2px solid rgba(148,163,184,.25);color:var(--tx2);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
                 <span>⚪</span><span style="font-size:13px">Rh-</span><span style="font-size:9px;color:var(--tx3);font-weight:400">หายาก</span>
               </button>
-              <button type="button" class="blood-btn" data-bt="" onclick="selBlood('',this)" style="background:rgba(100,100,100,.08);border:2px solid rgba(100,100,100,.2);color:var(--tx3);padding:10px 4px;border-radius:12px;cursor:pointer;font-size:15px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s">
-                <span>❓</span><span style="font-size:11px">ไม่</span><span style="font-size:9px;color:var(--tx3);font-weight:400">ทราบ</span>
-              </button>
             </div>
             <div id="blood-preview" style="display:none;margin-top:10px;padding:8px 12px;background:rgba(176,64,255,.12);border-radius:10px;font-size:12px;color:var(--gold2);text-align:center"></div>
           </div>
           <input id="inp-blood" type="hidden">
         </div>
-        <div style="margin-top:16px">
-  <button class="btn bg" id="land-cta" onclick="startAnalysis()" style="width:100%;font-size:16px;padding:15px">✦ วิเคราะห์เลย — ฟรี</button>
+        <div style="margin-top:16px;display:flex;gap:8px">
+  <button class="btn bg" id="land-cta" onclick="startAnalysis()" style="flex:2">✦ วิเคราะห์เลย — ฟรี</button>
+  <button class="btn bgh" onclick="startAnalysis()" style="flex:1;font-size:13px;animation:glow-pulse 2s ease-in-out infinite">
+    🔮 ไปวิเคราะห์
+  </button>
 </div>
-        <div style="margin-top:12px;display:flex;align-items:flex-start;gap:9px;padding:10px 12px;background:rgba(176,64,255,.07);border-radius:10px;border:1px solid rgba(176,64,255,.18)">
-          <input type="checkbox" id="pdpa-consent" style="margin-top:2px;width:16px;height:16px;accent-color:#a855f7;flex-shrink:0;cursor:pointer">
-          <label for="pdpa-consent" style="font-size:11px;color:var(--tx3);line-height:1.55;cursor:pointer">
-            ฉันยินยอมให้ ASTROVERA เก็บและประมวลผลข้อมูลส่วนบุคคล (วันเกิด, เวลาเกิด, สถานที่เกิด, กรุ๊ปเลือด) เพื่อวัตถุประสงค์ในการวิเคราะห์ตัวตนเท่านั้น ข้อมูลถูกเก็บในอุปกรณ์ของคุณ (localStorage) ไม่ได้ส่งไปยังเซิร์ฟเวอร์ภายนอก — <span style="color:var(--gold2);text-decoration:underline;cursor:pointer" onclick="showPdpaDetail()">อ่านนโยบายความเป็นส่วนตัว</span>
-          </label>
-        </div>
         <!-- ปุ่มล้างข้อมูลเก่า — แสดงเฉพาะเมื่อมีข้อมูลค้างอยู่ -->
         <div id="reset-bar" style="display:none;margin-top:10px">
           <button onclick="clearProfileAndReset()" style="width:100%;padding:10px;background:transparent;border:1px solid rgba(176,64,255,.25);border-radius:12px;color:rgba(200,150,255,.7);font-size:13px;cursor:pointer;font-family:var(--fn)">
@@ -523,6 +518,7 @@ textarea.if{resize:none}
       <div style="text-align:center;font-size:12px;color:var(--tx3);line-height:1.7">วิเคราะห์ผ่าน <strong style="color:var(--gold)">เครื่องมือวิเคราะห์ ASTROVERA</strong><br>6 ชั้นการวิเคราะห์เฉพาะทาง ที่ไม่มีที่ใดเหมือน<br>ใช้เป็น Framework สะท้อนมุมมอง ไม่ใช่คำทำนาย</div>
     </div>
   </div>
+</div>
 
 <!-- ─── LOADING ─── -->
 <div class="sc" id="sc-loading" style="background:radial-gradient(ellipse at 70% 20%,rgba(99,102,241,.13) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(176,64,255,.1) 0%,transparent 50%),var(--bg)">
@@ -628,10 +624,14 @@ textarea.if{resize:none}
       <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(to bottom,rgba(10,1,24,0) 0%,rgba(10,1,24,.85) 30%)">
         <div style="font-size:20px">🔒</div>
         <div style="font-size:13px;font-weight:700;color:var(--tx);text-align:center">ปลดล็อกชั้นที่เหลือ</div>
+        <div style="font-size:11px;color:var(--tx3);text-align:center">ทดลองใช้ฟรี 7 วัน สำหรับคนลงทะเบียน</div>
         <button class="btn bg bsm" onclick="go('sc-upgrade')" style="margin-top:4px">ดูแพ็คเกจ →</button>
       </div>
     </div>
-    <div style="height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:8px 0 12px"></div>
+    <div style="text-align:center;padding:8px;margin-bottom:12px">
+      <div style="height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:8px"></div>
+      <div style="font-size:11px;color:var(--tx3)">🔓 ปลดล็อกชั้นที่เหลือ — ทดลองฟรี 7 วัน</div>
+    </div>
     <button class="btn bg" onclick="goToDash()" style="margin-bottom:9px" data-i18n="insight.dash">เข้าสู่แผนที่ชีวิตของฉัน →</button>
     <button class="btn bgh" style="margin-bottom:9px;width:100%" onclick="openShareModal()" data-i18n="btn.share">📤 แชร์ผลลัพธ์</button>
     <button class="btn bgh" onclick="go('sc-upgrade')">ดู รายงานวิเคราะห์ชีวิตเชิงลึก ครบ 6 ชั้น</button>
@@ -696,7 +696,7 @@ textarea.if{resize:none}
     <div id="pay-qr" class="card" style="text-align:center;padding:26px;margin-bottom:18px">
       <div style="font-size:12px;color:var(--tx3);margin-bottom:13px">สแกน QR เพื่อชำระ</div>
       <div style="width:160px;height:160px;background:#fff;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 13px;padding:8px"><div style="text-align:center"><div style="font-size:34px;margin-bottom:5px">▦</div><div style="font-size:11px;color:#555">QR Code</div></div></div>
-      <div style="font-size:13px;color:var(--tx2)">พร้อมเพย์: 094-264-9269</div>
+      <div style="font-size:13px;color:var(--tx2)">พร้อมเพย์: 099-XXX-XXXX</div>
       <div style="font-size:20px;font-weight:700;color:var(--gold);margin-top:5px" id="qr-amt">399 บาท</div>
     </div>
     <button class="btn bg" onclick="payNow()">ยืนยันการชำระเงิน</button>
@@ -771,7 +771,7 @@ textarea.if{resize:none}
           </div>
           <button class="btn" style="width:100%;background:linear-gradient(135deg,rgba(176,64,255,.3),rgba(129,140,248,.2));border:1px solid rgba(176,64,255,.5);color:var(--gold2);font-size:13px;font-weight:700;border-radius:var(--r1);padding:9px;cursor:pointer" onclick="openDailySync()">เริ่มสแกนพลังงาน (30 วินาที) →</button>
         </div>
-        <button class="btn bg" style="width:100%;font-size:14px" onclick="openConvergence()">✦ ดู ภาพรวมการวิเคราะห์ทั้งหมด →</button>
+        <button class="btn bg" style="width:100%;font-size:14px" onclick="openConvergence()">✦ ดู ภาพรวมการวิเคราะห์ทั้งหมด ทั้งหมด →</button>
       </div>
       <!-- Stats -->
       <div class="stat-row">
@@ -784,7 +784,7 @@ textarea.if{resize:none}
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">
   
   <!-- การ์ดใหม่: วิเคราะห์ด้วย AI (วางไว้ข้างหน้า) -->
-  <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-copilot')">
+  <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-land')">
     <div style="font-size:21px;margin-bottom:7px">🔮</div>
     <div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">วิเคราะห์ด้วย AI</div>
     <div style="font-size:11px;color:var(--tx3)">เวล่า / เว็ลลานี่</div>
@@ -823,7 +823,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -911,7 +911,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -944,7 +944,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1010,7 +1010,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1041,6 +1041,7 @@ textarea.if{resize:none}
         <div class="chip" onclick="selType(this,'อาชีพ')">อาชีพ</div>
         <div class="chip" onclick="selType(this,'การเงิน')">การเงิน</div>
         <div class="chip" onclick="selType(this,'ความสัมพันธ์')">ความสัมพันธ์</div>
+        <div class="chip" onclick="selType(this,'สุขภาพ')">สุขภาพ</div>
         <div class="chip" onclick="selType(this,'ส่วนตัว')">ส่วนตัว</div>
       </div>
     </div>
@@ -1188,7 +1189,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1217,7 +1218,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1235,7 +1236,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1279,7 +1280,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1335,7 +1336,7 @@ textarea.if{resize:none}
   </div>
  <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1357,7 +1358,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1393,7 +1394,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1410,7 +1411,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1440,7 +1441,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1491,13 +1492,13 @@ textarea.if{resize:none}
     </div>
     <div style="display:flex;gap:8px">
       <input id="cop-input" class="if" type="text" placeholder="พิมพ์ข้อความ..." style="flex:1" onkeydown="if(event.key==='Enter')sendCopilotInput()">
-      <button id="cop-cancel-btn" class="btn bsm" style="width:auto;padding:0 14px;display:none;background:rgba(255,80,80,.15);border:1px solid rgba(255,80,80,.4);color:#ff6b6b" onclick="cancelCopilot()">✕ ยกเลิก</button>
+      <button id="cop-cancel-btn" class="btn bsm" style="width:auto;padding:0 14px;display:none;background:rgba(255,80,80,.15);border:1px solid rgba(255,80,80,.4);color:#ff6b6b" onclick="cancelCopilot()">✕</button>
       <button id="cop-send-btn" class="btn bg bsm" style="width:auto;padding:0 18px" onclick="sendCopilotInput()">ส่ง</button>
     </div>
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1505,7 +1506,7 @@ textarea.if{resize:none}
 
 <!-- ─── PROFILE ─── -->
 <div class="sc" id="sc-profile">
-  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">โปรไฟล์</div></div>
+  <div class="tb"><button class="bk-btn" onclick="go('sc-dash')">←</button><div class="tb-t">โปรไฟล์</div><button onclick="openEditProfile()" style="background:rgba(176,64,255,.15);border:1px solid var(--border);color:var(--tx2);font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer">✏️ แก้ไข</button></div>
   <div class="sb" style="padding:18px">
     <div class="card" style="text-align:center;margin-bottom:13px;padding:26px">
       <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,rgba(201,169,110,.3),rgba(168,85,247,.2));border:2px solid var(--gdim);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 13px">👤</div>
@@ -1521,11 +1522,12 @@ textarea.if{resize:none}
       <!-- Blood Type — prominent in Profile -->
       <div style="margin-bottom:11px">
         <div style="font-size:12px;color:var(--tx3);margin-bottom:8px;letter-spacing:.5px">🩸 กรุ๊ปเลือด — มิติพลังงานชีวภาพ</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:6px" id="pf-blood-btns">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;gap:6px" id="pf-blood-btns">
           <button type="button" class="pf-blood" data-bt="O" onclick="setPfBlood('O',this)" style="background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🔴</span><span style="font-size:12px">O</span></button>
           <button type="button" class="pf-blood" data-bt="A" onclick="setPfBlood('A',this)" style="background:rgba(59,130,246,.1);border:2px solid rgba(59,130,246,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🔵</span><span style="font-size:12px">A</span></button>
           <button type="button" class="pf-blood" data-bt="B" onclick="setPfBlood('B',this)" style="background:rgba(234,179,8,.1);border:2px solid rgba(234,179,8,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🟡</span><span style="font-size:12px">B</span></button>
           <button type="button" class="pf-blood" data-bt="AB" onclick="setPfBlood('AB',this)" style="background:rgba(168,85,247,.1);border:2px solid rgba(168,85,247,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>🟣</span><span style="font-size:12px">AB</span></button>
+          <button type="button" class="pf-blood" data-bt="Rh-" onclick="setPfBlood('Rh-',this)" style="background:rgba(148,163,184,.1);border:2px solid rgba(148,163,184,.25);color:var(--tx2);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>⚪</span><span style="font-size:12px">Rh-</span></button>
           <button type="button" class="pf-blood" data-bt="" onclick="setPfBlood('',this)" style="background:rgba(176,64,255,.05);border:2px solid var(--border);color:var(--tx3);padding:9px 4px;border-radius:10px;cursor:pointer;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all .15s"><span>✕</span><span>ลบ</span></button>
         </div>
       </div>
@@ -1566,7 +1568,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="go('sc-copilot')"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="go('sc-land')"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>📊</span><span>แดชบอร์ด</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1592,7 +1594,6 @@ document.addEventListener('contextmenu', function(e){
   if(e.target.closest('.protected, .rl, .refq')) e.preventDefault();
 });
 document.addEventListener('keydown', function(e){
-  if(!e.key)return;
   var k=e.key.toLowerCase();
   if((e.ctrlKey||e.metaKey) && (k==='u'||k==='s')) e.preventDefault();
   if(e.key==='F12') e.preventDefault();
@@ -1758,8 +1759,8 @@ function shareSignalCard(){
     +'⚡ พลังงานวันนี้: '+card.level+'\n'
     +arch.icon+' '+arch.name+'\n\n'
     +card.advice+'\n\n'
-    +'#ASTROVERA #SelfIntelligence\nastrovera.net';
-  if(navigator.share){navigator.share({text:text}).catch(function(){_shareFallback('astrovera.net');});}
+    +'#ASTROVERA #SelfIntelligence\nastro-pwa.netlify.app';
+  if(navigator.share){navigator.share({text:text}).catch(function(){_shareFallback('astro-pwa.netlify.app');});}
   else{_shareFallback(text);}
 }
 
@@ -2030,9 +2031,7 @@ function esc(s){
 // ═══ NAV ═══
 var _stk=['sc-land'];
 function go(id){
-  document.querySelectorAll('.sc').forEach(function(s){
-    s.classList.remove('on');
-  });
+  document.querySelector('.sc.on').classList.remove('on');
   var n=document.getElementById(id);
   if(!n)return;
   n.classList.add('on');
@@ -2191,28 +2190,6 @@ function bk(){
   if(_stk.length>1){_stk.pop();var p=_stk[_stk.length-1];_stk.pop();go(p);}
 }
 
-// ═══ PDPA ═══
-function showPdpaDetail(){
-  var m=document.getElementById('pdpa-modal');
-  if(m){m.style.display='flex';return;}
-  var el=document.createElement('div');
-  el.id='pdpa-modal';
-  el.style.cssText='position:fixed;inset:0;z-index:9999;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6)';
-  el.innerHTML='<div style="background:var(--bg2);border-radius:18px 18px 0 0;padding:24px 20px 36px;max-width:430px;width:100%;max-height:80vh;overflow-y:auto">'
-    +'<div style="text-align:center;margin-bottom:16px"><div style="width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 14px"></div>'
-    +'<div style="font-size:16px;font-weight:700;color:var(--tx)">นโยบายความเป็นส่วนตัว</div></div>'
-    +'<div style="font-size:13px;color:var(--tx2);line-height:1.7">'
-    +'<b style="color:var(--tx)">ข้อมูลที่เก็บ</b><br>วันเกิด, เวลาเกิด, สถานที่เกิด, กรุ๊ปเลือด, คำตอบแบบสอบถาม และบันทึกการตัดสินใจ<br><br>'
-    +'<b style="color:var(--tx)">วัตถุประสงค์</b><br>ใช้เพื่อวิเคราะห์ตัวตนและสร้างผลลัพธ์ส่วนตัวเท่านั้น ไม่ใช้เพื่อโฆษณาหรือขายข้อมูล<br><br>'
-    +'<b style="color:var(--tx)">วิธีเก็บข้อมูล</b><br>ข้อมูลถูกเก็บใน localStorage ของอุปกรณ์คุณ ไม่ได้ส่งออกไปยังเซิร์ฟเวอร์ภายนอก ยกเว้นเมื่อใช้ฟีเจอร์ AI ที่ส่งข้อมูลผ่าน Claude API แบบเข้ารหัส<br><br>'
-    +'<b style="color:var(--tx)">สิทธิ์ของคุณ</b><br>คุณสามารถลบข้อมูลทั้งหมดได้ทุกเมื่อผ่านหน้าโปรไฟล์ → ล้างข้อมูลทั้งหมด<br><br>'
-    +'<b style="color:var(--tx)">ติดต่อ</b><br>หากมีคำถามเกี่ยวกับข้อมูลส่วนตัว ติดต่อได้ที่ astrovera.net</div>'
-    +'<button onclick="document.getElementById(\'pdpa-modal\').style.display=\'none\'" style="margin-top:20px;width:100%;padding:13px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--tx);font-size:14px;cursor:pointer;font-family:var(--fn)">รับทราบ ✓</button>'
-    +'</div>';
-  el.onclick=function(e){if(e.target===el)el.style.display='none';};
-  document.body.appendChild(el);
-}
-
 // ═══ TOAST ═══
 var _tt;
 function toast(msg){
@@ -2337,6 +2314,14 @@ var BLOOD_TYPES={
     decision:'ชั่งน้ำหนักทุกด้านก่อนตัดสินใจ บางครั้งใช้เวลานาน',
     relation:'ยืดหยุ่นสูง เข้ากับได้ทุกคน แต่อาจดูห่างเหิน',
     dimScore:8},
+  'Rh-':{icon:'⚪',th:'Rh-',
+    trait:'หายาก · เป็นเอกลักษณ์ · พลังงานอิสระสูง',
+    core:'คุณมีพลังงานที่เป็นเอกลักษณ์เฉพาะตัวสูงมาก คนกลุ่มนี้มักมีความคิดอิสระ ไม่ยึดติดกรอบสังคม และมีสัญชาตญาณที่แม่นยำ ความหายากของกรุ๊ปเลือดสะท้อนถึงมุมมองที่แตกต่างในการมองโลก',
+    strengths:['เป็นเอกลักษณ์','สัญชาตญาณแม่น','อิสระ','คิดนอกกรอบ','มีเสน่ห์'],
+    blinds:['อาจรู้สึกโดดเดี่ยว','ไม่ค่อยเข้าใจคนอื่น','ท้าทายกฎเกณฑ์'],
+    decision:'ตัดสินใจด้วยสัญชาตญาณและความรู้สึกภายใน มักถูกแม้ดูไม่มีเหตุผล',
+    relation:'เข้าหายาก แต่เมื่อผูกพันแล้วจะลึกและยาวนาน',
+    dimScore:9},
 };
 
 // ═══ NAKSHATRA — 27 Moon Mansions (Vedic) ═══
@@ -2896,6 +2881,27 @@ async function fetchVedicNakshatra(){
 }
 
 // ─── Blood Type ใน Profile ───
+function openEditProfile(){
+  var p=lsG(LSP)||{};
+  document.getElementById('ep-name').value=p.name||'';
+  document.getElementById('ep-time').value=p.time||'';
+  document.getElementById('ep-place').value=p.place||'';
+  modalOpen('edit-profile-modal');
+}
+function closeEditProfile(){modalClose('edit-profile-modal');}
+function saveEditProfile(){
+  var p=lsG(LSP)||{};
+  var name=document.getElementById('ep-name').value.trim();
+  var time=document.getElementById('ep-time').value;
+  var place=document.getElementById('ep-place').value.trim();
+  if(name)p.name=name;
+  p.time=time;
+  p.place=place;
+  lsS(LSP,p);
+  rProfile();
+  closeEditProfile();
+  toast('✓ บันทึกข้อมูลแล้ว');
+}
 function setPfBlood(type,btn){
   document.querySelectorAll('.pf-blood').forEach(function(b){
     b.style.borderColor='var(--border)';
@@ -3359,25 +3365,28 @@ function initPlaceDropdown(savedPlace){
 
 function startAnalysis(){
   var dob=document.getElementById('inp-dob').value;
-  if(!dob){toast('กรุณากรอกวันเกิดก่อน');return;}
-  var consent=document.getElementById('pdpa-consent');
-  if(consent&&!consent.checked){toast('กรุณายินยอมนโยบายความเป็นส่วนตัวก่อนเริ่มวิเคราะห์');return;}
+  if(!dob){
+    toast('⚠️ กรุณากรอกวันเกิดก่อนนะครับ');
+    var dobD=document.getElementById('inp-dob-d');
+    if(dobD){
+      dobD.style.borderColor='var(--rose)';
+      dobD.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(function(){dobD.style.borderColor='';},2000);
+    }
+    return;
+  }
   var name=(document.getElementById('inp-name')||{}).value||'';
   var time=(document.getElementById('inp-time')||{}).value||'';
   var place=(document.getElementById('inp-place')||{}).value||'';
   var blood=getBloodType();
   lsS('_av_tmp',{name:name.trim()||'คุณ',dob:dob,time:time,place:place.trim(),bloodType:blood});
   go('sc-loading');
-  var steps=['วิเคราะห์ Layer I-IV...','คำนวณ Layer V-VI...','รวม Astrovera Intelligence Engine™...','ค้นหา Life Signature...','สร้าง กระจกตัวตน™...','เสร็จแล้ว ✓'];
-  var i=0;
-  var lbl=document.getElementById('ld-step');
-  var bar=document.getElementById('ld-bar');
-  // fallback ถ้า element ไม่พบ
-  if(!lbl||!bar){setTimeout(function(){go('sc-quiz');},500);return;}
+  var steps=['วิเคราะห์ Layer I-IV...','คำนวณ Layer V-VI...','รวม Signature Convergence Engine™...','ค้นหา Life Signature...','สร้าง กระจกตัวตน™...','เสร็จแล้ว ✓'];
+  var i=0,lbl=document.getElementById('ld-step'),bar=document.getElementById('ld-bar');
   var iv=setInterval(function(){
     if(i<steps.length){
-      if(lbl)lbl.textContent=steps[i];
-      if(bar)bar.style.width=((i+1)/steps.length*100)+'%';
+      lbl.textContent=steps[i];
+      bar.style.width=((i+1)/steps.length*100)+'%';
       i++;
     } else {
       clearInterval(iv);
@@ -3771,7 +3780,7 @@ function computeLifeOS(){
   var growthScore=(journals.length||weekly.length)?Math.min(96,50+doneFUAll*5+weekly.length*4):null;
   return [
     {icon:'🧭',name:'ตัวตน',score:selfScore,trend:weekly.length>=2?'ขึ้น':'คงที่'},
-    {icon:'❤️‍🩹',name:'สุขภาพ',score:null,trend:null},
+    {icon:'❤️‍🩹',name:'สุขภาพ',score:lifeosByType(journals,'สุขภาพ'),trend:lifeosTrend(journals,'สุขภาพ')},
     {icon:'💰',name:'การเงิน',score:lifeosByType(journals,'การเงิน'),trend:lifeosTrend(journals,'การเงิน')},
     {icon:'💼',name:'งาน',score:lifeosByType(journals,'อาชีพ'),trend:lifeosTrend(journals,'อาชีพ')},
     {icon:'🚀',name:'ธุรกิจ',score:lifeosByType(journals,'ธุรกิจ'),trend:lifeosTrend(journals,'ธุรกิจ')},
@@ -4055,7 +4064,7 @@ function buildAutoSummary(){
     if(s[k]){lines.push(s[k]);lines.push('');}
   });
   lines.push('════════════════════════════════════');
-  lines.push('astrovera.net');
+  lines.push('astro-pwa.netlify.app');
   return lines.join('\n');
 }
 
@@ -4178,7 +4187,7 @@ function lcDownloadPDF(){
     cache.script,
     '',
     '────────────────────────────────────',
-    'astrovera.net',
+    'astro-pwa.netlify.app',
     '════════════════════════════════════'
   ];
   var blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
@@ -4202,7 +4211,7 @@ function showLcError(msg){
 }
 
 function lcPlay(){
-  if(!_lcScript){toast('ไม่มี script — กดสร้างรายงานก่อน');return;}
+  if(!_lcScript){toast('กรุณากด "📄 สร้างรายงาน" ก่อนฟังเสียง');return;}
   // ถ้า paused อยู่ ให้ resume แทน
   if(window.speechSynthesis.paused){
     window.speechSynthesis.resume();
@@ -4981,8 +4990,21 @@ function rFounder(){
 }
 
 // ═══ LIFE COPILOT — conversational, template replies grounded in real data ═══
+function cancelCopilot(){
+  if(_copAbort){_copAbort.abort();_copAbort=null;}
+  var inp=document.getElementById('cop-input');
+  var sendBtn=document.getElementById('cop-send-btn');
+  var cancelBtn=document.getElementById('cop-cancel-btn');
+  if(inp){inp.disabled=false;inp.focus();}
+  if(sendBtn){sendBtn.disabled=false;sendBtn.style.display='';}
+  if(cancelBtn)cancelBtn.style.display='none';
+  var thread=lsG(LSC)||[];
+  var filtered=thread.filter(function(m){return m.role!=='typing';});
+  if(filtered.length<thread.length){lsS(LSC,filtered);renderCopThread(filtered);}
+}
+
 function rCopilot(){
-  // reset loading state ทุกครั้งที่เปิดหน้า
+  // reset state ทุกครั้งที่เปิดหน้า
   if(_copAbort){_copAbort.abort();_copAbort=null;}
   var inp=document.getElementById('cop-input');
   var sendBtn=document.getElementById('cop-send-btn');
@@ -5108,20 +5130,6 @@ function sendCopilotInput(){
   if(!text||inp.disabled)return;
   inp.value='';
   sendCopilot(text);
-}
-
-function cancelCopilot(){
-  if(_copAbort){_copAbort.abort();_copAbort=null;}
-  var inp=document.getElementById('cop-input');
-  var sendBtn=document.getElementById('cop-send-btn');
-  var cancelBtn=document.getElementById('cop-cancel-btn');
-  if(inp){inp.disabled=false;inp.focus();}
-  if(sendBtn){sendBtn.disabled=false;sendBtn.style.display='';}
-  if(cancelBtn)cancelBtn.style.display='none';
-  // ลบ typing indicator ออก
-  var thread=lsG(LSC)||[];
-  var filtered=thread.filter(function(m){return m.role!=='typing';});
-  if(filtered.length<thread.length){lsS(LSC,filtered);renderCopThread(filtered);}
 }
 
 async function genCopilotReply(msg,thread){
@@ -6131,7 +6139,7 @@ function closeShareModal(){modalClose('share-modal');}
 function shareNative(){
   var p=lsG(LSP)||{};
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
-  var url='https://astrovera.net';
+  var url='https://astro-pwa.netlify.app';
   var text=(_lang==='en'?'I just discovered my identity pattern on ASTROVERA!':
             _lang==='zh'?'我剛在ASTROVERA發現了我的身份模式！':
             'ฉันเพิ่งค้นพบตัวตนของตัวเองที่ ASTROVERA!')
@@ -6141,7 +6149,7 @@ function shareNative(){
   } else {shareCopyLink();}
 }
 function shareCopyLink(){
-  var url='https://astrovera.net';
+  var url='https://astro-pwa.netlify.app';
   // Fallback 1: Clipboard API (modern)
   if(navigator.clipboard&&window.isSecureContext){
     navigator.clipboard.writeText(url).then(function(){
@@ -6229,7 +6237,7 @@ function rConvergenceDash(){
   dims.rhythm=Math.min(10,(phaseScore[p.phaseKey]||6)+lpBonus);
 
   // มิติ 8: พลังงานชีวภาพ (from blood type) — Phase 2
-  var btScores={O:8,A:7,B:7,AB:8};
+  var btScores={O:8,A:7,B:7,AB:8,'Rh-':9};
   if(p.bloodType&&btScores[p.bloodType]){dims.bio=btScores[p.bloodType];}
 
   // มิติ 9: มิติจักรวาลชั้นลึก (Nakshatra) — Phase 2
@@ -6346,7 +6354,7 @@ function rConvergenceDash(){
   html+='<div style="text-align:center;padding:16px 0 8px">'
     +'<div style="font-size:10px;color:var(--tx3);letter-spacing:1px;margin-bottom:6px">POWERED BY</div>'
     +'<div style="font-size:12px;font-weight:700;color:var(--gold2)">เครื่องมือวิเคราะห์ ASTROVERA</div>'
-    +'<div style="font-size:10px;color:var(--tx3);margin-top:4px">astrovera.net</div>'
+    +'<div style="font-size:10px;color:var(--tx3);margin-top:4px">astro-pwa.netlify.app</div>'
     +'</div>';
 
   el.innerHTML=html;
@@ -6360,7 +6368,7 @@ function shareConvergence(){
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
   var lp=p.dob?lifePathNumber(p.dob):null;
   var bz=p.dob?calcBaZi(p.dob,p.time):null;
-  var url='https://astrovera.net';
+  var url='https://astro-pwa.netlify.app';
   var text=(_lang==='en'?'My ผลวิเคราะห์ตัวตน on ASTROVERA:\n':
             _lang==='zh'?'我在ASTROVERA的生命印記：\n':
             'ผลวิเคราะห์ตัวตน ของฉันที่ ASTROVERA:\n\n')
@@ -6945,7 +6953,7 @@ function clearProfileAndReset(){
     <div id="lc-mascot-slot"><!-- mascot สามารถวางรูปที่นี่ได้ --></div>
     <div style="flex:1">
       <div style="font-size:16px;font-weight:700;color:var(--tx)">🎙️ ไลฟ์โค้ชส่วนตัว</div>
-      <div style="font-size:11px;color:var(--tx3)" id="lc-status">กำลังสร้าง script...</div>
+      <div style="font-size:11px;color:var(--tx3)" id="lc-status">กด สร้างรายงาน เพื่อเริ่มต้น</div>
     </div>
     <button onclick="closeLifeCoach()" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer">✕</button>
   </div>
@@ -6997,6 +7005,30 @@ function clearProfileAndReset(){
     </div>
     <button onclick="lcDownloadPDF()" class="btn bgh" style="width:100%;font-size:13px">📥 ดาวน์โหลดรายงาน (.txt)</button>
     <div style="margin-top:10px;text-align:center;font-size:11px;color:var(--tx3)" id="lc-tts-note"></div>
+  </div>
+</div>
+<!-- ─── EDIT PROFILE MODAL ─── -->
+<div id="edit-profile-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:flex-end;justify-content:center">
+  <div style="background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:430px;max-height:85vh;overflow-y:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div style="font-size:16px;font-weight:700;color:var(--tx)">✏️ แก้ไขข้อมูลส่วนตัว</div>
+      <button onclick="closeEditProfile()" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer">✕</button>
+    </div>
+    <div class="ig" style="margin-bottom:13px">
+      <label class="il">ชื่อ / ชื่อเล่น</label>
+      <input id="ep-name" class="if" type="text" placeholder="ชื่อของคุณ">
+    </div>
+    <div class="ig" style="margin-bottom:13px">
+      <label class="il">เวลาเกิด (ถ้าทราบ)</label>
+      <input id="ep-time" class="if" type="time">
+    </div>
+    <div class="ig" style="margin-bottom:20px">
+      <label class="il">สถานที่เกิด</label>
+      <input id="ep-place" class="if" type="text" placeholder="เช่น กรุงเทพฯ, เชียงใหม่">
+    </div>
+    <div style="font-size:12px;color:var(--tx3);margin-bottom:8px">⚠️ วันเกิดแก้ไขไม่ได้ เนื่องจากใช้คำนวณผลวิเคราะห์</div>
+    <button class="btn bg" onclick="saveEditProfile()" style="width:100%;margin-bottom:10px">บันทึก ✓</button>
+    <button onclick="closeEditProfile()" class="btn bgh" style="width:100%">ยกเลิก</button>
   </div>
 </div>
 <!-- ─── FINANCIAL ARCHETYPE QUIZ (sc-fin-quiz) ─── -->
@@ -7068,7 +7100,7 @@ function clearProfileAndReset(){
     <div class="empty"><div class="emj">✦</div><div class="emt">กำลังวิเคราะห์ตัวตนของคุณ...</div></div>
   </div>
 </div>
-<div id="share-modal" style="display:none;position:absolute;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:flex-end;justify-content:center">
+<div id="share-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:flex-end;justify-content:center">
   <div style="background:var(--bg2);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:430px">
     <div style="text-align:center;margin-bottom:18px">
       <div style="font-size:16px;font-weight:700;color:var(--tx);margin-bottom:4px" data-i18n="share.title">แชร์ผลลัพธ์ของคุณ</div>
@@ -7084,7 +7116,7 @@ function clearProfileAndReset(){
         <div style="font-size:11px;color:var(--tx3);margin-bottom:3px" id="share-extra-label">เลขชีวิต</div>
         <div style="font-size:13px;color:var(--gold);font-weight:600" id="share-extra-val"></div>
       </div>
-      <div style="font-size:10px;color:var(--tx3)">ค้นพบตัวเองที่ astrovera.net</div>
+      <div style="font-size:10px;color:var(--tx3)">ค้นพบตัวเองที่ astro-pwa.netlify.app</div>
     </div>
     <!-- Share buttons -->
     <div style="display:flex;gap:10px;margin-bottom:12px">
@@ -7095,7 +7127,7 @@ function clearProfileAndReset(){
   </div>
 </div>
 <!-- ─── GUIDED TOUR MODAL ─── -->
-<div id="tour-modal" style="display:none;position:absolute;inset:0;z-index:1001;background:rgba(0,0,0,.85);align-items:flex-end;justify-content:center">
+<div id="tour-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);align-items:flex-end;justify-content:center">
   <div style="background:linear-gradient(135deg,#130028,#1C0040);border-radius:24px 24px 0 0;padding:28px 22px 42px;width:100%;max-width:430px;border:1px solid var(--border2);border-bottom:none">
     <!-- Progress dots -->
     <div id="tour-dots" style="display:flex;justify-content:center;gap:6px;margin-bottom:20px"></div>
