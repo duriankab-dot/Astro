@@ -717,7 +717,7 @@ textarea.if{resize:none}
           <div style="font-size:12px;color:var(--tx3);line-height:1.6">คำถามที่ ASTROVERA ออกแบบเฉพาะตัวตนของคุณ เพื่อปลดล็อกความเข้าใจที่...</div>
         </div>
         <div style="margin-top:14px;text-align:center">
-          <button class="btn bg" onclick="go('sc-upgrade')" style="width:100%;font-size:14px;padding:13px">✦ ปลดล็อกทั้ง 4 ชั้น — ทดลองฟรี 7 วัน</button>
+          <button class="btn bg" onclick="go('sc-quiz')" style="width:100%;font-size:14px;padding:13px">✦ ปลดล็อกทั้ง 4 ชั้น — ทดลองฟรี 7 วัน</button>
           <div style="font-size:11px;color:var(--tx3);margin-top:7px">ไม่ต้องใช้บัตรเครดิต · ยกเลิกได้ทุกเมื่อ</div>
         </div>
       </div>
@@ -844,7 +844,7 @@ textarea.if{resize:none}
       <div style="font-size:11px;color:var(--tx3);line-height:1.8">✦ ทุกอย่างในแพ็ครายเดือน &nbsp;·&nbsp; ✦ Founder Pulse Dashboard<br>✦ Team Dynamics &nbsp;·&nbsp; ✦ Priority Support</div>
     </div>
 
-    <button class="btn bg" onclick="go('sc-payment')" style="width:100%;margin-bottom:8px;font-size:15px;padding:14px">เริ่มทดลองฟรี 7 วัน →</button>
+    <button class="btn bg" onclick="go('sc-quiz')" style="width:100%;margin-bottom:8px;font-size:15px;padding:14px">เริ่มทดลองฟรี 7 วัน →</button>
     <div style="text-align:center;font-size:11px;color:var(--tx3);padding-bottom:20px">รองรับ PromptPay · บัตรเครดิต · Apple Pay</div>
   </div>
 </div>
@@ -955,7 +955,7 @@ textarea.if{resize:none}
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">
   
   <!-- การ์ดใหม่: วิเคราะห์ด้วย AI (วางไว้ข้างหน้า) -->
-  <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()">
+  <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()">
     <div style="font-size:21px;margin-bottom:7px">🔮</div>
     <div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">วิเคราะห์ด้วย AI</div>
     <div style="font-size:11px;color:var(--tx3)">เวล่า / เว็ลลานี่</div>
@@ -994,7 +994,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1087,7 +1087,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1120,7 +1120,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1186,7 +1186,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1365,7 +1365,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1394,7 +1394,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1412,7 +1412,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1456,7 +1456,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1512,7 +1512,7 @@ textarea.if{resize:none}
   </div>
  <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1534,7 +1534,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1570,7 +1570,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1587,7 +1587,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1617,7 +1617,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1673,7 +1673,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
@@ -1743,7 +1743,7 @@ textarea.if{resize:none}
   </div>
   <nav class="bnav">
   <button class="bni" onclick="go('sc-land')"><span>✦</span><span>หน้าแรก</span></button>
-  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};go(p.dob?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
+  <button class="bni" onclick="(function(){var p=lsG(LSP)||{};var t=lsG('_av_tmp')||{};go((p.dob||t.dob)?'sc-insight':'sc-land');})()"><span>🔮</span><span>วิเคราะห์</span></button>
   <button class="bni" onclick="go('sc-dash')"><span>🗺️</span><span>แผนที่ชีวิต</span></button>
   <button class="bni" onclick="go('sc-profile')"><span>👤</span><span>โปรไฟล์</span></button>
 </nav>
