@@ -4332,11 +4332,11 @@ async function loadLifeCoach(){
     dominantEl:bz?bz.dominant:'',missingEl:bz?bz.missing:[]
   };
 
-  // AbortController — timeout 35 วินาที
+  // AbortController — timeout 20 วินาที
   _lcAbort=new AbortController();
   var timeoutId=setTimeout(function(){
     if(_lcAbort)_lcAbort.abort();
-  },35000);
+  },20000);
 
   try{
     var res=await fetch('/.netlify/functions/life-coach',{
@@ -5319,7 +5319,15 @@ function setVeraMood(mood){
   if(m)sendCopilot(m.msg);
 }
 
-function renderCopThread(thread){
+// Mobile keyboard — scroll chat ไปท้ายสุดเมื่อ keyboard ขึ้น
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',function(){
+    var el=document.getElementById('cop-thread');
+    if(el&&document.getElementById('sc-copilot')&&document.getElementById('sc-copilot').classList.contains('on')){
+      setTimeout(function(){el.scrollTop=el.scrollHeight;},100);
+    }
+  });
+}
   var el=document.getElementById('cop-thread');
   if(!el)return;
   el.innerHTML=thread.map(function(m){
@@ -5340,6 +5348,8 @@ function renderCopThread(thread){
       +'<div style="max-width:82%;padding:10px 14px;border-radius:'+(isUser?'14px 14px 3px 14px':'14px 14px 14px 3px')+';background:'+(isUser?'var(--gold)':'var(--bg3)')+';color:'+(isUser?'#1a1408':'var(--tx)')+';font-size:14px;line-height:1.6;border:'+(isUser?'none':'1px solid var(--border)')+'">'+txt+'</div></div>';
   }).join('');
   el.scrollTop=el.scrollHeight;
+  // Mobile: รอ keyboard ขึ้นก่อนแล้ว scroll อีกครั้ง
+  setTimeout(function(){el.scrollTop=el.scrollHeight;},300);
 }
 
 function sendCopilot(text){
@@ -7205,13 +7215,15 @@ function clearProfileAndReset(){
       <div style="font-size:16px;font-weight:700;color:var(--tx)">🎙️ ไลฟ์โค้ชส่วนตัว</div>
       <div style="font-size:11px;color:var(--tx3)" id="lc-status">กด สร้างรายงาน เพื่อเริ่มต้น</div>
     </div>
-    <button onclick="closeLifeCoach()" style="background:rgba(176,64,255,.12);border:1px solid var(--border);color:var(--tx);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer">✕</button>
+    <button onclick="closeLifeCoach()" style="background:rgba(176,64,255,.2);border:1px solid rgba(176,64,255,.4);color:var(--tx);font-size:20px;width:40px;height:40px;border-radius:50%;cursor:pointer;font-weight:700">✕</button>
   </div>
 
   <!-- Loading state -->
   <div id="lc-loading" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
     <div style="width:48px;height:48px;border:3px solid rgba(176,64,255,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite"></div>
     <div style="font-size:13px;color:var(--tx3);text-align:center">AI กำลังอ่านข้อมูลทั้งหมดของคุณ<br>และสร้างรายงานไลฟ์โค้ชส่วนตัว...</div>
+    <div style="font-size:11px;color:var(--tx3)">ใช้เวลาประมาณ 10-20 วินาที</div>
+    <button onclick="if(_lcAbort)_lcAbort.abort();" style="background:rgba(176,64,255,.1);border:1px solid var(--border);color:var(--tx3);font-size:12px;padding:6px 18px;border-radius:10px;cursor:pointer;margin-top:4px">✕ ยกเลิก</button>
   </div>
 
   <!-- Script content -->
