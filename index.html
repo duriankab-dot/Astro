@@ -7,8 +7,6 @@
 <link rel="stylesheet" href="./style.css">
 <link rel="stylesheet" href="./responsive.css">
 <script src="./api.js"></script>
-<script src="./voice.js"></script>
-<script src="./app.js"></script>
 
 <!-- ===== SEO ===== -->
 <meta name="description" content="ASTROVERA มากกว่าการดูดวง — วิเคราะห์ชีวิต 8 ศาสตร์ เข้าใจตัวเองลึกขึ้น ฟรี ไม่ต้องสมัคร">
@@ -326,7 +324,6 @@ textarea.if{resize:none}
 -->
 <link rel="stylesheet" href="./fix.css">
 </head>
-<script src="./fix.js"></script>
 <body>
 <div id="app">
 <div id="star-field" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden"></div>
@@ -1594,6 +1591,7 @@ document.addEventListener('contextmenu', function(e){
   if(e.target.closest('.protected, .rl, .refq')) e.preventDefault();
 });
 document.addEventListener('keydown', function(e){
+  if(!e.key)return;
   var k=e.key.toLowerCase();
   if((e.ctrlKey||e.metaKey) && (k==='u'||k==='s')) e.preventDefault();
   if(e.key==='F12') e.preventDefault();
