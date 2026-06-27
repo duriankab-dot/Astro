@@ -1,0 +1,141 @@
+/* ============================================================
+   ASTROVERA — fix.css
+   แก้ไข: date input layout / overflow / analysis background
+   วิธีใช้: link ไฟล์นี้เป็นบรรทัดสุดท้ายใน <head>
+   ทั้ง index.html และ analysis.html
+   ============================================================ */
+
+/* ─── 1. DATE INPUT ROW: แก้ซ้อนกัน ─── */
+.birth-row,
+.dob-row,
+[class*="birth-row"],
+[class*="dob-row"] {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 6px !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* ช่อง วัน */
+.birth-row .day-input,
+.dob-row .day-input,
+input[placeholder="วัน"],
+input[name="day"],
+input[id*="day"],
+select[name="day"],
+select[id*="day"] {
+  width: 56px !important;
+  min-width: 48px !important;
+  max-width: 64px !important;
+  flex: 0 0 56px !important;
+  box-sizing: border-box !important;
+}
+
+/* ช่อง เดือน */
+.birth-row .month-input,
+.dob-row .month-input,
+select[name="month"],
+select[id*="month"],
+.month-select {
+  flex: 1 1 auto !important;
+  min-width: 80px !important;
+  max-width: 140px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* ช่อง ปี */
+.birth-row .year-input,
+.dob-row .year-input,
+input[name="year"],
+input[id*="year"],
+select[name="year"],
+select[id*="year"],
+.year-input {
+  width: 72px !important;
+  min-width: 64px !important;
+  max-width: 84px !important;
+  flex: 0 0 72px !important;
+  box-sizing: border-box !important;
+}
+
+/* ─── 2. เวลาเกิด: แก้ล้นขอบขวา ─── */
+.time-row,
+[class*="time-row"],
+.birth-time-row {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 6px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+input[type="time"],
+input[name="time"],
+input[id*="time"],
+.time-input {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  flex: 1 1 auto !important;
+}
+
+/* toggle ปี พ.ศ./ค.ศ. ไม่ให้ overflow */
+.year-toggle,
+[class*="year-toggle"],
+.be-ce-toggle {
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+
+/* ─── 3. ป้องกัน input/select ล้นกรอบทั่วไป ─── */
+input, select, textarea {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* ─── 4. ANALYSIS PAGE — เพิ่ม background ─── */
+/* body พื้นหลัง dark space เหมือน index */
+body {
+  background: #0A0118 !important;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(80, 0, 180, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(30, 0, 80, 0.22) 0%, transparent 60%) !important;
+  background-attachment: fixed !important;
+  min-height: 100vh !important;
+}
+
+#app {
+  background: transparent !important;
+  min-height: 100vh !important;
+}
+
+/* ─── 5. ป้องกัน form container ล้นหน้าจอ ─── */
+.sb,
+.scroll-body,
+[class*="form-wrap"],
+.landing-form {
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+/* ─── 6. แก้ปุ่ม toggle พ.ศ./ค.ศ. + input ปีอยู่ใน row เดียวกัน ─── */
+.year-be-row,
+[class*="year-be"],
+[class*="be-row"] {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
