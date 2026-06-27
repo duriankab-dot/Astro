@@ -52,10 +52,13 @@
      so this silently no-ops while you're previewing the file locally and
      activates once it's actually served (Netlify, your own domain, etc). -->
 <script>
-  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.getRegistrations().then(r=>r.forEach(s=>s.unregister()));
-      navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  // ลบ Service Worker ทุกตัวออก — ไม่ใช้ SW แล้ว
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(regs) {
+      regs.forEach(function(r) { r.unregister(); });
+    });
+    caches.keys().then(function(keys) {
+      keys.forEach(function(k) { caches.delete(k); });
     });
   }
 </script>
