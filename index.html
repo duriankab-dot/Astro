@@ -54,9 +54,7 @@
 <script>
   // ลบ Service Worker ทุกตัวออก — ไม่ใช้ SW แล้ว
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(regs) {
-      regs.forEach(function(r) { r.unregister(); });
-    });
+    navigator.serviceWorker.getRegistrations().then(r=>r.forEach(s=>s.unregister()));
     caches.keys().then(function(keys) {
       keys.forEach(function(k) { caches.delete(k); });
     });
