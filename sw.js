@@ -1,147 +1,73 @@
-// sw.js — Service Worker สำหรับ ASTROVERA PWA
-const CACHE_VERSION = 'astrovera-v2';
-const CACHE_NAME    = `astrovera-cache-${CACHE_VERSION}`;
+// ASTROVERA Service Worker v2 — fixed POST cache bug
+const CACHE_NAME = 'astrovera-v2';
 
-// ── ไฟล์ static ที่แคชไว้ (ชื่อตรงกับ repo จริง) ──
+// ไฟล์ที่ต้องการ cache (GET only)
 const STATIC_ASSETS = [
   '/',
-  '/astrovera-v5-3.html',
-  '/offline.html',
+  '/index.html',
+  '/og-image.png',
   '/manifest.json',
-  '/favicon.ico',
-  '/favicon-16x16.png',
-  '/favicon-32x32.png',
-  '/apple-touch-icon.png'
 ];
 
-const CACHE_EXPIRATION = 30 * 24 * 60 * 60 * 1000; // 30 วัน
-
-// ── INSTALL ──
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(STATIC_ASSETS))
-      .then(() => self.skipWaiting())
-      .catch(err => console.error('SW install error:', err))
-  );
-});
-
-// ── ACTIVATE ──
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(names =>
-      Promise.all(
-        names.map(name => {
-          if (name !== CACHE_NAME && name.startsWith('astrovera-cache-')) {
-            return caches.delete(name);
-          }
+// Install
+self.addEventListener('install', function(e) {
+  self.skipWaiting();
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(function(cache) {
+      // cache เฉพาะ GET — ไม่ cache POST
+      return Promise.allSettled(
+        STATIC_ASSETS.map(function(url) {
+          return fetch(new Request(url, { method: 'GET' }))
+            .then(function(res) {
+              if (res.ok) return cache.put(url, res);
+            })
+            .catch(function() {});
         })
-      )
-    ).then(() => self.clients.claim())
+      );
+    })
   );
 });
 
-// ── FETCH ──
-self.addEventListener('fetch', event => {
-  const { request } = event;
-  const url = new URL(request.url);
-
-  if (url.pathname.startsWith('/.netlify/functions/')) {
-    event.respondWith(handleAPIFetch(request));
-  } else {
-    event.respondWith(handleStaticFetch(request));
-  }
+// Activate — ลบ cache เก่า
+self.addEventListener('activate', function(e) {
+  e.waitUntil(
+    caches.keys().then(function(keys) {
+      return Promise.all(
+        keys.filter(function(k) { return k !== CACHE_NAME; })
+            .map(function(k) { return caches.delete(k); })
+      );
+    }).then(function() {
+      return self.clients.claim();
+    })
+  );
 });
 
-// ── API: Network first, Cache fallback ──
-async function handleAPIFetch(request) {
-  const cache = await caches.open(CACHE_NAME);
-  try {
-    const networkRes = await fetch(request.clone());
-    // แคช GET เท่านั้น
-    if (request.method === 'GET' && networkRes.ok) {
-      const headers  = new Headers(networkRes.headers);
-      headers.set('sw-cache-date', Date.now().toString());
-      const toCache  = new Response(networkRes.clone().body, {
-        status: networkRes.status, statusText: networkRes.statusText, headers
+// Fetch — GET เท่านั้นที่ cache ได้
+self.addEventListener('fetch', function(e) {
+  // ข้าม POST, PUT, DELETE ทั้งหมด — ปล่อยไปเน็ตตรงๆ
+  if (e.request.method !== 'GET') return;
+
+  // ข้าม API calls (netlify functions)
+  var url = e.request.url;
+  if (url.includes('/.netlify/') || url.includes('/api/')) return;
+  if (url.includes('anthropic') || url.includes('supabase')) return;
+
+  e.respondWith(
+    caches.match(e.request).then(function(cached) {
+      if (cached) return cached;
+      return fetch(e.request).then(function(res) {
+        // cache เฉพาะ response ที่ ok และ GET
+        if (res && res.ok && e.request.method === 'GET') {
+          var clone = res.clone();
+          caches.open(CACHE_NAME).then(function(cache) {
+            cache.put(e.request, clone);
+          });
+        }
+        return res;
+      }).catch(function() {
+        // offline fallback
+        return caches.match('/index.html');
       });
-      cache.put(request, toCache);
-    }
-    return networkRes;
-  } catch {
-    const cached = await cache.match(request);
-    if (cached) return cached;
-    return new Response(JSON.stringify({ success: false, error: 'Offline', message: 'ไม่สามารถเชื่อมต่อได้' }), {
-      status: 503, headers: { 'Content-Type': 'application/json' }
-    });
-  }
-}
-
-// ── Static: Cache first, Network fallback ──
-async function handleStaticFetch(request) {
-  const cache  = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
-  if (cached) return cached;
-
-  try {
-    const networkRes = await fetch(request.clone());
-    if (networkRes.ok) cache.put(request, networkRes.clone());
-    return networkRes;
-  } catch {
-    if (request.headers.get('Accept')?.includes('text/html')) {
-      const offline = await cache.match('/offline.html');
-      if (offline) return offline;
-    }
-    return new Response('Offline', { status: 503 });
-  }
-}
-
-// ── PUSH NOTIFICATIONS ──
-self.addEventListener('push', event => {
-  let data = { title: 'ASTROVERA', body: 'มีการอัปเดตใหม่สำหรับคุณ', icon: '/apple-touch-icon.png' };
-  if (event.data) {
-    try { data = { ...data, ...event.data.json() }; }
-    catch { data.body = event.data.text(); }
-  }
-  event.waitUntil(
-    self.registration.showNotification(data.title, {
-      body:    data.body,
-      icon:    data.icon || '/apple-touch-icon.png',
-      badge:   '/favicon-32x32.png',
-      vibrate: [200, 100, 200],
-      data:    { url: data.url || '/' },
-      actions: [{ action: 'open', title: 'เปิด' }, { action: 'close', title: 'ปิด' }]
     })
   );
 });
-
-// ── NOTIFICATION CLICK ──
-self.addEventListener('notificationclick', event => {
-  event.notification.close();
-  const urlToOpen = event.notification.data?.url || '/';
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
-      for (const c of list) {
-        if (c.url === urlToOpen && 'focus' in c) return c.focus();
-      }
-      if (clients.openWindow) return clients.openWindow(urlToOpen);
-    })
-  );
-});
-
-// ── BACKGROUND SYNC ──
-self.addEventListener('sync', event => {
-  if (event.tag === 'sync-decisions') event.waitUntil(syncDecisions());
-});
-
-async function syncDecisions() {
-  try {
-    const raw = await self.clients.matchAll().then(() =>
-      // Service Worker ไม่เข้าถึง localStorage โดยตรง
-      // ใช้ IDB ในอนาคต — ตอนนี้ no-op
-      Promise.resolve([])
-    );
-  } catch(e) {
-    console.error('sync error:', e);
-  }
-}

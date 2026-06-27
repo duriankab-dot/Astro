@@ -6846,9 +6846,6 @@ function loadDemo(){
 
 // ═══ INIT ═══
 (function(){
-  // BLACKSCREEN FIX: ensure sc-land visible if nothing is .on
-  if(!document.querySelector('.sc.on')){var _fb=document.getElementById('sc-land');if(_fb)_fb.classList.add('on');}
-  try{
   // ── Always init these regardless of login state ──
   applyLang();
   initStarField();
@@ -6870,7 +6867,6 @@ function loadDemo(){
     initPlaceDropdown('');
     rDash();
   }
-  }catch(e){console.error('[AV]',e);var _fl=document.getElementById('sc-land');if(_fl){document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on');});_fl.classList.add('on');}}
 })();
 
 // ── ล้างข้อมูล profile และ reset หน้า landing ──
