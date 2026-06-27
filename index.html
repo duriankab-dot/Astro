@@ -107,7 +107,7 @@ body{min-height:100vh;background:var(--bg);font-family:var(--fn);color:var(--tx)
   body{background:radial-gradient(ellipse at center,#1A0038 0%,#07001A 70%)}
   #app{width:420px!important;max-width:420px!important;height:95vh;max-height:900px;border-radius:24px;box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px rgba(176,64,255,.25),0 0 80px rgba(176,64,255,.15)}
 }
-.sc{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);visibility:hidden;opacity:0;transition:opacity .2s;overflow:hidden;z-index:1;max-width:100%;pointer-events:none}
+.sc{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);visibility:hidden;opacity:0;transition:opacity .2s;overflow:hidden;z-index:1;max-width:100%;pointer-events:none;width:100%}.sc:not(.on){z-index:0!important;pointer-events:none!important;visibility:hidden!important}
 .sc.on{visibility:visible;opacity:1;z-index:2;pointer-events:all}
 .sb{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:90px}
 .sb::-webkit-scrollbar{display:none}
@@ -3448,9 +3448,9 @@ function nQ(qn){
       if(i+1<_qn)d.classList.add('dn');
       else if(i+1===_qn)d.classList.add('on');
     });
-  } else {try{buildInsight();}catch(e){console.error('[AV]buildInsight',e);}go('sc-insight');}
+  } else {buildInsight();go('sc-insight');}
 }
-function skipQuiz(){try{buildInsight();}catch(e){console.error('[AV]skipQuiz',e);}go('sc-insight');}
+function skipQuiz(){buildInsight();go('sc-insight');}
 
 function cycleDailyQ(mode){
   var qEl=document.getElementById('d-daily-q');
