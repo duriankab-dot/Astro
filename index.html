@@ -394,6 +394,7 @@ textarea.if{resize:none}
       <button class="btn bgh bsm" onclick="closeOppModal()" style="flex:1">ยกเลิก</button>
       <button class="btn bg bsm" onclick="saveOpp()" style="flex:2">บันทึก ✓</button>
     </div>
+    <div style="margin-top:10px;font-size:10px;color:var(--tx3);text-align:center;line-height:1.6">คะแนนคำนวณจาก: ผลตอบแทน 40% + ความพร้อม 40% + ความเร่งด่วน 20%</div>
   </div>
 </div>
 
@@ -973,13 +974,14 @@ textarea.if{resize:none}
   <!-- การ์ดอื่นๆ ตามเดิม -->
   <!-- ... -->
 </div>
-      <!-- Strategic Modules -->
+      <!-- Strategic Modules — ซ่อนไว้ก่อน -->
+      <div id="advanced-modules" style="display:none">
       <div class="sh"><div class="sht">🚀 Strategic Modules</div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">
         <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-scenario')"><div style="font-size:21px;margin-bottom:7px">🧪</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Scenario Intelligence</div><div style="font-size:11px;color:var(--tx3)">จำลองทางเลือก A/B/C</div><div style="margin-top:7px"><span style="background:rgba(168,85,247,.15);color:var(--pur2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
         <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-radar')"><div style="font-size:21px;margin-bottom:7px">📡</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Opportunity Radar</div><div style="font-size:11px;color:var(--tx3)">จัดลำดับโอกาส</div><div style="margin-top:7px"><span style="background:rgba(255,183,3,.15);color:var(--gold);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
         <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-relationship')"><div style="font-size:21px;margin-bottom:7px">💞</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Relationship Intel</div><div style="font-size:11px;color:var(--tx3)">รูปแบบความสัมพันธ์</div><div style="margin-top:7px"><span style="background:rgba(251,113,133,.15);color:var(--rose);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
-        <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-benchmark')"><div style="font-size:21px;margin-bottom:7px">📊</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Reality Benchmark</div><div style="font-size:11px;color:var(--tx3)">เทียบค่าอ้างอิงตัวอย่าง</div><div style="margin-top:7px"><span style="background:rgba(45,212,191,.12);color:var(--teal);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
+        <div style="display:none" id="benchmark-card-hidden"></div>
         <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer;grid-column:1/3" onclick="go('sc-advisor')"><div style="display:flex;align-items:center;gap:11px"><div style="font-size:24px">🧠</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--tx)">AI ที่ปรึกษาชีวิต</div><div style="font-size:11px;color:var(--tx3)">ถามคำถามเชิงกลยุทธ์ ใช้ข้อมูลจริงของคุณตอบ</div></div><span style="background:rgba(99,102,241,.15);color:var(--ind2);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;flex-shrink:0">ใหม่</span></div></div>
       </div>
       <div class="sh"><div class="sht">🔮 Beyond</div></div>
@@ -988,6 +990,9 @@ textarea.if{resize:none}
         <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-founder')"><div style="font-size:21px;margin-bottom:7px">🏆</div><div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">Founder Pulse</div><div style="font-size:11px;color:var(--tx3)">ภาพรวมธุรกิจของคุณ</div><div style="margin-top:7px"><span style="background:rgba(255,183,3,.15);color:var(--gold);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px">ใหม่</span></div></div>
         <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer;grid-column:1/3" onclick="go('sc-copilot')"><div style="display:flex;align-items:center;gap:11px"><div style="font-size:24px">💬</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--tx)">VERA ผู้ช่วยชีวิต</div><div style="font-size:11px;color:var(--tx3)">คุยกับ AI ที่เข้าใจข้อมูลชีวิตของคุณ</div></div><span style="background:rgba(45,212,191,.12);color:var(--teal);font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;flex-shrink:0">ใหม่</span></div></div>
       </div>
+      </div><!-- /advanced-modules -->
+      <!-- ปุ่มเปิด advanced modules -->
+      <button id="show-more-modules-btn" onclick="(function(){var el=document.getElementById('advanced-modules');var btn=document.getElementById('show-more-modules-btn');if(el.style.display==='none'){el.style.display='block';btn.textContent='▲ ซ่อน Modules เพิ่มเติม';}else{el.style.display='none';btn.textContent='▼ เครื่องมือเพิ่มเติม (Strategic · Beyond · VERA)';};})()" style="width:100%;background:rgba(176,64,255,.08);border:1px solid rgba(176,64,255,.25);color:var(--pur2);font-size:12px;font-weight:600;padding:10px;border-radius:12px;cursor:pointer;margin-bottom:13px">▼ เครื่องมือเพิ่มเติม (Strategic · Beyond · VERA)</button>
       <div class="sh"><div class="sht">Life Decision Tracker</div><div class="shl" onclick="go('sc-decision')">เปิด →</div></div>
       <div id="d-jpreview"></div>
     </div>
@@ -1875,11 +1880,13 @@ function rSyncQ(){
   // label ขั้นตอน
   var stepLabels=['⚡ ขั้นที่ 1: ระดับพลังงาน','😊 ขั้นที่ 2: อารมณ์ความรู้สึก','🎯 ขั้นที่ 3: โฟกัสสำคัญ'];
   var stepLabel=stepLabels[_syncQ]||'';
-  var html='<div style="font-size:10px;color:var(--gold2);letter-spacing:1px;margin-bottom:8px;font-weight:600">'+stepLabel+'</div>';
+  var html='<div style="background:rgba(20,4,44,.85);border:1px solid rgba(176,64,255,.25);border-radius:16px;padding:18px">';
+  html+='<div style="font-size:10px;color:var(--gold2);letter-spacing:1px;margin-bottom:8px;font-weight:600">'+stepLabel+'</div>';
   html+='<div style="font-size:17px;font-weight:600;color:var(--tx);margin-bottom:18px;line-height:1.4">'+q.q+'</div>';
   q.opts.forEach(function(opt,i){
     html+='<div class="qopt" onclick="selSyncQ('+i+',this)" style="font-size:15px"><div class="qdot"></div>'+opt+'</div>';
   });
+  html+='</div>';
   el.innerHTML=html;
 }
 function selSyncQ(idx,el){
@@ -4936,9 +4943,10 @@ function rRadar(){
     return '<div class="jcard" style="margin-bottom:9px;cursor:default">'
       +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
       +'<div style="font-size:15px;font-weight:600;color:var(--tx);flex:1;margin-right:8px">'+esc(o.name)+badge+'</div>'
-      +'<div style="font-size:21px;font-weight:700;color:'+band.color+'">'+score+'</div></div>'
+      +'<div style="text-align:right"><div style="font-size:21px;font-weight:700;color:'+band.color+'">'+score+'</div><div style="font-size:9px;color:var(--tx3)">/100</div></div></div>'
       +'<div class="cbar"><div class="cfill" style="width:'+score+'%;background:'+band.color+'"></div></div>'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">'
+      +'<div style="font-size:10px;color:var(--tx3);margin-top:6px;margin-bottom:6px">คะแนนจาก: ผลตอบแทน (40%) + ความพร้อม (40%) + ความเร่งด่วน (20%)</div>'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">'
       +'<span style="font-size:12px;color:'+band.color+';font-weight:600">'+band.label+'</span>'
       +'<span style="font-size:11px;color:var(--tx3);cursor:pointer" onclick="delOpp(\''+o.id+'\')">ลบ ✕</span></div></div>';
   }).join('');
@@ -7411,7 +7419,7 @@ function clearProfileAndReset(){
   <div class="tb"><button class="bk-btn" onclick="bk()">←</button><div class="tb-t">⚡ Daily Inner Sync</div><div style="font-size:12px;color:var(--tx3)" id="sync-ctr">1 / 3</div></div>
   <div class="sb" style="padding:22px 18px">
     <!-- Intro card อธิบาย flow -->
-    <div id="sync-intro-card" style="background:linear-gradient(135deg,rgba(176,64,255,.08),rgba(129,140,248,.04));border:1px solid rgba(176,64,255,.2);border-radius:14px;padding:14px;margin-bottom:16px">
+    <div id="sync-intro-card" style="background:linear-gradient(135deg,rgba(30,0,60,.95),rgba(20,0,50,.98));border:1px solid rgba(176,64,255,.5);border-radius:14px;padding:14px;margin-bottom:16px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span style="font-size:22px">⚡</span>
         <div>
