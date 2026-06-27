@@ -623,15 +623,11 @@ textarea.if{resize:none}
       <!-- Lock overlay -->
       <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(to bottom,rgba(10,1,24,0) 0%,rgba(10,1,24,.85) 30%)">
         <div style="font-size:20px">🔒</div>
-        <div style="font-size:13px;font-weight:700;color:var(--tx);text-align:center">ปลดล็อก 4 ชั้นที่เหลือ</div>
-        <div style="font-size:11px;color:var(--tx3);text-align:center">ด้วย รายงานวิเคราะห์ชีวิตเชิงลึก 399 บาท</div>
+        <div style="font-size:13px;font-weight:700;color:var(--tx);text-align:center">ปลดล็อกชั้นที่เหลือ</div>
         <button class="btn bg bsm" onclick="go('sc-upgrade')" style="margin-top:4px">ดูแพ็คเกจ →</button>
       </div>
     </div>
-    <div style="text-align:center;padding:8px;margin-bottom:12px">
-      <div style="height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:8px"></div>
-      <div style="font-size:11px;color:var(--tx3)">🔓 ปลดล็อก 4 ชั้นที่เหลือด้วย Report 399 บาท</div>
-    </div>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:8px 0 12px"></div>
     <button class="btn bg" onclick="goToDash()" style="margin-bottom:9px" data-i18n="insight.dash">เข้าสู่แผนที่ชีวิตของฉัน →</button>
     <button class="btn bgh" style="margin-bottom:9px;width:100%" onclick="openShareModal()" data-i18n="btn.share">📤 แชร์ผลลัพธ์</button>
     <button class="btn bgh" onclick="go('sc-upgrade')">ดู รายงานวิเคราะห์ชีวิตเชิงลึก ครบ 6 ชั้น</button>
@@ -771,7 +767,7 @@ textarea.if{resize:none}
           </div>
           <button class="btn" style="width:100%;background:linear-gradient(135deg,rgba(176,64,255,.3),rgba(129,140,248,.2));border:1px solid rgba(176,64,255,.5);color:var(--gold2);font-size:13px;font-weight:700;border-radius:var(--r1);padding:9px;cursor:pointer" onclick="openDailySync()">เริ่มสแกนพลังงาน (30 วินาที) →</button>
         </div>
-        <button class="btn bg" style="width:100%;font-size:14px" onclick="openConvergence()">✦ ดู ภาพรวมการวิเคราะห์ทั้งหมด ทั้งหมด →</button>
+        <button class="btn bg" style="width:100%;font-size:14px" onclick="openConvergence()">✦ ดู ภาพรวมการวิเคราะห์ทั้งหมด →</button>
       </div>
       <!-- Stats -->
       <div class="stat-row">
@@ -1757,8 +1753,8 @@ function shareSignalCard(){
     +'⚡ พลังงานวันนี้: '+card.level+'\n'
     +arch.icon+' '+arch.name+'\n\n'
     +card.advice+'\n\n'
-    +'#ASTROVERA #SelfIntelligence\nastro-pwa.netlify.app';
-  if(navigator.share){navigator.share({text:text}).catch(function(){_shareFallback('astro-pwa.netlify.app');});}
+    +'#ASTROVERA #SelfIntelligence\nastrovera.net';
+  if(navigator.share){navigator.share({text:text}).catch(function(){_shareFallback('astrovera.net');});}
   else{_shareFallback(text);}
 }
 
@@ -3341,7 +3337,7 @@ function startAnalysis(){
   var blood=getBloodType();
   lsS('_av_tmp',{name:name.trim()||'คุณ',dob:dob,time:time,place:place.trim(),bloodType:blood});
   go('sc-loading');
-  var steps=['วิเคราะห์ Layer I-IV...','คำนวณ Layer V-VI...','รวม Signature Convergence Engine™...','ค้นหา Life Signature...','สร้าง กระจกตัวตน™...','เสร็จแล้ว ✓'];
+  var steps=['วิเคราะห์ Layer I-IV...','คำนวณ Layer V-VI...','รวม Astrovera Intelligence Engine™...','ค้นหา Life Signature...','สร้าง กระจกตัวตน™...','เสร็จแล้ว ✓'];
   var i=0;
   var lbl=document.getElementById('ld-step');
   var bar=document.getElementById('ld-bar');
@@ -4028,7 +4024,7 @@ function buildAutoSummary(){
     if(s[k]){lines.push(s[k]);lines.push('');}
   });
   lines.push('════════════════════════════════════');
-  lines.push('astro-pwa.netlify.app');
+  lines.push('astrovera.net');
   return lines.join('\n');
 }
 
@@ -4150,7 +4146,7 @@ function lcDownloadPDF(){
     cache.script,
     '',
     '────────────────────────────────────',
-    'astro-pwa.netlify.app',
+    'astrovera.net',
     '════════════════════════════════════'
   ];
   var blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
@@ -6061,7 +6057,7 @@ function closeShareModal(){modalClose('share-modal');}
 function shareNative(){
   var p=lsG(LSP)||{};
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
-  var url='https://astro-pwa.netlify.app';
+  var url='https://astrovera.net';
   var text=(_lang==='en'?'I just discovered my identity pattern on ASTROVERA!':
             _lang==='zh'?'我剛在ASTROVERA發現了我的身份模式！':
             'ฉันเพิ่งค้นพบตัวตนของตัวเองที่ ASTROVERA!')
@@ -6071,7 +6067,7 @@ function shareNative(){
   } else {shareCopyLink();}
 }
 function shareCopyLink(){
-  var url='https://astro-pwa.netlify.app';
+  var url='https://astrovera.net';
   // Fallback 1: Clipboard API (modern)
   if(navigator.clipboard&&window.isSecureContext){
     navigator.clipboard.writeText(url).then(function(){
@@ -6276,7 +6272,7 @@ function rConvergenceDash(){
   html+='<div style="text-align:center;padding:16px 0 8px">'
     +'<div style="font-size:10px;color:var(--tx3);letter-spacing:1px;margin-bottom:6px">POWERED BY</div>'
     +'<div style="font-size:12px;font-weight:700;color:var(--gold2)">เครื่องมือวิเคราะห์ ASTROVERA</div>'
-    +'<div style="font-size:10px;color:var(--tx3);margin-top:4px">astro-pwa.netlify.app</div>'
+    +'<div style="font-size:10px;color:var(--tx3);margin-top:4px">astrovera.net</div>'
     +'</div>';
 
   el.innerHTML=html;
@@ -6290,7 +6286,7 @@ function shareConvergence(){
   var arch=ARCHETYPES[p.archKey]||ARCHETYPES.d;
   var lp=p.dob?lifePathNumber(p.dob):null;
   var bz=p.dob?calcBaZi(p.dob,p.time):null;
-  var url='https://astro-pwa.netlify.app';
+  var url='https://astrovera.net';
   var text=(_lang==='en'?'My ผลวิเคราะห์ตัวตน on ASTROVERA:\n':
             _lang==='zh'?'我在ASTROVERA的生命印記：\n':
             'ผลวิเคราะห์ตัวตน ของฉันที่ ASTROVERA:\n\n')
@@ -7014,7 +7010,7 @@ function clearProfileAndReset(){
         <div style="font-size:11px;color:var(--tx3);margin-bottom:3px" id="share-extra-label">เลขชีวิต</div>
         <div style="font-size:13px;color:var(--gold);font-weight:600" id="share-extra-val"></div>
       </div>
-      <div style="font-size:10px;color:var(--tx3)">ค้นพบตัวเองที่ astro-pwa.netlify.app</div>
+      <div style="font-size:10px;color:var(--tx3)">ค้นพบตัวเองที่ astrovera.net</div>
     </div>
     <!-- Share buttons -->
     <div style="display:flex;gap:10px;margin-bottom:12px">
