@@ -52,16 +52,9 @@
      so this silently no-ops while you're previewing the file locally and
      activates once it's actually served (Netlify, your own domain, etc). -->
 <script>
-  // Unregister เก่า + register ใหม่ (บังคับ update cache)
-  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-    navigator.serviceWorker.getRegistrations().then(function(regs){
-      regs.forEach(function(r){ r.unregister(); });
-    });
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('./sw.js')
-        .then(function(reg){ console.log('✅ SW registered:', reg.scope); })
-        .catch(function(err){ console.warn('SW not found (ok):', err); });
-    });
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(s){s.unregister();});});
+    window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){});});
   }
 </script>
 <style>
@@ -2035,7 +2028,7 @@ function esc(s){
 // ═══ NAV ═══
 var _stk=['sc-land'];
 function go(id){
-  var _cur=document.querySelector('.sc.on');if(_cur)_cur.classList.remove('on');
+  var _c=document.querySelector('.sc.on');if(_c)_c.classList.remove('on');
   var n=document.getElementById(id);
   if(!n)return;
   n.classList.add('on');
@@ -6851,16 +6844,15 @@ function loadDemo(){
 
 // ═══ INIT ═══
 (function(){
-  try {
-    // ── ตรวจสอบ sc-land มี class on ก่อน (fallback กรณี cache เก่า) ──
-    var land=document.getElementById('sc-land');
-    if(land&&!document.querySelector('.sc.on')){land.classList.add('on');}
-
-    // ── Always init these regardless of login state ──
+  // กันดำ: ถ้าไม่มี .sc.on เลย ให้ sc-land แสดง
+  if(!document.querySelector('.sc.on')){
+    var fb=document.getElementById('sc-land');
+    if(fb)fb.classList.add('on');
+  }
+  try{
     applyLang();
     initStarField();
     initJournalAutoSave();
-
     var p=lsG(LSP);
     if(p&&p.archKey){
       var ni=document.getElementById('inp-name');if(ni&&p.name)ni.value=p.name;
@@ -6868,23 +6860,17 @@ function loadDemo(){
       var ti=document.getElementById('inp-time');if(ti&&p.time)ti.value=p.time;
       initPlaceDropdown(p.place||'');
       var rb=document.getElementById('reset-bar');if(rb)rb.style.display='block';
-      rSelf();
-      rTiming();
-      rDash();go('sc-dash');checkShowTour();
+      rSelf();rTiming();rDash();go('sc-dash');checkShowTour();
     } else {
       initPlaceDropdown('');
       rDash();
-      // ── ผู้ใช้ใหม่: ตรวจสอบ sc-land visible ──
-      if(land)land.classList.add('on');
     }
-  } catch(e) {
-    console.error('[ASTROVERA INIT]', e);
-    // fallback: แสดง sc-land เสมอถ้า init พัง
+  }catch(e){
+    console.error('[AV INIT]',e);
+    // fallback สุดท้าย — แสดง sc-land เสมอ
+    document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on');});
     var fl=document.getElementById('sc-land');
-    if(fl){
-      document.querySelectorAll('.sc.on').forEach(function(s){s.classList.remove('on');});
-      fl.classList.add('on');
-    }
+    if(fl)fl.classList.add('on');
   }
 })();
 
