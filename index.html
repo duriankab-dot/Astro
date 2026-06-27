@@ -3448,9 +3448,8 @@ function nQ(qn){
       if(i+1<_qn)d.classList.add('dn');
       else if(i+1===_qn)d.classList.add('on');
     });
-  } else {buildInsight();go('sc-insight');}
-}
-function skipQuiz(){buildInsight();go('sc-insight');}
+  } else try{buildInsight();}catch(e){console.error(e);}go('sc-insight');
+function skipQuiz()try{buildInsight();}catch(e){console.error(e);}go('sc-insight');
 
 function cycleDailyQ(mode){
   var qEl=document.getElementById('d-daily-q');
