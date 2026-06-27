@@ -122,14 +122,9 @@
 
     if (!stored) return;
 
-    // ถ้า profile ไม่มี dob เท่านั้นให้ล้างทิ้ง (name เป็น optional)
-    if (!stored.dob) {
-      localStorage.removeItem(profileKey);
-      return;
-    }
-
-    // ถ้า dob ผิดรูปแบบ ล้างทิ้ง
-    if (typeof stored.dob === 'string' && stored.dob.trim() === '') {
+    // ลบเฉพาะถ้าไม่มี dob เลย (ข้อมูลไม่ครบขั้นต่ำ)
+    // ไม่ลบถ้าขาดแค่ archKey — INIT จะ assign default ให้
+    if (!stored.dob || (typeof stored.dob === 'string' && stored.dob.trim() === '')) {
       localStorage.removeItem(profileKey);
     }
   }

@@ -42,7 +42,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
 <!-- ===== Service Worker Registration =====
      NOTE: only registers on http(s) origins — browsers block SW on file://,
@@ -320,9 +321,7 @@ textarea.if{resize:none}
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 -->
-<link rel="stylesheet" href="./fix.css">
 </head>
-<script src="./fix.js"></script>
 <body>
 <div id="app">
 <div id="star-field" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden"></div>
@@ -7041,7 +7040,11 @@ function loadDemo(){
   initJournalAutoSave();
 
   var p=lsG(LSP);
-  if(p&&p.archKey){
+  // ถ้ามี profile (มี dob) ให้เข้า dash เสมอ — แม้ยังไม่ผ่าน quiz (archKey จะ default เป็น 'd')
+  if(p&&p.dob){
+    if(!p.archKey){p.archKey='d';} // assign default ถ้าไม่มี
+    if(!p.phaseKey){p.phaseKey='a';}
+    lsS(LSP,p); // save กลับเพื่อให้ครั้งหน้าไม่ต้อง assign ซ้ำ
     var ni=document.getElementById('inp-name');if(ni&&p.name)ni.value=p.name;
     if(p.dob)loadDobFields(p.dob); // โหลด DOB กลับเข้า 3 ช่อง
     var ti=document.getElementById('inp-time');if(ti&&p.time)ti.value=p.time;
@@ -7325,5 +7328,6 @@ function clearProfileAndReset(){
     <div id="sync-body"></div>
   </div>
 </div>
+<script src="./fix.js"></script>
 </body>
 </html>
