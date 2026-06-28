@@ -1,3 +1,5 @@
+# updated
+
 [build]
   publish = "."
   functions = "netlify/functions"
