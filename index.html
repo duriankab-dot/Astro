@@ -7077,7 +7077,7 @@ function loadDemo(){
     // ผู้ใช้ใหม่ — ปลดล็อค sc-land ให้แสดงได้
     document.body.classList.add('av-ready');
     var scLandNew=document.getElementById('sc-land');
-    if(scLandNew){scLandNew.style.visibility='';scLandNew.style.opacity='';}
+    if(scLandNew)scLandNew.classList.add('on');
     initPlaceDropdown('');
     rDash();
     // คืน transition
