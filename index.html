@@ -7054,7 +7054,6 @@ function loadDemo(){
   if(p&&p.dob){
     // ซ่อน sc-land ทันทีก่อน transition รัน — ป้องกันกระพริบ
     var scLand=document.getElementById('sc-land');
-    if(scLand){scLand.style.visibility='hidden';scLand.style.opacity='0';}
     if(!p.archKey){p.archKey='d';} // assign default ถ้าไม่มี
     if(!p.phaseKey){p.phaseKey='a';}
     lsS(LSP,p); // save กลับเพื่อให้ครั้งหน้าไม่ต้อง assign ซ้ำ
