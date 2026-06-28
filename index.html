@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- build:2 -->
+<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -392,7 +392,7 @@ textarea.if{resize:none}
 </div>
 
 <!-- ─── LANDING ─── -->
-<div class="sc on" id="sc-land">
+<div class="sc" id="sc-land">
   <div class="sb" style="padding:0">
     <div style="position:relative;padding:56px 26px 38px;overflow:hidden;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end">
       <div class="orb" style="width:200px;height:200px;background:rgba(176,64,255,.15);top:-60px;right:-60px"></div>
@@ -6852,22 +6852,20 @@ function loadDemo(){
   applyLang();
   initStarField();
   initJournalAutoSave();
-  // ล้าง tmp session ค้าง
-  localStorage.removeItem('_av_tmp');
-  if(window._avLoadIv){clearInterval(window._avLoadIv);window._avLoadIv=null;}
 
   var p=lsG(LSP);
   if(p&&p.archKey){
     var ni=document.getElementById('inp-name');if(ni&&p.name)ni.value=p.name;
-    if(p.dob)loadDobFields(p.dob);
+    if(p.dob)loadDobFields(p.dob); // โหลด DOB กลับเข้า 3 ช่อง
     var ti=document.getElementById('inp-time');if(ti&&p.time)ti.value=p.time;
     initPlaceDropdown(p.place||'');
+    // แสดงปุ่ม reset เพราะมีข้อมูลเก่า
     var rb=document.getElementById('reset-bar');if(rb)rb.style.display='block';
     rSelf();
     rTiming();
-    rDash();
-    setTimeout(function(){go('sc-dash');checkShowTour();},50);
+    rDash();go('sc-dash');checkShowTour();
   } else {
+    // ผู้ใช้ใหม่หรือยังไม่ผ่าน onboarding — init dropdown เปล่าไว้รอกรอก
     initPlaceDropdown('');
     rDash();
     setTimeout(function(){go('sc-land');},50);
