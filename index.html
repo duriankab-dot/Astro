@@ -2072,7 +2072,7 @@ function esc(s){
 // ═══ NAV ═══
 var _stk=['sc-land'];
 function go(id){
-  document.querySelector('.sc.on').classList.remove('on');
+ var cur=document.querySelector('.sc.on');if(cur)cur.classList.remove('on');
   var n=document.getElementById(id);
   if(!n)return;
   n.classList.add('on');
