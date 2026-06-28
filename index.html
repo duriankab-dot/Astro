@@ -110,6 +110,10 @@ body{min-height:100vh;background:var(--bg);font-family:var(--fn);color:var(--tx)
 }
 .sc{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);visibility:hidden!important;opacity:0!important;transition:opacity .2s;overflow:hidden;z-index:1!important;max-width:100%;pointer-events:none!important}
 .sc.on{visibility:visible!important;opacity:1!important;z-index:2!important;pointer-events:all!important}
+/* ซ่อน sc-land ทันทีตั้งแต่ CSS paint — ปลดล็อคเฉพาะเมื่อ JS พร้อมและไม่มี profile */
+body:not(.av-ready) #sc-land.on{visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+/* sc-dash ไม่ต้อง fade-in — โชว์ทันทีไม่มี transition */
+#sc-dash.on{transition:none!important}
 #sc-quiz{background:radial-gradient(ellipse at 30% 15%,rgba(176,64,255,.12) 0%,transparent 50%),radial-gradient(ellipse at 80% 75%,rgba(99,102,241,.09) 0%,transparent 50%),var(--bg)}
 .sb{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:90px}
 .sb::-webkit-scrollbar{display:none}
@@ -393,7 +397,7 @@ textarea.if{resize:none}
 </div>
 
 <!-- ─── LANDING ─── -->
-<div class="sc on" id="sc-land">
+<div class="sc on" id="sc-land" style="visibility:hidden;opacity:0">
   <div class="sb" style="padding:0">
     <div style="position:relative;padding:56px 26px 38px;overflow:hidden;min-height:390px;display:flex;flex-direction:column;justify-content:flex-end">
       <div class="orb" style="width:200px;height:200px;background:rgba(176,64,255,.15);top:-60px;right:-60px"></div>
@@ -783,7 +787,7 @@ textarea.if{resize:none}
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">
   
   <!-- การ์ดใหม่: วิเคราะห์ด้วย AI (วางไว้ข้างหน้า) -->
-  <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-land')">
+  <div style="background:var(--bg3);border-radius:var(--r2);padding:15px;border:1px solid var(--border);cursor:pointer" onclick="go('sc-advisor')">
     <div style="font-size:21px;margin-bottom:7px">🔮</div>
     <div style="font-size:12px;font-weight:600;color:var(--tx);margin-bottom:2px">วิเคราะห์ด้วย AI</div>
     <div style="font-size:11px;color:var(--tx3)">เวล่า / เว็ลลานี่</div>
@@ -7034,6 +7038,12 @@ function loadDemo(){
 
 // ═══ INIT ═══
 (function(){
+  // ── ปิด transition ทั้งหมดระหว่าง boot เพื่อกัน flash ──
+  var noTrans=document.createElement('style');
+  noTrans.id='no-trans';
+  noTrans.textContent='*{transition:none!important}';
+  document.head.appendChild(noTrans);
+
   // ── Always init these regardless of login state ──
   applyLang();
   initStarField();
@@ -7042,6 +7052,9 @@ function loadDemo(){
   var p=lsG(LSP);
   // ถ้ามี profile (มี dob) ให้เข้า dash เสมอ — แม้ยังไม่ผ่าน quiz (archKey จะ default เป็น 'd')
   if(p&&p.dob){
+    // ซ่อน sc-land ทันทีก่อน transition รัน — ป้องกันกระพริบ
+    var scLand=document.getElementById('sc-land');
+    if(scLand){scLand.style.visibility='hidden';scLand.style.opacity='0';}
     if(!p.archKey){p.archKey='d';} // assign default ถ้าไม่มี
     if(!p.phaseKey){p.phaseKey='a';}
     lsS(LSP,p); // save กลับเพื่อให้ครั้งหน้าไม่ต้อง assign ซ้ำ
@@ -7054,10 +7067,25 @@ function loadDemo(){
     rSelf();
     rTiming();
     rDash();go('sc-dash');checkShowTour();
+    // คืน transition หลัง boot เสร็จ
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        var s=document.getElementById('no-trans');if(s)s.remove();
+      });
+    });
   } else {
-    // ผู้ใช้ใหม่หรือยังไม่ผ่าน onboarding — init dropdown เปล่าไว้รอกรอก
+    // ผู้ใช้ใหม่ — ปลดล็อค sc-land ให้แสดงได้
+    document.body.classList.add('av-ready');
+    var scLandNew=document.getElementById('sc-land');
+    if(scLandNew){scLandNew.style.visibility='';scLandNew.style.opacity='';}
     initPlaceDropdown('');
     rDash();
+    // คืน transition
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        var s=document.getElementById('no-trans');if(s)s.remove();
+      });
+    });
   }
 })();
 
